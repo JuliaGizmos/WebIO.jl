@@ -1,17 +1,18 @@
 module WebDisplay
 
-immutable WebIO
-    id::AbstractString
-    io::IO
-end
-
-WebIO(io::IO=IOBuffer()) = WebIO(newid(), io)
-
 function render end
 
-function Base.show(io::WebIO, m::MIME"text/html", x)
-    show(io.io, m, render(io, x))
+Base.show(io::IO, m::MIME"text/html", x) = show(io, m, render(x))
+
+function Base.mimewritable(m::MIME"text/html", x) # ¯\_(ツ)_/¯
+    method_exists(render, x) ||
+        ismorespecific(
+            show,
+            (IO, typeof(m), typeof(x)),
+            (IO, typeof(m), Any)
+        )
 end
+
 
 using FunctionalCollections
 

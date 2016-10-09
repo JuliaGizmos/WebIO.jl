@@ -6,14 +6,10 @@
     function handle(cmd, ctxid, data) {
 
         if (typeof contexts[ctxid] === "undefined") {
-            if (cmd === "create") {
-                contexts[ctxid] = create(ctxid, data);
-            } else {
-                console.error(
-                    cmd + " command received before " +
-                    "create for context id: " + ctxid
-                );
-            }
+            console.error(
+                cmd + " command received before " +
+                "create for context id: " + ctxid
+            );
         } else {
             handlers[cmd](contexts[ctxid], data);
         }
@@ -40,8 +36,13 @@
 
     window.WebDisplay = {
         type: "WebDisplay",
-        register_handler: register_handler,
+        // For Base.show or a package to create an element.
+        create: create,
+        // For Providers to call when commands are received from Julia
         handle: handle,
+        // For packages to use to register JS commands
+        register_handler: register_handler,
+        // given by Provider, to be called when JS needs to send a command to Julia
         send_callback: send_not_set_up
     };
 })();

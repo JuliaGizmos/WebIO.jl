@@ -9,13 +9,16 @@ current_provider()  = providers[end]
 
 immutable Context
     id::AbstractString
+    requires::AbstractArray
 end
 
-Context() = Context(newid())
+Context(id=newid(); requires=[]) = Context(id, requires)
+
 
 function send(ctx::Context, cmd, data)
     send(ctx.provider, ctx.id, cmd, data)
 end
+
 
 const handlers = Dict()
 
@@ -25,6 +28,7 @@ function handle(f, ctx, cmd)
     push!(cmd_handlers, f)
 end
 
+
 function dispatch(ctxid, cmd, data)
     if haskey(handlers, ctxid) && haskey(handlers[ctxid], cmd)
         handlers[ctxid][cmd](data)
@@ -32,5 +36,6 @@ function dispatch(ctxid, cmd, data)
         warn("$cmd does not have a handler for context id $(ctxid)")
     end
 end
+
 
 (ctx::Context)(xs) = Node((:dom, :fragment), xs, Dict("id"=>ctx.id))

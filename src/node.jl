@@ -30,7 +30,7 @@ const emptydict = Dict{Symbol,Any}()
 Node{T}(::Type{T}, class::Tuple, children=emptypvec, props=emptydict, key=0) =
     Node{T}(class, key, _pvec(children), props, descendants_count(children))
 
-Node(T::Type, tag::Symbol, args...) = Node(T, (:vDOM, :xhtml, tag), args...)
+Node(T::Type, tag::Symbol, args...) = Node(T, (:vDOM, tag), args...)
 
 Node(tag::Union{Symbol, Tuple}, args...) = Node(DOM, tag, args...)
 
@@ -59,4 +59,13 @@ setchild(n::Node, i, c) = setchildren(n, assoc(children(n), i, c))
 withchild(f, n::Node, i) = setchild(n, i, f(c[i]))
 withlastchild(f, n::Node) = setchild(n, length(children(n)), f(c[i]))
 mergeprops(n::Node, ps) = setprops(n, recmerge(props(n), ps))
+
+
+####### Rendering to HTML ########
+
+function show(io::IO, m::MIME"text/html", x::Node)
+    write(io, "<script>WebDisplay.create(")
+    JSON.print(io, x)
+    write(io, ")</script>")
+end
 
