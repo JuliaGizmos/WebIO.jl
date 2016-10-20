@@ -1,11 +1,15 @@
 module WebDisplay
 
+using FunctionalCollections
+
+include("util.jl")
+
 function render end
 
 Base.show(io::IO, m::MIME"text/html", x) = show(io, m, render(x))
 
 function Base.mimewritable(m::MIME"text/html", x) # ¯\_(ツ)_/¯
-    method_exists(render, x) ||
+    applicable(render, x) ||
         ismorespecific(
             show,
             (IO, typeof(m), typeof(x)),
@@ -13,10 +17,6 @@ function Base.mimewritable(m::MIME"text/html", x) # ¯\_(ツ)_/¯
         )
 end
 
-
-using FunctionalCollections
-
-include("util.jl")
 include("context.jl")
 include("node.jl")
 

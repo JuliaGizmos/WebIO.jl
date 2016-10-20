@@ -5,7 +5,7 @@ let count=0
     end
 end
 
-function ismorespecifc(f, argtypes, generic_argtypes)
+function ismorespecific(f, argtypes, generic_argtypes)
     ms_spec = methods(f, argtypes).ms
     ms_gen = methods(f, generic_argtypes).ms
 
@@ -14,8 +14,7 @@ function ismorespecifc(f, argtypes, generic_argtypes)
               "$generic_argtypes do not have a method for $f")
     end
 
-    !((length(ms_spec) > 0)  &&
-        ms_spec[1] === ms_gen[1])
+    length(ms_spec) > 0 && ms_spec[1] !== ms_gen[end]
 end
 
 _pvec(x::PersistentVector) = x

@@ -17,6 +17,7 @@ immutable IJuliaProvider end
 
 function main()
     script(Pkg.dir("WebDisplay", "assets", "webdisplay.js"))
+    script(Pkg.dir("WebDisplay", "assets", "createNode.js"))
     script(Pkg.dir("WebDisplay", "assets", "ijulia_setup.js"))
     global webdisplay_comm
 

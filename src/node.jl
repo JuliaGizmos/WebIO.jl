@@ -60,11 +60,14 @@ withchild(f, n::Node, i) = setchild(n, i, f(c[i]))
 withlastchild(f, n::Node) = setchild(n, length(children(n)), f(c[i]))
 mergeprops(n::Node, ps) = setprops(n, recmerge(props(n), ps))
 
+using JSON
 
 ####### Rendering to HTML ########
 
-function show(io::IO, m::MIME"text/html", x::Node)
-    write(io, "<script>WebDisplay.create(")
+function Base.show(io::IO, m::MIME"text/html", x::Node)
+    id = newid("node")
+    write(io, """<div id='$id'></div>
+                 <script>WebDisplay.create('$id',""")
     JSON.print(io, x)
     write(io, ")</script>")
 end

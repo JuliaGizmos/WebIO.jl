@@ -18,10 +18,18 @@
     function create(ctxid, data) {
         var dom = createNode(data);
 
-        dom.addEventListener("send-back", function (ev) {
+        dom.addEventListener("web-display-send", function (ev) {
             console.log("Send to julia", ev);
             sendback(ev.command, ev.context.id, ev.data)
         })
+
+        target = document.getElementById(ctxid);
+
+        while (target.firstChild) {
+            target.removeChild(target.firstChild);
+        }
+
+        target.appendChild(dom);
 
         return {type: "context", id: ctxid, dom: dom, data: data};
     }
