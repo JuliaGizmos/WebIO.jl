@@ -30,7 +30,7 @@ const emptydict = Dict{Symbol,Any}()
 Node{T}(::Type{T}, class::Tuple, children=emptypvec, props=emptydict, key=0) =
     Node{T}(class, key, _pvec(children), props, descendants_count(children))
 
-Node(T::Type, tag::Symbol, args...) = Node(T, (:vDOM, tag), args...)
+Node(T::Type, tag::Symbol, args...) = Node(T, (:DOM, tag), args...)
 
 Node(tag::Union{Symbol, Tuple}, args...) = Node(DOM, tag, args...)
 
@@ -67,8 +67,13 @@ using JSON
 function Base.show(io::IO, m::MIME"text/html", x::Node)
     id = newid("node")
     write(io, """<div id='$id'></div>
-                 <script>WebDisplay.create('$id',""")
+                 <script>debugger; WebDisplay.mount('#$id',""")
     JSON.print(io, x)
     write(io, ")</script>")
+end
+
+function Base.show(io::IO, m::MIME"text/html", ctx::Context)
+    node = Node((:Context,), Dict(:id=> ctx.id), [ctx.content])
+    show(io,m,node)
 end
 
