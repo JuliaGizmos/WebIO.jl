@@ -153,7 +153,8 @@ function createDOM(ctx, data, parentNode) {
 }
 
 function createContext(ctx, data) {
-    var fragment = document.createDocumentFragment();
+    var fragment = document.createElement("div");
+    fragment.className = "wd-context";
     var commands = data.props.commands;
     if (commands) {
         for (var cmd in commands) {
@@ -170,6 +171,11 @@ function createContext(ctx, data) {
     return fragment;
 }
 
+var style = document.createElement('style')
+style.type = 'text/css'
+style.innerHTML = '.wd-context { display:inherit; margin:inherit }'
+document.getElementsByTagName('head')[0].appendChild(style)
+
 WebDisplay.NodeTypes = {
     DOM: {
         namespaces: {"svg": ""},
@@ -181,7 +187,7 @@ WebDisplay.NodeTypes = {
 }
 
 WebDisplay.CommandSets = {
-    basics: {
+    Basics: {
         eval: function (context, data) {
             eval(data)
         }
