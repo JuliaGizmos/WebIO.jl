@@ -72,7 +72,7 @@ function applyEvents(domNode, context, events)
         {
             var handler = makeEventHandler(context, value);
             domNode.addEventListener(key, function (event) {
-                handler.call(this, event);
+                handler.call(domNode, event);
             });
             allHandlers[key] = handler;
         }
@@ -116,7 +116,7 @@ function makeEventHandler(context, value)
         }
         if (typeof code === "function") {
             // http://stackoverflow.com/questions/1271516/executing-anonymous-functions-created-using-javascript-eval
-            var f = new Function("event", "context", "(" + code + ")(event, context)");
+            var f = new Function("event", "context", "(" + code + ").call(this, event, context)");
             f.call(this, event, context);
         }
     }

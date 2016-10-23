@@ -22,7 +22,7 @@ end
 
 const handlers = Dict()
 
-function handle(f, ctx, cmd)
+function handle(f, ctx::Context, cmd)
     ctx_handlers = Base.@get! handlers ctx.id Dict{Symbol, Vector}()
     cmd_handlers = Base.@get! ctx_handlers cmd Any[]
     push!(cmd_handlers, f)
