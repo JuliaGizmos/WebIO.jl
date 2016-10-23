@@ -1,16 +1,16 @@
 (function () {
 
-
     var contexts = {};
 
-    function makeContext(id, data, sendCallback, dom)
+    function makeContext(id, data, sendCallback, dom, commands)
     {
         var ctx = {
             type: "context",
             id: id,
             data: data,
             sendCallback: sendCallback,
-            dom: dom
+            dom: dom,
+            commands: {}
         }
 
         contexts[id] = ctx;
@@ -19,29 +19,42 @@
     }
 
 
-    var nodeTypes = {};
-
     function createNode(context, data, parentNode)
     {
-        console.log(data)
         var nodeType = data.class[0];
-        return WebDisplay.NodeTypes[nodeType].create(
-                context, data, parentNode)
+        return WebDisplay.NodeTypes[nodeType]
+               .create(context, data, parentNode)
+    }
+
+    function getHandler(ctx, cmd)
+    {
+        debugger;
+        var f = ctx.commands[cmd];
+        if (typeof f !== "undefined") {
+            return f;
+        }
+        var parts = cmd.split('.');
+        var inherit = WebDisplay.CommandSets;
+        if (inherit && inherit[parts[0]]) {
+            f = inherit[parts[0]][parts[1]]
+            if (typeof f !== "undefined") {
+                return f;
+            }
+        }
+        return function (ctx, data) {
+            console.warn("No handler found for " + cmd, " Conext: ", ctx)
+        }
     }
 
 
-    var handlers = {};
-
-    function handle(cmd, ctxid, data)
+    function handle(msg)
     {
-
-        if (typeof contexts[ctxid] === "undefined") {
-            console.error(
-                cmd + " command received before " +
-                "create for context id: " + ctxid
-            );
+        if (msg.type != "command") {
+            console.warn("invalid message received", msg)
         } else {
-            handlers[cmd](contexts[ctxid], data);
+            var ctx = contexts[msg.context];
+            var f = getHandler(ctx, msg.command);
+            f(ctx, msg.data)
         }
     }
 
@@ -58,8 +71,6 @@
                 target.removeChild(target.firstChild);
             }
         }
-
-        debugger;
 
         var node = createNode(context, data, target);
         context.dom = node;
@@ -92,11 +103,6 @@
         console.error("WebDisplay.sendCallback not set up")
     }
 
-    function registerHandler(cmd, f)
-    {
-        handlers[cmd] = f;
-    }
-
     window.WebDisplay = {
         type: "WebDisplay",
 
@@ -114,9 +120,6 @@
 
         // Send a message back to the Context on Julia
         send: send,
-
-        // For packages to use to register JS commands
-        registerHandler: registerHandler,
 
         // given by Provider, to be called when JS needs to send a command to Julia
         sendCallback: sendNotSetUp

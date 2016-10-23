@@ -152,28 +152,40 @@ function createDOM(ctx, data, parentNode) {
     return dom;
 }
 
-WebDisplay.NodeTypes = {}
-
-WebDisplay.NodeTypes.DOM = {
-    namespaces: {"svg": ""},
-    create: createDOM
-}
-
-function createContext(context, data) {
+function createContext(ctx, data) {
     var fragment = document.createDocumentFragment();
-    var subctx = makeContext(data.props.id, ctx.data,
-                             ctx.sendCallback, fragment);
+    var commands = data.props.commands;
+    if (commands) {
+        for (var cmd in commands) {
+            var code = handlers[cmd];
+            var f = new Function("context", "data", "(" + code + ")(context, data)");
+            ctx.commands[key] = f;
+        }
+    }
+    var subctx = WebDisplay.makeContext(data.props.id, ctx.data,
+                             ctx.sendCallback, fragment, commands || {});
+
     appendChildren(subctx, fragment, data.children);
+
     return fragment;
 }
 
-WebDisplay.NodeTypes.Context = {
-    create: createContext
+WebDisplay.NodeTypes = {
+    DOM: {
+        namespaces: {"svg": ""},
+        create: createDOM
+    },
+    Context: {
+        create: createContext
+    }
 }
 
-})();
+WebDisplay.CommandSets = {
+    basics: {
+        eval: function (context, data) {
+            eval(data)
+        }
+    }
+};
 
-/**
- * create -> different types of nodes
- *
- **/
+})();
