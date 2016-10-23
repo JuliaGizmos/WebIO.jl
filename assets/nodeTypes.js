@@ -134,16 +134,17 @@ function appendChildren(context, parentNode, children) {
 
 }
 
+var namespaces = {svg: "http://www.w3.org/2000/svg"}
+
 function createDOM(ctx, data, parentNode) {
 
-    var cls = data.class;
+    var args = data.instanceArgs;
     var dom;
-    if (cls.length == 2) {
-        dom = document.createElement(cls[1]);
-    } else if (cls.length == 3) {
-        dom = document.createElementNS(cls[1], cls[2]);
+    if (args.namespace == "html") {
+        dom = document.createElement(args.tag);
     } else {
-        throw("Wrong number of arguments");
+        var ns = namespaces[args.namespace] || args.namespace;
+        dom = document.createElementNS(ns, args.tag);
     }
 
     applyProps(ctx, dom, data.props);
@@ -178,7 +179,7 @@ document.getElementsByTagName('head')[0].appendChild(style)
 
 WebDisplay.NodeTypes = {
     DOM: {
-        namespaces: {"svg": ""},
+        namespaces: namespaces,
         create: createDOM
     },
     Context: {

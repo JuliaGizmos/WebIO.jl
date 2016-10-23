@@ -21,7 +21,7 @@
 
     function createNode(context, data, parentNode)
     {
-        var nodeType = data.class[0];
+        var nodeType = data.nodeType;
         return WebDisplay.NodeTypes[nodeType]
                .create(context, data, parentNode)
     }

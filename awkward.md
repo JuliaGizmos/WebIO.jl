@@ -1,3 +1,2 @@
-- `register_node_type` <-> `register_handler` do they need to be different?
 - `render(x)` seems like a bigass hijack of the word
 - FunctionalCollections dependency

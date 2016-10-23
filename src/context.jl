@@ -40,5 +40,4 @@ function dispatch(ctxid, cmd, data)
     end
 end
 
-
-(ctx::Context)(xs) = Node((:Context,), xs, Dict("id"=>ctx.id))
+(ctx::Context)(xs) = Node(ctx, xs, id=ctx.id)
