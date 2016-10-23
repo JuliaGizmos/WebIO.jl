@@ -9,10 +9,11 @@ current_provider()  = providers[end]
 
 immutable Context
     id::AbstractString
+    provider
     requires::AbstractArray
 end
 
-Context(id=newid(); requires=[]) = Context(id, requires)
+Context(id=newid("context"); provider=current_provider(), requires=[]) = Context(id, provider, requires)
 
 
 function send(ctx::Context, cmd, data)
@@ -31,11 +32,13 @@ end
 
 function dispatch(ctxid, cmd, data)
     if haskey(handlers, ctxid) && haskey(handlers[ctxid], cmd)
-        handlers[ctxid][cmd](data)
+        for f in handlers[ctxid][cmd]
+            f(data)
+        end
     else
         warn("$cmd does not have a handler for context id $(ctxid)")
     end
 end
 
 
-(ctx::Context)(xs) = Node((:dom, :fragment), xs, Dict("id"=>ctx.id))
+(ctx::Context)(xs) = Node((:Context,), xs, Dict("id"=>ctx.id))

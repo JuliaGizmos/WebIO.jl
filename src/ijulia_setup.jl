@@ -13,31 +13,32 @@ function script(f)
     display(HTML("<script>"*readstring(f)*"</script>"))
 end
 
-immutable IJuliaProvider end
+immutable IJuliaProvider comm::Comm end
 
 function main()
     script(Pkg.dir("WebDisplay", "assets", "webdisplay.js"))
     script(Pkg.dir("WebDisplay", "assets", "nodeTypes.js"))
     script(Pkg.dir("WebDisplay", "assets", "ijulia_setup.js"))
-    global webdisplay_comm
 
-    comm = Comm(:web_display_ijulia)
+    comm = Comm(:webdisplay_comm)
     comm.on_msg = function (msg)
         logfile("/tmp/msg", msg)
-        cmd = msg["command"]
-        dispatch(msg["context_id"], Symbol(cmd), msg["data"])
+        content = msg.content["data"]
+        cmd = content["command"]
+        WebDisplay.dispatch(content["context"], Symbol(cmd), content["data"])
     end
-    WebDisplay.push_provider!(IJuliaProvider())
+    WebDisplay.push_provider!(IJuliaProvider(comm))
 end
 
-function Base.send(::IJuliaProvider, id, cmd, data)
-    global webdisplay_comm
-
-    send(
-        comm,
-        Dict("context_id" => id,
-             "command" => cmd,
-             "data" => data
+function Base.send(p::IJuliaProvider, id, cmd, data)
+    send_comm(
+        p.comm,
+        Dict(
+            "type" => "command",
+            "nodeType" => "Context",
+            "context" => id,
+            "command" => cmd,
+            "data" => data,
         )
     )
 end

@@ -100,12 +100,8 @@ function makeEventHandler(context, value)
         })
     }
 
-    var options = value.options
-    var code;
-
-    if (value.code) {
-      code = eval(value.code);
-    }
+    var options = value.options;
+    var code = value.code;
 
     function eventHandler(event) {
         if (options.stopPropagation) {
@@ -114,11 +110,10 @@ function makeEventHandler(context, value)
         if (options.preventDefault) {
             event.preventDefault();
         }
-        if (typeof code === "function") {
-            // http://stackoverflow.com/questions/1271516/executing-anonymous-functions-created-using-javascript-eval
-            var f = new Function("event", "context", "(" + code + ").call(this, event, context)");
-            f.call(this, event, context);
-        }
+
+        // http://stackoverflow.com/questions/1271516/executing-anonymous-functions-created-using-javascript-eval
+        var f = new Function("event", "context", "(" + code + ").call(this, event, context)");
+        f.call(this, event, context);
     }
 
     eventHandler.options = options;

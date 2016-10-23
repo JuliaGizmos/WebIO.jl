@@ -72,8 +72,3 @@ function Base.show(io::IO, m::MIME"text/html", x::Node)
     write(io, ")</script>")
 end
 
-function Base.show(io::IO, m::MIME"text/html", ctx::Context)
-    node = Node((:Context,), Dict(:id=> ctx.id), [ctx.content])
-    show(io,m,node)
-end
-

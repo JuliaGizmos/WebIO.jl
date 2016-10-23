@@ -6,24 +6,11 @@
 
         // Register a "target" so that Julia can create a Comm
         // to communicate.
-        commManager.register_target("web_display_ijulia",
+        commManager.register_target("webdisplay_comm",
             function (comm) {
-                var wd = WebDisplay();
-                WebDisplay.sendCallback = function (cmd, ctxid, data) {
-                    comm.send({
-                        "command": cmd,
-                        "context_id": ctxid,
-                        "data": data
-                    });
-                }
-
+                WebDisplay.sendCallback = function (msg) { comm.send(msg); }
                 comm.on_msg(function (msg) {
-                    console.log("message received", msg);
-                    WebDisplay.dispatch(
-                        msg["command"],
-                        msg["context_id"],
-                        msg["data"]
-                    );
+                    WebDisplay.handle(msg.content.data);
                 });
             }
         );
