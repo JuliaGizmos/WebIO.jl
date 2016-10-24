@@ -10,7 +10,7 @@
             function (comm) {
                 WebDisplay.sendCallback = function (msg) { comm.send(msg); }
                 comm.on_msg(function (msg) {
-                    WebDisplay.handle(msg.content.data);
+                    WebDisplay.dispatch(msg.content.data);
                 });
             }
         );

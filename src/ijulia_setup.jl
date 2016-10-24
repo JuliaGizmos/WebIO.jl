@@ -3,12 +3,6 @@ using IJulia.CommManager
 
 using WebDisplay
 
-function logfile(file, msg)
-    open(file, "a") do io
-        write(io, string(msg))
-    end
-end
-
 function script(f)
     display(HTML("<script>"*readstring(f)*"</script>"))
 end
@@ -22,24 +16,17 @@ function main()
 
     comm = Comm(:webdisplay_comm)
     comm.on_msg = function (msg)
-        logfile("/tmp/msg", msg)
-        content = msg.content["data"]
-        cmd = content["command"]
-        WebDisplay.dispatch(content["context"], Symbol(cmd), content["data"])
+        data = msg.content["data"]
+        WebDisplay.dispatch(data)
     end
     WebDisplay.push_provider!(IJuliaProvider(comm))
+    nothing
 end
 
-function Base.send(p::IJuliaProvider, id, cmd, data)
+function Base.send(p::IJuliaProvider, data)
     send_comm(
         p.comm,
-        Dict(
-            "type" => "command",
-            "nodeType" => "Context",
-            "context" => id,
-            "command" => cmd,
-            "data" => data,
-        )
+        data
     )
 end
 

@@ -17,7 +17,13 @@ function Base.mimewritable(m::MIME"text/html", x) # ¯\_(ツ)_/¯
         )
 end
 
-include("context.jl")
 include("node.jl")
+include("context.jl")
+
+export setup_ijulia
+
+function setup_ijulia()
+    include(joinpath(dirname(@__FILE__), "ijulia_setup.jl"))
+end
 
 end # module

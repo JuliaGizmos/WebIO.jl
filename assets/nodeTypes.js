@@ -110,6 +110,7 @@ function makeEventHandler(context, value)
         if (options.preventDefault) {
             event.preventDefault();
         }
+    debugger;
 
         // http://stackoverflow.com/questions/1271516/executing-anonymous-functions-created-using-javascript-eval
         var f = new Function("event", "context", "(" + code + ").call(this, event, context)");
@@ -157,15 +158,17 @@ function createContext(ctx, data) {
     var fragment = document.createElement("div");
     fragment.className = "wd-context";
     var commands = data.props.commands;
+    var command_funcs = {}
+    debugger;
     if (commands) {
         for (var cmd in commands) {
-            var code = handlers[cmd];
+            var code = commands[cmd];
             var f = new Function("context", "data", "(" + code + ")(context, data)");
-            ctx.commands[key] = f;
+            command_funcs[cmd] = f;
         }
     }
     var subctx = WebDisplay.makeContext(data.props.id, ctx.data,
-                             ctx.sendCallback, fragment, commands || {});
+                             ctx.sendCallback, fragment, command_funcs);
 
     appendChildren(subctx, fragment, data.children);
 

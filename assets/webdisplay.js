@@ -10,7 +10,7 @@
             data: data,
             sendCallback: sendCallback,
             dom: dom,
-            commands: {}
+            commands: commands || {}
         }
 
         contexts[id] = ctx;
@@ -47,7 +47,7 @@
     }
 
 
-    function handle(msg)
+    function dispatch(msg)
     {
         if (msg.type != "command") {
             console.warn("invalid message received", msg)
@@ -116,7 +116,7 @@
         createNode: createNode,
 
         // For Providers to call when commands are received from Julia
-        handle: handle,
+        dispatch: dispatch,
 
         // Send a message back to the Context on Julia
         send: send,
