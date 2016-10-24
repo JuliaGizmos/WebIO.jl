@@ -4,7 +4,7 @@ import AbstractTrees: children
 export Node, class, props, key
 
 immutable Node{T}
-    instanceof::T
+    instanceof::T # if this changes the node must be *replaced*
 
     children::AbstractArray
     props::Dict

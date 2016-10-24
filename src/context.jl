@@ -1,3 +1,7 @@
+using JSON
+
+export Context, handle
+
 import Base: send
 
 providers = Any[]
@@ -10,10 +14,10 @@ current_provider()  = providers[end]
 immutable Context
     id::AbstractString
     provider
-    requires::AbstractArray
 end
 
-Context(id=newid("context"); provider=current_provider(), requires=[]) = Context(id, provider, requires)
+Context(id=newid("context"); provider=current_provider()) = Context(id, provider)
+JSON.lower(x::Context) = Dict("id" => x.id) # skip the provider
 
 
 function send(ctx::Context, cmd, data)
@@ -21,7 +25,7 @@ function send(ctx::Context, cmd, data)
 end
 
 
-const handlers = Dict()
+const handlers = Dict{String,Dict{Symbol, Vector}}()
 
 function handle(f, ctx::Context, cmd)
     ctx_handlers = Base.@get! handlers ctx.id Dict{Symbol, Vector}()
@@ -40,4 +44,15 @@ function dispatch(ctxid, cmd, data)
     end
 end
 
-(ctx::Context)(xs) = Node(ctx, xs, id=ctx.id)
+function Context(
+        f::Function,
+        id=newid("context");
+        provider=current_provider(),
+        requires=[],
+        commands=[]
+    )
+    ctx = Context(id, provider)
+    Node(ctx, f(ctx), id=id, requires=requires, commands=[])
+end
+
+(ctx::Context)(args...; kwargs...) = Node(ctx, args...; id=ctx.id, kwargs...)
