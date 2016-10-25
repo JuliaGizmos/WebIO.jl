@@ -150,6 +150,52 @@ These commands can be invoked by naming them as "MySet.foo". i.e. `send(ctx, "My
 
 Basics is a CommandSet available by default and it contains a single `Basics.eval` command. This takes some JavaScript code in string form and evaluates it. A `context` variable is defined in the evaluation environment which represents the context the command is called on. It's better to set up specific commands and call them since they have the chance of getting compiled by the JavaScript engine to be efficient wheras code run with `Basics.eval` does not.
 
+## Custom Nodes
+
+The `Node` type tries to be sufficiently generic so as to allow creation of custom nodes that are not necessarily DOM nodes. Here's what the Node type looks like on Julia*:
+
+```julia
+immutable Node{T}
+  instanceof::T
+
+  children::AbstractArray
+  props::Associative
+end
+```
+
+And the JSON lowered form looks like this:
+
+```js
+{
+  "type": "node",
+  "nodeType": nodetype(node.instanceof),
+  "instanceArgs": JSON.lower(node.instanceof),
+  "children": [...]
+  "props": {...}
+}
+```
+
+WebDisplay calls `WebDisplay.NodeTypes[node.nodeType].create` on the JavaScript side to create `node`. This function takes the Context and the `node` as the arguments. (if Node is not wrapped in a context, a default context is created but it won't have a counterpart on the Julia side)
+
+The curious `instanceof` field can contain any custom type that represents what it is you're going to create. For example, DOM nodes have this set to `immutable DOM; namespace::Symbol; tag::Symbol end`. `Node(tag::Symbol)` just constructs `Node(DOM(:html, tag), ...)` as a special case.
+
+```julia
+nodetype(::DOM) = "DOM"
+```
+so this invokes WebDisplay.NodeTypes.DOM.create to create the element.
+
+`makecontext` returns a `Node{Context}(Context(id, provider,...)...)`. and `node(::Context) = "Context"` and hence calls `WebDisplay.NodeTypes.Context.create`.
+
+The motivation behind this is to:
+
+1. Allow you to create things like [Facebook React's Components](https://facebook.github.io/react/docs/react-component.html) or [Vue components](https://vuejs.org/guide/#Composing-with-Components) or virtually any such component library (mercury, Cycle.js, riot.js, Elm are a few more examples) using the Node type.
+2. Plotting packages like Plotly and Vega can define their own Node type if they wish
+3. Allow Julia code to dispatch on `T` in `Node{T}` -- (my experience from making Escher says that you will need this at some point or the other)
+
+**Future interaction with Patchwork**: Patchwork right now has its own `Elem` type which will be replaced by `WebDisplay.Node` as a next step. And it will expose a `Patchwork.update` command which will take a new `Node` instance and apply it by patching over an existing one. This would possibly call. `NodeTypes.MyType.patch` to give an opportunity for different Node types to apply updates according to their updation API (here is how [React does this](https://facebook.github.io/react/docs/react-component.html#setstate), for example)
+
+`*` -- The Node type also secretly contains 2 more fields: `key` and `_descendants_count` - these are for use by [Patchwork](https://github.com/shashi/Patchwork.jl) at a higher level.
+
 ## Providers
 
 This section is relevant to developers of web interfaces to Julia such as IJulia, Atom and Blink.
