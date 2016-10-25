@@ -1,6 +1,6 @@
 # WebDisplay
 
-WebDisplay is a common platform for Julia packages to create web-based widgets. Widgets created with WebDisplay work inside IJulia out-of-the box  (run `setup_ijulia()`). There is work underway to make them work in Atom, Blink and Escher. Graphics packages can use WebDisplay to provide interactive APIs without worrying about communication between Julia and the browser.
+WebDisplay is a common platform for Julia packages to create web-based widgets. Widgets created with WebDisplay work inside IJulia out-of-the box  (run `setup_ijulia()`). An obvious next step is to make this work in Atom, Blink and Escher using the [Provider](#Providers) interface. Graphics packages can use WebDisplay to provide interactive APIs without worrying about communication between Julia and the browser environment.
 
 ## Rendering with WebDisplay
 
@@ -23,13 +23,13 @@ This will render the HTML equivalent of:
 </div>
 ```
 
-Note that DOM is slightly different from HTML. It is the data structure the browser creates after having parsed HTML. Some commonly useful differences to know are:
+Note that the DOM representation is different from HTML. It is the data structure the browser creates after having parsed HTML. Some commonly useful differences to know are:
 
 - Fields of a DOM node are properties and not attributes. (It's crazy, but) there's a [difference between DOM properties and HTML attributes](http://stackoverflow.com/questions/258469/what-is-the-difference-between-attribute-and-property).
 - use the `attributes` faux property in `Node` to set the attribute instead of property. E.g. `Node(:div, attributes=Dict("class" => "myclass"))`
 - `class` _attribute_ is className _property_ in DOM
-- `style` _attribute_ is an object mapping CSS properties to values. Hiphenated CSS properties like 'background-color' are camelCased in the DOM version.
-  therefore, `style="background-color: black"` in HTML is the same as `style=Dict(:backgroundColor=>"black")` in a Node.
+- `style` _property is an object mapping CSS properties to values. Hiphenated CSS properties like 'background-color' are camelCased in the DOM version.
+  therefore, `style="background-color: black"` attribute in HTML is the same as `style=Dict(:backgroundColor=>"black")` in a Node.
 
 ## Setting up event handlers
 
@@ -41,14 +41,14 @@ For example,
 Node(
     :div, "show my messages",
     events=Dict(
-      "click" => "function () { alert('Aww, you have no messages.'); }"
+      "click" => "function () { alert('Nice, you have no messages.'); }"
     )
 )
 ```
 
 ## Context and communication
 
-You can communicate between Julia and JavaScript by creating a `Context` object. Think of it as the mailbox for a subtree of a DOM, it can receive and send "commands". In the example below, we will create a counter which can be incremented and decremented. The changes to the count happen on the Julia side - this is of course an overkill and could have been done all on the JavaScript side, but imagine you are also saving the counter to a database or a file on the server - you'd need the events to come to Julia and go back to the browser. Although, simplistic this example demonstrate a handful of features of Contexts.
+You can communicate between Julia and JavaScript by creating a `Context` object. Think of it as the mailbox for a subtree of a DOM, it can receive and send "commands". In the example below, we will create a counter which can be incremented and decremented. The changes to the count happen on the Julia side - this is of course an overkill and could have been done all on the JavaScript side, but imagine you are also saving the count to a database or a file on the server - you'd need the events to come to Julia and go back to the browser. Although simplistic, this example demonstrates a handful of features of Contexts.
 
 ```julia
 
@@ -95,7 +95,7 @@ counter(1)
 
 ```
 
-You can also create many counters each with its own count state:
+You can also create many counters, each with its own state:
 
 ```julia
 Node(:div,
@@ -105,8 +105,8 @@ Node(:div,
 
 ### Context API on Julia
 
-- `handle(f::Function, c::Context, cmd::Symbol)`: Handle a command coming in from JavaScript - `f` gets the data sent along with the command as the argument. (It isdecoded from JSON)
-- `handlejs(c::Context, cmd::Symbol, f::String)`: Add a handler for `cmd` sent from Julia side using `send` (see below). `f` is a string containing a function definition in JavaScript. This function should take 2 arguments: a context object and the message (JSON decoded). See Context API on JavaScript section below to learn what you can do with this object.
+- `handle(f::Function, c::Context, cmd::Symbol)`: Handle a command coming in from JavaScript - `f` gets the data sent along with the command as the argument. (It is decoded from JSON)
+- `handlejs(c::Context, cmd::Symbol, f::String)`: Add a handler for `cmd` sent from the Julia side using `send` (see below). `f` is a string containing a function definition in JavaScript. This function should take 2 arguments: a context object and the message (JSON decoded). See Context API on JavaScript section below to learn what you can do with this object.
 - `send(c::Context, cmd::Symbol, data::Any)`: send a command to the JavaScript side. `data` is JSON serialized and sent.
 
 ### Context API on JavaScript
@@ -144,7 +144,7 @@ WebDisplay.CommandSets.MySet = {
 }
 ```
 
-These commands can be invoked by naming them as "MySet.foo". i.e. `send(ctx, "MySet.foo", foo_data)` or `send(ctx, "MySet.bar", bar_data)` on the Julia side.
+Now, these commands can be invoked by naming them as "MySet.foo". i.e. `send(ctx, "MySet.foo", foo_data)` or `send(ctx, "MySet.bar", bar_data)` on the Julia side.
 
 ### Basics.eval
 
@@ -223,4 +223,4 @@ end
 ```
 4. Push an instance of the provider onto the provider stack using `WebDisplay.push_provider!(provider)`
 
-For an example, see how it's done for IJulia at `src/ijulia_setup.jl` and `assets/ijulia_setup.js`.
+For an example, see how it's done for IJulia at [src/ijulia_setup.jl](https://github.com/shashi/WebDisplay.jl/blob/cc8294d0b46551d9c5ff1b31c3dca3a6cbbbcf43/src/ijulia_setup.jl) and [assets/ijulia_setup.js](https://github.com/shashi/WebDisplay.jl/blob/cc8294d0b46551d9c5ff1b31c3dca3a6cbbbcf43/assets/ijulia_setup.js).
