@@ -12,7 +12,7 @@ include("context.jl")
 export setup_provider, setup_ijulia
 
 function setup_provider(name)
-    include(joinpath(dirname(@__FILE__), "$(name)_setup.jl"))
+    include(joinpath(dirname(@__FILE__), "providers", "$(name)_setup.jl"))
 end
 
 Base.@deprecate setup_ijulia() setup_provider("ijulia")
