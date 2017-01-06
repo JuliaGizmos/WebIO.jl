@@ -7,8 +7,22 @@ import Base: send
 providers = Any[]
 
 push_provider!(x) = push!(providers, x)
-pop_provider!()  = pop!(providers)
-current_provider()  = providers[end]
+
+function pop_provider!()
+    if length(providers) == 0
+        throw(AssertionError("zero providers are available"))
+    else
+        pop!(providers)
+    end
+end
+
+function current_provider()
+    if length(providers) == 0
+        throw(AssertionError("zero providers are available"))
+    else
+        providers[end]
+    end
+end
 
 
 immutable Context
