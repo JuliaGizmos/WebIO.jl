@@ -1,49 +1,22 @@
 using Mux
 using WebDisplay
 
-function packagefiles(dir, dirs=true)
-    absdir(req) = Pkg.dir(req[:params][:pkg], dir)
-    branch(req -> Mux.validpath(absdir(req), joinpath(req[:path]...), dirs=dirs),
-           req -> Mux.fresp(joinpath(absdir(req), req[:path]...)))
-end
+"""
+    wdserve(app, port=8000)
 
-immutable WebSockProvider
-    socks::Dict()
-end
-
-function wd_socket(req)
-    sock = req[:socket]
-
-    t = @async while isopen(sock)
-        data = read(sock)
-
-        msg = JSON.parse(String(data))
-        WebDisplay.dispatch(msg)
-    end
-    WebDisplay.push_provider!(WebSockProvider(sock))
-
-    wait(t)
-end
-
-function Base.send(p::WebSockProvider, data)
-    write(
-        p.sock,
-        data
-    )
-end
-
-function wdserve(intermediates, port=8000)
+Serve a Mux app which might return a WebDisplay node.
+"""
+function wdserve(app, port=8000)
     @app http = (
         Mux.defaults,
         route("pkg/:pkg", packagefiles("assets"), Mux.notfound()),
-        intermediates,
-        Mux.wclose,
+        app,
         Mux.notfound(),
     )
 
     @app websock = (
         Mux.wdefaults,
-        route("/wdsocket", wd_socket),
+        route("/wdsocket", create_socket),
         Mux.wclose,
         Mux.notfound(),
     )
@@ -51,15 +24,39 @@ function wdserve(intermediates, port=8000)
     serve(http, websock, port)
 end
 
-Mux.Response(o::Node) = Mux.Response(
+immutable WebSockConnection <: AbstractConnection
+    sock
+end
+
+function create_socket(req)
+    @show sock = req[:socket]
+    conn = WebSockConnection(conn)
+
+    t = @async while isopen(sock)
+        data = read(sock)
+
+        msg = JSON.parse(String(data))
+        WebDisplay.dispatch(conn, msg)
+    end
+
+    wait(t)
+end
+
+function Base.send(p::WebSockConnection, data)
+    write(p.sock, data)
+end
+
+
+function Mux.Response(o::Node)
+    Mux.Response(
         """
         <!doctype html>
         <html>
           <head>
             <meta charset="UTF-8">
-            <script src="/pkg/WebDisplay/webdisplay.js"></script>
-            <script src="/pkg/WebDisplay/nodeTypes.js"></script>
-            <script src="/pkg/WebDisplay/mux_setup.js"></script>
+            <script src="/pkg/WebDisplay/js/webdisplay.js"></script>
+            <script src="/pkg/WebDisplay/js/nodeTypes.js"></script>
+            <script src="/pkg/WebDisplay/js/mux_setup.js"></script>
           </head>
           <body>
             $(stringmime(MIME"text/html"(), o))
@@ -67,3 +64,10 @@ Mux.Response(o::Node) = Mux.Response(
         </html>
         """
     )
+end
+
+function packagefiles(dir, dirs=true)
+    absdir(req) = @show Pkg.dir(req[:params][:pkg], dir)
+    branch(req -> Mux.validpath(absdir(req), joinpath(req[:path]...), dirs=dirs),
+           req -> Mux.fresp(joinpath(absdir(req), req[:path]...)))
+end

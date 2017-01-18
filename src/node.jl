@@ -35,9 +35,13 @@ promote_instanceof(x) = x
 nodetype(n::Node) = typename(n.instanceof)
 typename{T}(n::T) = string(T.name.name)
 
-Node(instanceof, children::AbstractArray; key=nothing, props...) =
+function Node(instanceof, children::AbstractArray; key=nothing, props...)
     Node(instanceof, children, Dict(props), key=key)
-Node(instanceof, children...; props...) = Node(instanceof, [children...], Dict(props))
+end
+
+function Node(instanceof, children...; props...)
+    Node(instanceof, [children...], Dict(props))
+end
 
 immutable DOM
     namespace::Symbol
