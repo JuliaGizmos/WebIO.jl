@@ -28,7 +28,6 @@
 
     function getHandler(ctx, cmd)
     {
-        debugger;
         var f = ctx.commands[cmd];
         if (typeof f !== "undefined") {
             return f;
@@ -49,8 +48,6 @@
 
     function dispatch(msg)
     {
-        console.log("DISPATCHING", msg)
-        debugger
         if (msg.type != "command") {
             console.warn("invalid message received", msg)
         } else {

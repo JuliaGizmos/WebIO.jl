@@ -19,7 +19,6 @@
         ws.send(JSON.stringify(msg))
     }
     ws.onmessage = function (evt) {
-        //console.log("MESSAGE RECEIVED", evt.data);
         WebDisplay.dispatch(JSON.parse(evt.data));
     }
 })();

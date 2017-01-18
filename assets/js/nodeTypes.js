@@ -92,8 +92,6 @@ var defaultEventOptions = {
 
 function makeEventHandler(context, value)
 {
-    console.log("makeEventHandler", context, value);
-
     if (typeof value == "string") {
         return makeEventHandler(context, {
             code: value, options: defaultEventOptions
@@ -110,7 +108,6 @@ function makeEventHandler(context, value)
         if (options.preventDefault) {
             event.preventDefault();
         }
-    debugger;
 
         // http://stackoverflow.com/questions/1271516/executing-anonymous-functions-created-using-javascript-eval
         var f = new Function("event", "context", "(" + code + ").call(this, event, context)");
@@ -158,9 +155,7 @@ function createContext(ctx, data) {
     var fragment = document.createElement("div");
     fragment.className = "wd-context";
     var commands = data.instanceArgs.commands;
-    console.log("COMMANDS", commands);
     var command_funcs = {}
-    debugger;
     if (commands) {
         for (var cmd in commands) {
             var code = commands[cmd];
