@@ -7,7 +7,13 @@ function script(f)
     display(HTML("<script>"*readstring(f)*"</script>"))
 end
 
-immutable IJuliaProvider comm::Comm end
+immutable IJuliaConnection <: AbstractConnection
+    comm::CommManager.Comm
+end
+
+function Base.send(c::IJuliaConnection, data)
+    send_comm(c.comm, data)
+end
 
 function main()
     script(Pkg.dir("WebDisplay", "assets", "webdisplay.js"))
@@ -15,19 +21,12 @@ function main()
     script(Pkg.dir("WebDisplay", "assets", "ijulia_setup.js"))
 
     comm = Comm(:webdisplay_comm)
+    conn = IJuliaConnection(comm)
     comm.on_msg = function (msg)
         data = msg.content["data"]
-        WebDisplay.dispatch(data)
+        WebDisplay.dispatch(conn, data)
     end
-    WebDisplay.push_provider!(IJuliaProvider(comm))
     nothing
-end
-
-function Base.send(p::IJuliaProvider, data)
-    send_comm(
-        p.comm,
-        data
-    )
 end
 
 main()

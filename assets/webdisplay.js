@@ -60,6 +60,7 @@
 
     function mount(targetQuery, data)
     {
+        // TODO: separate targetQuery from Context id
         // every root element gets a context by default
         var context = makeContext(targetQuery, data, WebDisplay.sendCallback)
         var target;
