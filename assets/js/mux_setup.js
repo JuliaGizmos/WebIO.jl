@@ -12,11 +12,14 @@
     }
 
     var ws = new WebSocket(wsurl("/wdsocket"));
+    ws.onopen = function () {
+        WebDisplay.triggerConnected(ws);
+    }
     WebDisplay.sendCallback = function (msg) {
         ws.send(JSON.stringify(msg))
     }
     ws.onmessage = function (evt) {
-        console.log("MESSAGE RECEIVED", evt.data);
-        WebDisplay.dispatch(evt.data);
+        //console.log("MESSAGE RECEIVED", evt.data);
+        WebDisplay.dispatch(JSON.parse(evt.data));
     }
 })();

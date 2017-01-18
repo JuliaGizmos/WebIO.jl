@@ -157,7 +157,8 @@ function createDOM(ctx, data, parentNode) {
 function createContext(ctx, data) {
     var fragment = document.createElement("div");
     fragment.className = "wd-context";
-    var commands = data.props.commands;
+    var commands = data.instanceArgs.commands;
+    console.log("COMMANDS", commands);
     var command_funcs = {}
     debugger;
     if (commands) {
@@ -167,10 +168,16 @@ function createContext(ctx, data) {
             command_funcs[cmd] = f;
         }
     }
-    var subctx = WebDisplay.makeContext(data.props.id, ctx.data,
+    var subctx = WebDisplay.makeContext(data.instanceArgs.id, ctx.data,
                              ctx.sendCallback, fragment, command_funcs);
 
+    // Could be a promise
+    WebDisplay.onConnected(function () {
+        WebDisplay.send(subctx, "_setup_context", {});
+    })
+
     appendChildren(subctx, fragment, data.children);
+
 
     return fragment;
 }

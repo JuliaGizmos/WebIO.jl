@@ -1,4 +1,5 @@
 using Mux
+using JSON
 using WebDisplay
 
 """
@@ -30,7 +31,7 @@ end
 
 function create_socket(req)
     @show sock = req[:socket]
-    conn = WebSockConnection(conn)
+    conn = WebSockConnection(sock)
 
     t = @async while isopen(sock)
         data = read(sock)
@@ -38,12 +39,14 @@ function create_socket(req)
         msg = JSON.parse(String(data))
         WebDisplay.dispatch(conn, msg)
     end
+    println("Communicating...")
 
     wait(t)
+    println("No contact :(")
 end
 
 function Base.send(p::WebSockConnection, data)
-    write(p.sock, data)
+    write(p.sock, sprint(io->JSON.print(io,data)))
 end
 
 

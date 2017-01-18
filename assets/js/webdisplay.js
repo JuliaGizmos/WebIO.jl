@@ -49,6 +49,8 @@
 
     function dispatch(msg)
     {
+        console.log("DISPATCHING", msg)
+        debugger
         if (msg.type != "command") {
             console.warn("invalid message received", msg)
         } else {
@@ -58,11 +60,11 @@
         }
     }
 
-    function mount(targetQuery, data)
+    function mount(id, targetQuery, data)
     {
         // TODO: separate targetQuery from Context id
         // every root element gets a context by default
-        var context = makeContext(targetQuery, data, WebDisplay.sendCallback)
+        var context = makeContext(id, data, WebDisplay.sendCallback)
         var target;
 
         if (targetQuery) {
@@ -98,6 +100,21 @@
         }
     }
 
+    var connected_callbacks=[];
+    function onConnected(f) {
+        if(WebDisplay._connected) {
+            setTimeout(f, 0);
+        } else {
+            connected_callbacks[connected_callbacks.length]=f;
+        }
+    }
+
+    function triggerConnected() {
+        for (var i=0,l=connected_callbacks.length; i<l; i++) {
+            connected_callbacks[i]()
+        }
+        WebDisplay._connected=true;
+    }
 
     function sendNotSetUp()
     {
@@ -123,7 +140,11 @@
         send: send,
 
         // given by Provider, to be called when JS needs to send a command to Julia
-        sendCallback: sendNotSetUp
+        sendCallback: sendNotSetUp,
+
+        triggerConnected: triggerConnected,
+
+        onConnected: onConnected
     };
 })();
 

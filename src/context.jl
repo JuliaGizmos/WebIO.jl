@@ -54,7 +54,7 @@ function send(ctx::Context, cmd, data)
       "command" => cmd,
       "data" => data,
     )
-    send(ctx.outbox, command_data)
+    put!(ctx.outbox, command_data)
     nothing
 end
 
