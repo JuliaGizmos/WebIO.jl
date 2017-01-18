@@ -30,7 +30,7 @@ immutable WebSockConnection <: AbstractConnection
 end
 
 function create_socket(req)
-    @show sock = req[:socket]
+    sock = req[:socket]
     conn = WebSockConnection(sock)
 
     t = @async while isopen(sock)
@@ -39,10 +39,8 @@ function create_socket(req)
         msg = JSON.parse(String(data))
         WebDisplay.dispatch(conn, msg)
     end
-    println("Communicating...")
 
     wait(t)
-    println("No contact :(")
 end
 
 function Base.send(p::WebSockConnection, data)
@@ -70,7 +68,7 @@ function Mux.Response(o::Node)
 end
 
 function packagefiles(dir, dirs=true)
-    absdir(req) = @show Pkg.dir(req[:params][:pkg], dir)
+    absdir(req) = Pkg.dir(req[:params][:pkg], dir)
     branch(req -> Mux.validpath(absdir(req), joinpath(req[:path]...), dirs=dirs),
            req -> Mux.fresp(joinpath(absdir(req), req[:path]...)))
 end
