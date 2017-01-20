@@ -16,9 +16,9 @@ function Base.send(c::IJuliaConnection, data)
 end
 
 function main()
-    script(Pkg.dir("WebDisplay", "assets", "webdisplay.js"))
-    script(Pkg.dir("WebDisplay", "assets", "nodeTypes.js"))
-    script(Pkg.dir("WebDisplay", "assets", "ijulia_setup.js"))
+    script(Pkg.dir("WebDisplay", "assets", "js", "webdisplay.js"))
+    script(Pkg.dir("WebDisplay", "assets", "js", "nodeTypes.js"))
+    script(Pkg.dir("WebDisplay", "assets", "js", "ijulia_setup.js"))
 
     comm = Comm(:webdisplay_comm)
     conn = IJuliaConnection(comm)

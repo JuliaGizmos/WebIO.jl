@@ -8,6 +8,7 @@
         // to communicate.
         commManager.register_target("webdisplay_comm",
             function (comm) {
+                WebDisplay.triggerConnected();
                 WebDisplay.sendCallback = function (msg) { comm.send(msg); }
                 comm.on_msg(function (msg) {
                     WebDisplay.dispatch(msg.content.data);
