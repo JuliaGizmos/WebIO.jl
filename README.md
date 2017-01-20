@@ -53,19 +53,19 @@ You can communicate between Julia and JavaScript by creating a `Context` object.
 ```julia
 
 function counter(count=0)
-  makecontext() do ctx
+  withcontext(Context()) do ctx
     # ctx is the Context object
 
-    # handle(context, command_name) - add a handler for a command coming from JavaScript
+    # handle!(context, command_name) - add a handler for a command coming from JavaScript
 
-    handle(ctx, :change) do d
+    handle!(ctx, :change) do d
         send(ctx, :set_count, count+=d)
     end
 
-    # handlejs(ctx, command_name, function_string) - add a handler for a command coming in from the Julia side
+    # handlejs!(ctx, command_name, function_string) - add a handler for a command coming in from the Julia side
     # in this case we access the element with the id "count" from ctx.dom, and set its contents to the new count
 
-    handlejs(ctx, :set_count, "function (ctx,msg) {ctx.dom.querySelector('#count').textContent = msg}")
+    handlejs!(ctx, :set_count, "function (ctx,msg) {ctx.dom.querySelector('#count').textContent = msg}")
 
     # the btn function defined below takes a label and a change value and creates a button which
     # when clicked, asks julia to change the counter by the given change value by sending the "change" command
@@ -105,15 +105,15 @@ Node(:div,
 
 ### Context API on Julia
 
-- `handle(f::Function, c::Context, cmd::Symbol)`: Handle a command coming in from JavaScript - `f` gets the data sent along with the command as the argument. (It is decoded from JSON)
-- `handlejs(c::Context, cmd::Symbol, f::String)`: Add a handler for `cmd` sent from the Julia side using `send` (see below). `f` is a string containing a function definition in JavaScript. This function should take 2 arguments: a context object and the message (JSON decoded). See Context API on JavaScript section below to learn what you can do with this object.
+- `handle!(f::Function, c::Context, cmd::Symbol)`: Handle a command coming in from JavaScript - `f` gets the data sent along with the command as the argument. (It is decoded from JSON)
+- `handlejs!(c::Context, cmd::Symbol, f::String)`: Add a handler for `cmd` sent from the Julia side using `send` (see below). `f` is a string containing a function definition in JavaScript. This function should take 2 arguments: a context object and the message (JSON decoded). See Context API on JavaScript section below to learn what you can do with this object.
 - `send(c::Context, cmd::Symbol, data::Any)`: send a command to the JavaScript side. `data` is JSON serialized and sent.
 
 ### Context API on JavaScript
 
 As you see above, the JS command handler and event handlers get a context object as argument. These Objects are the reflection of a Context on the Julia side.
 
-- `WebDisplay.send(context, command, message)`: invoke a command on the Julia side for the corresponding Context object. (counterpart of `handle(f, ctx::Context, cmd::Symbol)` on the Julia side (see above)
+- `WebDisplay.send(context, command, message)`: invoke a command on the Julia side for the corresponding Context object. (counterpart of `handle!(f, ctx::Context, cmd::Symbol)` on the Julia side (see above)
 - `context.dom`: this field points to the rendered DOM tree that is wrapped by this context. You can use this to query sub nodes (for example, using [`context.dom.querySelector(query)`](https://developer.mozilla.org/en-US/docs/Web/API/Document/querySelector)) and to modify their content.
 
 ### Context in event handlers and command handlers
@@ -184,7 +184,7 @@ nodetype(::DOM) = "DOM"
 ```
 so this invokes WebDisplay.NodeTypes.DOM.create to create the element.
 
-`makecontext` returns a `Node{Context}(Context(id, provider,...)...)`. and `node(::Context) = "Context"` and hence calls `WebDisplay.NodeTypes.Context.create`.
+`withcontext` returns a `Node{Context}(Context(id, provider,...)...)`. and `node(::Context) = "Context"` and hence calls `WebDisplay.NodeTypes.Context.create`.
 
 The motivation behind this is to:
 
