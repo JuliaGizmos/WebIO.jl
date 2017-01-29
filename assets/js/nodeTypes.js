@@ -124,7 +124,7 @@ function appendChildren(context, parentNode, children) {
             if (typeof children[i] === "string") {
                 parentNode.appendChild(document.createTextNode(children[i]));
             } else {
-                var child = WebDisplay.createNode(context, children[i], parentNode);
+                var child = WebIO.createNode(context, children[i], parentNode);
                 parentNode.appendChild(child);
             }
         }
@@ -163,12 +163,12 @@ function createContext(ctx, data) {
             command_funcs[cmd] = f;
         }
     }
-    var subctx = WebDisplay.makeContext(data.instanceArgs.id, ctx.data,
+    var subctx = WebIO.makeContext(data.instanceArgs.id, ctx.data,
                              ctx.sendCallback, fragment, command_funcs);
 
     // Could be a promise
-    WebDisplay.onConnected(function () {
-        WebDisplay.send(subctx, "_setup_context", {});
+    WebIO.onConnected(function () {
+        WebIO.send(subctx, "_setup_context", {});
     })
 
     appendChildren(subctx, fragment, data.children);
@@ -182,7 +182,7 @@ style.type = 'text/css'
 style.innerHTML = '.wd-context { display:inherit; margin:inherit }'
 document.getElementsByTagName('head')[0].appendChild(style)
 
-WebDisplay.NodeTypes = {
+WebIO.NodeTypes = {
     DOM: {
         namespaces: namespaces,
         create: createDOM
@@ -192,7 +192,7 @@ WebDisplay.NodeTypes = {
     }
 }
 
-WebDisplay.CommandSets = {
+WebIO.CommandSets = {
     Basics: {
         eval: function (context, data) {
             eval(data)

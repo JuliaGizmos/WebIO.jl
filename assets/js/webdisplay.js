@@ -22,7 +22,7 @@
     function createNode(context, data, parentNode)
     {
         var nodeType = data.nodeType;
-        return WebDisplay.NodeTypes[nodeType]
+        return WebIO.NodeTypes[nodeType]
                .create(context, data, parentNode)
     }
 
@@ -33,7 +33,7 @@
             return f;
         }
         var parts = cmd.split('.');
-        var inherit = WebDisplay.CommandSets;
+        var inherit = WebIO.CommandSets;
         if (inherit && inherit[parts[0]]) {
             f = inherit[parts[0]][parts[1]]
             if (typeof f !== "undefined") {
@@ -61,7 +61,7 @@
     {
         // TODO: separate targetQuery from Context id
         // every root element gets a context by default
-        var context = makeContext(id, data, WebDisplay.sendCallback)
+        var context = makeContext(id, data, WebIO.sendCallback)
         var target;
 
         if (targetQuery) {
@@ -99,7 +99,7 @@
 
     var connected_callbacks=[];
     function onConnected(f) {
-        if(WebDisplay._connected) {
+        if(WebIO._connected) {
             setTimeout(f, 0);
         } else {
             connected_callbacks[connected_callbacks.length]=f;
@@ -110,16 +110,16 @@
         for (var i=0,l=connected_callbacks.length; i<l; i++) {
             connected_callbacks[i]()
         }
-        WebDisplay._connected=true;
+        WebIO._connected=true;
     }
 
     function sendNotSetUp()
     {
-        console.error("WebDisplay.sendCallback not set up")
+        console.error("WebIO.sendCallback not set up")
     }
 
-    window.WebDisplay = {
-        type: "WebDisplay",
+    window.WebIO = {
+        type: "WebIO",
 
         // For Base.show or a package to create an element.
         mount: mount,
@@ -145,6 +145,6 @@
     };
 })();
 
-// TODO: have many instances of WebDisplay
+// TODO: have many instances of WebIO
 // problem: send_callback needs to be used for construction
 // where do components "register_handler"?

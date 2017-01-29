@@ -1,4 +1,4 @@
-(function (IPython, $, WebDisplay) {
+(function (IPython, $, WebIO) {
 
     function initComm(notebook)
     {
@@ -8,10 +8,10 @@
         // to communicate.
         commManager.register_target("webdisplay_comm",
             function (comm) {
-                WebDisplay.triggerConnected();
-                WebDisplay.sendCallback = function (msg) { comm.send(msg); }
+                WebIO.triggerConnected();
+                WebIO.sendCallback = function (msg) { comm.send(msg); }
                 comm.on_msg(function (msg) {
-                    WebDisplay.dispatch(msg.content.data);
+                    WebIO.dispatch(msg.content.data);
                 });
             }
         );
@@ -31,4 +31,4 @@
         }
     });
 
-})(IPython, jQuery, WebDisplay);
+})(IPython, jQuery, WebIO);

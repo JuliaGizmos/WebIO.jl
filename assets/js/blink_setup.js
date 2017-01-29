@@ -1,7 +1,7 @@
 (function (Blink) {
     if (Blink.sock) {
-        WebDisplay.triggerConnected();
-        WebDisplay.sendCallback = function (msg) {
+        WebIO.triggerConnected();
+        WebIO.sendCallback = function (msg) {
             Blink.msg("webdisplay", msg);
         }
     } else {
@@ -9,6 +9,6 @@
     }
 
     Blink.handlers.webdisplay = function (msg) {
-        WebDisplay.dispatch(msg.data);
+        WebIO.dispatch(msg.data);
     };
 })(Blink);

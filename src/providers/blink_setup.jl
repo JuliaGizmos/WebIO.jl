@@ -5,13 +5,13 @@ immutable BlinkConnection <: AbstractConnection
 end
 
 function Blink.body!(w::Window, x::Node)
-    loadjs!(w, "/pkg/WebDisplay/js/webdisplay.js")
-    loadjs!(w, "/pkg/WebDisplay/js/nodeTypes.js")
-    loadjs!(w, "/pkg/WebDisplay/js/blink_setup.js")
+    loadjs!(w, "/pkg/WebIO/js/webdisplay.js")
+    loadjs!(w, "/pkg/WebIO/js/nodeTypes.js")
+    loadjs!(w, "/pkg/WebIO/js/blink_setup.js")
 
     conn = BlinkConnection(w)
     Blink.handle(w, "webdisplay") do msg
-        WebDisplay.dispatch(conn, msg)
+        WebIO.dispatch(conn, msg)
     end
 
     body!(w, stringmime(MIME"text/html"(), x))

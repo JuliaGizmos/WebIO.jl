@@ -1,11 +1,11 @@
 using Mux
 using JSON
-using WebDisplay
+using WebIO
 
 """
     wdserve(app, port=8000)
 
-Serve a Mux app which might return a WebDisplay node.
+Serve a Mux app which might return a WebIO node.
 """
 function wdserve(app, port=8000)
     @app http = (
@@ -36,7 +36,7 @@ function create_socket(req)
         data = read(sock)
 
         msg = JSON.parse(String(data))
-        WebDisplay.dispatch(conn, msg)
+        WebIO.dispatch(conn, msg)
     end
 
     wait(t)
@@ -54,9 +54,9 @@ function Mux.Response(o::Node)
         <html>
           <head>
             <meta charset="UTF-8">
-            <script src="/pkg/WebDisplay/js/webdisplay.js"></script>
-            <script src="/pkg/WebDisplay/js/nodeTypes.js"></script>
-            <script src="/pkg/WebDisplay/js/mux_setup.js"></script>
+            <script src="/pkg/WebIO/js/webdisplay.js"></script>
+            <script src="/pkg/WebIO/js/nodeTypes.js"></script>
+            <script src="/pkg/WebIO/js/mux_setup.js"></script>
           </head>
           <body>
             $(stringmime(MIME"text/html"(), o))

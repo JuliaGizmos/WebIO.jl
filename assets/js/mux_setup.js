@@ -13,12 +13,12 @@
 
     var ws = new WebSocket(wsurl("/wdsocket"));
     ws.onopen = function () {
-        WebDisplay.triggerConnected();
+        WebIO.triggerConnected();
     }
-    WebDisplay.sendCallback = function (msg) {
+    WebIO.sendCallback = function (msg) {
         ws.send(JSON.stringify(msg))
     }
     ws.onmessage = function (evt) {
-        WebDisplay.dispatch(JSON.parse(evt.data));
+        WebIO.dispatch(JSON.parse(evt.data));
     }
 })();

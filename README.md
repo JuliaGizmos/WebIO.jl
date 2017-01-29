@@ -1,10 +1,10 @@
-# WebDisplay
+# WebIO
 
-WebDisplay is a common platform for Julia packages to create web-based widgets. Widgets created with WebDisplay work inside IJulia out-of-the box  (run `setup_ijulia()`). An obvious next step is to make this work in Atom, Blink and Escher using the [Provider](#Providers) interface. Graphics packages can use WebDisplay to provide interactive APIs without worrying about communication between Julia and the browser environment.
+WebIO is a common platform for Julia packages to create web-based widgets. Widgets created with WebIO work inside IJulia out-of-the box  (run `setup_ijulia()`). An obvious next step is to make this work in Atom, Blink and Escher using the [Provider](#Providers) interface. Graphics packages can use WebIO to provide interactive APIs without worrying about communication between Julia and the browser environment.
 
-## Rendering with WebDisplay
+## Rendering with WebIO
 
-You can create a DOM node or tree and have WebDisplay render it.
+You can create a DOM node or tree and have WebIO render it.
 
 ```julia
 Node(:div,
@@ -76,7 +76,7 @@ function counter(count=0)
                 # an event handler on Javascript always gets two arguments: the event and the context
                 # event is object passed by JavaScript into the event handler, and context is the context
                 # using which you can talk to julia or access and modify contents of the context (context.dom as seen above)
-                "click"=>"function (event,ctx) { WebDisplay.send(ctx, 'change', $change) }"
+                "click"=>"function (event,ctx) { WebIO.send(ctx, 'change', $change) }"
             )
         )
 
@@ -113,7 +113,7 @@ Node(:div,
 
 As you see above, the JS command handler and event handlers get a context object as argument. These Objects are the reflection of a Context on the Julia side.
 
-- `WebDisplay.send(context, command, message)`: invoke a command on the Julia side for the corresponding Context object. (counterpart of `handle!(f, ctx::Context, cmd::Symbol)` on the Julia side (see above)
+- `WebIO.send(context, command, message)`: invoke a command on the Julia side for the corresponding Context object. (counterpart of `handle!(f, ctx::Context, cmd::Symbol)` on the Julia side (see above)
 - `context.dom`: this field points to the rendered DOM tree that is wrapped by this context. You can use this to query sub nodes (for example, using [`context.dom.querySelector(query)`](https://developer.mozilla.org/en-US/docs/Web/API/Document/querySelector)) and to modify their content.
 
 ### Context in event handlers and command handlers
@@ -130,13 +130,13 @@ Command handlers get 2 arguments:
 
 ## CommandSets
 
-You can add a bunch of command handlers to be available at all times on the JavaScript side. This is done by adding a field to the `WebDisplay.CommandSets` object.
+You can add a bunch of command handlers to be available at all times on the JavaScript side. This is done by adding a field to the `WebIO.CommandSets` object.
 
 ```js
-WebDisplay.CommandSets.MySet = {
+WebIO.CommandSets.MySet = {
   foo: function (ctx, data) {
     // do foo
-    // WebDisplay.send(ctx, some_command, some_data) maybe
+    // WebIO.send(ctx, some_command, some_data) maybe
   },
   bar: function (ctx, data) {
     // do bar
@@ -175,16 +175,16 @@ And the JSON lowered form looks like this:
 }
 ```
 
-WebDisplay calls `WebDisplay.NodeTypes[node.nodeType].create` on the JavaScript side to create `node`. This function takes the Context and the `node` as the arguments. (if Node is not wrapped in a context, a default context is created but it won't have a counterpart on the Julia side)
+WebIO calls `WebIO.NodeTypes[node.nodeType].create` on the JavaScript side to create `node`. This function takes the Context and the `node` as the arguments. (if Node is not wrapped in a context, a default context is created but it won't have a counterpart on the Julia side)
 
 The curious `instanceof` field can contain any custom type that represents what it is you're going to create. For example, DOM nodes have this set to `immutable DOM; namespace::Symbol; tag::Symbol end`. `Node(tag::Symbol)` just constructs `Node(DOM(:html, tag), ...)` as a special case.
 
 ```julia
 nodetype(::DOM) = "DOM"
 ```
-so this invokes WebDisplay.NodeTypes.DOM.create to create the element.
+so this invokes WebIO.NodeTypes.DOM.create to create the element.
 
-`withcontext` returns a `Node{Context}(Context(id, provider,...)...)`. and `node(::Context) = "Context"` and hence calls `WebDisplay.NodeTypes.Context.create`.
+`withcontext` returns a `Node{Context}(Context(id, provider,...)...)`. and `node(::Context) = "Context"` and hence calls `WebIO.NodeTypes.Context.create`.
 
 The motivation behind this is to:
 
@@ -192,7 +192,7 @@ The motivation behind this is to:
 2. Plotting packages like Plotly and Vega can define their own Node type if they wish
 3. Allow Julia code to dispatch on `T` in `Node{T}` -- (my experience from making Escher says that you will need this at some point or the other)
 
-**Future interaction with Patchwork**: Patchwork right now has its own `Elem` type which will be replaced by `WebDisplay.Node` as a next step. And it will expose a `Patchwork.update` command which will take a new `Node` instance and apply it by patching over an existing one. This would possibly call. `NodeTypes.MyType.patch` to give an opportunity for different Node types to apply updates according to their updation API (here is how [React does this](https://facebook.github.io/react/docs/react-component.html#setstate), for example)
+**Future interaction with Patchwork**: Patchwork right now has its own `Elem` type which will be replaced by `WebIO.Node` as a next step. And it will expose a `Patchwork.update` command which will take a new `Node` instance and apply it by patching over an existing one. This would possibly call. `NodeTypes.MyType.patch` to give an opportunity for different Node types to apply updates according to their updation API (here is how [React does this](https://facebook.github.io/react/docs/react-component.html#setstate), for example)
 
 `*` -- The Node type also secretly contains 2 more fields: `key` and `_descendants_count` - these are for use by [Patchwork](https://github.com/shashi/Patchwork.jl) at a higher level.
 
@@ -200,19 +200,19 @@ The motivation behind this is to:
 
 This section is relevant to developers of web interfaces to Julia such as IJulia, Atom and Blink.
 
-A `Provider` is such a Julia package that can set up a communication channel for WebDisplay.
+A `Provider` is such a Julia package that can set up a communication channel for WebIO.
 
 To do this, a package must:
 
 On the JavaScript side:
 
 1. load the JavaScript files `assets/webdisplay.js` and `assets/nodeTypes.js` into their browser environment
-2. Add some JavaScript that sets `WebDisplay.sendCallback` to a function that takes a JS object and sends it to the Julia side.
-3. set up a listener for messages from Julia, and call `WebDisplay.dispatch(message)` for every message
+2. Add some JavaScript that sets `WebIO.sendCallback` to a function that takes a JS object and sends it to the Julia side.
+3. set up a listener for messages from Julia, and call `WebIO.dispatch(message)` for every message
 
 On the Julia side
 
-1. Have a listener on the Julia side which listens to messages sent by `sendCallback` above and calls `dispatch(context_id::String, command::Symbol, data::Any)` - WebDisplay takes over from here and calls the corresponding event handlers in user code.
+1. Have a listener on the Julia side which listens to messages sent by `sendCallback` above and calls `dispatch(context_id::String, command::Symbol, data::Any)` - WebIO takes over from here and calls the corresponding event handlers in user code.
 2. Create a provider type which represents the provider (e.g. IJuliaProvider)
 3. Define `Base.send` on the provider type.
 ```julia
@@ -221,6 +221,6 @@ function Base.send(p::MyProvider, data)
       # you can use any encoding for the data
 end
 ```
-4. Push an instance of the provider onto the provider stack using `WebDisplay.push_provider!(provider)`
+4. Push an instance of the provider onto the provider stack using `WebIO.push_provider!(provider)`
 
-For an example, see how it's done for IJulia at [src/ijulia_setup.jl](https://github.com/shashi/WebDisplay.jl/blob/cc8294d0b46551d9c5ff1b31c3dca3a6cbbbcf43/src/ijulia_setup.jl) and [assets/ijulia_setup.js](https://github.com/shashi/WebDisplay.jl/blob/cc8294d0b46551d9c5ff1b31c3dca3a6cbbbcf43/assets/ijulia_setup.js).
+For an example, see how it's done for IJulia at [src/ijulia_setup.jl](https://github.com/shashi/WebIO.jl/blob/cc8294d0b46551d9c5ff1b31c3dca3a6cbbbcf43/src/ijulia_setup.jl) and [assets/ijulia_setup.js](https://github.com/shashi/WebIO.jl/blob/cc8294d0b46551d9c5ff1b31c3dca3a6cbbbcf43/assets/ijulia_setup.js).

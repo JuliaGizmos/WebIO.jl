@@ -1,4 +1,4 @@
-module WebDisplay
+module WebIO
 
 using FunctionalCollections
 
