@@ -1,7 +1,7 @@
 using AbstractTrees
 
 import AbstractTrees: children
-export Node, class, props, key
+export Node, instanceof, props, key
 
 immutable Node{T}
     instanceof::T # if this changes the node must be *replaced*
@@ -50,8 +50,8 @@ end
 
 promote_instanceof(s::Symbol) = DOM(:html, s)
 
-const fields = [:class, :children, :props, :key]
-const expr = :(Node{T}(n.instanceof, n.children, n.props, key=n.key))
+const fields = [:instanceof, :children, :props]
+const expr = :(Node(n.instanceof, n.children, n.props))
 
 for (i, f) in enumerate(fields)
     setf = Symbol("set" * string(f))
@@ -60,7 +60,9 @@ for (i, f) in enumerate(fields)
     @eval begin
         export $f, $setf
         $f{T}(n::Node{T}) = n.$f
-        $setf{T}(n::Node{T}, $f) = Node(T, $(args...))
+        function $setf{T}(n::Node{T}, $f)
+            Node($(args...))
+        end
     end
 end
 

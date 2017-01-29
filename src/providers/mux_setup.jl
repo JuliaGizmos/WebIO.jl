@@ -10,7 +10,6 @@ Serve a Mux app which might return a WebDisplay node.
 function wdserve(app, port=8000)
     @app http = (
         Mux.defaults,
-        route("pkg/:pkg", packagefiles("assets"), Mux.notfound()),
         app,
         Mux.notfound(),
     )
@@ -65,10 +64,4 @@ function Mux.Response(o::Node)
         </html>
         """
     )
-end
-
-function packagefiles(dir, dirs=true)
-    absdir(req) = Pkg.dir(req[:params][:pkg], dir)
-    branch(req -> Mux.validpath(absdir(req), joinpath(req[:path]...), dirs=dirs),
-           req -> Mux.fresp(joinpath(absdir(req), req[:path]...)))
 end
