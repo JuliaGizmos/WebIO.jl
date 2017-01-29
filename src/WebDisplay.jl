@@ -8,6 +8,7 @@ function render end
 
 include("node.jl")
 include("context.jl")
+include("syntax.jl")
 
 export setup_provider, setup_ijulia
 
