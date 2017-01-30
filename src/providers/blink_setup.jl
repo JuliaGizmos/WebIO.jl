@@ -5,6 +5,7 @@ immutable BlinkConnection <: AbstractConnection
 end
 
 function Blink.body!(w::Window, x::Node)
+    wait(w.content)
     loadjs!(w, "/pkg/WebIO/js/webio.js")
     loadjs!(w, "/pkg/WebIO/js/nodeTypes.js")
     loadjs!(w, "/pkg/WebIO/js/blink_setup.js")
