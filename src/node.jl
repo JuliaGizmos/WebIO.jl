@@ -79,8 +79,6 @@ withchild(f, n::Node, i) = setchild(n, i, f(c[i]))
 withlastchild(f, n::Node) = setchild(n, length(children(n)), f(c[i]))
 mergeprops(n::Node, ps) = setprops(n, recmerge(props(n), ps))
 
-######## macro sugar ########
-
 using JSON
 
 ####### Rendering to HTML ########
@@ -102,10 +100,6 @@ function Base.show(io::IO, m::MIME"text/html", x::Node)
                  <script>WebIO.mount('$id', '#$id',""")
     JSON.print(io, x)
     write(io, ")</script>")
-end
-
-function Base.show(io::IOContext, x::Node)
-    show(io.io, x)
 end
 
 
