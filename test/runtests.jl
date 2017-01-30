@@ -1,4 +1,4 @@
-using WebDisplay
+using WebIO
 using Base.Test
 
 # write your own tests here

@@ -206,7 +206,7 @@ To do this, a package must:
 
 On the JavaScript side:
 
-1. load the JavaScript files `assets/webdisplay.js` and `assets/nodeTypes.js` into their browser environment
+1. load the JavaScript files `assets/webio.js` and `assets/nodeTypes.js` into their browser environment
 2. Add some JavaScript that sets `WebIO.sendCallback` to a function that takes a JS object and sends it to the Julia side.
 3. set up a listener for messages from Julia, and call `WebIO.dispatch(message)` for every message
 

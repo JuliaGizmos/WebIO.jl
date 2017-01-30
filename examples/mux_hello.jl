@@ -1,8 +1,8 @@
-using WebDisplay
+using WebIO
 setup_provider("mux")
 
 function myapp(req)
     Node(:div, "Hello, World!")
 end
 
-wdserve(page("/", req -> myapp(req)))
+webio_serve(page("/", req -> myapp(req)))

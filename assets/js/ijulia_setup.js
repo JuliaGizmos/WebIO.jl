@@ -6,7 +6,7 @@
 
         // Register a "target" so that Julia can create a Comm
         // to communicate.
-        commManager.register_target("webdisplay_comm",
+        commManager.register_target("webio_comm",
             function (comm) {
                 WebIO.triggerConnected();
                 WebIO.sendCallback = function (msg) { comm.send(msg); }

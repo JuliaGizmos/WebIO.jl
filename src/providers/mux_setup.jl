@@ -3,11 +3,11 @@ using JSON
 using WebIO
 
 """
-    wdserve(app, port=8000)
+    webio_serve(app, port=8000)
 
 Serve a Mux app which might return a WebIO node.
 """
-function wdserve(app, port=8000)
+function webio_serve(app, port=8000)
     @app http = (
         Mux.defaults,
         app,
@@ -16,7 +16,7 @@ function wdserve(app, port=8000)
 
     @app websock = (
         Mux.wdefaults,
-        route("/wdsocket", create_socket),
+        route("/webio-socket", create_socket),
         Mux.wclose,
         Mux.notfound(),
     )
@@ -54,7 +54,7 @@ function Mux.Response(o::Node)
         <html>
           <head>
             <meta charset="UTF-8">
-            <script src="/pkg/WebIO/js/webdisplay.js"></script>
+            <script src="/pkg/WebIO/js/webio.js"></script>
             <script src="/pkg/WebIO/js/nodeTypes.js"></script>
             <script src="/pkg/WebIO/js/mux_setup.js"></script>
           </head>

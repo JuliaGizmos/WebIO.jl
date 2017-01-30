@@ -1,4 +1,4 @@
-using WebDisplay
+using WebIO
 setup_provider("mux")
 
 function counter(count=0)
@@ -25,7 +25,7 @@ function counter(count=0)
                     # an event handler on Javascript always gets two arguments: the event and the context
                     # event is object passed by JavaScript into the event handler, and context is the context
                     # using which you can talk to julia or access and modify contents of the context (context.dom as seen above)
-                    "click"=>"function (event,ctx) { WebDisplay.send(ctx, 'change', $change) }"
+                    "click"=>"function (event,ctx) { WebIO.send(ctx, 'change', $change) }"
                 )
             )
 
@@ -44,6 +44,6 @@ function myapp(req)
     Node(:div, counter(1))
 end
 
-wdserve(page("/", req -> myapp(req)))
+webio_serve(page("/", req -> myapp(req)))
 
 

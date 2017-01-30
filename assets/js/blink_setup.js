@@ -1,14 +1,14 @@
 (function (Blink) {
     if (Blink.sock) {
-        WebIO.triggerConnected();
         WebIO.sendCallback = function (msg) {
-            Blink.msg("webdisplay", msg);
+            Blink.msg("webio", msg);
         }
+        WebIO.triggerConnected();
     } else {
         console.error("Blink not connected")
     }
 
-    Blink.handlers.webdisplay = function (msg) {
+    Blink.handlers.webio = function (msg) {
         WebIO.dispatch(msg.data);
     };
 })(Blink);

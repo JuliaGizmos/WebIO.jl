@@ -7,11 +7,11 @@
                 new_uri = "ws:";
         }
         new_uri += "//" + loc.host;
-        new_uri += loc.pathname + "/wdsocket";
+        new_uri += loc.pathname + suffix;
         return new_uri;
     }
 
-    var ws = new WebSocket(wsurl("/wdsocket"));
+    var ws = new WebSocket(wsurl("/webio-socket"));
     ws.onopen = function () {
         WebIO.triggerConnected();
     }

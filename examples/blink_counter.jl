@@ -1,4 +1,4 @@
-using WebDisplay
+using WebIO
 using Blink
 setup_provider("blink")
 
@@ -13,7 +13,7 @@ function counter(count=0)
 
         btn(label, change) = Node(:button, label,
                 events=Dict(
-                    "click"=>"function (event,ctx) { WebDisplay.send(ctx, 'change', $change) }"
+                    "click"=>"function (event,ctx) { WebIO.send(ctx, 'change', $change) }"
                 )
             )
 

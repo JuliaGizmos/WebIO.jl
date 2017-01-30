@@ -56,7 +56,7 @@ function applyStyles(domNode, styles)
 
 function applyEvents(domNode, context, events)
 {
-    var allHandlers = domNode.webdisplay_handlers || {};
+    var allHandlers = domNode.webio_handlers || {};
 
     for (var key in events)
     {
@@ -82,7 +82,7 @@ function applyEvents(domNode, context, events)
         }
     }
 
-    domNode.webdisplay_handlers = allHandlers;
+    domNode.webio_handlers = allHandlers;
 }
 
 var defaultEventOptions = {
@@ -153,7 +153,7 @@ function createDOM(ctx, data, parentNode) {
 
 function createContext(ctx, data) {
     var fragment = document.createElement("div");
-    fragment.className = "wd-context";
+    fragment.className = "wio-context";
     var commands = data.instanceArgs.commands;
     var command_funcs = {}
     if (commands) {
@@ -166,20 +166,19 @@ function createContext(ctx, data) {
     var subctx = WebIO.makeContext(data.instanceArgs.id, ctx.data,
                              ctx.sendCallback, fragment, command_funcs);
 
-    // Could be a promise
+    // TODO: Could be made a promise
     WebIO.onConnected(function () {
         WebIO.send(subctx, "_setup_context", {});
     })
 
     appendChildren(subctx, fragment, data.children);
 
-
     return fragment;
 }
 
 var style = document.createElement('style')
 style.type = 'text/css'
-style.innerHTML = '.wd-context { display:inherit; margin:inherit }'
+style.innerHTML = '.wio-context { display:inherit; margin:inherit }'
 document.getElementsByTagName('head')[0].appendChild(style)
 
 WebIO.NodeTypes = {
