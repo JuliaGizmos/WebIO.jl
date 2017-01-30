@@ -1,3 +1,4 @@
+using FunctionalCollections
 using AbstractTrees
 
 import AbstractTrees: children
@@ -65,6 +66,8 @@ for (i, f) in enumerate(fields)
         end
     end
 end
+key(n::Node) = n.key
+setkey(n::Node, k) = Node(instanceof(n), children(n), props(n), key=k)
 
 ######## modifying an element #######
 
@@ -99,6 +102,10 @@ function Base.show(io::IO, m::MIME"text/html", x::Node)
                  <script>WebIO.mount('$id', '#$id',""")
     JSON.print(io, x)
     write(io, ")</script>")
+end
+
+function Base.show(io::IOContext, x::Node)
+    show(io.io, x)
 end
 
 

@@ -1,3 +1,5 @@
+using FunctionalCollections
+
 let count=0
     global newid
     function newid(prefix)

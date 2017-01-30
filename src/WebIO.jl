@@ -1,21 +1,22 @@
 module WebIO
 
-using FunctionalCollections
-
 include("util.jl")
-
-function render end
-
 include("node.jl")
 include("context.jl")
 include("syntax.jl")
 
-export setup_provider, setup_ijulia
 
+export render, setup_provider
+
+"""
+    render(x::MyType)
+
+Generic function that defines how a Julia object is rendered. Should return a
+`Node` object.
+"""
+function render end
 function setup_provider(name)
     include(joinpath(dirname(@__FILE__), "providers", "$(name)_setup.jl"))
 end
-
-Base.@deprecate setup_ijulia() setup_provider("ijulia")
 
 end # module

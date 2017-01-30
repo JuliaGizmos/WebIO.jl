@@ -1,3 +1,5 @@
+export @dom_str, @jsexpr
+
 # adapted from Hiccup.jl
 function cssparse(s)
   trimfirst(s) = s[2:end]
