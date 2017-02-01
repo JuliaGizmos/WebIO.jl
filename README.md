@@ -2,6 +2,24 @@
 
 WebIO is a common platform for Julia packages to create web-based widgets. Widgets created with WebIO work inside IJulia out-of-the box  (run `setup_ijulia()`). An obvious next step is to make this work in Atom, Blink and Escher using the [Provider](#Providers) interface. Graphics packages can use WebIO to provide interactive APIs without worrying about communication between Julia and the browser environment.
 
+## Setting up
+
+To use WebIO, you will need to install some Javascript based dependencies. This can be done on Linux and Mac by running
+
+```julia
+using WebIO
+WebIO.devsetup()
+```
+This will download and install [`yarn`](https://yarnpkg.com/) and then the dependencies namely [webpack](https://webpack.github.io/) and [babel](https://babeljs.io/) required for developing the javascript parts of WebIO. The next step is to compile the Javascript files into a *bundle*.
+
+```julia
+WebIO.bundlejs(watch=false)
+```
+
+If the `watch` keyword argument is `true`, a webpack server is started which watches for changes to the javascript files under `assets/` and recompiles them automatically. This is very useful as you incrementally make changes to the Javascript files.
+
+These steps will be optional once WebIO is released and will only be required when hacking on WebIO.
+
 ## Rendering with WebIO
 
 You can create a DOM node or tree and have WebIO render it.
@@ -224,3 +242,4 @@ end
 4. Push an instance of the provider onto the provider stack using `WebIO.push_provider!(provider)`
 
 For an example, see how it's done for IJulia at [src/ijulia_setup.jl](https://github.com/shashi/WebIO.jl/blob/cc8294d0b46551d9c5ff1b31c3dca3a6cbbbcf43/src/ijulia_setup.jl) and [assets/ijulia_setup.js](https://github.com/shashi/WebIO.jl/blob/cc8294d0b46551d9c5ff1b31c3dca3a6cbbbcf43/assets/ijulia_setup.js).
+

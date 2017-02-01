@@ -1,5 +1,6 @@
+const ASSETS = joinpath(dirname(@__FILE__), "..", "assets")
 function devsetup()
-    cd(joinpath(dirname(@__FILE__), "..", "assets")) do
+    cd(ASSETS) do
         if !isfile(".yarn/dist/bin/yarn")
             if !isfile("yarn.tar.gz")
                 download("https://yarnpkg.com/latest.tar.gz", "yarn.tar.gz")
@@ -11,3 +12,12 @@ function devsetup()
     end
 end
 
+function bundlejs(;watch=false)
+    cd(ASSETS) do
+        if watch
+            run(`./webpack --watch`)
+        else
+            run(`./webpack`)
+        end
+    end
+end
