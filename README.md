@@ -4,7 +4,7 @@ WebIO is a common platform for Julia packages to create web-based widgets. Widge
 
 ## Setting up
 
-To use WebIO, you will need to install some Javascript based dependencies. This can be done on Linux and Mac by running
+To use WebIO, you will need to install some Javascript based dependencies. This can be done on Linux and Mac by first installing [nodejs](https://nodejs.org/en/), and then running
 
 ```julia
 using WebIO
@@ -15,8 +15,7 @@ This will download and install [`yarn`](https://yarnpkg.com/) and then the depen
 ```julia
 WebIO.bundlejs(watch=false)
 ```
-
-If the `watch` keyword argument is `true`, a webpack server is started which watches for changes to the javascript files under `assets/` and recompiles them automatically. This is very useful as you incrementally make changes to the Javascript files.
+This should create a file called `webio.bundle.js` under the `assets/` directory. If the `watch` keyword argument is `true`, a webpack server is started which watches for changes to the javascript files under `assets/` and recompiles them automatically. This is very useful as you incrementally make changes to the Javascript files.
 
 These steps will be optional once WebIO is released and will only be required when hacking on WebIO.
 
