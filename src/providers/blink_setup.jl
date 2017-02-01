@@ -1,24 +1,28 @@
 using Blink
 
 immutable BlinkConnection <: AbstractConnection
-    w::Window
+    page::Page
 end
 
-function Blink.body!(w::Window, x::Node)
-    wait(w.content)
     loadjs!(w, "/pkg/WebIO/js/webio.js")
     loadjs!(w, "/pkg/WebIO/js/nodeTypes.js")
     loadjs!(w, "/pkg/WebIO/js/blink_setup.js")
+function Blink.body!(p::Page, x::Node)
+    wait(p)
 
-    conn = BlinkConnection(w)
-    Blink.handle(w, "webio") do msg
+    conn = BlinkConnection(p)
+    Blink.handle(p, "webio") do msg
         WebIO.dispatch(conn, msg)
     end
 
-    body!(w, stringmime(MIME"text/html"(), x))
+    body!(p, stringmime(MIME"text/html"(), x))
 end
 
-function Base.send(p::BlinkConnection, data)
-    Blink.msg(p.w, Dict(:type=>"webio", :data=>data))
+function Blink.body!(p::Window, x::Node)
+    body!(p.content, x)
+end
+
+function Base.send(b::BlinkConnection, data)
+    Blink.msg(b.page, Dict(:type=>"webio", :data=>data))
 end
 
