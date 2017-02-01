@@ -4,6 +4,7 @@ include("util.jl")
 include("node.jl")
 include("context.jl")
 include("syntax.jl")
+include("devsetup.jl")
 
 
 export render, setup_provider
