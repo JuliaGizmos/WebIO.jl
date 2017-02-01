@@ -4,11 +4,10 @@ immutable BlinkConnection <: AbstractConnection
     page::Page
 end
 
-    loadjs!(w, "/pkg/WebIO/js/webio.js")
-    loadjs!(w, "/pkg/WebIO/js/nodeTypes.js")
-    loadjs!(w, "/pkg/WebIO/js/blink_setup.js")
 function Blink.body!(p::Page, x::Node)
     wait(p)
+    loadjs!(p, "/pkg/WebIO/webio.bundle.js")
+    loadjs!(p, "/pkg/WebIO/providers/blink_setup.js")
 
     conn = BlinkConnection(p)
     Blink.handle(p, "webio") do msg

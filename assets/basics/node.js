@@ -1,4 +1,4 @@
-(function () {
+var WebIO = require('./webio.js')
 
 var STYLE_KEY = 'style';
 var EVENT_KEY = 'events';
@@ -43,6 +43,39 @@ function applyProps(context, domNode, props)
         }
     }
 }
+
+function applyAttrs(domNode, attrs)
+{
+    for (var key in attrs)
+    {
+        var val = attrs[key];
+        if (val === null) { // should be undefined
+            domNode.removeAttribute(key);
+        } else {
+            domNode.setAttribute(key, val);
+        }
+    }
+}
+
+function applyAttrsNS(domNode, nsAttrs)
+{
+    for (var key in nsAttrs)
+    {
+        var attr = nsAttrs[key];
+        var namespace = attr.namespace;
+        var value = attr.value;
+
+        if (value === null)
+        {
+            domNode.removeAttributeNS(namespace, key);
+        }
+        else
+        {
+            domNode.setAttributeNS(namespace, key, value);
+        }
+    }
+}
+
 
 function applyStyles(domNode, styles)
 {
@@ -198,5 +231,3 @@ WebIO.CommandSets = {
         }
     }
 };
-
-})();
