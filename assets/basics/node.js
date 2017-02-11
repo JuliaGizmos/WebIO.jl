@@ -184,6 +184,12 @@ function createDOM(ctx, data, parentNode) {
     return dom;
 }
 
+require('../node_modules/systemjs/dist/system.js')
+
+function asyncloadJS(js) {
+    return SystemJS.import(js); // a promise
+}
+
 function createContext(ctx, data) {
     var fragment = document.createElement("div");
     fragment.className = "wio-context";
