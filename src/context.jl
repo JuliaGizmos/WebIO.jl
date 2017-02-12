@@ -58,6 +58,10 @@ function send(ctx::Context, cmd, data)
     nothing
 end
 
+macro evaljs(ctx, expr)
+    :(send($(esc(ctx)), "Basics.eval", jsexpr($(Expr(:quote, expr)))))
+end
+
 const waiting_messages = Dict{String, Condition}()
 function send_sync(ctx::Context, cmd, data)
     msgid = string(rand(UInt128))

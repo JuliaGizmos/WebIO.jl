@@ -2,8 +2,8 @@ module WebIO
 
 include("util.jl")
 include("node.jl")
-include("context.jl")
 include("syntax.jl")
+include("context.jl")
 include("devsetup.jl")
 
 
