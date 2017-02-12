@@ -1,4 +1,4 @@
-export @dom_str, @jsexpr
+export @dom_str, @js, @js_str
 
 # adapted from Hiccup.jl
 function cssparse(s)
@@ -45,13 +45,20 @@ type JSString
   s::String
 end
 
+JSON.lower(x::JSString) = x.s
+
 jsexpr(x) = JSString(sprint(jsexpr, x))
 
 jsstring(x) = jsexpr(x).s
 
 macro js_str(s)
-  :(JSString($(esc(s))))
+    :(JSString($(esc(s))))
 end
+
+macro js(expr)
+    :(jsexpr($(Expr(:quote, expr))))
+end
+
 
 # Expressions
 
@@ -78,8 +85,10 @@ function block_expr(io, args)
 end
 
 function call_expr(io, f, args...)
-  f in [:(=), :+, :-, :*, :/, :%] &&
+  if f in [:(=), :+, :-, :*, :/, :%, :(==), :(===),
+           :(!=), :(!==), :(>), :(<), :(<=), :(>=)]
     return print(io, "(", jsexpr_joined(args, string(f)), ")")
+  end
   jsexpr(io, f)
   print(io, "(")
   jsexpr_joined(io, args)
@@ -145,7 +154,7 @@ function jsexpr(io, x::Expr)
     (a_ = b_) => jsexpr_joined(io, [a, b], "=")
     $(Expr(:if, :__)) => if_expr(io, x.args)
     a_[i__] => ref_expr(io, a, i...)
-    (@m_ xs__) => jsexpr(io, macroexpand(Blink, x))
+    (@m_ xs__) => jsexpr(io, macroexpand(WebIO, x))
     (c_ ? t_ : f_) => (jsexpr(io, c); print(io, "?"); jsexpr(io, t); print(io, ":"); jsexpr(io, f))
     (return a_) => (print(io, "return "); jsexpr(io, a))
     $(Expr(:function, :__)) => func_expr(io, x.args...)
