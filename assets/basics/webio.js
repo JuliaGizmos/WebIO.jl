@@ -8,7 +8,8 @@ function makeContext(id, data, sendCallback, dom, commands)
         data: data,
         sendCallback: sendCallback,
         dom: dom,
-        commands: commands || {}
+        commands: commands || {},
+        promises: {}
     }
 
     contexts[id] = ctx;
@@ -146,3 +147,4 @@ if (window) {
     window.WebIO = WebIO;
 }
 module.exports = WebIO
+

@@ -190,11 +190,26 @@ function asyncloadJS(js) {
     return SystemJS.import(js); // a promise
 }
 
+function doImports(imports) {
+    var promises = [];
+    for (var i=0, l=imports.length; i<l; i++) {
+        var imp = imports[i];
+        if (imp.type == "js") {
+            promises.push(SystemJS.import(imp.url));
+        } else {
+            console.warn("Don't know how to import ", imp)
+        }
+    }
+    return Promise.all(promises);
+}
+
 function createContext(ctx, data) {
     var fragment = document.createElement("div");
     fragment.className = "wio-context";
+
     var commands = data.instanceArgs.commands;
     var command_funcs = {}
+
     if (commands) {
         for (var cmd in commands) {
             var code = commands[cmd];
@@ -205,12 +220,23 @@ function createContext(ctx, data) {
     var subctx = WebIO.makeContext(data.instanceArgs.id, ctx.data,
                              ctx.sendCallback, fragment, command_funcs);
 
-    // TODO: Could be made a promise
-    WebIO.onConnected(function () {
-        WebIO.send(subctx, "_setup_context", {});
+    var imports = data.instanceArgs.dependencies;
+
+    var depsPromise = doImports(imports);
+    subctx.promises.dependenciesLoaded = depsPromise;
+    subctx.promises.connected = new Promise(function (accept, reject) {
+        WebIO.onConnected(function () {
+            // internal message to notify julia
+            WebIO.send(subctx, "_setup_context", {});
+            accept(subctx);
+        })
     })
 
-    appendChildren(subctx, fragment, data.children);
+    var commands = data.instanceArgs.commands;
+
+    depsPromise.then(function (deps) {
+        appendChildren(subctx, fragment, data.children);
+    })
 
     return fragment;
 }

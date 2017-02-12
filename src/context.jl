@@ -5,7 +5,8 @@ export Context,
        withcontext,
        handle!,
        handlejs!,
-       pushrequires!
+       adddeps!,
+       after
 
 import Base: send
 
@@ -17,13 +18,13 @@ An object which can send and receive messages.
 Fields:
 - `id::String`: A unique ID
 - `outbox::Channel`: Channel for outgoing messages
-- `requires`: An array of js/html/css assets to load
+- `dependencies`: An array of js/html/css assets to load
   before rendering the contents of a context.
 """
 immutable Context
     id::AbstractString
     outbox::Channel
-    requires
+    dependencies
     commands
 end
 
@@ -32,20 +33,35 @@ const contexts = Dict{String, Context}()
 function Context(
         id::String=newid("context");
         outbox::Channel=Channel(),
-        requires::AbstractArray=[],
+        dependencies::AbstractArray=[],
         commands::Dict=Dict(),
     )
 
-    contexts[id] = Context(id, outbox, requires, commands)
+    contexts[id] = Context(id, outbox, dependencies, commands)
+end
+
+function adddeps!(ctx, xs::String)
+    push!(ctx.dependencies, xs)
+end
+function adddeps!(ctx, xs::AbstractArray)
+    append!(ctx.dependencies, xs)
 end
 
 function JSON.lower(x::Context)
     Dict(
         "id" => x.id,
-        "requires" => x.requires,
+        "dependencies" => lowerdeps(x.dependencies),
         "commands" => x.commands,
     ) # skip the rest
 end
+
+function lowerdeps(x::String)
+    if endswith(x, ".js")
+        return Dict{String,String}("type"=>"js", "url"=>x)
+    end
+end
+
+lowerdeps(xs::AbstractArray) = map(lowerdeps, xs)
 
 function send(ctx::Context, cmd, data)
     command_data = Dict(
@@ -60,6 +76,13 @@ end
 
 macro evaljs(ctx, expr)
     :(send($(esc(ctx)), "Basics.eval", jsexpr($(Expr(:quote, expr)))))
+end
+
+function after(ctx::Context, promise_name, expr)
+    @evaljs ctx begin
+        context.promises[$promise_name].
+            then($expr)
+    end
 end
 
 const waiting_messages = Dict{String, Condition}()
