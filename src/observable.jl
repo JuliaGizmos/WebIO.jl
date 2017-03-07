@@ -1,8 +1,8 @@
-export ObservableRef, onchange, onanychange
+export ObservableRef, on, onany
 
 """
 Like a `Ref` but updates can be watched by adding a
-handler to `onchange`.
+handler to `on`.
 
 # Example:
 
@@ -10,7 +10,7 @@ handler to `onchange`.
 x = ObservableRef(0)
 
 # handle changes:
-onchange(println, x)
+on(println, x)
 
 # set the value:
 x[] = 2
@@ -25,7 +25,7 @@ end
 
 const listeners = WeakKeyDict()
 
-function onchange(f, ob::ObservableRef)
+function on(f, ob::ObservableRef)
     fs = if haskey(listeners, ob)
         listeners[ob]
     else
@@ -50,16 +50,16 @@ Base.getindex(ob::ObservableRef) = ob.val
 _val(x::ObservableRef) = x[]
 _val(x) = x
 
-function onanychange(f, objs...)
+function onany(f, objs...)
     observs = filter(x->isa(x, ObservableRef), objs)
     g(_) = f(map(_val, objs)...)
     for o in observs
-        onchange(g, o)
+        on(g, o)
     end
 end
 
 function Base.map!(f, ob::ObservableRef, obs...)
-    onanychange(obs...) do val...
+    onany(obs...) do val...
         ob[] = f(val...)
     end
     ob
