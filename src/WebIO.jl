@@ -1,13 +1,13 @@
 module WebIO
 
 include("util.jl")
+include("observable.jl")
 include("node.jl")
 include("syntax.jl")
 include("context.jl")
 include("devsetup.jl")
 
-
-export render, setup_provider
+export setup_provider
 
 """
     render(x::MyType)

@@ -2,6 +2,7 @@ using FunctionalCollections
 using AbstractTrees
 
 import AbstractTrees: children
+import FunctionalCollections: append
 export Node, instanceof, props, key
 
 immutable Node{T}
@@ -37,11 +38,12 @@ nodetype(n::Node) = typename(n.instanceof)
 typename{T}(n::T) = string(T.name.name)
 
 function Node(instanceof, children::AbstractArray; key=nothing, props...)
-    Node(instanceof, children, Dict(props), key=key)
+    Node(instanceof, children, Dict{Symbol,Any}(props), key=key)
 end
 
 function Node(instanceof, children...; props...)
-    Node(instanceof, [children...], Dict(props))
+    # TODO: fix push on pvec to promote properly
+    Node(instanceof, Any[children...], Dict{Symbol,Any}(props))
 end
 
 immutable DOM
