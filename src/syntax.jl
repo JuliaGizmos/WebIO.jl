@@ -166,3 +166,10 @@ end
 
 macro new(x) esc(Expr(:new, x)) end
 macro var(x) esc(Expr(:var, x)) end
+
+
+## Element extension syntax
+
+(n::Node)(x, args...) = append(n, (x, args...))
+(n::Node)(;kwargs...) = mergeprops(n, kwargs)
+(n::Node)(args...; kwargs...) = n(args...)(;kwargs...)
