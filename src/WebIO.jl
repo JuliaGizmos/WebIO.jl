@@ -5,6 +5,7 @@ include("observable.jl")
 include("node.jl")
 include("syntax.jl")
 include("context.jl")
+include("connection.jl")
 include("devsetup.jl")
 
 export setup_provider
