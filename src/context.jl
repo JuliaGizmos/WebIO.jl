@@ -58,6 +58,10 @@ end
 function lowerdeps(x::String)
     if endswith(x, ".js")
         return Dict{String,String}("type"=>"js", "url"=>x)
+    elseif endswith(x, ".css")
+        return Dict{String,String}("type"=>"css", "url"=>x)
+    elseif endswith(x, ".html")
+        return Dict{String,String}("type"=>"html", "url"=>x)
     end
 end
 

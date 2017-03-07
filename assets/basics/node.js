@@ -194,10 +194,47 @@ function doImports(imports) {
     var promises = [];
     for (var i=0, l=imports.length; i<l; i++) {
         var imp = imports[i];
-        if (imp.type == "js") {
-            promises.push(SystemJS.import(imp.url));
+        if (imp.type === undefined) {
+            console.warn("Can't load dependency ", imp)
         } else {
-            console.warn("Don't know how to import ", imp)
+            switch (imp.type) {
+                case "js":
+                    promises.push(SystemJS.import(imp.url));
+                    break;
+                case "css":
+                    var cssId = location.pathname.split( "/" ).join("-");
+                    if (!document.getElementById(cssId))
+                    {
+                        var head  = document.getElementsByTagName('head')[0];
+                        var link  = document.createElement('link');
+                        link.id   = cssId;
+                        link.rel  = 'stylesheet';
+                        link.type = 'text/css';
+                        link.href = imp.url
+                        link.media = 'all';
+                        head.appendChild(link);
+                    }
+                    break;
+                case "html":
+                    var p = new Promise(function (accept, reject) {
+                        var link = document.createElement('link');
+                        if ('import' in link) {
+                            link.rel = 'import';
+                            link.href = imp.url;
+                            link.setAttribute('async', '');
+                            link.onload = accept;
+                            link.onerror = reject;
+                            document.head.appendChild(link);
+                        } else {
+                            console.error("This browser doesn't support HTML imports. Cannot import " + imp.url);
+                            reject(imp);
+                        }
+                    });
+                    promises.push(p);
+                    break;
+                default:
+                    console.warn("Don't know how to load import of type " + imp.type);
+            }
         }
     }
     return Promise.all(promises);
