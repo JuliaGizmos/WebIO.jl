@@ -21,6 +21,8 @@ function setup_provider(name)
     include(joinpath(dirname(@__FILE__), "providers", "$(name)_setup.jl"))
 end
 
+const butdoesitwork = Ref(false)
+
 function setup()
     if isdefined(Main, :IJulia)
         setup_provider("ijulia")
@@ -30,7 +32,10 @@ function setup()
         setup_provider("blink")
     elseif isdefined(Main, :Mux)
         setup_provider("mux")
+    else
+        return
     end
+    butdoesitwork[] = true
 end
 
 end # module
