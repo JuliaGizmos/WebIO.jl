@@ -48,5 +48,18 @@ end
     @test @js(if x; y; else z; end) == js"x ? (y) : (z)"
     @test @js(if x; y; y+1; else z; end) == js"x ? (y, (y+1)) : (z)"
     @test_throws ErrorException @js(if b; @var x=1; x end)
+
 end
 
+@testset "@dom_str" begin
+    @test props(dom"div#id1"())[:id] == "id1"
+    @test props(dom"div.x"())[:className] == ["x"]
+    @test props(dom"div.x.y"())[:className] == ["x", "y"]
+    @test props(dom"div[x=1]"())[:attributes] == Dict("x" => "1")
+
+    # combination
+    n = dom"div#i.x.y[a=b]"("x", prop="x")
+    @test props(n)[:attributes] == Dict("a" => "b")
+    @test props(n)[:className] == ["x", "y"]
+    @test props(n)[:id] == "i"
+end
