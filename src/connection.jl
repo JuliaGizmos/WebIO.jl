@@ -4,13 +4,18 @@ function send(c::AbstractConnection, msg)
     error("No send method for connection of type $(typeof(c))")
 end
 
-function log(c::AbstractConnection, msg, level="info", data=nothing)
-    send(c, Dict("type"=>"log", "message"=>msg, "level"=>level, data=>data))
+function logmsg(msg, level="info", data=nothing)
     if level == "error" || level == "warn"
         warn(msg)
     else
         info(msg)
     end
+
+    Dict("type"=>"log", "message"=>msg, "level"=>level, data=>data)
+end
+
+function log(c::AbstractConnection, msg, level="info", data=nothing)
+    send(c, logmsg(msg, level, data))
 end
 
 function dispatch(conn::AbstractConnection, data)
@@ -39,8 +44,12 @@ function dispatch(conn::AbstractConnection, data)
                 "warn")
         end
     else
-        contexts[ctxid]
-        dispatch(ctxid, Symbol(cmd), data["data"])
+        if !haskey(contexts, ctxid)
+            log(conn, "Message $data received for unknown context $ctxid", "warn")
+            return
+        end
+        ctx = contexts[ctxid]
+        dispatch(ctx, Symbol(cmd), data["data"])
     end
 end
 

@@ -62,6 +62,8 @@ function lowerdeps(x::String)
         return Dict{String,String}("type"=>"css", "url"=>x)
     elseif endswith(x, ".html")
         return Dict{String,String}("type"=>"html", "url"=>x)
+    else
+        error("WebIO can't load dependency of unknown type $x")
     end
 end
 
@@ -115,17 +117,13 @@ function handle!(f, ctx::Context, cmd)
     nothing
 end
 
-function dispatch(ctxid, cmd, data)
-    if haskey(handlers, ctxid) && haskey(handlers[ctxid], cmd)
-        for f in handlers[ctxid][cmd]
+function dispatch(ctx, cmd, data)
+    if haskey(handlers, ctx.id) && haskey(handlers[ctx.id], cmd)
+        for f in handlers[ctx.id][cmd]
             f(data)
         end
     else
-        if haskey(contexts, ctxid)
-            log(conn,
-                "$cmd does not have a handler for context id $(ctxid)",
-                "warn")
-        end
+        warn("$cmd does not have a handler for context id $(ctx.id)")
     end
 end
 

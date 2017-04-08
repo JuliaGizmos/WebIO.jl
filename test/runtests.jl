@@ -44,3 +44,4 @@ end
 end
 
 include("syntax.jl")
+include("communication.jl")
