@@ -41,9 +41,11 @@ export JSString
 
 jsexpr(io, x) = JSON.print(io, x)
 
-type JSString
+immutable JSString
     s::String
 end
+
+Base.:(==)(x::JSString, y::JSString) = x.s==y.s
 
 JSON.lower(x::JSString) = x.s
 
@@ -78,10 +80,10 @@ end
 
 jsexpr_joined(xs, delim=",") = sprint(jsexpr_joined, xs, delim)
 
-function block_expr(io, args)
-    print(io, "{")
-    jsexpr_joined(io, rmlines(args), "; ")
-    print(io, "}")
+function block_expr(io, args, delim="; ")
+    #print(io, "{")
+    jsexpr_joined(io, rmlines(args), delim)
+    #print(io, "}")
 end
 
 function call_expr(io, f, args...)
@@ -153,11 +155,10 @@ function jsexpr(io, x::Expr)
         a_.b_ | a_.(b_) => jsexpr_joined(io, [a, b], ".")
         (a_ = b_) => jsexpr_joined(io, [a, b], "=")
         $(Expr(:if, :__)) => if_expr(io, x.args)
+        $(Expr(:function, :__)) => func_expr(io, x.args...)
         a_[i__] => ref_expr(io, a, i...)
         (@m_ xs__) => jsexpr(io, macroexpand(WebIO, x))
-        (c_ ? t_ : f_) => (jsexpr(io, c); print(io, "?"); jsexpr(io, t); print(io, ":"); jsexpr(io, f))
         (return a_) => (print(io, "return "); jsexpr(io, a))
-        $(Expr(:function, :__)) => func_expr(io, x.args...)
         $(Expr(:new, :_)) => (print(io, "new "); jsexpr(io, x.args[1]))
         $(Expr(:var, :_)) => (print(io, "var "); jsexpr(io, x.args[1]))
         _ => error("JSExpr: Unsupported `$(x.head)` expression, $x")
