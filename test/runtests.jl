@@ -29,3 +29,4 @@ import WebIO: DOM, instanceof
     @test n4.children[2] == "www"
 end
 
+include("syntax.jl")

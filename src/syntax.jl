@@ -128,17 +128,32 @@ function dict_expr(io, xs)
     print(io, "}")
 end
 
+function if_block(io, ex)
+
+    if isexpr(ex, :block)
+        if any(x -> isexpr(x, :macrocall) && x.args[1] == Symbol("@var"), ex.args)
+            error("@js expression error: @var inside an if statement is not supported")
+        end
+        print(io, "(")
+        block_expr(io, rmlines(ex).args, ", ")
+        print(io, ")")
+    else
+        jsexpr(io, ex)
+    end
+end
+
 function if_expr(io, xs)
     if length(xs) >= 2    # we have an if
-        print(io, "if (")
         jsexpr(io, xs[1])
-        print(io, ") ")
-        jsexpr(io, xs[2])
+        print(io, " ? ")
+        if_block(io, xs[2])
     end
 
     if length(xs) == 3    # Also have an else
-        print(io, "else")
-        jsexpr(io, xs[3])
+        print(io, " : ")
+        if_block(io, xs[3])
+    else
+        print(io, " : undefined")
     end
 end
 
