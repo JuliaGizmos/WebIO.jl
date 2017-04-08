@@ -116,10 +116,22 @@ function func_expr(io, args, body)
     isexpr(args, Symbol) ? print(io, args) : join(io, args.args, ",")
     print(io, ")")
     print(io, "{")
-    jsexpr(io, body)
+    jsexpr(io, insert_return(body))
     print(io, "}")
     named || print(io, ")")
 end
+
+function insert_return(ex)
+    if isa(ex, Symbol) || !isexpr(ex, :block)
+        Expr(:return, ex)
+    else
+        isexpr(ex.args[end], :return) && return ex
+        ex1 = copy(ex)
+        ex1.args[end] = insert_return(ex.args[end])
+        ex1
+    end
+end
+
 
 function dict_expr(io, xs)
     print(io, "{")

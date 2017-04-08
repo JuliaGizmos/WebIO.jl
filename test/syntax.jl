@@ -10,6 +10,7 @@ end
 
     @test @js(nothing) == js"null"
     @test @js(x) == js"x"
+    @test @js(x.y) == js"x.y"
 
     x = nothing
     @test @js($x) == js"null"
@@ -36,9 +37,9 @@ end
 
     @test @js(x=1) == js"x=1"
 
-    @test @js(x->x) == js"(function (x){x})"
-    @test @js(x->return x+1) == js"(function (x){return (x+1)})"
-    @test @js(function (x) return x+1; end) == js"(function (x){return (x+1)})"
+    @test @js(x->x) == js"(function (x){return x})"
+    @test @js(x->(1; return x+1)) == js"(function (x){1; return (x+1)})"
+    @test @js(function (x) x+1; end) == js"(function (x){return (x+1)})"
     
     @test @js(@new F()) == js"new F()"
     @test @js(@var x=1) == js"var x=1"
