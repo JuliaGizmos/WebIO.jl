@@ -3,7 +3,7 @@ using AbstractTrees
 
 import AbstractTrees: children
 import FunctionalCollections: append
-export Node, instanceof, props, key
+export Node, instanceof, props
 
 immutable Node{T}
     instanceof::T # if this changes the node must be *replaced*
@@ -11,7 +11,6 @@ immutable Node{T}
     children::AbstractArray
     props::Dict
 
-    key::Any
     _descendants_count::Int
 
 end
@@ -19,15 +18,13 @@ end
 function Node(
         instanceof,
         children::AbstractArray,
-        props::Associative;
-        key=nothing
+        props::Associative
     )
     inst = promote_instanceof(instanceof)
     Node{typeof(inst)}(
         inst,
         _pvec(children),
         props,
-        key,
         descendants_count(children),
     )
 end
@@ -37,8 +34,8 @@ promote_instanceof(x) = x
 nodetype(n::Node) = typename(n.instanceof)
 typename{T}(n::T) = string(T.name.name)
 
-function Node(instanceof, children::AbstractArray; key=nothing, props...)
-    Node(instanceof, children, Dict{Symbol,Any}(props), key=key)
+function Node(instanceof, children::AbstractArray; props...)
+    Node(instanceof, children, Dict{Symbol,Any}(props))
 end
 
 function Node(instanceof, children...; props...)
@@ -68,17 +65,15 @@ for (i, f) in enumerate(fields)
         end
     end
 end
-key(n::Node) = n.key
-setkey(n::Node, k) = Node(instanceof(n), children(n), props(n), key=k)
 
 ######## modifying an element #######
 
-export setchild, withchild, withlastchild, mergeprops
+export append, setchild, withchild, withlastchild, mergeprops
 
 append(n::Node, cs) = setchildren(n, append(children(n), cs))
 setchild(n::Node, i, c) = setchildren(n, assoc(children(n), i, c))
-withchild(f, n::Node, i) = setchild(n, i, f(c[i]))
-withlastchild(f, n::Node) = setchild(n, length(children(n)), f(c[i]))
+withchild(f, n::Node, i) = setchild(n, i, f(children(n)[i]))
+withlastchild(f, n::Node) = setchild(n, length(children(n)), f(children(n)[i]))
 mergeprops(n::Node, ps) = setprops(n, recmerge(props(n), ps))
 
 using JSON
@@ -92,7 +87,6 @@ function JSON.lower(n::Node)
         "instanceArgs" => JSON.lower(n.instanceof),
         "children" => JSON.lower(children(n)),
         "props" => JSON.lower(props(n)),
-        "key" => JSON.lower(key(n)),
     )
 end
 
