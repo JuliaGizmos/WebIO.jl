@@ -7,18 +7,6 @@ let count=0
     end
 end
 
-function ismorespecific(f, argtypes, generic_argtypes)
-    ms_spec = methods(f, argtypes).ms
-    ms_gen = methods(f, generic_argtypes).ms
-
-    if length(ms_gen) == 0
-        error("ismorespecific: generic argument types " *
-              "$generic_argtypes do not have a method for $f")
-    end
-
-    length(ms_spec) > 0 && ms_spec[1] !== ms_gen[end]
-end
-
 _pvec(x::PersistentVector) = x
 _pvec(x::AbstractArray) = pvec(x)
 
