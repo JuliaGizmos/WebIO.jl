@@ -1,7 +1,8 @@
 module WebIO
 
+using Observables
+
 include("util.jl")
-include("observable.jl")
 include("node.jl")
 include("syntax.jl")
 include("context.jl")
