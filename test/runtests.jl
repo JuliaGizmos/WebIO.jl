@@ -3,6 +3,9 @@ using Base.Test
 
 import WebIO: DOM, instanceof
 @testset "node" begin
+
+    @test dom"div"().children == []
+
     n = dom"div"("hello")
     @test n.children == ["hello"]
     @test instanceof(n) == DOM(:html, :div)
@@ -27,6 +30,17 @@ import WebIO: DOM, instanceof
     end
 
     @test n4.children[2] == "www"
+end
+
+@testset "syntax for extending Nodes" begin
+
+    n = dom"div"()
+    @test children(n("hello", "world")) == ["hello", "world"]
+    @test props(n(prop="x")) == Dict(:prop=>"x")
+
+    n1 = n("hello", "world", prop="x")
+    @test children(n1) == ["hello", "world"]
+    @test props(n1) == Dict(:prop=>"x")
 end
 
 include("syntax.jl")

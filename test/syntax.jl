@@ -49,3 +49,4 @@ end
     @test @js(if x; y; y+1; else z; end) == js"x ? (y, (y+1)) : (z)"
     @test_throws ErrorException @js(if b; @var x=1; x end)
 end
+
