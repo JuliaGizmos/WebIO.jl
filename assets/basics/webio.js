@@ -1,6 +1,6 @@
 var contexts = {};
 
-function makeContext(id, data, sendCallback, dom, commands)
+function makeWidget(id, data, sendCallback, dom, commands)
 {
     var ctx = {
         type: "context",
@@ -58,9 +58,9 @@ function dispatch(msg)
 
 function mount(id, targetQuery, data)
 {
-    // TODO: separate targetQuery from Context id
+    // TODO: separate targetQuery from Widget id
     // every root element gets a context by default
-    var context = makeContext(id, data, WebIO.sendCallback)
+    var context = makeWidget(id, data, WebIO.sendCallback)
     var target;
 
     if (targetQuery) {
@@ -123,8 +123,8 @@ var WebIO = {
     // For Base.show or a package to create an element.
     mount: mount,
 
-    // Create Context - for use by NodeTypes
-    makeContext: makeContext,
+    // Create Widget - for use by NodeTypes
+    makeWidget: makeWidget,
 
     // createNode
     createNode: createNode,
@@ -132,7 +132,7 @@ var WebIO = {
     // For Providers to call when commands are received from Julia
     dispatch: dispatch,
 
-    // Send a message back to the Context on Julia
+    // Send a message back to the Widget on Julia
     send: send,
 
     // given by Provider, to be called when JS needs to send a command to Julia

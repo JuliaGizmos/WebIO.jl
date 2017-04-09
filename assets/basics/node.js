@@ -240,7 +240,7 @@ function doImports(imports) {
     return Promise.all(promises);
 }
 
-function createContext(ctx, data) {
+function createWidget(ctx, data) {
     var fragment = document.createElement("div");
     fragment.className = "wio-context";
 
@@ -254,7 +254,7 @@ function createContext(ctx, data) {
             command_funcs[cmd] = f;
         }
     }
-    var subctx = WebIO.makeContext(data.instanceArgs.id, ctx.data,
+    var subctx = WebIO.makeWidget(data.instanceArgs.id, ctx.data,
                              ctx.sendCallback, fragment, command_funcs);
 
     var imports = data.instanceArgs.dependencies;
@@ -288,8 +288,8 @@ WebIO.NodeTypes = {
         namespaces: namespaces,
         create: createDOM
     },
-    Context: {
-        create: createContext
+    Widget: {
+        create: createWidget
     }
 }
 

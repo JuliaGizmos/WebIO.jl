@@ -5,7 +5,7 @@ using Observables
 include("util.jl")
 include("node.jl")
 include("syntax.jl")
-include("context.jl")
+include("widget.jl")
 include("connection.jl")
 include("devsetup.jl")
 

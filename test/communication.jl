@@ -10,7 +10,7 @@ import WebIO: dispatch
 
 @testset "communication" begin
 
-    ctx = Context("testctx1")
+    ctx = Widget("testctx1")
     withcontext(ctx) do c
         @test c == ctx
         ""
@@ -20,7 +20,7 @@ import WebIO: dispatch
         dom"div"()
     end
 
-    @test isa(instanceof(w), Context)
+    @test isa(instanceof(w), Widget)
     @test instanceof(w).id == "testctx1"
 
     send(ctx, :msg_to_js, "hello js") # Queue a message to the JS side.
@@ -72,7 +72,7 @@ import WebIO: dispatch
                         "data"=>"hi Julia", "context"=>"testctx1"))
 
     msg = Ref("")
-    handle!(x -> msg[] = x, ctx, :incoming) # setup the handler
+    on(x -> msg[] = x, ctx, :incoming) # setup the handler
 
     # dispatch message again
     dispatch(conn, Dict("command" => "incoming",
