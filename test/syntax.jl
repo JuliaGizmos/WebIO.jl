@@ -20,7 +20,7 @@ end
         y
     end) == js"x; y"
 
-    @test @js(x[]) == js"x[]"
+    #@test @js(x[]) == js"x[]"
     @test @js(x[1]) == js"x[1]"
     @test @js(x["a"]) == js"x[\"a\"]"
     @test @js(x[1,"a"]) == js"x[1,\"a\"]"

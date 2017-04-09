@@ -45,3 +45,4 @@ end
 
 include("syntax.jl")
 include("communication.jl")
+include("blink-tests.jl")

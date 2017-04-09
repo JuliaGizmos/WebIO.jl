@@ -1,5 +1,6 @@
 using WebIO
 using Blink
+using Observables
 using Base.Test
 
 notinstalled = !AtomShell.isinstalled()
@@ -14,8 +15,7 @@ notinstalled && AtomShell.install()
     w = Window(Dict(:show => false))
 
     body!(w, dom"div"("hello, blink"))
-    yield()
-    sleep(1) # wait for it to render.
+    sleep(5) # wait for it to render.
 
     substrings = ["<div>hello, blink</div></div>",
     "<script>WebIO.mount(",
@@ -23,6 +23,19 @@ notinstalled && AtomShell.install()
     content = Blink.@js(w, document.body.innerHTML)
     @test all(x->contains(content, x), substrings)
 
+    @testset "observable interpolation" begin
+        w = Widget("testwidget2")
+        ob = Observable(0)
+        @test_throws ErrorException WebIO.@js $ob
+
+        ob = Observable{Any}(w, :test, nothing)
+        @test WebIO.@js($ob) == js"{\"command\":\"test\",\"context\":\"testwidget2\",\"type\":\"observable\"}"
+
+        @test WebIO.@js($ob[]) == js"WebIO.getval({\"command\":\"test\",\"context\":\"testwidget2\",\"type\":\"observable\"})"
+        @test WebIO.@js($ob[] = 1) == js"WebIO.setval({\"command\":\"test\",\"context\":\"testwidget2\",\"type\":\"observable\"},1)"
+    end
+
 end
+
 
 notinstalled && AtomShell.remove()

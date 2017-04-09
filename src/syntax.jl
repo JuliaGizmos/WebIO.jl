@@ -97,6 +97,20 @@ function call_expr(io, f, args...)
     print(io, ")")
 end
 
+function obs_get_expr(io, x)
+    # empty [], special case to get value from an Observable
+    print(io, "WebIO.getval(")
+    jsexpr(io, x)
+    print(io, ")")
+end
+
+function obs_set_expr(io, x, val)
+    # empty [], special case to get value from an Observable
+    print(io, "WebIO.setval(")
+    jsexpr_joined(io, [x, val])
+    print(io, ")")
+end
+
 function ref_expr(io, x, args...)
     jsexpr(io, x)
     print(io, "[")
@@ -180,9 +194,11 @@ function jsexpr(io, x::Expr)
         f_(xs__) => call_expr(io, f, xs...)
         (a_ -> b_) => func_expr(io, a, b)
         a_.b_ | a_.(b_) => jsexpr_joined(io, [a, b], ".")
+        (a_[] = val_) => obs_set_expr(io, a, val)
         (a_ = b_) => jsexpr_joined(io, [a, b], "=")
         $(Expr(:if, :__)) => if_expr(io, x.args)
         $(Expr(:function, :__)) => func_expr(io, x.args...)
+        a_[] => obs_get_expr(io, a)
         a_[i__] => ref_expr(io, a, i...)
         (@m_ xs__) => jsexpr(io, macroexpand(WebIO, x))
         (return a_) => (print(io, "return "); jsexpr(io, a))

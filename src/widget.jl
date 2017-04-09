@@ -81,11 +81,19 @@ function Base.getindex(c::Widget, cmd)
 end
 
 function jsexpr(io, o::Observable)
+    if !haskey(observ_id_dict, o)
+        error("No context associated with observer being interpolated")
+    end
     _ctx, cmd = observ_id_dict[o]
     _ctx.value === nothing && error("Widget of the observable no more exists.")
     ctx = _ctx.value
 
-    jsexpr(io, :(@new WebIO.Observable($(ctx.id), $(cmd))))
+    obsobj = Dict("type" => "observable",
+                  "context" => ctx.id,
+                  "value" => o[],
+                  "command" => cmd)
+
+    jsexpr(io, obsobj)
 end
 
 function adddeps!(ctx, xs::String)
@@ -140,6 +148,7 @@ function after(ctx::Widget, promise_name, expr)
 end
 
 const waiting_messages = Dict{String, Condition}()
+
 function send_sync(ctx::Widget, cmd, data)
     msgid = string(rand(UInt128))
     command_data = Dict(
