@@ -176,10 +176,20 @@ function dispatch(ctx, cmd, data)
 end
 
 onjs(ctx, cmd, f) = ctx.jshandlers[cmd] = f
+
+function ensure_js_updates(ctx, cmd, ob)
+    f = (msg) -> send(ctx, cmd, msg)
+    if !(f in ob.listeners) # XXX: brittle for 2 reasons
+        on(f, ob)
+    end
+end
+
 function onjs(ob::Observable, f)
     if haskey(observ_id_dict, ob)
         ctx, cmd = observ_id_dict[ob]
         ctx = ctx.value
+        # make sure updates are set up to propagate to JS
+        ensure_js_updates(ctx, cmd, ob)
         onjs(ctx, cmd, f)
     else
         error("This observable is not associated with any context.")
