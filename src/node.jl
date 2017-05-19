@@ -85,8 +85,8 @@ function JSON.lower(n::Node)
         "type" => "node",
         "nodeType" => nodetype(n),
         "instanceArgs" => JSON.lower(n.instanceof),
-        "children" => JSON.lower(children(n)),
-        "props" => JSON.lower(props(n)),
+        "children" => children(n),
+        "props" => props(n),
     )
 end
 
