@@ -86,6 +86,12 @@ function send(ctx, cmd, data)
     ctx.sendCallback(message(ctx, cmd, data));
 }
 
+function setval(ob, val) {
+    var ctx = contexts[ob.context];
+    WebIO.send(ctx, ob.command, val);
+}
+
+
 function message(ctx, cmd, data)
 {
     return {
@@ -134,6 +140,9 @@ var WebIO = {
 
     // Send a message back to the Widget on Julia
     send: send,
+
+    // A variant of send which sets the value of an observable
+    setval: setval,
 
     // given by Provider, to be called when JS needs to send a command to Julia
     sendCallback: sendNotSetUp,

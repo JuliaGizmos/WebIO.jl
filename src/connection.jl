@@ -49,7 +49,7 @@ function dispatch(conn::AbstractConnection, data)
             return
         end
         ctx = contexts[ctxid]
-        dispatch(ctx, Symbol(cmd), data["data"])
+        dispatch(ctx, cmd, data["data"])
     end
 end
 

@@ -3,6 +3,7 @@ using JSON
 export Widget,
        AbstractConnection,
        withcontext,
+       Observable,
        handle!,
        handlejs!,
        on, onjs,
@@ -10,6 +11,7 @@ export Widget,
        after
 
 import Base: send
+import Observables: Observable
 
 """
     Widget(id; kwargs...)
@@ -25,7 +27,7 @@ Fields:
 immutable Widget
     id::AbstractString
     outbox::Channel
-    observs::Dict{Union{Symbol, String}, Observable}
+    observs::Dict{String, Observable}
     dependencies
     jshandlers
 end
@@ -56,7 +58,7 @@ end
 # in order to allow interpolation of observables.
 const observ_id_dict = WeakKeyDict()
 
-function (::Type{Observables.Observable{T}}){T}(ctx::Widget, cmd, value)
+function (::Type{Observable{T}}){T}(ctx::Widget, cmd, value)
     if haskey(ctx.observs, cmd)
         warn("An observable named $cmd already exists in context $(ctx.id).
              Overwriting.")
@@ -70,7 +72,7 @@ function (::Type{Observables.Observable{T}}){T}(ctx::Widget, cmd, value)
     o
 end
 
-function Observables.Observable(ctx::Widget, cmd, val)
+function Observable{T}(ctx::Widget, cmd, val::T)
     Observable{T}(ctx, cmd, val)
 end
 
