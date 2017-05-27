@@ -244,18 +244,19 @@ function createWidget(ctx, data) {
     var fragment = document.createElement("div");
     fragment.className = "wio-context";
 
-    var commands = data.instanceArgs.commands;
+    var handlers = data.instanceArgs.handlers;
+    var observables = data.instanceArgs.observables;
     var command_funcs = {}
 
-    if (commands) {
-        for (var cmd in commands) {
-            var code = commands[cmd];
+    if (handlers) {
+        for (var cmd in handlers) {
+            var code = handlers[cmd];
             var f = new Function("context", "data", "(" + code + ")(context, data)");
             command_funcs[cmd] = f;
         }
     }
     var subctx = WebIO.makeWidget(data.instanceArgs.id, ctx.data,
-                             ctx.sendCallback, fragment, command_funcs);
+                             ctx.sendCallback, fragment, command_funcs, observables);
 
     var imports = data.instanceArgs.dependencies;
 
@@ -268,8 +269,6 @@ function createWidget(ctx, data) {
             accept(subctx);
         })
     })
-
-    var commands = data.instanceArgs.commands;
 
     depsPromise.then(function (deps) {
         appendChildren(subctx, fragment, data.children);

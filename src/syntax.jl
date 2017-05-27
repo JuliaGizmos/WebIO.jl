@@ -111,6 +111,21 @@ function obs_set_expr(io, x, val)
     print(io, ")")
 end
 
+function jsexpr(io, o::Observable)
+    if !haskey(observ_id_dict, o)
+        error("No context associated with observer being interpolated")
+    end
+    _ctx, name = observ_id_dict[o]
+    _ctx.value === nothing && error("Widget of the observable no more exists.")
+    ctx = _ctx.value
+
+    obsobj = Dict("type" => "observable",
+                  "context" => ctx.id,
+                  "name" => name)
+
+    jsexpr(io, obsobj)
+end
+
 function ref_expr(io, x, args...)
     jsexpr(io, x)
     print(io, "[")

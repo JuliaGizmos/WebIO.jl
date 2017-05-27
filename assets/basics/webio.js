@@ -1,6 +1,6 @@
 var contexts = {};
 
-function makeWidget(id, data, sendCallback, dom, commands)
+function makeWidget(id, data, sendCallback, dom, handlers, observables)
 {
     var ctx = {
         type: "context",
@@ -8,7 +8,8 @@ function makeWidget(id, data, sendCallback, dom, commands)
         data: data,
         sendCallback: sendCallback,
         dom: dom,
-        commands: commands || {},
+        handlers: handlers || {},
+        observables: observables || {},
         promises: {}
     }
 
@@ -27,7 +28,7 @@ function createNode(context, data, parentNode)
 
 function getHandler(ctx, cmd)
 {
-    var f = ctx.commands[cmd];
+    var f = ctx.handlers[cmd];
     if (typeof f !== "undefined") {
         return f;
     }
@@ -52,7 +53,7 @@ function dispatch(msg)
     } else {
         var ctx = contexts[msg.context];
         var f = getHandler(ctx, msg.command);
-        f(ctx, msg.data)
+        f(ctx, msg.data, true)
     }
 }
 
@@ -88,9 +89,27 @@ function send(ctx, cmd, data)
 
 function setval(ob, val) {
     var ctx = contexts[ob.context];
-    WebIO.send(ctx, ob.command, val);
+    var x = ctx.observables[ob.name]
+    x.value = val;
+
+    if (ctx.handlers[ob.name] !== undefined) {
+        var f = getHandler(ctx, ob.name);
+        f(ctx, val, false); // run handler client side
+    }
+
+    if (x.sync) {
+        WebIO.send(ctx, ob.name, val);
+    }
 }
 
+function getval(ob) {
+    var ctx = contexts[ob.context];
+    var x = ctx.observables[ob.name]
+    x.value = val;
+    if (x.sync) {
+        WebIO.send(ctx, ob.name, val);
+    }
+}
 
 function message(ctx, cmd, data)
 {
@@ -126,7 +145,7 @@ function sendNotSetUp()
 var WebIO = {
     type: "WebIO",
 
-    // For Base.show or a package to create an element.
+    // For Base.show or a package to print an element.
     mount: mount,
 
     // Create Widget - for use by NodeTypes
@@ -135,7 +154,7 @@ var WebIO = {
     // createNode
     createNode: createNode,
 
-    // For Providers to call when commands are received from Julia
+    // For Providers to call when messages are received from Julia
     dispatch: dispatch,
 
     // Send a message back to the Widget on Julia
@@ -144,7 +163,10 @@ var WebIO = {
     // A variant of send which sets the value of an observable
     setval: setval,
 
-    // given by Provider, to be called when JS needs to send a command to Julia
+    // Get the current value of an observable
+    getval: getval,
+
+    // given by Provider, to be called when JS needs to send a message to Julia
     sendCallback: sendNotSetUp,
 
     triggerConnected: triggerConnected,

@@ -72,7 +72,7 @@ import WebIO: dispatch
                         "data"=>"hi Julia", "context"=>"testctx1"))
 
     msg = Ref("")
-    on(x -> msg[] = x, ctx, :incoming) # setup the handler
+    on(x -> msg[] = x, ctx, "incoming") # setup the handler
 
     # dispatch message again
     dispatch(conn, Dict("command" => "incoming",

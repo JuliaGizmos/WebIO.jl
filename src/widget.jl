@@ -27,7 +27,7 @@ Fields:
 immutable Widget
     id::AbstractString
     outbox::Channel
-    observs::Dict{String, Observable}
+    observs::Dict{String, Tuple{Observable, Bool}} # bool marks if it is synced
     dependencies
     jshandlers
 end
@@ -37,7 +37,7 @@ const contexts = Dict{String, Widget}()
 function Widget(
         id::String=newid("context");
         outbox::Channel=Channel(),
-        observs::Dict=Dict(), # Basically, signals and slots
+        observs::Dict=Dict(),
         dependencies::AbstractArray=[],
         jshandlers::Dict=Dict(),
     )
@@ -49,8 +49,14 @@ function Widget(
     contexts[id] = Widget(id, outbox, observs, dependencies, jshandlers)
 end
 
-function Observables.on(f, ctx::Widget, cmd)
-    listener = Base.@get! ctx.observs cmd Observable{Any}(ctx, cmd, nothing)
+function ensure_julia_updates(w, cmd)
+    ob, _ = w.observs[cmd]
+    w.observs[cmd] = (ob, true) # set synced flag
+end
+
+function Observables.on(f, w::Widget, cmd; sync=false)
+    listener, _ = Base.@get! w.observs cmd (Observable{Any}(w, cmd, nothing), sync)
+    ensure_julia_updates(w, cmd)
     on(f, listener)
 end
 
@@ -58,13 +64,13 @@ end
 # in order to allow interpolation of observables.
 const observ_id_dict = WeakKeyDict()
 
-function (::Type{Observable{T}}){T}(ctx::Widget, cmd, value)
+function (::Type{Observable{T}}){T}(ctx::Widget, cmd, value; sync=false)
     if haskey(ctx.observs, cmd)
         warn("An observable named $cmd already exists in context $(ctx.id).
              Overwriting.")
     end
 
-    o = ctx.observs[cmd] = Observable{T}(value)
+    o,_ = ctx.observs[cmd] = (Observable{T}(value), sync)
 
     # the following metadata is stored for use in interpolation
     # of observables into DOM trees and `@js` expressions
@@ -72,35 +78,20 @@ function (::Type{Observable{T}}){T}(ctx::Widget, cmd, value)
     o
 end
 
-function Observable{T}(ctx::Widget, cmd, val::T)
-    Observable{T}(ctx, cmd, val)
+function Observable{T}(ctx::Widget, cmd, val::T; sync=false)
+    Observable{T}(ctx, cmd, val; sync=sync)
 end
 
 const Observ = Observable
 
 function Base.getindex(c::Widget, cmd)
-    Base.@get! ctx.observs cmd Observable{Any}(ctx, cmd, nothing)
-end
-
-function jsexpr(io, o::Observable)
-    if !haskey(observ_id_dict, o)
-        error("No context associated with observer being interpolated")
-    end
-    _ctx, cmd = observ_id_dict[o]
-    _ctx.value === nothing && error("Widget of the observable no more exists.")
-    ctx = _ctx.value
-
-    obsobj = Dict("type" => "observable",
-                  "context" => ctx.id,
-                  "value" => o[],
-                  "command" => cmd)
-
-    jsexpr(io, obsobj)
+    (Base.@get! ctx.observs cmd (Observable{Any}(ctx, cmd, nothing), false))[1]
 end
 
 function adddeps!(ctx, xs::String)
     push!(ctx.dependencies, xs)
 end
+
 function adddeps!(ctx, xs::AbstractArray)
     append!(ctx.dependencies, xs)
 end
@@ -109,8 +100,16 @@ function JSON.lower(x::Widget)
     Dict(
         "id" => x.id,
         "dependencies" => lowerdeps(x.dependencies),
-        "commands" => x.jshandlers,
+        "handlers" => x.jshandlers,
+        "observables" => Dict(zip(keys(x.observs),
+                                    map(lowerobserv, values(x.observs)))),
     ) # skip the rest
+end
+
+function lowerobserv(ob_)
+    ob, sync = ob_
+    Dict("sync" => sync,
+         "value" => ob[])
 end
 
 function lowerdeps(x::String)
@@ -169,7 +168,7 @@ end
 
 function dispatch(ctx, cmd, data)
     if haskey(ctx.observs, cmd)
-        ctx.observs[cmd][] = data
+        ctx.observs[cmd][1][] = data
     else
         warn("$cmd does not have a handler for context id $(ctx.id)")
     end
