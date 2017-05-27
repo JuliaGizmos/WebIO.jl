@@ -110,7 +110,7 @@ function descendants_count(v::AbstractArray)
     end
     s
 end
-_count(t::String) = 1
+_count(t) = 1
 _count(el::Node) = el._descendants_count + 1
 
 const emptypvec = pvec([])
