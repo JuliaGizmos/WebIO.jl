@@ -26,7 +26,9 @@ end
     @test @js(x[1,"a"]) == js"x[1,\"a\"]"
 
 
-    @test @js(d("x"=1)) == js"{x:1}" # special dict syntax
+    @test @js(d(x=1)) == js"{x:1}" # special dict syntax
+    @test @js(d("x\"y"=1)) == JSString("{\"x\\\"y\":1}")
+    @test @js([1, "xyz"]) == js"[1,\"xyz\"]"
 
     @test @js(1==2) == js"1==2" # special in that it's not wrapped in ()
 

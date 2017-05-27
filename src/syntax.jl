@@ -164,9 +164,16 @@ end
 
 function dict_expr(io, xs)
     print(io, "{")
-    xs = ["$(x.args[1]::AbstractString):"*jsexpr(x.args[2]).s for x in xs]
+    xs = ["$(jsexpr(x.args[1]).s):"*jsexpr(x.args[2]).s for x in xs]
     join(io, xs, ",")
     print(io, "}")
+end
+
+function vect_expr(io, xs)
+    print(io, "[")
+    xs = [jsexpr(x).s for x in xs]
+    join(io, xs, ",")
+    print(io, "]")
 end
 
 function if_block(io, ex)
@@ -215,6 +222,7 @@ function jsexpr(io, x::Expr)
         $(Expr(:function, :__)) => func_expr(io, x.args...)
         a_[] => obs_get_expr(io, a)
         a_[i__] => ref_expr(io, a, i...)
+        [xs__] => vect_expr(io, xs)
         (@m_ xs__) => jsexpr(io, macroexpand(WebIO, x))
         (return a_) => (print(io, "return "); jsexpr(io, a))
         $(Expr(:new, :_)) => (print(io, "new "); jsexpr(io, x.args[1]))
