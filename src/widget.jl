@@ -124,6 +124,8 @@ function lowerdeps(x::String)
     end
 end
 
+lowerdeps(x::Dict) = x
+
 lowerdeps(xs::AbstractArray) = map(lowerdeps, xs)
 
 function send(ctx::Widget, cmd, data)
