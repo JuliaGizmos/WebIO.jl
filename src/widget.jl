@@ -149,7 +149,7 @@ end
 function after(ctx::Widget, promise_name, expr)
     @evaljs ctx begin
         context.promises[$promise_name].
-            then($expr)
+            then((val) -> ($expr)(val, context))
     end
 end
 
