@@ -4,8 +4,7 @@ export Widget,
        AbstractConnection,
        withcontext,
        Observable,
-       handle!,
-       handlejs!,
+       setobservable!,
        on, onjs,
        adddeps!,
        after
@@ -64,18 +63,22 @@ end
 # in order to allow interpolation of observables.
 const observ_id_dict = WeakKeyDict()
 
-function (::Type{Observable{T}}){T}(ctx::Widget, cmd, value; sync=false)
+function setobservable!(ctx, cmd, obs; sync=!isempty(obs.listeners))
     if haskey(ctx.observs, cmd)
         warn("An observable named $cmd already exists in context $(ctx.id).
              Overwriting.")
     end
 
-    o,_ = ctx.observs[cmd] = (Observable{T}(value), sync)
+    ctx.observs[cmd] = (obs, sync)
 
     # the following metadata is stored for use in interpolation
     # of observables into DOM trees and `@js` expressions
-    observ_id_dict[o]  = (WeakRef(ctx), cmd)
-    o
+    observ_id_dict[obs]  = (WeakRef(ctx), cmd)
+    obs
+end
+
+function (::Type{Observable{T}}){T}(ctx::Widget, cmd, value; sync=false)
+    setobservable!(ctx, cmd, Observable{T}(value), sync=sync)
 end
 
 function Observable{T}(ctx::Widget, cmd, val::T; sync=false)
