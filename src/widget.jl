@@ -26,7 +26,7 @@ Fields:
 immutable Widget
     id::AbstractString
     outbox::Channel
-    observs::Dict{String, Tuple{Observable, Bool}} # bool marks if it is synced
+    observs::Dict{String, Tuple{Observable, Union{Void,Bool}}} # bool marks if it is synced
     dependencies
     jshandlers
 end
@@ -48,14 +48,8 @@ function Widget(
     contexts[id] = Widget(id, outbox, observs, dependencies, jshandlers)
 end
 
-function ensure_julia_updates(w, cmd)
-    ob, _ = w.observs[cmd]
-    w.observs[cmd] = (ob, true) # set synced flag
-end
-
-function Observables.on(f, w::Widget, cmd; sync=false)
-    listener, _ = Base.@get! w.observs cmd (Observable{Any}(w, cmd, nothing), sync)
-    ensure_julia_updates(w, cmd)
+function Observables.on(f, w::Widget, cmd)
+    listener, _ = Base.@get! w.observs cmd (Observable{Any}(w, cmd, nothing), nothing)
     on(f, listener)
 end
 
@@ -63,7 +57,7 @@ end
 # in order to allow interpolation of observables.
 const observ_id_dict = WeakKeyDict()
 
-function setobservable!(ctx, cmd, obs; sync=!isempty(obs.listeners))
+function setobservable!(ctx, cmd, obs; sync=nothing)
     if haskey(ctx.observs, cmd)
         warn("An observable named $cmd already exists in context $(ctx.id).
              Overwriting.")
@@ -77,18 +71,18 @@ function setobservable!(ctx, cmd, obs; sync=!isempty(obs.listeners))
     obs
 end
 
-function (::Type{Observable{T}}){T}(ctx::Widget, cmd, value; sync=false)
+function (::Type{Observable{T}}){T}(ctx::Widget, cmd, value; sync=nothing)
     setobservable!(ctx, cmd, Observable{T}(value), sync=sync)
 end
 
-function Observable{T}(ctx::Widget, cmd, val::T; sync=false)
+function Observable{T}(ctx::Widget, cmd, val::T; sync=nothing)
     Observable{T}(ctx, cmd, val; sync=sync)
 end
 
 const Observ = Observable
 
 function Base.getindex(c::Widget, cmd)
-    (Base.@get! ctx.observs cmd (Observable{Any}(ctx, cmd, nothing), false))[1]
+    (Base.@get! ctx.observs cmd (Observable{Any}(ctx, cmd, nothing), nothing))[1]
 end
 
 function adddeps!(ctx, xs::String)
@@ -111,6 +105,11 @@ end
 
 function lowerobserv(ob_)
     ob, sync = ob_
+    if sync === nothing
+        # by default, we sync if there are any listeners
+        # other than the JS back edge
+        sync = any(f-> !isa(f, Backedge), ob.listeners)
+    end
     Dict("sync" => sync,
          "value" => ob[])
 end
@@ -173,7 +172,7 @@ end
 
 function dispatch(ctx, cmd, data)
     if haskey(ctx.observs, cmd)
-        ctx.observs[cmd][1][] = data
+        Observables.setexcludinghandlers(ctx.observs[cmd][1], data, x->!isa(x, Backedge))
     else
         warn("$cmd does not have a handler for context id $(ctx.id)")
     end
@@ -181,9 +180,18 @@ end
 
 onjs(ctx, cmd, f) = ctx.jshandlers[cmd] = f
 
+# Backedge denotes that the function updates the
+# counter part of the same observable. When we
+# receive messages from the client, we skip updating
+# the backedges using Observables.setexcludinghandlers
+immutable Backedge
+    f
+end
+
+(s::Backedge)(xs...) = s.f(xs...)
 function ensure_js_updates(ctx, cmd, ob)
-    f = (msg) -> send(ctx, cmd, msg)
-    if !(f in ob.listeners) # XXX: brittle for 2 reasons
+    if !any(x->isa(x, Backedge), ctx.observs[cmd][1].listeners)
+        f = Backedge((msg) -> send(ctx, cmd, msg))
         on(f, ob)
     end
 end
