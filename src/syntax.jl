@@ -207,6 +207,7 @@ end
 
 function jsexpr(io, x::Expr)
     isexpr(x, :block) && return block_expr(io, rmlines(x).args)
+    x = rmlines(x)
     @match x begin
         d(xs__) => dict_expr(io, xs)
         $(Expr(:comparison, :_, :(==), :_)) => jsexpr_joined(io, [x.args[1], x.args[3]], "==")    # 0.4
@@ -224,7 +225,7 @@ function jsexpr(io, x::Expr)
         a_[i__] => ref_expr(io, a, i...)
         [xs__] => vect_expr(io, xs)
         (@m_ xs__) => jsexpr(io, macroexpand(WebIO, x))
-        (return a_) => (print(io, "return "); jsexpr(io, a))
+        (return a__) => (print(io, "return "); !isempty(a) && a[1] !== nothing && jsexpr(io, a...))
         $(Expr(:new, :_)) => (print(io, "new "); jsexpr(io, x.args[1]))
         $(Expr(:var, :_)) => (print(io, "var "); jsexpr(io, x.args[1]))
         _ => error("JSExpr: Unsupported `$(x.head)` expression, $x")

@@ -40,6 +40,8 @@ end
     @test @js(x=1) == js"x=1"
 
     @test @js(x->x) == js"(function (x){return x})"
+    @test @js(x->begin x
+              return end) == js"(function (x){x; return })"
     @test @js(x->(1; return x+1)) == js"(function (x){1; return (x+1)})"
     @test @js(function (x) x+1; end) == js"(function (x){return (x+1)})"
     
