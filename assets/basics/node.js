@@ -250,9 +250,11 @@ function createWidget(ctx, data) {
 
     if (handlers) {
         for (var cmd in handlers) {
-            var code = handlers[cmd];
-            var f = new Function("context", "data", "(" + code + ")(context, data)");
-            command_funcs[cmd] = f;
+            var codes = handlers[cmd];
+            var fs = codes.map(function (code) {
+                return new Function("context", "data", "(" + code + ")(context, data)");
+            })
+            command_funcs[cmd] = fs;
         }
     }
     var subctx = WebIO.makeWidget(data.instanceArgs.id, ctx.data,

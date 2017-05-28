@@ -26,23 +26,23 @@ function createNode(context, data, parentNode)
            .create(context, data, parentNode)
 }
 
-function getHandler(ctx, cmd)
+function getHandlers(ctx, cmd)
 {
-    var f = ctx.handlers[cmd];
-    if (typeof f !== "undefined") {
-        return f;
+    var fs = ctx.handlers[cmd];
+    if (typeof fs !== "undefined") {
+        return fs;
     }
     var parts = cmd.split('.');
     var inherit = WebIO.CommandSets;
     if (inherit && inherit[parts[0]]) {
-        f = inherit[parts[0]][parts[1]]
-        if (typeof f !== "undefined") {
-            return f;
+        fs = inherit[parts[0]][parts[1]]
+        if (typeof fs !== "undefined") {
+            return [fs];
         }
     }
-    return function (ctx, data) {
-        console.warn("No handler found for " + cmd, " Conext: ", ctx)
-    }
+    return [function () {
+        console.error("Invalid command ", cmd, "received for context", ctx)
+    }]
 }
 
 
@@ -52,8 +52,11 @@ function dispatch(msg)
         console.warn("invalid message received", msg)
     } else {
         var ctx = contexts[msg.context];
-        var f = getHandler(ctx, msg.command);
-        f(ctx, msg.data, true)
+        var fs = getHandlers(ctx, msg.command);
+        for (var i=0, l=fs.length; i<l; i++) {
+            f = fs[i]
+            f(ctx, msg.data, false) // false for "not client-side"
+        }
     }
 }
 
@@ -93,8 +96,11 @@ function setval(ob, val) {
     x.value = val;
 
     if (ctx.handlers[ob.name] !== undefined) {
-        var f = getHandler(ctx, ob.name);
-        f(ctx, val, false); // run handler client side
+        var fs = ctx.handlers[ob.name];
+        for (var i=0, l=fs.length; i<l; i++) {
+            f = fs[i]
+            f(ctx, val, true) // true for "client-side"
+        }
     }
 
     if (x.sync) {

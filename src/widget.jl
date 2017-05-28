@@ -178,21 +178,24 @@ function dispatch(ctx, cmd, data)
     end
 end
 
-onjs(ctx, cmd, f) = ctx.jshandlers[cmd] = f
+function onjs(ctx, cmd, f)
+    push!(Base.@get!(ctx.jshandlers, cmd, []), f)
+end
 
 # Backedge denotes that the function updates the
 # counter part of the same observable. When we
 # receive messages from the client, we skip updating
 # the backedges using Observables.setexcludinghandlers
 immutable Backedge
+    ctx
     f
 end
 
 (s::Backedge)(xs...) = s.f(xs...)
 function ensure_js_updates(ctx, cmd, ob)
-    if !any(x->isa(x, Backedge), ctx.observs[cmd][1].listeners)
-        f = Backedge((msg) -> send(ctx, cmd, msg))
-        on(f, ob)
+    if !any(x->isa(x, Backedge) && x.ctx==ctx, ctx.observs[cmd][1].listeners)
+        f = Backedge(ctx, (msg) -> send(ctx, cmd, msg))
+        on(Backedge(ctx, f), ob)
     end
 end
 
