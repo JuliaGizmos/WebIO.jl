@@ -1,6 +1,7 @@
 using Blink
+using WebIO
 
-immutable BlinkConnection <: AbstractConnection
+immutable BlinkConnection <: WebIO.AbstractConnection
     page::Page
 end
 

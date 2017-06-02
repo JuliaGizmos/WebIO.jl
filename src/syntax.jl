@@ -164,7 +164,15 @@ end
 
 function dict_expr(io, xs)
     print(io, "{")
-    xs = ["$(jsexpr(x.args[1]).s):"*jsexpr(x.args[2]).s for x in xs]
+    xs = map(xs) do x
+        if x.head == :(=)
+            "$(jsexpr(x.args[1]).s):"*jsexpr(x.args[2]).s
+        elseif x.head == :call && x.args[1] == :(=>)
+            "$(jsexpr(x.args[2]).s):"*jsexpr(x.args[3]).s
+        else
+            error("Invalid pair separator in dict expression")
+        end
+    end
     join(io, xs, ",")
     print(io, "}")
 end
