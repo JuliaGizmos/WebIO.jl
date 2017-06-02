@@ -35,7 +35,7 @@ const contexts = Dict{String, Widget}()
 
 function Widget(
         id::String=newid("context");
-        outbox::Channel=Channel(),
+        outbox::Channel=Channel{Any}(32),
         observs::Dict=Dict(),
         dependencies::AbstractArray=[],
         jshandlers::Dict=Dict(),

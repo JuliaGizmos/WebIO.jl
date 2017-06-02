@@ -1,4 +1,5 @@
-abstract AbstractConnection
+using Compat
+@compat abstract type AbstractConnection end
 
 function send(c::AbstractConnection, msg)
     error("No send method for connection of type $(typeof(c))")
