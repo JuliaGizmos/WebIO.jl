@@ -1,7 +1,5 @@
 using FunctionalCollections
-using AbstractTrees
 
-import AbstractTrees: children
 import FunctionalCollections: append
 export Node, instanceof, props
 

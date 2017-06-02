@@ -1,7 +1,6 @@
 julia 0.5
 JSON
 FunctionalCollections
-AbstractTrees
 Lazy
 MacroTools
 Observables
