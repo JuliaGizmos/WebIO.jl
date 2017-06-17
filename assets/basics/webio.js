@@ -55,7 +55,7 @@ function dispatch(msg)
         var fs = getHandlers(ctx, msg.command);
         for (var i=0, l=fs.length; i<l; i++) {
             f = fs[i]
-            f(ctx, msg.data, false) // false for "not client-side"
+            f.call(ctx, msg.data, false) // false for "not client-side"
         }
     }
 }
@@ -99,7 +99,7 @@ function setval(ob, val) {
         var fs = ctx.handlers[ob.name];
         for (var i=0, l=fs.length; i<l; i++) {
             f = fs[i]
-            f(ctx, val, true) // true for "client-side"
+            f.call(ctx, val, true) // true for "client-side"
         }
     }
 
@@ -129,7 +129,7 @@ function message(ctx, cmd, data)
 
 var connected_callbacks=[];
 function onConnected(f) {
-    if(WebIO._connected) {
+    if (WebIO._connected) {
         setTimeout(f, 0);
     } else {
         connected_callbacks[connected_callbacks.length]=f;

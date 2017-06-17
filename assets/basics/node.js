@@ -133,6 +133,7 @@ function makeEventHandler(context, value)
 
     var options = value.options;
     var code = value.code;
+    var f = new Function("event", "context", "(" + code + ").call(this, event, context)");
 
     function eventHandler(event) {
         if (options.stopPropagation) {
@@ -143,7 +144,6 @@ function makeEventHandler(context, value)
         }
 
         // http://stackoverflow.com/questions/1271516/executing-anonymous-functions-created-using-javascript-eval
-        var f = new Function("event", "context", "(" + code + ").call(this, event, context)");
         f.call(this, event, context);
     }
 
@@ -252,7 +252,7 @@ function createWidget(ctx, data) {
         for (var cmd in handlers) {
             var codes = handlers[cmd];
             var fs = codes.map(function (code) {
-                return new Function("context", "data", "(" + code + ")(context, data)");
+                return new Function("data", "(" + code + ")(data)");
             })
             command_funcs[cmd] = fs;
         }

@@ -361,8 +361,8 @@ timestr() = Dates.format(now(), "HH:MM:SS")
 end
 
 # on every update to `obs`, replace the text content of #clock
-onjs(obs, @js (wid, val) -> begin
-    @var clock = wid.dom.querySelector("#clock")
+onjs(obs, @js val -> begin
+    @var clock = this.dom.querySelector("#clock")
     clock.textContent = val
 end)
 
@@ -373,8 +373,5 @@ w(
 )
 ```
 
-The javascript function passed to `onjs` gets 2 arguments:
-
-1. the `Widget` object (`wid`)
-2. The value of the update. Notice the use of `wid.dom.querySelector("#clock")`. `wid.dom` contains the rendered DOM of the widget. `querySelector("#<id>"` will look up the element which has the id `<id>`. `clock.textContent = val` will set the text contained in `clock`, the DOM element.
+The javascript function passed to `onjs` gets the value of the update as the argument. `this` is set to the Widget object. Notice the use of `this.dom.querySelector("#clock")`. `this.dom` contains the rendered DOM of the widget. `querySelector("#<id>")` will look up the element which has the id `<id>`. `clock.textContent = val` will set the text contained in `clock`, the DOM element.
 
