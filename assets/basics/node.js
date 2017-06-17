@@ -263,7 +263,7 @@ function createWidget(ctx, data) {
     var imports = data.instanceArgs.dependencies;
 
     var depsPromise = doImports(imports);
-    subctx.promises.dependenciesLoaded = depsPromise;
+    subctx.promises.dependenciesLoaded = depsPromise
     subctx.promises.connected = new Promise(function (accept, reject) {
         WebIO.onConnected(function () {
             // internal message to notify julia
@@ -296,8 +296,9 @@ WebIO.NodeTypes = {
 
 WebIO.CommandSets = {
     Basics: {
-        eval: function (context, data) {
-            eval(data)
+        eval: function (code) {
+            var f = new Function(code);
+            f.call(this);
         }
     }
 };

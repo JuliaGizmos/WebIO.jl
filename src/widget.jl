@@ -6,6 +6,7 @@ export Widget,
        Observable,
        setobservable!,
        on, onjs,
+       ondependencies,
        adddeps!,
        after
 
@@ -147,9 +148,14 @@ end
 
 function after(ctx::Widget, promise_name, expr)
     @evaljs ctx begin
-        context.promises[$promise_name].
-            then((val) -> ($expr)(val, context))
+        @var widget = this;
+        this.promises[$promise_name].
+            then(val -> $expr.call(widget, val))
     end
+end
+
+function ondependencies(ctx, f)
+    after(ctx, "dependenciesLoaded", @js deps -> $f.apply(this, deps))
 end
 
 const waiting_messages = Dict{String, Condition}()

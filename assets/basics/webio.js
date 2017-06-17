@@ -52,9 +52,12 @@ function dispatch(msg)
         console.warn("invalid message received", msg)
     } else {
         var ctx = contexts[msg.context];
+        console.log(msg)
         var fs = getHandlers(ctx, msg.command);
+        console.log(fs)
         for (var i=0, l=fs.length; i<l; i++) {
-            f = fs[i]
+            var f = fs[i]
+            debugger;
             f.call(ctx, msg.data, false) // false for "not client-side"
         }
     }

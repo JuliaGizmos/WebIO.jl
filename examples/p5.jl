@@ -2,10 +2,9 @@ using WebIO
 setup_provider("mux")
 
 function myapp(req)
-    withcontext(Context()) do ctx
+    withcontext(Widget()) do ctx
         adddeps!(ctx, ["//cdnjs.cloudflare.com/ajax/libs/p5.js/0.5.7/p5.js"])
-        sketch = @js function (deps)
-            @var p5 = deps[0]
+        sketch = @js function (p5)
             @var s = function(p)
                 @var barWidth = 20
                 @var lastBar = -1
@@ -19,18 +18,18 @@ function myapp(req)
 
                 p.draw = function ()
                     @var whichBar = p.mouseX / barWidth
+                    @var barX = whichBar * barWidth;
                     if whichBar != lastBar
-                       @var barX = whichBar * barWidth;
                        p.fill(p.mouseY, p.height, p.height)
                        p.rect(barX, 0, barWidth, p.height)
                        lastBar = whichBar
                    end
                 end
             end
-            document.querySelector("#p5container").innerText = "";
-            @var myp5 = @new p5(s, "p5container");
+            this.dom.querySelector("#p5container").innerText = "";
+            @new p5(s, "p5container");
         end
-        after(ctx, "dependenciesLoaded", sketch)
+        ondependencies(ctx, sketch)
 
         dom"div#p5container"("Loading p5...")
     end
