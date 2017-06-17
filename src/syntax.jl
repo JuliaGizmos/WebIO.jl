@@ -36,7 +36,7 @@ end
 
 # copied from Blink.jl by Mike Innes
 
-using Lazy, JSON, MacroTools
+using JSON, MacroTools
 export JSString
 
 jsexpr(io, x) = JSON.print(io, x)

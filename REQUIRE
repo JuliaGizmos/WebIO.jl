@@ -2,6 +2,5 @@ julia 0.5
 Compat 0.17
 JSON
 FunctionalCollections
-Lazy
 MacroTools
 Observables
