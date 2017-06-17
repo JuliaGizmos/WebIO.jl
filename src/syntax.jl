@@ -165,7 +165,7 @@ end
 function dict_expr(io, xs)
     print(io, "{")
     xs = map(xs) do x
-        if x.head == :(=)
+        if x.head == :(=) || x.head == :kw
             "$(jsexpr(x.args[1]).s):"*jsexpr(x.args[2]).s
         elseif x.head == :call && x.args[1] == :(=>)
             "$(jsexpr(x.args[2]).s):"*jsexpr(x.args[3]).s
