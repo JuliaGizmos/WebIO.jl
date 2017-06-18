@@ -43,6 +43,12 @@ end
     @test props(n1) == Dict(:prop=>"x")
 end
 
+WebIO.devsetup()
+try
+    WebIO.bundlejs(watch=false)
+catch err
+end
+
 include("syntax.jl")
 include("communication.jl")
 include("blink-tests.jl")
