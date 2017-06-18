@@ -89,7 +89,7 @@ To create UIs with WebIO, we need to create something called [DOM](https://devel
 would be represented as:
 
 ```julia
-Node(:div, "Hello, World!", className="myDiv", id="myId")
+dom"div"("Hello, World!", className="myDiv", id="myId")
 ```
 
 In the DOM. This is of course, a virtual representation of the DOM in Julia. WebIO can take care of rendering that to the actual DOM inside a browser-based interface. (See setting up display section above to learn how to set up WebIO to display things)
@@ -103,14 +103,14 @@ Specifically, here, the `class` attribute reflects as the `className` property o
 
 For example,
 ```julia
-Node(:div, "Hello, World!", attributes=Dict("class"=>"myDiv"))
+dom"div"("Hello, World!", attributes=Dict("class"=>"myDiv"))
 ```
 
 Another difference between HTML and DOM worth noting is in `style`
 
 The purpose of `style` attribute or property is to define some [CSS](https://en.wikipedia.org/wiki/Cascading_Style_Sheets) that gives some style to a DOM node. The `style` *property* is a dictionary mapping properties to values. Whereas the `style` attribute in HTML is a string containing the CSS of the style!
 
-Therefore, `<div style="background-color: black; color: white"></div>` in HTML is equivalent to `Node(:div, style=Dict(:color=>white, :backgroundColor=>"black"))`. Hiphenated CSS properties like 'background-color' are camelCased in the DOM version.
+Therefore, `<div style="background-color: black; color: white"></div>` in HTML is equivalent to `dom"div"(style=Dict(:color=>white, :backgroundColor=>"black"))`. Hiphenated CSS properties like 'background-color' are camelCased in the DOM version.
 
 ### The `dom""` macro
 
@@ -131,12 +131,12 @@ Everything except the tag ('div' in the example) is optional. So,
 
 `dom"div"`, `dom"div.class1"`, `dom"div.class1.class2"`, `dom"div#my-id`, `dom"input.check[type=checkbox]"` are all valid invocations.
 
-Todo list example
------------------
+WebIO.render
+------------
 
-This section gives an example of how you can use WebIO to create a rich display for your types. As an example, let's consider a Todo list as an example.
+WebIO exports `WebIO.render` generic function which can be extended to define how to render something into WebIO's DOM. Think of it as a better version of `show(io::IO, m::MIME"text/html", x)`.
 
-Presumably, a todo item would need to store at least two fields: a `description`, and a boolean `done` indicating whether the task is completed or not.
+For example, a TodoItem type like:
 
 ```julia
 immutable TodoItem
@@ -145,34 +145,7 @@ immutable TodoItem
 end
 ```
 
-A todo list would naturally contain a vector of `TodoItem`s and possibly a `title` field.
-
-```julia
-immutable TodoList
-    title::String
-    list::Vector{TodoItem}
-end
-```
-
-The `TodoItem` and `TodoList` types together can represent the state of our todo app. For example,
-
-```julia
-mylist = TodoList("My todo list",
-    [TodoItem("Make my first WebIO widget", false),
-     TodoItem("Make a pie", false)])
-
-```
-
-In web framework jargon the these types together would be called the `Model` (as in [Model-View-Controller](https://en.wikipedia.org/wiki/Model_view_controller)) of the app.
-
-Let's start building the pieces we require for a todo list UI using WebIO.
-
-
-### Showing a todo item
-
-Let's come back to our example of creating a todo list app with our newfound knowledge of how to create some output with WebIO.
-
-WebIO defines a `render` generic function. The purpose of `render` is to define how any Julia object can be rendered to something WebIO can display. Hence, we should define how elements of our Todo app are rendered by adding [methods](http://docs.julialang.org/en/release-0.5/manual/methods/) to `render`. First, the TodoItem:
+Could have a render method that looks like this:
 
 ```julia
 import WebIO.render
@@ -186,22 +159,21 @@ function render(todoitem::TodoItem)
 end
 ```
 
-Let's see how this renders:
+A todo list would naturally contain a vector of `TodoItem`s and possibly a `title` field.
 
 ```julia
-render(TodoItem("Make my first WebIO widget", true))
+immutable TodoList
+    title::String
+    list::Vector{TodoItem}
+end
+
+mylist = TodoList("My todo list",
+    [TodoItem("Make my first WebIO widget", false),
+     TodoItem("Make a pie", false)])
+
 ```
 
-The render function can also be thought of as a template. An HTML version of this template might look like:
-
-```html
-<div style="display:flex; flex-direction: horizontal">
-    <input type="checkbox" checked={{todoitem.done}}>
-    {{todoitem.description}}
-</div>
-```
-
-Second, we define how a TodoList is rendered:
+The `render` method for `TodoList` can nest calls to render on `TodoItem`s.
 
 ```julia
 function render(list::TodoList)
@@ -214,17 +186,16 @@ function render(list::TodoList)
 end
 ```
 
-```julia
-mylist = TodoList("My todo list",
-    [TodoItem("Make my first WebIO widget", false),
-     TodoItem("Make a pie", false)])
+## Executing JavaScript
 
-render(mylist)
+Interaction with the DOM can be set up via event handlers. Event handlers can be set up by passing a dict as the `events` keyword argument to the `dom""` constructor. For example,
+
+```julia
+dom"button"("Greet",
+     events=Dict("click" => js"function (event) { alert('Hello, World!') }"))
 ```
 
-## Setting up event handlers
-
-To interact with the DOM objects we create, we need to add "event handlers" to them. Each event has its own name, and the handler itself is a function written in JavaScript. We can assign event handlers to a DOM node using the `events` property. This property must be set to a `Dict` where the keys denote the event name and the values are JavaScript function expressions.
+This will create a button which will show a dialog box with the message "Hello, World!" when clicked.
 
 There are 2 ways of creating JavaScript expressions with WebIO.
 
@@ -232,7 +203,7 @@ First, you can use the `js""` string macro to just write any JavaScript as a str
 
 ```
 js"""
-alert("hello, world!")
+alert("Hello, World!")
 """
 ```
 
@@ -240,46 +211,54 @@ This will return an object of type `JSExpr` which can be used anywhere WebIO exp
 
 The second way is to use the `@js` macro. `@js` macro can translate Julia expressions to JavaScript expressions (`JSExpr`). For example,
 
+```julia
+@js alert("Hello, World!")
 ```
-@js alert("hello, world!")
-```
+
 or
 
-```
+```julia
 @js Math.rand()
 ```
 
-Note that this is just a translation and not compilation. The variables and functions you reference in a `@js` function must be defined in the JavaScript context it will run in (and need not be defined in Julia).
+The same example could have been written using `@js` like this:
 
-So, to sum it up, here are the two ways you can add an event listener:
-
-```julia
-dom"div"("show my messages",
-    events=Dict(
-      "click" => js"""
-        function () {
-          alert("Nice, you have no messages.");
-        }
-      """
-    )
-)
-```
-
-or
 
 ```julia
-dom"div"("show my messages",
-    events=Dict(
-      "click" => @js () -> alert("Nice, you have no messages.")
-    )
-)
+dom"button"("Greet",
+     events=Dict("click" => @js event -> alert("Hello, World!")))
 ```
 
-Below, we will use this to start making the todo app interactive and useful.
+Note that `@js` just translates a Julia expression to the equivalent JavaScript, it does not compile the code. The variables and functions you reference in a `@js` expression must be defined in the JavaScript context it will run in (and need not be defined in Julia).
 
-## Widgets and communication
+## Loading JavaScript dependencies
 
-To create DOM elements which can interact with Julia, we will need a Widget object.
+
+You can load dependencies by creating a Widget object and passing in `dependencies` argument.
+
+```julia
+w = Widget(dependencies=["//cdnjs.cloudflare.com/ajax/libs/p5.js/0.5.11/p5.js"])
+
+ondependencies(w, @js function (p5)
+    function sketch(s)
+        s.setup = () -> s.createCanvas(640, 480)
+
+        s.draw = function ()
+          if s.mouseIsPressed
+            s.fill(0)
+          else
+            s.fill(255)
+          end
+          s.ellipse(s.mouseX, s.mouseY, 80, 80)
+        end
+    end
+    @new p5(sketch, this.dom.querySelector("#container"))
+end)
+
+w(dom"div#container"())
+```
+
+## Communicating between Julia and JavaScript
 
 ```julia
 w = Widget()
