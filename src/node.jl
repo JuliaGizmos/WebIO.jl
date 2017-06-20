@@ -72,7 +72,13 @@ append(n::Node, cs) = setchildren(n, append(children(n), cs))
 setchild(n::Node, i, c) = setchildren(n, assoc(children(n), i, c))
 withchild(f, n::Node, i) = setchild(n, i, f(children(n)[i]))
 withlastchild(f, n::Node) = setchild(n, length(children(n)), f(children(n)[i]))
-mergeprops(n::Node, ps) = setprops(n, recmerge(props(n), ps))
+function mergeprops(n::Node, p, ps...)
+    out = recmerge(props(n), p)
+    for x in ps
+        recmerge!(out, x)
+    end
+    setprops(n, out)
+end
 
 using JSON
 
@@ -113,3 +119,10 @@ _count(el::Node) = el._descendants_count + 1
 
 const emptypvec = pvec([])
 const emptydict = Dict{Symbol,Any}()
+
+## Element extension syntax
+
+(n::Node)(x, args...) = append(n, (x, args...))
+(n::Node)(props::Associative...) = mergeprops(n, props...)
+(n::Node)(;kwargs...) = mergeprops(n, kwargs)
+(n::Node)(args...; kwargs...) = n(args...)(;kwargs...)

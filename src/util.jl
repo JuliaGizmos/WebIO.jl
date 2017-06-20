@@ -10,16 +10,17 @@ end
 _pvec(x::PersistentVector) = x
 _pvec(x::AbstractArray) = pvec(x)
 
-# b can be array of pairs / kwargs
-function recmerge(a, b)
-    c = Dict{Any, Any}(a) # XXX: should we enforce all props to be strings?
+# b can be array of pairs / kwargs etc.
+function recmerge!(a, b, f=recmerge!)
     for (k, v) in b
         if isa(v, Associative) && haskey(a, k) && isa(a[k], Associative)
-            c[k] = recmerge(a[k], v)
+            a[k] = f(a[k], v)
         else
-            c[k] = v
+            a[k] = v
         end
     end
-    c
+    a
 end
+
+recmerge(a, b) = recmerge!(Dict{Any, Any}(a), b, recmerge)
 

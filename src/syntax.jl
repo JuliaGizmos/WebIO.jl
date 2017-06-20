@@ -21,7 +21,8 @@ end
 
 function makedom(tag, props)
     function dom(args...; kwargs...)
-        mergeprops(Node(tag, [args...], props), Dict(kwargs))
+        n = Node(tag, args...)(Dict(kwargs))
+        isempty(props) ? n : n(props)
     end
 end
 
@@ -245,9 +246,3 @@ end
 macro new(x) esc(Expr(:new, x)) end
 macro var(x) esc(Expr(:var, x)) end
 
-
-## Element extension syntax
-
-(n::Node)(x, args...) = append(n, (x, args...))
-(n::Node)(;kwargs...) = mergeprops(n, kwargs)
-(n::Node)(args...; kwargs...) = n(args...)(;kwargs...)
