@@ -252,7 +252,7 @@ function createWidget(ctx, data) {
         for (var cmd in handlers) {
             var codes = handlers[cmd];
             var fs = codes.map(function (code) {
-                return new Function("data", "(" + code + ")(data)");
+                return new Function("data", "(" + code + ").call(this,data)");
             })
             command_funcs[cmd] = fs;
         }

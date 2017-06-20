@@ -57,8 +57,7 @@ function dispatch(msg)
         console.log(fs)
         for (var i=0, l=fs.length; i<l; i++) {
             var f = fs[i]
-            debugger;
-            f.call(ctx, msg.data, false) // false for "not client-side"
+            f.apply(ctx, [msg.data, false]) // false for "not client-side"
         }
     }
 }
@@ -101,8 +100,8 @@ function setval(ob, val) {
     if (ctx.handlers[ob.name] !== undefined) {
         var fs = ctx.handlers[ob.name];
         for (var i=0, l=fs.length; i<l; i++) {
-            f = fs[i]
-            f.call(ctx, val, true) // true for "client-side"
+            var f = fs[i]
+            f.apply(ctx, [val, true]) // true for "client-side"
         }
     }
 
