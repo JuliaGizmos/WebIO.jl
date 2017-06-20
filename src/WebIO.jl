@@ -20,6 +20,10 @@ Generic function that defines how a Julia object is rendered. Should return a
 `Node` object.
 """
 function render end
+render(x::Node) = x
+render(x::Text) = dom"span"(x.content)
+render(x::String) = render(Text(x))
+
 function setup_provider(name)
     include(joinpath(dirname(@__FILE__), "providers", "$(name)_setup.jl"))
 end
