@@ -150,6 +150,32 @@ function sendNotSetUp()
     console.error("WebIO.sendCallback not set up")
 }
 
+// Add an html string as the contents of an element
+// and ensure any scripts get run. Adding with innerHTML
+// doesn't run scripts. Ref: https://stackoverflow.com/a/42628703
+function setInnerHtml(elm, html) {
+  elm.innerHTML = html;
+  var scripts = elm.getElementsByTagName("script");
+  // If we don't clone the results then "scripts"
+  // will actually update live as we insert the new
+  // tags, and we'll get caught in an endless loop
+  var scriptsClone = [];
+  for (var i = 0; i < scripts.length; i++) {
+    scriptsClone.push(scripts[i]);
+  }
+  for (var i = 0; i < scriptsClone.length; i++) {
+    var currentScript = scriptsClone[i];
+    var s = document.createElement("script");
+    // Copy all the attributes from the original script
+    for (var j = 0; j < currentScript.attributes.length; j++) {
+      var a = currentScript.attributes[j];
+      s.setAttribute(a.name, a.value);
+    }
+    s.appendChild(document.createTextNode(currentScript.innerHTML));
+    currentScript.parentNode.replaceChild(s, currentScript);
+  }
+}
+
 var WebIO = {
     type: "WebIO",
 
@@ -179,11 +205,12 @@ var WebIO = {
 
     triggerConnected: triggerConnected,
 
-    onConnected: onConnected
+    onConnected: onConnected,
+
+    setInnerHtml: setInnerHtml
 };
 
 if (window) {
     window.WebIO = WebIO;
 }
 module.exports = WebIO
-
