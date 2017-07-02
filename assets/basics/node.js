@@ -260,6 +260,11 @@ function createWidget(ctx, data) {
     var subctx = WebIO.makeWidget(data.instanceArgs.id, ctx.data,
                              ctx.sendCallback, fragment, command_funcs, observables);
 
+    if (command_funcs["preDependencies"]) {
+        var fs = command_funcs["preDependencies"]
+        fs.map(function (f){ f() })
+    }
+
     var imports = data.instanceArgs.dependencies;
 
     var depsPromise = doImports(imports);
