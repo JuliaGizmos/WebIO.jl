@@ -207,7 +207,9 @@ var WebIO = {
 
     onConnected: onConnected,
 
-    setInnerHtml: setInnerHtml
+    attrUtils: {
+        setInnerHtml: setInnerHtml
+    }
 };
 
 if (window) {

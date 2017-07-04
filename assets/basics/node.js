@@ -51,6 +51,8 @@ function applyAttrs(domNode, attrs)
         var val = attrs[key];
         if (val === null) { // should be undefined
             domNode.removeAttribute(key);
+        } else if (WebIO.attrUtils[key]){
+            WebIO.attrUtils[key](domNode, val);
         } else {
             domNode.setAttribute(key, val);
         }
