@@ -281,6 +281,7 @@ function createWidget(ctx, data) {
 
     depsPromise.then(function (deps) {
         appendChildren(subctx, fragment, data.children);
+        WebIO.send(subctx, "widget_created", {})
     })
 
     return fragment;
