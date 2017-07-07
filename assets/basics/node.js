@@ -262,10 +262,7 @@ function createWidget(ctx, data) {
     var subctx = WebIO.makeWidget(data.instanceArgs.id, ctx.data,
                              ctx.sendCallback, fragment, command_funcs, observables);
 
-    if (command_funcs["preDependencies"]) {
-        var fs = command_funcs["preDependencies"]
-        fs.map(function (f){ f() })
-    }
+    notifyall("preDependencies", {}, subctx, command_funcs)
 
     var imports = data.instanceArgs.dependencies;
 
@@ -281,10 +278,20 @@ function createWidget(ctx, data) {
 
     depsPromise.then(function (deps) {
         appendChildren(subctx, fragment, data.children);
-        WebIO.send(subctx, "widget_created", {})
+        notifyall("widget_created", {}, subctx, command_funcs)
     })
 
     return fragment;
+}
+
+function notifyall(eventName, data, subctx, command_funcs){
+    // notify js
+    if (command_funcs[eventName]) {
+        var fs = command_funcs[eventName]
+        fs.map(function (f){ f() })
+    }
+    // notify julia
+    WebIO.send(subctx, eventName, {})
 }
 
 var style = document.createElement('style')
