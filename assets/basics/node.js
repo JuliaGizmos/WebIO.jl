@@ -38,7 +38,11 @@ function applyProps(context, domNode, props)
                 break;
 
             default:
-                domNode[key] = value;
+                if (WebIO.attrUtils[key]){
+                    WebIO.attrUtils[key](domNode, value);
+                } else {
+                    domNode[key] = value;
+                }
                 break;
         }
     }
