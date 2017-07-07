@@ -32,13 +32,20 @@ promote_instanceof(x) = x
 nodetype(n::Node) = typename(n.instanceof)
 typename{T}(n::T) = string(T.name.name)
 
+function kwargs2props(propkwargs)
+    props = Dict{Symbol,Any}(propkwargs)
+    Symbol("setInnerHtml") in keys(props) &&
+        (props[:setInnerHtml] = replace(props[:setInnerHtml], "</script>", "</_script>"))
+    props # XXX IJulia/JSON bug? kernel seems to crash if this is a String not a Dict (which is obviously silly but still, it shouldn't crash the IJulia kernel)
+end
+
 function Node(instanceof, children::AbstractArray; props...)
-    Node(instanceof, children, Dict{Symbol,Any}(props))
+    Node(instanceof, children, kwargs2props(props))
 end
 
 function Node(instanceof, children...; props...)
     # TODO: fix push on pvec to promote properly
-    Node(instanceof, Any[children...], Dict{Symbol,Any}(props))
+    Node(instanceof, Any[children...], kwargs2props(props))
 end
 
 immutable DOM

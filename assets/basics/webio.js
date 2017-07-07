@@ -154,6 +154,8 @@ function sendNotSetUp()
 // and ensure any scripts get run. Adding with innerHTML
 // doesn't run scripts. Ref: https://stackoverflow.com/a/42628703
 function setInnerHtml(elm, html) {
+  // TODO fix indentation for this function
+  html = html.replace(new RegExp("</_script>", "g"), "</scr"+"ipt>") //unescape closing script tags
   elm.innerHTML = html;
   var scripts = elm.getElementsByTagName("script");
   // If we don't clone the results then "scripts"
