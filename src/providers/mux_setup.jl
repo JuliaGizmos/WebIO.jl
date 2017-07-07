@@ -64,3 +64,8 @@ function Mux.Response(o::Node)
         """
     )
 end
+
+function WebIO.register_renderable(T::Type)
+    Mux.Response(x::T) = Mux.Response(WebIO.render(x))
+    WebIO.register_renderable_common(T)
+end
