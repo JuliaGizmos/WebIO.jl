@@ -26,3 +26,8 @@ function Base.send(b::BlinkConnection, data)
     Blink.msg(b.page, Dict(:type=>"webio", :data=>data))
 end
 
+function WebIO.register_renderable(T::Type)
+    Blink.body!(p::Union{Window, Page}, x::T) =
+        Blink.body!(p, WebIO.render(x))
+    WebIO.register_renderable_common(T)
+end

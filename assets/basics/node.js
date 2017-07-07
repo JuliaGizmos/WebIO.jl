@@ -51,6 +51,8 @@ function applyAttrs(domNode, attrs)
         var val = attrs[key];
         if (val === null) { // should be undefined
             domNode.removeAttribute(key);
+        } else if (WebIO.attrUtils[key]){
+            WebIO.attrUtils[key](domNode, val);
         } else {
             domNode.setAttribute(key, val);
         }
@@ -260,6 +262,8 @@ function createWidget(ctx, data) {
     var subctx = WebIO.makeWidget(data.instanceArgs.id, ctx.data,
                              ctx.sendCallback, fragment, command_funcs, observables);
 
+    notifyall("preDependencies", {}, subctx, command_funcs)
+
     var imports = data.instanceArgs.dependencies;
 
     var depsPromise = doImports(imports);
@@ -274,9 +278,20 @@ function createWidget(ctx, data) {
 
     depsPromise.then(function (deps) {
         appendChildren(subctx, fragment, data.children);
+        notifyall("widget_created", {}, subctx, command_funcs)
     })
 
     return fragment;
+}
+
+function notifyall(eventName, data, subctx, command_funcs){
+    // notify js
+    if (command_funcs[eventName]) {
+        var fs = command_funcs[eventName]
+        fs.map(function (f){ f() })
+    }
+    // notify julia
+    WebIO.send(subctx, eventName, {})
 }
 
 var style = document.createElement('style')

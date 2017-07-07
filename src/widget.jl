@@ -176,11 +176,13 @@ function send_sync(ctx::Widget, cmd, data)
     wait(cond)
 end
 
+const lifecycle_commands = ["widget_created"]
 function dispatch(ctx, cmd, data)
     if haskey(ctx.observs, cmd)
         Observables.setexcludinghandlers(ctx.observs[cmd][1], data, x->!isa(x, Backedge))
     else
-        warn("$cmd does not have a handler for context id $(ctx.id)")
+        cmd ∈ lifecycle_commands ||
+            warn("$cmd does not have a handler for context id $(ctx.id)")
     end
 end
 
