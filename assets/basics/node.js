@@ -266,7 +266,7 @@ function createWidget(ctx, data) {
 
     if (command_funcs["preDependencies"]) {
         var fs = command_funcs["preDependencies"]
-        fs.map(function (f){ f() })
+        fs.map(function (f){ f(subctx) })
     }
 
     var imports = data.instanceArgs.dependencies;
@@ -283,7 +283,6 @@ function createWidget(ctx, data) {
 
     depsPromise.then(function (deps) {
         appendChildren(subctx, fragment, data.children);
-        WebIO.send(subctx, "widget_created", {})
     })
 
     return fragment;
