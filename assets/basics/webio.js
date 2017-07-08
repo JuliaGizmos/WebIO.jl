@@ -150,12 +150,17 @@ function sendNotSetUp()
     console.error("WebIO.sendCallback not set up")
 }
 
+//unescape closing script tags which cause problems in html documents
+function unencode_scripts(htmlstr){
+    return htmlstr.replace(new RegExp("</_script>", "g"), "</scr"+"ipt>")
+}
+
 // Add an html string as the contents of an element
 // and ensure any scripts get run. Adding with innerHTML
 // doesn't run scripts. Ref: https://stackoverflow.com/a/42628703
 function setInnerHtml(elm, html) {
   // TODO fix indentation for this function
-  html = html.replace(new RegExp("</_script>", "g"), "</scr"+"ipt>") //unescape closing script tags
+  html = unencode_scripts(html)
   elm.innerHTML = html;
   var scripts = elm.getElementsByTagName("script");
   // If we don't clone the results then "scripts"
@@ -209,7 +214,7 @@ var WebIO = {
 
     onConnected: onConnected,
 
-    attrUtils: {
+    propUtils: {
         setInnerHtml: setInnerHtml
     }
 };
