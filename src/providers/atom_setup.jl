@@ -1,8 +1,6 @@
 using Juno
 using WebIO
 
-setup_provider("blink")
-
 function get_page(opts::Dict=Dict())
     Juno.isactive() ? Juno.Atom.blinkplot() : Window(opts).content
 end
