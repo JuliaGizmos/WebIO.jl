@@ -15,6 +15,10 @@ function Base.send(c::IJuliaConnection, data)
     send_comm(c.comm, data)
 end
 
+function WebIO.register_renderable(T::Type)
+    WebIO.register_renderable_common(T)
+end
+
 function main()
     script(joinpath(dirname(@__FILE__), "..", "..", "assets", "webio.bundle.js"))
     script(joinpath(dirname(@__FILE__), "..", "..", "assets", "providers", "ijulia_setup.js"))
