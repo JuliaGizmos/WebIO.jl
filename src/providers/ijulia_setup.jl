@@ -16,8 +16,8 @@ function Base.send(c::IJuliaConnection, data)
 end
 
 function main()
-    script(Pkg.dir("WebIO", "assets", "webio.bundle.js"))
-    script(Pkg.dir("WebIO", "assets", "providers", "ijulia_setup.js"))
+    script(joinpath(dirname(@__FILE__), "..", "..", "assets", "webio.bundle.js"))
+    script(joinpath(dirname(@__FILE__), "..", "..", "assets", "providers", "ijulia_setup.js"))
 
     comm = Comm(:webio_comm)
     conn = IJuliaConnection(comm)
