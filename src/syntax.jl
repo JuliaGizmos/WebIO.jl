@@ -10,7 +10,7 @@ function cssparse(s)
     p = match(r"\[[^\]]+\]", s)
     if p != nothing
         m = strip(p.match, ['[',']'])
-        props[:attributes] = Dict(map(x->Pair(split(x,"=")...), split(m, ",")))
+        props[:attributes] = Dict(map(x->Pair(split(x,r"\s*=\s*")...), split(m, r",\s*")))
     end
     isempty(classes) || (props[:className] = map(trimfirst, classes))
     tagm = match(r"^[^\.#\[\]]+", s)
@@ -29,10 +29,13 @@ end
 """
     dom"div.<class>#<id>[<prop>=<value>,...]"(x...; kw...)
 """
-macro dom_str(str)
-    tagstr, props = cssparse(str)
-    tag = Symbol(tagstr)
-    makedom(tag, props)
+macro dom_str(sraw)
+    str = parse(string('"', sraw, '"'))
+    quote
+        tagstr, props = WebIO.cssparse($str)
+        tag = Symbol(tagstr)
+        WebIO.makedom(tag, props)
+    end |> esc
 end
 
 # copied from Blink.jl by Mike Innes
@@ -245,4 +248,3 @@ end
 
 macro new(x) esc(Expr(:new, x)) end
 macro var(x) esc(Expr(:var, x)) end
-
