@@ -10,7 +10,7 @@ function cssparse(s)
     p = match(r"\[[^\]]+\]", s)
     if p != nothing
         m = strip(p.match, ['[',']'])
-        props[:attributes] = Dict(map(x->Pair(split(x,r"\s*=\s*")...), split(m, r",\s*")))
+        props[:attributes] = Dict(map(x->Pair(split(x,r"\s*=\s*", limit=2)...), split(m, r",\s*")))
     end
     isempty(classes) || (props[:className] = map(trimfirst, classes))
     tagm = match(r"^[^\.#\[\]]+", s)
