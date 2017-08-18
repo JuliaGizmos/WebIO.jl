@@ -43,15 +43,36 @@ end
 using JSON, MacroTools
 export JSString
 
-jsexpr(io, x) = JSON.print(io, x)
-
 immutable JSString
     s::String
 end
 
 Base.:(==)(x::JSString, y::JSString) = x.s==y.s
 
+const JSONContext = JSON.Writer.StructuralContext
+const JSONSerialization = JSON.Serializations.CommonSerialization
+
+struct JSEvalSerialization <: JSONSerialization end
+
 JSON.lower(x::JSString) = x.s
+
+const verbose_json = Ref(false)
+
+# adapted (very slightly) from JSON.jl test/serializer.jl
+function JSON.show_json(io::JSONContext, ::JSEvalSerialization, x::JSString)
+    if verbose_json[]
+        first = true
+        for line in split(x.s, '\n')
+            !first && JSON.indent(io)
+            first = false
+            Base.print(io, line)
+        end
+    else
+        Base.print(io, x.s)
+    end
+end
+
+jsexpr(io, x) = JSON.show_json(io, JSEvalSerialization(), x)
 
 jsexpr(x) = JSString(sprint(jsexpr, x))
 
@@ -143,7 +164,7 @@ function func_expr(io, args, body)
     print(io, "function ")
     if named
         print(io, args.args[1])
-        args = args.args[2]
+        args.args = args.args[2:end]
     end
     print(io, "(")
     isexpr(args, Symbol) ? print(io, args) : join(io, args.args, ",")
