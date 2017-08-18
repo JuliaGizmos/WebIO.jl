@@ -206,7 +206,7 @@ function doImports(imports) {
                     promises.push(SystemJS.import(imp.url));
                     break;
                 case "css":
-                    var cssId = location.pathname.split( "/" ).join("-");
+                    var cssId = imp.url.split( "/" ).join("-");
                     if (!document.getElementById(cssId))
                     {
                         var head  = document.getElementsByTagName('head')[0];
