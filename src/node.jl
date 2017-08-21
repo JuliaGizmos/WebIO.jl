@@ -114,7 +114,7 @@ function Base.show(io::IO, m::MIME"text/html", x::Node)
     id = newid("node")
     write(io, """<div id='$id'></div>
                  <script>WebIO.mount('$id', '#$id',""")
-    JSON.print(io, x)
+    jsexpr(io, x)
     write(io, ")</script>")
 end
 
