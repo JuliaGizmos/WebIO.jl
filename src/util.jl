@@ -24,3 +24,19 @@ end
 
 recmerge(a, b) = recmerge!(Dict{Any, Any}(a), b, recmerge)
 
+function kebab2camel(str)
+    strs = split(str, "-")
+    titlefrom2 = titlecase.(strs[2:end])
+    join([strs[1]; titlefrom2], "")
+end
+
+function camel2kebab(str)
+    lowstr = lowercase(str)
+    lowercaseidxs = Vector{Char}(lowstr) .== Vector{Char}(str)
+    sb = IOBuffer()
+    for (i,c) in enumerate(lowercase(str))
+        !lowercaseidxs[i] && print(sb, '-')
+        print(sb, c)
+    end
+    String(take!(sb))
+end
