@@ -129,15 +129,14 @@ var defaultEventOptions = {
 
 function makeEventHandler(context, value)
 {
-    if (typeof value == "string") {
+    if (typeof value == "function") {
         return makeEventHandler(context, {
             code: value, options: defaultEventOptions
         })
     }
 
     var options = value.options;
-    var code = value.code;
-    var f = new Function("event", "context", "(" + code + ").call(this, event, context)");
+    var f = value.code;
 
     function eventHandler(event) {
         if (options.stopPropagation) {
@@ -148,7 +147,7 @@ function makeEventHandler(context, value)
         }
 
         // http://stackoverflow.com/questions/1271516/executing-anonymous-functions-created-using-javascript-eval
-        f.call(this, event, context);
+        f.call(this, event, context); //XXX security!?
     }
 
     eventHandler.options = options;
@@ -157,7 +156,7 @@ function makeEventHandler(context, value)
 
 function appendChildren(context, parentNode, children) {
     if (children) {
-        for (var nChildren=children.length, i=0; i<nChildren;i++) {
+        for (var nChildren=children.length, i=0; i<nChildren; i++) {
             if (typeof children[i] === "string") {
                 parentNode.appendChild(document.createTextNode(children[i]));
             } else {
@@ -248,31 +247,23 @@ function createWidget(ctx, data) {
     var fragment = document.createElement("div");
     fragment.className = "wio-context";
 
-    var handlers = data.instanceArgs.handlers;
+    // var handlers = data.instanceArgs.handlers;
     var observables = data.instanceArgs.observables;
-    var command_funcs = {}
+    var handlers = data.instanceArgs.handlers;
 
-    if (handlers) {
-        for (var cmd in handlers) {
-            var codes = handlers[cmd];
-            var fs = codes.map(function (code) {
-                return new Function("data", "(" + code + ").call(this,data)");
-            })
-            command_funcs[cmd] = fs;
-        }
-    }
     var subctx = WebIO.makeWidget(data.instanceArgs.id, ctx.data,
-                             ctx.sendCallback, fragment, command_funcs, observables);
+                             ctx.sendCallback, fragment, handlers, observables);
 
-    if (command_funcs["preDependencies"]) {
-        var fs = command_funcs["preDependencies"]
-        fs.map(function (f){ f(subctx) })
+    if (handlers["preDependencies"]) {
+        var predepfns = handlers["preDependencies"]
+        predepfns.map(function (f){ f(subctx) })
     }
 
     var imports = data.instanceArgs.dependencies;
 
     var depsPromise = doImports(imports);
     subctx.promises.dependenciesLoaded = depsPromise
+
     subctx.promises.connected = new Promise(function (accept, reject) {
         WebIO.onConnected(function () {
             // internal message to notify julia
@@ -284,6 +275,13 @@ function createWidget(ctx, data) {
     depsPromise.then(function (deps) {
         appendChildren(subctx, fragment, data.children);
     })
+
+    if (handlers["dependenciesLoaded"]){
+        depsPromise.then(function(alldeps){
+            var ondepsfns = handlers["dependenciesLoaded"]
+            ondepsfns.map(function (f){ f.apply(subctx, alldeps) })
+        })
+    }
 
     return fragment;
 }
@@ -306,7 +304,7 @@ WebIO.NodeTypes = {
 WebIO.CommandSets = {
     Basics: {
         eval: function (code) {
-            var f = new Function(code);
+            var f = new Function(code); // XXX security!?
             f.call(this);
         }
     }
