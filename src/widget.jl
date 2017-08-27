@@ -150,7 +150,7 @@ function after(ctx::Widget, promise_name, expr)
     @evaljs ctx begin
         @var widget = this;
         this.promises[$promise_name].
-            then(val -> $expr.call(widget, val))
+            then(val -> $expr.apply(widget, val))
     end
 end
 
@@ -188,6 +188,14 @@ end
 
 function onjs(ctx, cmd, f)
     push!(Base.@get!(ctx.jshandlers, cmd, []), f)
+end
+
+function offjs(ctx, cmd, f)
+    if f in get(ctx.jshandlers, cmd, [])
+        cmds = ctx.jshandlers[cmd]
+        deleteat!(cmds, findin(cmds, f))
+    end
+    nothing
 end
 
 # Backedge denotes that the function updates the

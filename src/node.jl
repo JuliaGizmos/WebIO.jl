@@ -110,8 +110,12 @@ function JSON.lower(n::Node)
     )
 end
 
+# Dict to store callbacks when displaying a Node
+const showcbs = Dict{Node, Function}()
+
 function Base.show(io::IO, m::MIME"text/html", x::Node)
     id = newid("node")
+    x in keys(showcbs) && (x = showcbs[x](io, id))
     write(io, """<div id='$id'></div>
                  <script>WebIO.mount('$id', '#$id',""")
     jsexpr(io, x)

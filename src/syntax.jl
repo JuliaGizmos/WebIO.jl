@@ -141,7 +141,7 @@ function jsexpr(io, o::Observable)
         error("No context associated with observer being interpolated")
     end
     _ctx, name = observ_id_dict[o]
-    _ctx.value === nothing && error("Widget of the observable no more exists.")
+    _ctx.value === nothing && error("Widget of the observable doesn't exist anymore.")
     ctx = _ctx.value
 
     obsobj = Dict("type" => "observable",
@@ -252,6 +252,7 @@ function jsexpr(io, x::Expr)
         a_.b_ | a_.(b_) => jsexpr_joined(io, [a, b], ".")
         (a_[] = val_) => obs_set_expr(io, a, val)
         (a_ = b_) => jsexpr_joined(io, [a, b], "=")
+        (a_ += b_) => jsexpr_joined(io, [a, b], "+=")
         (a_ && b_) => jsexpr_joined(io, [a, b], "&&")
         (a_ || b_) => jsexpr_joined(io, [a, b], "||")
         $(Expr(:if, :__)) => if_expr(io, x.args)
