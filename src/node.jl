@@ -146,3 +146,61 @@ const emptydict = Dict{Symbol,Any}()
 (n::Node)(props::Associative...) = mergeprops(n, props...)
 (n::Node)(;kwargs...) = mergeprops(n, kwargs)
 (n::Node)(args...; kwargs...) = n(args...)(;kwargs...)
+
+
+## Pretty printing
+
+function showindent(io, level)
+    for i=1:level
+        write(io, "  ")
+    end
+end
+
+function Base.show(io::IO, ::MIME"text/html", el, indent_level=0)
+    showindent(io, indent_level)
+    show(io, el)
+end
+
+function showprops(io, dict)
+    write(io, "{")
+    write(io, ' ')
+    for (k,v) in dict
+        print(io, k)
+        write(io, '=')
+        show(io, v)
+        write(io, ' ')
+    end
+    write(io, "}")
+end
+
+function showchildren(io, elems, indent_level)
+    length(elems) == 0 && return
+    write(io, "\n")
+    l = length(elems)
+    for i=1:l
+        show(io, MIME"text/html"(), elems[i], indent_level+1)
+        i != l && write(io, "\n")
+    end
+end
+
+function Base.show(io::IO, el::Node, indent_level=0)
+    showindent(io, indent_level)
+    write(io, "(")
+    if !isa(el.instanceof, DOM)
+        write(io, string(el.instanceof))
+        write(io, ":")
+    elseif el.instanceof.namespace != :html
+        write(io, el.instanceof.namespace)
+        write(io, ":")
+        write(io, el.instanceof.tag)
+    else
+        write(io, el.instanceof.tag)
+    end
+
+    if !isempty(props(el))
+        write(io, " ")
+        showprops(io, props(el))
+    end
+    showchildren(io, children(el), indent_level)
+    write(io, ")")
+end
