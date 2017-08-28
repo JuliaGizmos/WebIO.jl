@@ -20,8 +20,14 @@ function cssparse(s)
 end
 
 function makedom(tag, props)
+    d = if contains(string(tag), ":")
+        ns, t = split(string(tag), ":")
+        DOM(Symbol(ns), Symbol(t))
+    else
+        DOM(:xhtml, tag)
+    end
     function dom(args...; kwargs...)
-        n = Node(tag, args...)(Dict(kwargs))
+        n = Node(d, args...)(Dict(kwargs))
         isempty(props) ? n : n(props)
     end
 end
