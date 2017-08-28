@@ -24,7 +24,7 @@ Fields:
 - `dependencies`: An array of js/html/css assets to load
   before rendering the contents of a context.
 """
-immutable Widget
+struct Widget
     id::AbstractString
     outbox::Channel
     observs::Dict{String, Tuple{Observable, Union{Void,Bool}}} # bool marks if it is synced
@@ -48,6 +48,14 @@ function Widget(
 
     contexts[id] = Widget(id, outbox, observs, dependencies, jshandlers)
 end
+
+"""
+`set_id(w::Widget, newid)`
+Returns a new Widget with id=`newid` and all other props taken from `w`
+"""
+set_id(w::Widget, newid) =
+  Widget(newid, outbox=w.outbox, observs=w.observs,
+         dependencies= w.dependencies, jshandlers=w.jshandlers)
 
 function Observables.on(f, w::Widget, cmd)
     listener, _ = Base.@get! w.observs cmd (Observable{Any}(w, cmd, nothing), nothing)
@@ -112,7 +120,8 @@ function lowerobserv(ob_)
         sync = any(f-> !isa(f, Backedge), ob.listeners)
     end
     Dict("sync" => sync,
-         "value" => ob[])
+         "value" => ob[],
+         "id" => obsid(ob))
 end
 
 function lowerdeps(x::String)

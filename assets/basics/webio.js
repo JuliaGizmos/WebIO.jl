@@ -1,4 +1,5 @@
 var contexts = {};
+var obscontexts = {};
 
 function makeWidget(id, data, sendCallback, dom, handlers, observables)
 {
@@ -14,6 +15,16 @@ function makeWidget(id, data, sendCallback, dom, handlers, observables)
     }
 
     contexts[id] = ctx;
+    if (observables){
+        Object.keys(observables).forEach(function setobscontext(name){
+            var o = observables[name]
+            if (typeof obscontexts[o.id] === "undefined"){
+                obscontexts[o.id] = []
+            }
+            //obname is the name of the observable in this context
+            obscontexts[o.id].push({ctx: ctx, obname: name})
+        })
+    }
 
     return ctx;
 }
@@ -57,7 +68,7 @@ function dispatch(msg)
         console.log(fs)
         for (var i=0, l=fs.length; i<l; i++) {
             var f = fs[i]
-            f.apply(ctx, [msg.data, false]) // false for "not client-side"
+            f.call(ctx, msg.data, false) // false for "not client-side"
         }
     }
 }
@@ -93,30 +104,39 @@ function send(ctx, cmd, data)
 }
 
 function setval(ob, val) {
-    var ctx = contexts[ob.context];
-    var x = ctx.observables[ob.name]
-    x.value = val;
-
-    if (ctx.handlers[ob.name] !== undefined) {
-        var fs = ctx.handlers[ob.name];
-        for (var i=0, l=fs.length; i<l; i++) {
-            var f = fs[i]
-            f.apply(ctx, [val, true]) // true for "client-side"
+    var allcontexts = obscontexts[ob.id]
+    var synced_julia = false
+    allcontexts.forEach(function propagate_to_other_contexts(octxinfo){
+        var ctx = octxinfo.ctx
+        var name = octxinfo.obname // the name of the observable in octx
+        var x = ctx.observables[name]
+        if (val === x.value || (val !== val && x.value !== x.value)) {
+            // adapted from Vue.js reactiveSetter, avoids calling handlers if value
+            // is unchanged. The second check is for values like NaN, since, e.g.,
+            // NaN !== NaN
+            return
         }
-    }
+        x.value = val
+        if (typeof ctx.handlers[name] !== "undefined") {
+            var fs = ctx.handlers[name];
+            for (var i=0, l=fs.length; i<l; i++) {
+                var f = fs[i]
+                f.call(ctx, val, true) // true for "client-side"
+            }
+        }
 
-    if (x.sync) {
-        WebIO.send(ctx, ob.name, val);
-    }
+        // sync the observable's value to julia if `sync` is true in any context
+        if (x.sync && !synced_julia) {
+            WebIO.send(ctx, name, val);
+            synced_julia = true
+        }
+    })
 }
 
 function getval(ob) {
     var ctx = contexts[ob.context];
     var x = ctx.observables[ob.name]
     x.value = val;
-    if (x.sync) {
-        WebIO.send(ctx, ob.name, val);
-    }
 }
 
 function message(ctx, cmd, data)

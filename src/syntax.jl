@@ -152,7 +152,8 @@ function jsexpr(io, o::Observable)
 
     obsobj = Dict("type" => "observable",
                   "context" => ctx.id,
-                  "name" => name)
+                  "name" => name,
+                  "id" => obsid(o))
 
     jsexpr(io, obsobj)
 end
