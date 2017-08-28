@@ -1,8 +1,11 @@
 module.exports = {
   entry: {
-      WebIO: './index.js'
+    WebIO: './index.js'
   },
   output: {
-    filename: 'webio.bundle.js'       
+    filename: 'webio.bundle.js'
+  },
+  node: {
+    fs: 'empty'
   }
 };

@@ -24,7 +24,7 @@ function makedom(tag, props)
         ns, t = split(string(tag), ":")
         DOM(Symbol(ns), Symbol(t))
     else
-        DOM(:xhtml, tag)
+        DOM(:html, tag)
     end
     function dom(args...; kwargs...)
         n = Node(d, args...)(Dict(kwargs))
@@ -152,7 +152,8 @@ function jsexpr(io, o::Observable)
 
     obsobj = Dict("type" => "observable",
                   "context" => ctx.id,
-                  "name" => name)
+                  "name" => name,
+                  "id" => obsid(o))
 
     jsexpr(io, obsobj)
 end
