@@ -150,7 +150,7 @@ function after(ctx::Widget, promise_name, expr)
     @evaljs ctx begin
         @var widget = this;
         this.promises[$promise_name].
-            then(val -> $expr.apply(widget, val))
+            then(val -> $expr.call(widget, val))
     end
 end
 
