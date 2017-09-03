@@ -64,12 +64,12 @@ function setup_provider(name)
     include(joinpath(dirname(@__FILE__), "providers", "$(name)_setup.jl"))
 end
 
-const provider_initialised = Ref(false)
+const providers_initialised = Set{String}()
 
 function setup(provider)
     println("WebIO: setting up $provider")
     setup_provider(provider)
-    provider_initialised[] = true
+    push!(providers_initialised, provider)
     re_register_renderables()
 end
 
