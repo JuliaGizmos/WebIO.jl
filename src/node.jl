@@ -168,9 +168,8 @@ function showindent(io, level)
     end
 end
 
-function Base.show(io::IO, ::MIME"text/html", el, indent_level=0)
-    showindent(io, indent_level)
-    show(io, el)
+function Base.show(io::IO, ::MIME"text/plain", el)
+    _show(io, el)
 end
 
 function showprops(io, dict)
@@ -190,12 +189,12 @@ function showchildren(io, elems, indent_level)
     write(io, "\n")
     l = length(elems)
     for i=1:l
-        show(io, MIME"text/html"(), elems[i], indent_level+1)
+        _show(io, elems[i], indent_level+1)
         i != l && write(io, "\n")
     end
 end
 
-function Base.show(io::IO, el::Node, indent_level=0)
+function _show(io::IO, el::Node, indent_level=0)
     showindent(io, indent_level)
     write(io, "(")
     if !isa(el.instanceof, DOM)
@@ -215,4 +214,9 @@ function Base.show(io::IO, el::Node, indent_level=0)
     end
     showchildren(io, children(el), indent_level)
     write(io, ")")
+end
+
+function _show(io::IO, el::String, indent_level)
+    showindent(io, indent_level)
+    show(io, el)
 end
