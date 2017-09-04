@@ -168,7 +168,7 @@ function showindent(io, level)
     end
 end
 
-function Base.show(io::IO, ::MIME"text/plain", el)
+function Base.show(io::IO, ::MIME"text/plain", el::Node)
     _show(io, el)
 end
 
