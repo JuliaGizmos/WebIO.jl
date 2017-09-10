@@ -1,3 +1,10 @@
+var is_array = require('is-array')
+var arrays_equal = require('array-equal')
+
+function arrays_and_equal(arr1, arr2){
+    return is_array(arr1) && is_array(arr2) && arrays_equal(arr1, arr2)
+}
+
 var contexts = {};
 var obscontexts = {};
 
@@ -110,10 +117,11 @@ function setval(ob, val) {
         var ctx = octxinfo.ctx
         var name = octxinfo.obname // the name of the observable in octx
         var x = ctx.observables[name]
-        if (val === x.value || (val !== val && x.value !== x.value)) {
+        if (val === x.value || arrays_and_equal(val, x.value) ||
+                (val !== val && x.value !== x.value)) {
             // adapted from Vue.js reactiveSetter, avoids calling handlers if value
-            // is unchanged. The second check is for values like NaN, since, e.g.,
-            // NaN !== NaN
+            // is unchanged. The second check is for arrays, since ["a"] !== ["a"].
+            // The third check is for values like NaN, since, e.g., NaN !== NaN
             return
         }
         x.value = val

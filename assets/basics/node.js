@@ -303,8 +303,9 @@ WebIO.NodeTypes = {
 
 WebIO.CommandSets = {
     Basics: {
+        // XXX security!?
         eval: function (code) {
-            var f = new Function(code); // XXX security!?
+            var f = new Function(code);
             f.call(this);
         }
     }
