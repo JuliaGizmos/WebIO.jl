@@ -44,7 +44,7 @@ end
               return end) == js"(function (x){x; return })"
     @test @js(x->(1; return x+1)) == js"(function (x){1; return (x+1)})"
     @test @js(function (x) x+1; end) == js"(function (x){return (x+1)})"
-    
+
     @test @js(@new F()) == js"new F()"
     @test @js(@var x=1) == js"var x=1"
 
@@ -66,4 +66,8 @@ end
     @test props(n)[:attributes] == Dict("a" => "b")
     @test props(n)[:className] == ["x", "y"]
     @test props(n)[:id] == "i"
+
+    # dots in props area
+    n = dom"img[src=$im.jpg]"()
+    @test !haskey(props(n), :className)
 end

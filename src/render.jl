@@ -6,7 +6,7 @@ Generic function that defines how a Julia object is rendered. Should return a
 """
 function render end
 render(x::Node) = x
-render(x::Text) = dom"span"(x.content)
+render(x::Text) = dom"pre"(x.content)
 render(x::String) = render(Text(x))
 render(::Void) = ""
 render(x::Any) =
@@ -72,7 +72,7 @@ function richest_html(val)
     elseif topmime in map(MIME, ["image/svg+xml", "image/png", "image/jpeg"])
         "<img src='data:image/png;base64,$str_repr'></img>"
     elseif topmime == MIME("text/plain")
-        "<span>$str_repr</span>"
+        "<pre>$str_repr</pre>"
     end)
     res
 end

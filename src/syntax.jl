@@ -2,16 +2,20 @@ export @dom_str, @js, @js_str
 
 # adapted from Hiccup.jl
 function cssparse(s)
-    trimfirst(s) = s[2:end]
-    props = Dict()
-    id = match(r"#-?[_a-zA-Z][_a-zA-Z0-9-]*", s)
-    id == nothing || (props[:id] = trimfirst(id.match))
-    classes = matchall(r"\.-?[_a-zA-Z][_a-zA-Z0-9-]*", s)
+    # e.g. s = "img#theid.class1.class2[src=image.jpg, alt=great pic]"
+    # parse props first
     p = match(r"\[[^\]]+\]", s)
+    props = Dict()
     if p != nothing
         m = strip(p.match, ['[',']'])
         props[:attributes] = Dict(map(x->Pair(split(x,r"\s*=\s*", limit=2)...), split(m, r",\s*")))
+        # s is now just the "img#class1.c2.thirdclass"
+        s = s[1:p.offset-1]
     end
+    trimfirst(str) = str[2:end]
+    id = match(r"#-?[_a-zA-Z][_a-zA-Z0-9-]*", s)
+    id == nothing || (props[:id] = trimfirst(id.match))
+    classes = matchall(r"\.-?[_a-zA-Z][_a-zA-Z0-9-]*", s)
     isempty(classes) || (props[:className] = map(trimfirst, classes))
     tagm = match(r"^[^\.#\[\]]+", s)
     tagm == nothing && error("Invalid tag syntax $s")
@@ -38,10 +42,10 @@ end
 macro dom_str(sraw)
     str = parse(string('"', sraw, '"'))
     quote
-        tagstr, props = WebIO.cssparse($str)
+        tagstr, props = WebIO.cssparse($(esc(str)))
         tag = Symbol(tagstr)
         WebIO.makedom(tag, props)
-    end |> esc
+    end
 end
 
 # copied from Blink.jl by Mike Innes
