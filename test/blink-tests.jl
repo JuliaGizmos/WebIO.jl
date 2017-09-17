@@ -9,8 +9,6 @@ notinstalled && AtomShell.install()
 
 @testset "Blink mocks" begin
 
-    @test WebIO.setup()
-
     # open window and wait for it to initialize
     w = Window(Dict(:show => false))
 
@@ -28,10 +26,10 @@ notinstalled && AtomShell.install()
         @test_throws ErrorException WebIO.@js $ob
 
         ob = Observable{Any}(w, "test", nothing)
-        @test WebIO.@js($ob) == js"{\"name\":\"test\",\"context\":\"testwidget2\",\"type\":\"observable\"}"
+        @test WebIO.@js($ob) == js"{\"name\":\"test\",\"id\":\"ob_03\",\"context\":\"testwidget2\",\"type\":\"observable\"}"
 
-        @test WebIO.@js($ob[]) == js"WebIO.getval({\"name\":\"test\",\"context\":\"testwidget2\",\"type\":\"observable\"})"
-        @test WebIO.@js($ob[] = 1) == js"WebIO.setval({\"name\":\"test\",\"context\":\"testwidget2\",\"type\":\"observable\"},1)"
+        @test WebIO.@js($ob[]) == js"WebIO.getval({\"name\":\"test\",\"id\":\"ob_03\",\"context\":\"testwidget2\",\"type\":\"observable\"})"
+        @test WebIO.@js($ob[] = 1) == js"WebIO.setval({\"name\":\"test\",\"id\":\"ob_03\",\"context\":\"testwidget2\",\"type\":\"observable\"},1)"
     end
 
 end
