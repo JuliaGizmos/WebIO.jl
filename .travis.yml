@@ -1,17 +1,22 @@
 # Documentation: http://docs.travis-ci.com/user/languages/julia/
 language: julia
-os:
-  - linux
-  - osx
-julia:
-  - release
-  - nightly
-notifications:
-  email: false
-# uncomment the following lines to override the default test script
+matrix:
+  include:
+    - os: linux
+      julia: 0.6
+      env: TESTCMD="xvfb-run julia"
+    # - os: linux
+    #   julia: nightly
+    #   env: TESTCMD="xvfb-run julia"
+    - os: osx
+      julia: 0.6
+      env: TESTCMD="julia"
+    # - os: osx
+    #   julia: nightly
+    #   env: TESTCMD="julia"
 script:
   - if [[ -a .git/shallow ]]; then git fetch --unshallow; fi
-  - julia -e 'Pkg.clone("https://github.com/JuliaGizmos/Observables.jl.git");Pkg.clone(pwd()); Pkg.build("WebIO"); Pkg.test("WebIO"; coverage=true)'
+  - $TESTCMD -e 'Pkg.clone(pwd()); Pkg.add("Blink"); Pkg.build("Blink"); import Blink; Pkg.build("WebIO"); Pkg.test("WebIO"; coverage=true)'
 after_success:
   # push coverage results to Coveralls
   - julia -e 'cd(Pkg.dir("WebIO")); Pkg.add("Coverage"); using Coverage; Coveralls.submit(Coveralls.process_folder())'
