@@ -1,31 +1,32 @@
-using WebIO
 using Blink
-setup_provider("blink")
+using WebIO
 
-function counter(count=0)
-    withcontext(Context()) do ctx
+function counter(start=0)
+    w = Widget()
 
-        handle!(ctx, :change) do d
-            send(ctx, :set_count, count+=d)
-        end
+    # updates to this update the UI
+    count = Observable(w, "count", start)
+    onjs(count,
+         WebIO.@js x->this.dom.querySelector("#count").textContent = x)
 
-        handlejs!(ctx, :set_count, "function (ctx,msg) {ctx.dom.querySelector('#count').textContent = msg}")
+    # button clicks send changes to Julia via this,
+    # we update count
+    change = Observable(w, "change", 0)
+    on(x->count[] = x, change)
 
-        btn(label, change) = Node(:button, label,
-                events=Dict(
-                    "click"=>"function (event,ctx) { WebIO.send(ctx, 'change', $change) }"
-                )
-            )
+    btn(label, d) = dom"button"(label,
+                                events=Dict("click" => WebIO.@js () -> $change[] = $d))
 
-        Node(:div,
-            btn("increment", 1),
-            btn("decrement", -1),
-            Node(:div, string(count), id="count"),
-        )
-    end
+    w(
+      dom"div"(
+        btn("increment", 1),
+        btn("decrement", -1),
+        dom"div#count"(string(count[])),
+       )
+     )
 end
 
 
-w = Window()
-body!(w, counter(1))
+win = Window()
+body!(win, counter(1))
 
