@@ -107,11 +107,14 @@ function applyEvents(domNode, context, events)
         }
         else if (typeof handler === 'undefined')
         {
-            var handler = makeEventHandler(context, value);
-            domNode.addEventListener(key, function (event) {
-                handler.call(domNode, event);
-            });
-            allHandlers[key] = handler;
+            // for loop doesn't create a new scope in js, only functions
+            function bindHandler(handlerfn){
+                domNode.addEventListener(key, function (event) {
+                    handlerfn.call(domNode, event);
+                });
+            }
+            allHandlers[key] = makeEventHandler(context, value);
+            bindHandler(allHandlers[key])
         }
         else
         {

@@ -140,9 +140,9 @@ function setval(ob, val) {
 }
 
 function getval(ob) {
-    var ctx = contexts[ob.context];
+    var ctx = contexts[ob.context]
     var x = ctx.observables[ob.name]
-    x.value = val;
+    return x.value
 }
 
 function message(ctx, cmd, data)
