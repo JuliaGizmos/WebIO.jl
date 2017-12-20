@@ -249,6 +249,12 @@ function if_expr(io, xs)
     end
 end
 
+function for_expr(io, i, start, to, body, step = 1)
+    print(io, "for(var $i = $start; $i <= $to; $i = $i + $step){")
+    block_expr(io, body)
+    print(io, "}")
+end
+
 function jsexpr(io, x::Expr)
     isexpr(x, :block) && return block_expr(io, rmlines(x).args)
     x = rmlines(x)
@@ -272,6 +278,12 @@ function jsexpr(io, x::Expr)
         a_[i__] => ref_expr(io, a, i...)
         [xs__] => vect_expr(io, xs)
         (@m_ xs__) => jsexpr(io, macroexpand(WebIO, x))
+        (for i_ = start_ : to_
+            body__
+        end) => for_expr(io, i, start, to, body)
+        (for i_ = start_ : step_ : to_
+            body__
+        end) => for_expr(io, i, start, to, body, step)
         (return a__) => (print(io, "return "); !isempty(a) && a[1] !== nothing && jsexpr(io, a...))
         $(Expr(:new, :_)) => (print(io, "new "); jsexpr(io, x.args[1]))
         $(Expr(:var, :_)) => (print(io, "var "); jsexpr(io, x.args[1]))
