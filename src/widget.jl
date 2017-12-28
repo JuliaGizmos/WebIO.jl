@@ -50,6 +50,7 @@ function Widget(
 
     contexts[id] = Widget(id, content, outbox, observs, dependencies, jshandlers)
 end
+Base.@deprecate Widget(id::AbstractString; kwargs...) Widget(; id=id, kwargs...)
 
 prop(w::Widget, key) = w.observs[key]
 
@@ -247,17 +248,8 @@ function onjs(ob::Observable, f)
     end
 end
 
-function withcontext(ctx::Widget, contents...; kwargs...)
-    set_content(ctx, dom"div.wio-context"(contents...; kwargs...))
-end
-
-function withcontext(f::Function, args...; kwargs...)
-    ctx = Widget(args...; kwargs...)
-    withcontext(ctx, f(ctx))
-end
-
-function (ctx::Widget)(args...; kwargs...)
-    withcontext(ctx, args...; kwargs...)
+function (ctx::Widget)(arg)
+    set_content(ctx, arg)
 end
 
 function Base.show(io::IO, m::MIME"text/html", x::Widget)
