@@ -26,6 +26,7 @@ Fields:
 """
 struct Widget
     id::AbstractString
+    content::Any
     outbox::Channel
     observs::Dict{String, Tuple{Observable, Union{Void,Bool}}} # bool marks if it is synced
     dependencies
@@ -35,7 +36,8 @@ end
 const contexts = Dict{String, Widget}()
 
 function Widget(
-        id::String=newid("context");
+        content::Any=dom"div"();
+        id::String=newid("context"),
         outbox::Channel=Channel{Any}(32),
         observs::Dict=Dict(),
         dependencies::AbstractArray=[],
@@ -46,15 +48,25 @@ function Widget(
         warn("A context by the id $id already exists. Overwriting.")
     end
 
-    contexts[id] = Widget(id, outbox, observs, dependencies, jshandlers)
+    contexts[id] = Widget(id, content, outbox, observs, dependencies, jshandlers)
 end
+Base.@deprecate Widget(id::AbstractString; kwargs...) Widget(; id=id, kwargs...)
+
+prop(w::Widget, key) = w.observs[key]
 
 """
 `set_id(w::Widget, newid)`
 Returns a new Widget with id=`newid` and all other props taken from `w`
 """
 set_id(w::Widget, newid) =
-  Widget(newid, outbox=w.outbox, observs=w.observs,
+  Widget(w.content, id=newid, outbox=w.outbox, observs=w.observs,
+         dependencies= w.dependencies, jshandlers=w.jshandlers)
+"""
+`set_content(w::Widget, content)`
+Returns a new Widget with content replace with `content`
+"""
+set_content(w::Widget, content) =
+  Widget(content, id=w.id, outbox=w.outbox, observs=w.observs,
          dependencies= w.dependencies, jshandlers=w.jshandlers)
 
 function Observables.on(f, w::Widget, cmd)
@@ -236,20 +248,17 @@ function onjs(ob::Observable, f)
     end
 end
 
-function withcontext(ctx::Widget, contents...; kwargs...)
-    Node(ctx, contents...; kwargs...)
+function (ctx::Widget)(arg)
+    set_content(ctx, arg)
 end
 
-function withcontext(f::Function, args...; kwargs...)
-    ctx = Widget(args...; kwargs...)
-    Node(ctx, f(ctx))
+function Base.show(io::IO, m::MIME"text/html", x::Widget)
+    id = x.id
+    write(io, """<div id='$id'></div>
+                 <script>WebIO.mount('$id', '#$id',""")
+    jsexpr(io, Node(x, x.content))
+    write(io, ")</script>")
 end
-
-function (ctx::Widget)(args...; kwargs...)
-    withcontext(ctx, args...; kwargs...)
-end
-
-convert(::Type{Node}, ctx::Widget) = ctx()
 
 Base.@deprecate_binding Context Widget
 Base.@deprecate handle! on
