@@ -10,7 +10,7 @@ import WebIO: dispatch
 
 @testset "communication" begin
 
-    w = Widget(id="testctx1")
+    w = Widget("testctx1")
 
    #@test isa(instanceof(w), Widget)
    #@test instanceof(w).id == "testctx1"

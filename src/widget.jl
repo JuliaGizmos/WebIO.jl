@@ -24,9 +24,9 @@ Fields:
 - `dependencies`: An array of js/html/css assets to load
   before rendering the contents of a context.
 """
-struct Widget
+mutable struct Widget
     id::AbstractString
-    content::Any
+    dom::Any
     outbox::Channel
     observs::Dict{String, Tuple{Observable, Union{Void,Bool}}} # bool marks if it is synced
     dependencies
@@ -35,9 +35,8 @@ end
 
 const contexts = Dict{String, Widget}()
 
-function Widget(
-        content::Any=dom"div"();
-        id::String=newid("context"),
+function Widget(id::String=newid("context");
+        dom=nothing,
         outbox::Channel=Channel{Any}(32),
         observs::Dict=Dict(),
         dependencies::AbstractArray=[],
@@ -48,29 +47,13 @@ function Widget(
         warn("A context by the id $id already exists. Overwriting.")
     end
 
-    contexts[id] = Widget(id, content, outbox, observs, dependencies, jshandlers)
+    contexts[id] = Widget(id, dom, outbox, observs, dependencies, jshandlers)
 end
 Base.@deprecate Widget(id::AbstractString; kwargs...) Widget(; id=id, kwargs...)
 
-prop(w::Widget, key) = w.observs[key]
-
-"""
-`set_id(w::Widget, newid)`
-Returns a new Widget with id=`newid` and all other props taken from `w`
-"""
-set_id(w::Widget, newid) =
-  Widget(w.content, id=newid, outbox=w.outbox, observs=w.observs,
-         dependencies= w.dependencies, jshandlers=w.jshandlers)
-"""
-`set_content(w::Widget, content)`
-Returns a new Widget with content replace with `content`
-"""
-set_content(w::Widget, content) =
-  Widget(content, id=w.id, outbox=w.outbox, observs=w.observs,
-         dependencies= w.dependencies, jshandlers=w.jshandlers)
-
-function Observables.on(f, w::Widget, cmd)
-    listener, _ = Base.@get! w.observs cmd (Observable{Any}(w, cmd, nothing), nothing)
+function Observables.on(f, w::Widget, key)
+    key = string(key)
+    listener, _ = Base.@get! w.observs key (Observable{Any}(w, key, nothing), nothing)
     on(f, listener)
 end
 
@@ -78,33 +61,43 @@ end
 # in order to allow interpolation of observables.
 const observ_id_dict = WeakKeyDict()
 
-function setobservable!(ctx, cmd, obs; sync=nothing)
-    if haskey(ctx.observs, cmd)
-        warn("An observable named $cmd already exists in context $(ctx.id).
+function setobservable!(ctx, key, obs; sync=nothing)
+    key = string(key)
+    if haskey(ctx.observs, key)
+        warn("An observable named $key already exists in context $(ctx.id).
              Overwriting.")
     end
 
-    ctx.observs[cmd] = (obs, sync)
+    ctx.observs[key] = (obs, sync)
 
     # the following metadata is stored for use in interpolation
     # of observables into DOM trees and `@js` expressions
-    observ_id_dict[obs]  = (WeakRef(ctx), cmd)
+    observ_id_dict[obs]  = (WeakRef(ctx), key)
     obs
 end
 
-function (::Type{Observable{T}}){T}(ctx::Widget, cmd, value; sync=nothing)
-    setobservable!(ctx, cmd, Observable{T}(value), sync=sync)
+function Base.getindex(w::Widget, key)
+    key = string(key)
+    if haskey(w.observs, key)
+        w.observs[key][1]
+    else
+        Observable{Any}(w, key, nothing)
+    end
 end
 
-function Observable{T}(ctx::Widget, cmd, val::T; sync=nothing)
-    Observable{T}(ctx, cmd, val; sync=sync)
+function Base.setindex!(w::Widget, obs, key)
+    setobservable!(w, key, obs)
+end
+
+function (::Type{Observable{T}}){T}(ctx::Widget, key, value; sync=nothing)
+    setobservable!(ctx, key, Observable{T}(value), sync=sync)
+end
+
+function Observable{T}(ctx::Widget, key, val::T; sync=nothing)
+    Observable{T}(ctx, key, val; sync=sync)
 end
 
 const Observ = Observable
-
-function Base.getindex(c::Widget, cmd)
-    (Base.@get! ctx.observs cmd (Observable{Any}(ctx, cmd, nothing), nothing))[1]
-end
 
 function adddeps!(ctx, xs::String)
     push!(ctx.dependencies, xs)
@@ -152,11 +145,11 @@ lowerdeps(x::Dict) = x
 
 lowerdeps(xs::AbstractArray) = map(lowerdeps, xs)
 
-function send(ctx::Widget, cmd, data)
+function send(ctx::Widget, key, data)
     command_data = Dict(
       "type" => "command",
       "context" => ctx.id,
-      "command" => cmd,
+      "command" => key,
       "data" => data,
     )
     put!(ctx.outbox, command_data)
@@ -181,13 +174,13 @@ end
 
 const waiting_messages = Dict{String, Condition}()
 
-function send_sync(ctx::Widget, cmd, data)
+function send_sync(ctx::Widget, key, data)
     msgid = string(rand(UInt128))
     command_data = Dict(
       "type" => "command",
       "context" => ctx.id,
       "messageId" => msgid,
-      "command" => cmd,
+      "command" => key,
       "data" => data,
       "sync" => true,
     )
@@ -198,23 +191,23 @@ function send_sync(ctx::Widget, cmd, data)
 end
 
 const lifecycle_commands = ["widget_created"]
-function dispatch(ctx, cmd, data)
-    if haskey(ctx.observs, cmd)
-        Observables.setexcludinghandlers(ctx.observs[cmd][1], data, x->!isa(x, Backedge))
+function dispatch(ctx, key, data)
+    if haskey(ctx.observs, string(key))
+        Observables.setexcludinghandlers(ctx.observs[key][1], data, x->!isa(x, Backedge))
     else
-        cmd ∈ lifecycle_commands ||
-            warn("$cmd does not have a handler for context id $(ctx.id)")
+        key ∈ lifecycle_commands ||
+            warn("$key does not have a handler for context id $(ctx.id)")
     end
 end
 
-function onjs(ctx, cmd, f)
-    push!(Base.@get!(ctx.jshandlers, cmd, []), f)
+function onjs(ctx, key, f)
+    push!(Base.@get!(ctx.jshandlers, key, []), f)
 end
 
-function offjs(ctx, cmd, f)
-    if f in get(ctx.jshandlers, cmd, [])
-        cmds = ctx.jshandlers[cmd]
-        deleteat!(cmds, findin(cmds, f))
+function offjs(ctx, key, f)
+    if f in get(ctx.jshandlers, key, [])
+        keys = ctx.jshandlers[key]
+        deleteat!(keys, findin(keys, f))
     end
     nothing
 end
@@ -229,35 +222,36 @@ immutable Backedge
 end
 
 (s::Backedge)(xs...) = s.f(xs...)
-function ensure_js_updates(ctx, cmd, ob)
-    if !any(x->isa(x, Backedge) && x.ctx==ctx, ctx.observs[cmd][1].listeners)
-        f = Backedge(ctx, (msg) -> send(ctx, cmd, msg))
+function ensure_js_updates(ctx, key, ob)
+    if !any(x->isa(x, Backedge) && x.ctx==ctx, ctx.observs[key][1].listeners)
+        f = Backedge(ctx, (msg) -> send(ctx, key, msg))
         on(Backedge(ctx, f), ob)
     end
 end
 
 function onjs(ob::Observable, f)
     if haskey(observ_id_dict, ob)
-        ctx, cmd = observ_id_dict[ob]
+        ctx, key = observ_id_dict[ob]
         ctx = ctx.value
         # make sure updates are set up to propagate to JS
-        ensure_js_updates(ctx, cmd, ob)
-        onjs(ctx, cmd, f)
+        ensure_js_updates(ctx, key, ob)
+        onjs(ctx, key, f)
     else
         error("This observable is not associated with any context.")
     end
-end
-
-function (ctx::Widget)(arg)
-    set_content(ctx, arg)
 end
 
 function Base.show(io::IO, m::MIME"text/html", x::Widget)
     id = x.id
     write(io, """<div id='$id'></div>
                  <script>WebIO.mount('$id', '#$id',""")
-    jsexpr(io, Node(x, x.content))
+    jsexpr(io, Node(x, x.dom))
     write(io, ")</script>")
+end
+
+function _show(io::IO, el::Widget, indent_level=0)
+    showindent(io, indent_level)
+    _show(io, el.dom, indent_level)
 end
 
 Base.@deprecate_binding Context Widget
