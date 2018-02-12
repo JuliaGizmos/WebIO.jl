@@ -59,6 +59,8 @@ function Widget(id::String=newid("context");
 end
 Base.@deprecate Widget(id::AbstractString; kwargs...) Widget(; id=id, kwargs...)
 
+(w::Widget)(arg) = (w.dom = arg; w)
+
 function Observables.on(f, w::Widget, key)
     key = string(key)
     listener, _ = Base.@get! w.observs key (Observable{Any}(w, key, nothing), nothing)
