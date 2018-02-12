@@ -4,18 +4,20 @@ struct Sync
     xs::AbstractArray
 end
 
-function lowerdeps(x::String)
+function lowerdeps(name, x)
     if endswith(x, ".js")
-        return Dict{String,String}("type"=>"js", "url"=>x)
+        return Dict{String,Any}("type"=>"js", "name"=>name, "url"=>x)
     elseif endswith(x, ".css")
-        return Dict{String,String}("type"=>"css", "url"=>x)
+        return Dict{String,Any}("type"=>"css", "name"=>name, "url"=>x)
     elseif endswith(x, ".html")
-        return Dict{String,String}("type"=>"html", "url"=>x)
+        return Dict{String,Any}("type"=>"html", "name"=>name, "url"=>x)
     else
         error("WebIO can't load dependency of unknown type $x")
     end
 end
 
+lowerdeps(x::String) = lowerdeps(nothing, x)
+lowerdeps(x::Pair) = lowerdeps(x[1], x[2])
 lowerdeps(x::Dict) = x
 
 lowerdeps(xs::AbstractArray) = Dict(

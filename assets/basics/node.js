@@ -192,7 +192,7 @@ function createDOM(ctx, data, parentNode) {
 
 require('../node_modules/systemjs/dist/system.js')
 
-function doImports(imp) {
+function doImports(widget, imp) {
     // this function must return a promise which resolves to a
     // vector of modules or null values (null values for non-modules)
     switch (imp.type) {
@@ -203,7 +203,7 @@ function doImports(imp) {
             var sync_imports = imp.data
 
             if (sync_imports.length == 0) {
-                return undefined;
+                return undefined
             }
 
             // we chain promises to this empty promise
@@ -212,8 +212,10 @@ function doImports(imp) {
             function makePromisClosure(sync_import) {
                 return function (vec) {
                     // vec contains previously resolved modules
-                    var y = doImports(sync_import); // a promise
-                    var flatten = (sync_import.type == "sync_block" || sync_import.type == "async_block")
+                    var y = doImports(widget, sync_import) // a promise
+                    var flatten = (sync_import.type == "sync_block" ||
+                                   sync_import.type == "async_block")
+
                     return new Promise(function (acc, rej) {
                         y.then(function (mod) {
                             if (typeof(mod) === "undefined") {
@@ -232,7 +234,7 @@ function doImports(imp) {
             }
             return p;
         case "async_block":
-            var ps = imp.data.map(doImports)
+            var ps = imp.data.map(function(x){return doImports(widget, x)})
             return Promise.all(ps).then(function (mods) {
                 var mods2 = []
                 for (var i=0, l=imp.data.length; i<l; i++) {
@@ -246,7 +248,12 @@ function doImports(imp) {
                 return mods2
             })
         case "js":
-            return SystemJS.import(imp.url);
+            return SystemJS.import(imp.url).then(function (mod) {
+                if (imp.name) {
+                    widget[imp.name] = mod
+                }
+                return mod
+            })
         case "css":
             var cssId = imp.url.split( "/" ).join("-");
             if (!document.getElementById(cssId))
@@ -272,15 +279,15 @@ function doImports(imp) {
                     link.onerror = reject;
                     document.head.appendChild(link);
                 } else {
-                    console.error("This browser doesn't support HTML imports. Cannot import " + imp.url);
+                    console.error("This browser doesn't support HTML " +
+                                  "imports. Cannot import " + imp.url);
                     reject(imp);
                 }
             });
-            promises.push(p);
-            return undefined;
+            return p
         default:
             console.warn("Don't know how to load import of type " + imp.type);
-            return undefined;
+            return undefined
     }
 }
 
@@ -302,7 +309,7 @@ function createWidget(ctx, data) {
 
     var imports = data.instanceArgs.imports;
 
-    var depsPromise = doImports(imports);
+    var depsPromise = doImports(subctx, imports);
     subctx.promises.importsLoaded = depsPromise
 
     subctx.promises.connected = new Promise(function (accept, reject) {
