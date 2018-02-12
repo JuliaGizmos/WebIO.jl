@@ -6,8 +6,10 @@ export Widget,
        Observable,
        setobservable!,
        on, onjs,
+       onimport,
        ondependencies,
        adddeps!,
+       import!,
        after
 
 import Base: send
@@ -21,7 +23,7 @@ An object which can send and receive messages.
 Fields:
 - `id::String`: A unique ID
 - `outbox::Channel`: Channel for outgoing messages
-- `dependencies`: An array of js/html/css assets to load
+- `imports`: An array of js/html/css assets to load
   before rendering the contents of a context.
 """
 mutable struct Widget
@@ -29,7 +31,7 @@ mutable struct Widget
     dom::Any
     outbox::Channel
     observs::Dict{String, Tuple{Observable, Union{Void,Bool}}} # bool marks if it is synced
-    dependencies
+    imports
     jshandlers
 end
 
@@ -39,15 +41,21 @@ function Widget(id::String=newid("context");
         dom=nothing,
         outbox::Channel=Channel{Any}(32),
         observs::Dict=Dict(),
-        dependencies=[],
+        dependencies=nothing,
+        imports=[],
         jshandlers::Dict=Dict(),
     )
+
+    if dependencies !== nothing
+        warn("dependencies key word argument is deprecated, use imports instead")
+        imports = dependencies
+    end
 
     if haskey(contexts, id)
         warn("A context by the id $id already exists. Overwriting.")
     end
 
-    contexts[id] = Widget(id, dom, outbox, observs, dependencies, jshandlers)
+    contexts[id] = Widget(id, dom, outbox, observs, imports, jshandlers)
 end
 Base.@deprecate Widget(id::AbstractString; kwargs...) Widget(; id=id, kwargs...)
 
@@ -99,20 +107,12 @@ end
 
 const Observ = Observable
 
-function adddeps!(ctx, xs::String)
-    push!(ctx.dependencies, xs)
-end
-
-function adddeps!(ctx, xs::AbstractArray)
-    append!(ctx.dependencies, xs)
-end
-
 include("imports.jl")
 
 function JSON.lower(x::Widget)
     Dict(
         "id" => x.id,
-        "dependencies" => lowerdeps(x.dependencies),
+        "imports" => lowerdeps(x.imports),
         "handlers" => x.jshandlers,
         "observables" => Dict(zip(keys(x.observs),
                                     map(lowerobserv, values(x.observs)))),
@@ -154,9 +154,11 @@ function after(ctx::Widget, promise_name, expr)
     end
 end
 
-function ondependencies(ctx, f)
-    after(ctx, "dependenciesLoaded", @js deps -> $f.apply(this, deps))
+function onimport(ctx, f)
+    after(ctx, "importsLoaded", @js deps -> $f.apply(this, deps))
 end
+
+Base.@deprecate ondependencies(ctx, jsf) onimport(ctx, jsf)
 
 const waiting_messages = Dict{String, Condition}()
 

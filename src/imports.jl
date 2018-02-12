@@ -25,3 +25,9 @@ lowerdeps(xs::AbstractArray) = Dict(
 
 lowerdeps(x::Sync) = Dict("type"=>"sync_block",
                           "data" => map(lowerdeps, x.xs))
+
+function import!(widget, xs)
+    push!(widget.imports, xs)
+end
+
+Base.@deprecate adddeps!(widget, x) import!(widget, x)

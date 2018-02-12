@@ -300,10 +300,10 @@ function createWidget(ctx, data) {
         predepfns.map(function (f){ f(subctx) })
     }
 
-    var imports = data.instanceArgs.dependencies;
+    var imports = data.instanceArgs.imports;
 
     var depsPromise = doImports(imports);
-    subctx.promises.dependenciesLoaded = depsPromise
+    subctx.promises.importsLoaded = depsPromise
 
     subctx.promises.connected = new Promise(function (accept, reject) {
         WebIO.onConnected(function () {
@@ -317,9 +317,9 @@ function createWidget(ctx, data) {
         appendChildren(subctx, fragment, data.children);
     })
 
-    if (handlers["dependenciesLoaded"]){
+    if (handlers["importsLoaded"]){
         depsPromise.then(function(alldeps){
-            var ondepsfns = handlers["dependenciesLoaded"]
+            var ondepsfns = handlers["importsLoaded"]
             ondepsfns.map(function (f){ f.apply(subctx, alldeps) })
         })
     }
