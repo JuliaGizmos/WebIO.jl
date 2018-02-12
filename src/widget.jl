@@ -39,7 +39,7 @@ function Widget(id::String=newid("context");
         dom=nothing,
         outbox::Channel=Channel{Any}(32),
         observs::Dict=Dict(),
-        dependencies::AbstractArray=[],
+        dependencies=[],
         jshandlers::Dict=Dict(),
     )
 
@@ -107,6 +107,8 @@ function adddeps!(ctx, xs::AbstractArray)
     append!(ctx.dependencies, xs)
 end
 
+include("imports.jl")
+
 function JSON.lower(x::Widget)
     Dict(
         "id" => x.id,
@@ -128,22 +130,6 @@ function lowerobserv(ob_)
          "value" => ob[],
          "id" => obsid(ob))
 end
-
-function lowerdeps(x::String)
-    if endswith(x, ".js")
-        return Dict{String,String}("type"=>"js", "url"=>x)
-    elseif endswith(x, ".css")
-        return Dict{String,String}("type"=>"css", "url"=>x)
-    elseif endswith(x, ".html")
-        return Dict{String,String}("type"=>"html", "url"=>x)
-    else
-        error("WebIO can't load dependency of unknown type $x")
-    end
-end
-
-lowerdeps(x::Dict) = x
-
-lowerdeps(xs::AbstractArray) = map(lowerdeps, xs)
 
 function send(ctx::Widget, key, data)
     command_data = Dict(
