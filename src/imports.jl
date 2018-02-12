@@ -18,7 +18,7 @@ end
 
 lowerdeps(x::Dict) = x
 
-lowerdeps(xs::AbstractArray) = @show Dict(
+lowerdeps(xs::AbstractArray) = Dict(
     "type" => "async_block",
     "data" => map(lowerdeps, xs),
 )
