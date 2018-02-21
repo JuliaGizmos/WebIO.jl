@@ -248,6 +248,9 @@ function doImports(widget, imp) {
                 return mods2
             })
         case "js":
+            var cfg = {paths: {}}
+            cfg.paths[imp.name] = imp.url
+            SystemJS.config(cfg)
             return SystemJS.import(imp.url).then(function (mod) {
                 if (imp.name) {
                     widget[imp.name] = mod
