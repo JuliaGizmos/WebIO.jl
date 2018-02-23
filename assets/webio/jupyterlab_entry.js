@@ -1,4 +1,4 @@
-define(['./webio.js', '@jupyterlab/notebook'], function(WebIO, Notebook){
+define(['./index.js', '@jupyterlab/notebook'], function(WebIO, Notebook){
 
     function activateWebIO(app, notebooks) {
         notebooks.widgetAdded.connect(function (sender, panel) {

@@ -1,2 +1,3 @@
-module.exports = require('./basics/webio.js')
-require('./basics/node.js')
+require('./unsafe_script.js')
+module.exports = require('./webio.js')
+require('./node.js')
