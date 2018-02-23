@@ -10,26 +10,18 @@ import WebIO: dispatch
 
 @testset "communication" begin
 
-    ctx = Widget("testctx1")
-    withcontext(ctx) do c
-        @test c == ctx
-        ""
-    end
+    w = Widget("testctx1")
 
-    w = withcontext(ctx) do c
-        dom"div"()
-    end
+   #@test isa(instanceof(w), Widget)
+   #@test instanceof(w).id == "testctx1"
 
-    @test isa(instanceof(w), Widget)
-    @test instanceof(w).id == "testctx1"
-
-    send(ctx, :msg_to_js, "hello js") # Queue a message to the JS side.
-    @test take!(ctx.outbox) == Dict("type"=>"command",
-                                    "context"=>"testctx1",
-                                    "command"=>:msg_to_js,
-                                    "data"=>"hello js")
+    send(w, :msg_to_js, "hello js") # Queue a message to the JS side.
+    @test take!(w.outbox) == Dict("type"=>"command",
+                                  "context"=>"testctx1",
+                                  "command"=>:msg_to_js,
+                                  "data"=>"hello js")
     
-    send(ctx, :msg_to_js, "hello js again") # Queue it again
+    send(w, :msg_to_js, "hello js again") # Queue it again
 
     conn = TestConn(nothing) # create a test connection
 
@@ -49,7 +41,7 @@ import WebIO: dispatch
                            "data"=>"hello js again")
 
     # further messages are sent freely
-    send(ctx, :msg_to_js, "hello js a third time")
+    send(w, :msg_to_js, "hello js a third time")
     yield()
     @test conn.msg == Dict("type"=>"command",
                            "command"=>:msg_to_js,
@@ -72,7 +64,7 @@ import WebIO: dispatch
                         "data"=>"hi Julia", "context"=>"testctx1"))
 
     msg = Ref("")
-    on(x -> msg[] = x, ctx, "incoming") # setup the handler
+    on(x -> msg[] = x, w, "incoming") # setup the handler
 
     # dispatch message again
     dispatch(conn, Dict("command" => "incoming",
