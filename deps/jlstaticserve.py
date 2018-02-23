@@ -28,9 +28,10 @@ def load_jupyter_server_extension(nb_server_app):
     """
     web_app = nb_server_app.web_app
     host_pattern = '.*$'
-    route_pattern = url_path_join(web_app.settings['base_url'], '/pkg/([^/]*)/(.*)$')
-    paths_file = open(os.path.join(os.path.dirname(__file__), "load_paths.json"), "r")
+    route_pattern = url_path_join(web_app.settings['base_url'], '/pkg/([^/]+)/(.*)$')
+    with open(os.path.join(os.path.dirname(__file__), "load_paths.json"), "r") as paths_file:
+        JuliaPackageAssetServer.julia_load_path = json.load(paths_file)
     JuliaPackageAssetServer.julia_load_path = json.load(paths_file)
-    print "Will serve asset files from any Julia package under", JuliaPackageAssetServer.julia_load_path
+    print("Will serve asset files from any Julia package under", JuliaPackageAssetServer.julia_load_path)
     web_app.add_handlers(
             host_pattern, [(route_pattern, JuliaPackageAssetServer)])
