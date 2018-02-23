@@ -1,8 +1,6 @@
 # WebIO
 
-WebIO is a platform for writing web-based widgets.
-
-It works inside these interfaces to Julia:
+WebIO provides a simple abstraction for displaying and interacting with content. It works with:
 
 - [Juno](http://junolab.org) - The hottest Julia IDE
 - [IJulia](https://github.com/JuliaLang/IJulia.jl) - Jupyter notebooks for Julia
@@ -11,106 +9,139 @@ It works inside these interfaces to Julia:
 
 Widgets once created with WebIO will work on any of these front-ends.
 
-Setting up WebIO
----------------------
+Getting started
+---------------
 
-To install WebIO's Julia dependencies, run:
+To install WebIO, run:
 
 ```julia
 Pkg.clone("https://github.com/shashi/WebIO.jl.git")
-```
 
-## JavaScript dependencies
-
-To use WebIO, you will need to install some JavaScript dependencies. This can be done on Linux and Mac by first installing [nodejs](https://nodejs.org/en/), and then running
-
-```julia
 using WebIO
 WebIO.devsetup()
+WebIO.bundlejs()
 ```
-This will download and install [`yarn`](https://yarnpkg.com/) and then the dependencies, namely [webpack](https://webpack.github.io/) and [babel](https://babeljs.io/). These are used to develop and package the javascript parts of WebIO. The next step is to compile the JavaScript files into a *bundle*.
+
+You will need nodejs installed and `node` binary to be in PATH to build the required JavaScript files.
+
+### Getting things to display
+
+First, load the front end package (e.g. Blink or Mux; IJulia and Atom packages are already loaded when you are using them). Then run `using WebIO` to load this package.
+
+- On **IJulia**
+Whenever a code cell returns a `WebIO.Node` object, IJulia will render it. For example,
 
 ```julia
-WebIO.bundlejs(watch=false)
+In[*]: Node(:div, "Hello, World")
 ```
-(You can ignore this error when running the above: `Module not found: Error: Can't resolve 'fs'`. [Issue here](https://github.com/JuliaGizmos/WebIO.jl/issues/12))
 
-This should create a file called `webio.bundle.js` under the `assets/` directory. `watch=true` starts a webpack server which watches for changes to the javascript files under `assets/` and recompiles them automatically. This is very useful as you incrementally make changes to the Javascript files.
+- On **Blink**
 
-_These steps will be optional once WebIO is released and will only be required when hacking on WebIO._
-
-We plan to move this system to the build step once [julia#20082](https://github.com/JuliaLang/julia/issues/20082) is available in some form.
-
-### Hello, World!: Getting things to display
-
-After having loaded a front-end package, (one of IJulia, Atom, and Blink).
+Set the content of a window to WebIO.Node using `body!` to render it.
 
 ```julia
-using WebIO
-WebIO.setup()
+w = Blink.Window()
+body!(w, dom"div"("Hello, World"))
 ```
 
-If `WebIO.setup()` finished succesfully then you should be good to start creating simple UIs using the `dom""()` macro.
+- On **Mux**
 
-In IJulia, whenever a code cell returns a `WebIO.Node` object, IJulia will render it correctly.
+Return the WebIO Node from a web app to render it. Use `webio_serve` to serve the application.
 
-On Blink, pass the object returned by `dom""` to `body!` of a window or page. This will replace the contents of the page with the rendered version of the object.
-
-WebIO can be used with Mux by returning a `dom""` expression from an app.
-
-```
-using WebIO
-using Mux
-
-WebIO.setup()
-
-function myapp(req)
-    dom"div"("Hello, World!")
+```julia
+function myapp(req) # an "App" takes a request, returns the output
+    Node(:div, "Hello, World!")
 end
 
 webio_serve(page("/", req -> myapp(req)))
 ```
 
-This will serve a page at port 8000 that will render the object returned by `myapp` function.
+Composing content
+------------------
 
-On Atom, when you execute an expression that returns a WebIO object, it will be rendered in a separate pane.
-
-An introduction to the DOM
---------------------------
-
-To create UIs with WebIO, we need to create something called [DOM](https://developer.mozilla.org/en-US/docs/Web/API/Document_Object_Model/Introduction) objects. DOM stands for "Document Object Model", you can think of the DOM as an intermediate structure that represents the underlying HTML. So for example,
+Let's say you want to display the following HTML:
 
 ```html
-<div class="myDiv" id="myId">
-    Hello, World!
-</div>
+<ul class="my-list">
+    <li>get milk</li>
+    <li>make a pie</li>
+</ul>
 ```
 
-would be represented as:
+You can create a nested Node object:
 
 ```julia
-dom"div"("Hello, World!", className="myDiv", id="myId")
+Node(:ul,
+    Node(:li, "get milk")
+    Node(:li, "make a pie"), attributes=Dict(:class => "my-list"))
 ```
 
-In the DOM. This is of course, a virtual representation of the DOM in Julia. WebIO can take care of rendering that to the actual DOM inside a browser-based interface. (See setting up display section above to learn how to set up WebIO to display things)
+`attributes` keyword argument sets the attributes of the HTML element.
 
-Notice that in the HTML we used the `class` attribute, but we used `className` keyword argument while creating `Node`. This is because the DOM doesn't always closely resemble the HTML.
-
-1. Keywords to `Node` are DOM *properties*
-2. Properties are [sometimes different from HTML *attributes*](http://stackoverflow.com/questions/258469/what-is-the-difference-between-attribute-and-property)
-
-Specifically, here, the `class` attribute reflects as the `className` property of the DOM, hence we set it thus. To explicitly set an attribute instead of a property, pass in the attributes keyword argument. It must be set to the Dict of attribute-value pairs.
+Any other keyword argument to `DOM` is set as the property of the [DOM object](https://developer.mozilla.org/en-US/docs/Web/API/Document_Object_Model/Introduction) of the HTML element via JavaScript.
 
 For example,
+
 ```julia
-dom"div"("Hello, World!", attributes=Dict("class"=>"myDiv"))
+Node(:ul, className="my-list")
 ```
 
-Another difference between HTML and DOM worth noting is in `style`
+does the equivalent of the following in JavaScript:
 
-The purpose of `style` attribute or property is to define some [CSS](https://en.wikipedia.org/wiki/Cascading_Style_Sheets) that gives some style to a DOM node. The `style` *property* is a dictionary mapping properties to values. Whereas the `style` attribute in HTML is a string containing the CSS of the style!
+```js
+var element = document.createNode("ul")
+element.className = "my-list"
+// then adds inserts it to the document wherever it is displayed
+```
 
-Therefore, `<div style="background-color: black; color: white"></div>` in HTML is equivalent to `dom"div"(style=Dict(:color=>white, :backgroundColor=>"black"))`. Hiphenated CSS properties like 'background-color' are camelCased in the DOM version.
+Some DOM properties can themselves be objects, you can set them using Julia dictionaries:
+
+```julia
+Node(:div, "Hello, World",
+     style=Dict(:backgroundColor => "black",
+                :color => "white",
+                :padding => "12px"))
+```
+
+does the equivalent of
+
+```js
+var element = document.createNode("div")
+element.style.backgroundColor = "black"
+element.style.color = "white"
+element.style.padding = "12px"
+```
+
+This is in turn equivalent to:
+
+```html
+<div style="background-color: black; color: white; padding: 12px">
+```
+
+and hence also equivalent to:
+```html
+Node(:div, attributes=Dict(:style => "background-color: black; color: white; padding: 12px"))
+```
+
+### The `dom""` macro
+
+The `dom""` [*string macro*](http://docs.julialang.org/en/release-0.4/manual/metaprogramming/#non-standard-string-literals) can be used to simplify the syntax of creating DOM Nodes. The syntax for the macro is:
+
+```julia
+dom"div.<class>#<id>[<attr>=<value>,...]"(children...; props...)
+```
+
+And is equivalent to:
+
+```julia
+Node(:div, children..., className="<class>", id="<id>",
+     attributes=Dict(attr1=>val1, attr2=>val2...); props...)
+```
+
+Everything except the tag ('div' in the example) is optional. So,
+
+`dom"div"`, `dom"div.class1"`, `dom"div.class1.class2"`, `dom"div#my-id`,
+`dom"input.check[type=checkbox]"` are all valid invocations.
 
 ### The `dom""` macro
 
@@ -134,7 +165,7 @@ Everything except the tag ('div' in the example) is optional. So,
 WebIO.render
 ------------
 
-WebIO exports `WebIO.render` generic function which can be extended to define how to render something into WebIO's DOM. Think of it as a better version of `show(io::IO, m::MIME"text/html", x)`.
+WebIO exports `WebIO.render` generic function which can be extended to define how to render something into WebIO's DOM. Think of it as a better version of `show(io::IO, m::MIME"text/html", x)`. Whenever an object is used as an argument to `Node`, this `render` function will be called to create the `Node` object to display.
 
 For example, a TodoItem type like:
 
@@ -159,7 +190,7 @@ function render(todoitem::TodoItem)
 end
 ```
 
-A todo list would naturally contain a vector of `TodoItem`s and possibly a `title` field.
+A todo list which contains a vector of `TodoItem`s and possibly a `title` field,
 
 ```julia
 immutable TodoList
@@ -173,14 +204,14 @@ mylist = TodoList("My todo list",
 
 ```
 
-The `render` method for `TodoList` can nest calls to render on `TodoItem`s.
+Can render itself like:
 
 ```julia
 function render(list::TodoList)
     dom"div"(
         dom"h2"(list.title),
         dom"div.todo-list"(
-            map(render, list.items) # a vector of rendered TodoItems
+            list.items # each element will be rendered using WebIO.render
         )
     )
 end
@@ -188,14 +219,14 @@ end
 
 ## Executing JavaScript
 
-Interaction with the DOM can be set up via event handlers. Event handlers can be set up by passing a dict as the `events` keyword argument to the `dom""` constructor. For example,
+Event handlers can be set up by passing a dict as the `events` keyword argument to `Node`, (and hence `dom"foo"`). For example,
 
 ```julia
 dom"button"("Greet",
      events=Dict("click" => js"function (event) { alert('Hello, World!') }"))
 ```
 
-This will create a button which will show a dialog box with the message "Hello, World!" when clicked.
+This will create a button which shows an alert box with the message "Hello, World!" when clicked.
 
 There are 2 ways of creating JavaScript expressions with WebIO.
 
@@ -231,8 +262,9 @@ dom"button"("Greet",
 
 Note that `@js` just translates a Julia expression to the equivalent JavaScript, it does not compile the code. The variables and functions you reference in a `@js` expression must be defined in the JavaScript context it will run in (and need not be defined in Julia).
 
-## Loading JavaScript dependencies
+# Widgets
 
+## Loading JavaScript dependencies
 
 You can load dependencies by creating a Widget object and passing in `imports` argument.
 
