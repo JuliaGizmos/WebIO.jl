@@ -234,12 +234,12 @@ Note that `@js` just translates a Julia expression to the equivalent JavaScript,
 ## Loading JavaScript dependencies
 
 
-You can load dependencies by creating a Widget object and passing in `dependencies` argument.
+You can load dependencies by creating a Widget object and passing in `imports` argument.
 
 ```julia
-w = Widget(dependencies=["//cdnjs.cloudflare.com/ajax/libs/p5.js/0.5.11/p5.js"])
+w = Widget(imports=["//cdnjs.cloudflare.com/ajax/libs/p5.js/0.5.11/p5.js"])
 
-ondependencies(w, @js function (p5)
+onimport(w, @js function (p5)
     function sketch(s)
         s.setup = () -> s.createCanvas(640, 480)
 

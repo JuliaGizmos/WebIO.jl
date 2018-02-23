@@ -111,7 +111,7 @@ function JSON.lower(n::Node)
 end
 
 # Dict to store callbacks when displaying a Node
-const showcbs = Dict{Node, Function}()
+const showcbs = Dict{Any, Function}()
 
 """
 Runs show callbacks on child nodes if any are defined. This will be called
@@ -119,7 +119,7 @@ when `JSON.lower(n::Node)` runs, and thus will end up being called recursively
 on all descendent Nodes from `n`.
 """
 function children_to_show(n::Node)
-    map!(Vector{Union{Node, String}}(length(children(n))), children(n)) do x
+    map!(Vector{Any}(length(children(n))), children(n)) do x
         x in keys(showcbs) && (x = showcbs[x]())
         x
     end
