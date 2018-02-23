@@ -1,3 +1,4 @@
+var SystemJS = require('systemjs/dist/system')
 var WebIO = require('./webio.js')
 
 var STYLE_KEY = 'style';
@@ -189,8 +190,6 @@ function createDOM(ctx, data, parentNode) {
 
     return dom;
 }
-
-require('../node_modules/systemjs/dist/system.js')
 
 function doImports(widget, imp) {
     // this function must return a promise which resolves to a

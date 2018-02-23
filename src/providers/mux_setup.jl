@@ -54,7 +54,7 @@ function Mux.Response(o::Node)
         <html>
           <head>
             <meta charset="UTF-8">
-            <script src="/pkg/WebIO/webio.bundle.js"></script>
+            <script src="/pkg/WebIO/webio/bundle.js"></script>
             <script src="/pkg/WebIO/providers/mux_setup.js"></script>
           </head>
           <body>

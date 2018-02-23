@@ -129,9 +129,9 @@ function Base.show(io::IO, m::MIME"text/html", x::Node)
     id = newid("node")
     x in keys(showcbs) && (x = showcbs[x](id))
     write(io, """<div id='$id'></div>
-                 <script>WebIO.mount('$id', '#$id',""")
+                 <unsafe-script>WebIO.mount('$id', '#$id',""")
     jsexpr(io, x)
-    write(io, ")</script>")
+    write(io, ")</unsafe-script>")
 end
 
 
