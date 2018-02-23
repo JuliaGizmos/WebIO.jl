@@ -190,7 +190,7 @@ function createDOM(ctx, data, parentNode) {
     return dom;
 }
 
-require('node_modules/systemjs/dist/system.js')
+require('./node_modules/systemjs/dist/system.js')
 
 function doImports(widget, imp) {
     // this function must return a promise which resolves to a
