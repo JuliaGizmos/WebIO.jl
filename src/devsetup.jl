@@ -9,16 +9,18 @@ function devsetup()
             !isdir(".yarn") && mkdir(".yarn")
             run(`tar zvxf yarn.tar.gz -C .yarn`)
         end
-        run(`./.yarn/yarn-v$YARN_VERSION/bin/yarn install`)
+        cd("webio") do
+            run(`../.yarn/yarn-v$YARN_VERSION/bin/yarn install`)
+        end
     end
 end
 
 function bundlejs(;watch=false)
-    cd(ASSETS) do
+    cd(joinpath(ASSETS, "webio")) do
         if watch
-            run(`./webpack --watch`)
+            run(`../webpack --watch`)
         else
-            run(`./webpack`)
+            run(`../webpack`)
         end
     end
 end

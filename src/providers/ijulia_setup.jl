@@ -4,7 +4,7 @@ using IJulia.CommManager
 using WebIO
 
 function script(f)
-    display(HTML("<script>"*readstring(f)*"</script>"))
+    display(HTML("<script src='/pkg/WebIO/webio/bundle.js'></script>"))
 end
 
 immutable IJuliaConnection <: AbstractConnection
@@ -20,8 +20,8 @@ function WebIO.register_renderable(T::Type)
 end
 
 function main()
-    script(joinpath(dirname(@__FILE__), "..", "..", "assets", "webio.bundle.js"))
-    script(joinpath(dirname(@__FILE__), "..", "..", "assets", "providers", "ijulia_setup.js"))
+    display(HTML("<script src='/pkg/WebIO/webio/bundle.js'></script>"))
+    display(HTML("<script src='/pkg/WebIO/providers/ijulia_setup.js'></script>"))
 
     comm = Comm(:webio_comm)
     conn = IJuliaConnection(comm)
