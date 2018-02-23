@@ -1,7 +1,8 @@
 var proto = Object.create(HTMLElement.prototype);
-proto.style.display = "none"
-proto.attachedCallback = function() {
+proto.createdCallback = function() {
     this.style.display = "none"
+}
+proto.attachedCallback = function() {
     eval(this.textContent)
 };
 
