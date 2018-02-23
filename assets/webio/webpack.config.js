@@ -3,7 +3,7 @@ module.exports = {
     WebIO: './index.js'
   },
   output: {
-    filename: 'webio.bundle.js'
+    filename: 'bundle.js'
   },
   node: {
     fs: 'empty'
