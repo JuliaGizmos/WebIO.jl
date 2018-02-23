@@ -234,9 +234,9 @@ end
 function Base.show(io::IO, m::MIME"text/html", x::Widget)
     id = x.id
     write(io, """<div id='$id'></div>
-                 <script>WebIO.mount('$id', '#$id',""")
+                 <unsafe-script>WebIO.mount('$id', '#$id',""")
     jsexpr(io, Node(x, x.dom))
-    write(io, ")</script>")
+    write(io, ")</unsafe-script>")
 end
 
 function _show(io::IO, el::Widget, indent_level=0)
