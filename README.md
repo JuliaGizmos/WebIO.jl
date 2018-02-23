@@ -143,25 +143,6 @@ Everything except the tag ('div' in the example) is optional. So,
 `dom"div"`, `dom"div.class1"`, `dom"div.class1.class2"`, `dom"div#my-id`,
 `dom"input.check[type=checkbox]"` are all valid invocations.
 
-### The `dom""` macro
-
-The `dom""` [*string macro*](http://docs.julialang.org/en/release-0.4/manual/metaprogramming/#non-standard-string-literals) can be used to simplify the syntax of creating DOM Nodes. The syntax for the macro is:
-
-```julia
-dom"div.<class>#<id>[<attr>=<value>,...]"(children...; props...)
-```
-
-And is equivalent to:
-
-```julia
-Node(:div, children..., className="<class>", id="<id>",
-     attributes=Dict(attr1=>val1, attr2=>val2...); props...)
-```
-
-Everything except the tag ('div' in the example) is optional. So,
-
-`dom"div"`, `dom"div.class1"`, `dom"div.class1.class2"`, `dom"div#my-id`, `dom"input.check[type=checkbox]"` are all valid invocations.
-
 WebIO.render
 ------------
 
