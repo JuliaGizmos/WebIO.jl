@@ -8,7 +8,7 @@ using Requires
 include("util.jl")
 include("node.jl")
 include("syntax.jl")
-include("widget.jl")
+include("scope.jl")
 include("render.jl")
 include("connection.jl")
 include("devsetup.jl")

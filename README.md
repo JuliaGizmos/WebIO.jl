@@ -7,7 +7,7 @@ WebIO provides a simple abstraction for displaying and interacting with content.
 - [Blink](https://github.com/JunoLab/Blink.jl) - An [Electron](http://electron.atom.io/) wrapper you can use to make Desktop apps
 - [Mux](https://github.com/JuliaWeb/Mux.jl) - A web server framework
 
-Widgets once created with WebIO will work on any of these front-ends.
+Scopes once created with WebIO will work on any of these front-ends.
 
 Getting started
 ---------------
@@ -243,14 +243,12 @@ dom"button"("Greet",
 
 Note that `@js` just translates a Julia expression to the equivalent JavaScript, it does not compile the code. The variables and functions you reference in a `@js` expression must be defined in the JavaScript context it will run in (and need not be defined in Julia).
 
-# Widgets
-
 ## Loading JavaScript dependencies
 
-You can load dependencies by creating a Widget object and passing in `imports` argument.
+You can load dependencies by creating a Scope object and passing in `imports` argument.
 
 ```julia
-w = Widget(imports=["//cdnjs.cloudflare.com/ajax/libs/p5.js/0.5.11/p5.js"])
+w = Scope(imports=["//cdnjs.cloudflare.com/ajax/libs/p5.js/0.5.11/p5.js"])
 
 onimport(w, @js function (p5)
     function sketch(s)
@@ -274,10 +272,10 @@ w(dom"div#container"())
 ## Communicating between Julia and JavaScript
 
 ```julia
-w = Widget()
+w = Scope()
 ```
 
-A widget object acts as a container for communication (more details below). To exchange values between JavaScript and Julia, we also need to add `Observable` objects to the widget. This can be done by passing the widget, and an identifier for the observable (as string) and a default value to the `Observable` constructor:
+A scope object acts as a container for communication (more details below). To exchange values between JavaScript and Julia, we also need to add `Observable` objects to the scope. This can be done by passing the scope, and an identifier for the observable (as string) and a default value to the `Observable` constructor:
 
 ```julia
 obs = Observable(w, "rand-value", 0.0)
@@ -293,11 +291,11 @@ This will run `f` on every update to `obs`.
 
 ### Sending values from JavaScript to Julia
 
-Below is a widget which communicates with Julia. Let's run through its construction line-by-line. The following widget contains a button which sends a random number, generated in JavaScript, to Julia. We will print this number on the Julia side.
+Below is a scope which communicates with Julia. Let's run through its construction line-by-line. The following scope contains a button which sends a random number, generated in JavaScript, to Julia. We will print this number on the Julia side.
 
 ```julia
 function random_print_button()
-    w = Widget()
+    w = Scope()
 
     obs = Observable(w, "rand-value", 0.0)
 
@@ -314,9 +312,9 @@ function random_print_button()
 end
 ```
 
-`w` is a Widget object, it acts a scope or context for communication. Every call to `random_print_button` will create a new widget and hence keep the updates contained within it. This allows there to be many instances of the same widget on a page.
+`w` is a Scope object, it acts a scope or context for communication. Every call to `random_print_button` will create a new scope and hence keep the updates contained within it. This allows there to be many instances of the same scope on a page.
 
-An `Observable` is a value that can change over time. `Observable(w, "rand-value", 0.0)` creates an observable by the name "rand-value" associated with widget `w`. `on(f, x)` sets up an event handler such that `f` is called with the value of `x` every time `x` is updated.
+An `Observable` is a value that can change over time. `Observable(w, "rand-value", 0.0)` creates an observable by the name "rand-value" associated with scope `w`. `on(f, x)` sets up an event handler such that `f` is called with the value of `x` every time `x` is updated.
 
 An observable can be updated using the `x[] = value` syntax on Julia. To update the observable from the JavaScript side, you can use the following syntax:
 
@@ -334,14 +332,14 @@ This will return a `JSExpr` which you can use anywhere WebIO expects JavaScript,
 ```
 creates a button UI which updates the `obs` observable with `Math.random()` (executed in JS) on every click.
 
-Notice the last expression actually _calls_ the widget `w` with the contents to display. This causes the contents to be _wrapped_ in `w`'s context. All uses of observables associated with `w` (e.g. `obs`) should be enclosed in the widget `w`.
+Notice the last expression actually _calls_ the scope `w` with the contents to display. This causes the contents to be _wrapped_ in `w`'s context. All uses of observables associated with `w` (e.g. `obs`) should be enclosed in the scope `w`.
 
 ### Sending values from Julia to JavaScript
 
 Here's a clock where the time is formatted and updated every second from Julia. We use the `onjs` handler and mutate the `#clock` DOM element to acheive this.
 
 ```julia
-w = Widget()
+w = Scope()
 obs = Observable(w, "clock-value", "")
 
 timestr() = Dates.format(now(), "HH:MM:SS")
@@ -365,5 +363,5 @@ w(
 )
 ```
 
-The javascript function passed to `onjs` gets the value of the update as the argument. `this` is set to the Widget object. Notice the use of `this.dom.querySelector("#clock")`. `this.dom` contains the rendered DOM of the widget. `querySelector("#<id>")` will look up the element which has the id `<id>`. `clock.textContent = val` will set the text contained in `clock`, the DOM element.
+The javascript function passed to `onjs` gets the value of the update as the argument. `this` is set to the Scope object. Notice the use of `this.dom.querySelector("#clock")`. `this.dom` contains the rendered DOM of the scope. `querySelector("#<id>")` will look up the element which has the id `<id>`. `clock.textContent = val` will set the text contained in `clock`, the DOM element.
 

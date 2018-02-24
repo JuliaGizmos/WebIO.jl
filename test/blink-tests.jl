@@ -21,15 +21,15 @@ notinstalled && AtomShell.install()
     @test all(x->contains(content, x), substrings)
 
     @testset "observable interpolation" begin
-        w = Widget("testwidget2")
+        w = Scope("testwidget2")
         ob = Observable(0)
         @test_throws ErrorException WebIO.@js $ob
 
         ob = Observable{Any}(w, "test", nothing)
-        @test WebIO.@js($ob) == js"{\"name\":\"test\",\"id\":\"ob_03\",\"context\":\"testwidget2\",\"type\":\"observable\"}"
+        @test WebIO.@js($ob) == js"{\"name\":\"test\",\"id\":\"ob_03\",\"scope\":\"testwidget2\",\"type\":\"observable\"}"
 
-        @test WebIO.@js($ob[]) == js"WebIO.getval({\"name\":\"test\",\"id\":\"ob_03\",\"context\":\"testwidget2\",\"type\":\"observable\"})"
-        @test WebIO.@js($ob[] = 1) == js"WebIO.setval({\"name\":\"test\",\"id\":\"ob_03\",\"context\":\"testwidget2\",\"type\":\"observable\"},1)"
+        @test WebIO.@js($ob[]) == js"WebIO.getval({\"name\":\"test\",\"id\":\"ob_03\",\"scope\":\"testwidget2\",\"type\":\"observable\"})"
+        @test WebIO.@js($ob[] = 1) == js"WebIO.setval({\"name\":\"test\",\"id\":\"ob_03\",\"scope\":\"testwidget2\",\"type\":\"observable\"},1)"
     end
 
 end

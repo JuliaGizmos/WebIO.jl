@@ -6,7 +6,7 @@ var EVENT_KEY = 'events';
 var ATTR_KEY = 'attributes';
 var ATTR_NS_KEY = 'attributes_ns';
 
-function applyProps(context, domNode, props)
+function applyProps(scope, domNode, props)
 {
     for (var key in props) {
         var value = props[key];
@@ -18,7 +18,7 @@ function applyProps(context, domNode, props)
                 break;
 
             case EVENT_KEY:
-                applyEvents(domNode, context, value);
+                applyEvents(domNode, scope, value);
                 break;
 
             case ATTR_KEY:
@@ -92,7 +92,7 @@ function applyStyles(domNode, styles)
     }
 }
 
-function applyEvents(domNode, context, events)
+function applyEvents(domNode, scope, events)
 {
     var allHandlers = domNode.webio_handlers || {};
 
@@ -114,7 +114,7 @@ function applyEvents(domNode, context, events)
                     handlerfn.call(domNode, event);
                 });
             }
-            allHandlers[key] = makeEventHandler(context, value);
+            allHandlers[key] = makeEventHandler(scope, value);
             bindHandler(allHandlers[key])
         }
         else
@@ -131,10 +131,10 @@ var defaultEventOptions = {
     preventDefault: false
 }
 
-function makeEventHandler(context, value)
+function makeEventHandler(scope, value)
 {
     if (typeof value == "function") {
-        return makeEventHandler(context, {
+        return makeEventHandler(scope, {
             code: value, options: defaultEventOptions
         })
     }
@@ -151,20 +151,20 @@ function makeEventHandler(context, value)
         }
 
         // http://stackoverflow.com/questions/1271516/executing-anonymous-functions-created-using-javascript-eval
-        f.call(this, event, context); //XXX security!?
+        f.call(this, event, scope); //XXX security!?
     }
 
     eventHandler.options = options;
     return eventHandler;
 }
 
-function appendChildren(context, parentNode, children) {
+function appendChildren(scope, parentNode, children) {
     if (children) {
         for (var nChildren=children.length, i=0; i<nChildren; i++) {
             if (typeof children[i] === "string") {
                 parentNode.appendChild(document.createTextNode(children[i]));
             } else {
-                var child = WebIO.createNode(context, children[i], parentNode);
+                var child = WebIO.createNode(scope, children[i], parentNode);
                 parentNode.appendChild(child);
             }
         }
@@ -174,7 +174,7 @@ function appendChildren(context, parentNode, children) {
 
 var namespaces = {svg: "http://www.w3.org/2000/svg"}
 
-function createDOM(ctx, data, parentNode) {
+function createDOM(scope, data, parentNode) {
 
     var args = data.instanceArgs;
     var dom;
@@ -185,13 +185,13 @@ function createDOM(ctx, data, parentNode) {
         dom = document.createElementNS(ns, args.tag);
     }
 
-    applyProps(ctx, dom, data.props);
-    appendChildren(ctx, dom, data.children)
+    applyProps(scope, dom, data.props);
+    appendChildren(scope, dom, data.children)
 
     return dom;
 }
 
-function doImports(widget, imp) {
+function doImports(scope, imp) {
     // this function must return a promise which resolves to a
     // vector of modules or null values (null values for non-modules)
     switch (imp.type) {
@@ -211,7 +211,7 @@ function doImports(widget, imp) {
             function makePromisClosure(sync_import) {
                 return function (vec) {
                     // vec contains previously resolved modules
-                    var y = doImports(widget, sync_import) // a promise
+                    var y = doImports(scope, sync_import) // a promise
                     var flatten = (sync_import.type == "sync_block" ||
                                    sync_import.type == "async_block")
 
@@ -233,7 +233,7 @@ function doImports(widget, imp) {
             }
             return p;
         case "async_block":
-            var ps = imp.data.map(function(x){return doImports(widget, x)})
+            var ps = imp.data.map(function(x){return doImports(scope, x)})
             return Promise.all(ps).then(function (mods) {
                 var mods2 = []
                 for (var i=0, l=imp.data.length; i<l; i++) {
@@ -252,7 +252,7 @@ function doImports(widget, imp) {
             SystemJS.config(cfg)
             return SystemJS.import(imp.url).then(function (mod) {
                 if (imp.name) {
-                    widget[imp.name] = mod
+                    scope[imp.name] = mod
                 }
                 return mod
             })
@@ -293,43 +293,43 @@ function doImports(widget, imp) {
     }
 }
 
-function createWidget(ctx, data) {
+function createScope(scope, data) {
     var fragment = document.createElement("div");
-    fragment.className = "wio-context";
+    fragment.className = "wio-scope";
 
     // var handlers = data.instanceArgs.handlers;
     var observables = data.instanceArgs.observables;
     var handlers = data.instanceArgs.handlers;
 
-    var subctx = WebIO.makeWidget(data.instanceArgs.id, ctx.data,
-                             ctx.sendCallback, fragment, handlers, observables);
+    var subscope = WebIO.makeScope(data.instanceArgs.id, scope.data,
+                             scope.sendCallback, fragment, handlers, observables);
 
     if (handlers["preDependencies"]) {
         var predepfns = handlers["preDependencies"]
-        predepfns.map(function (f){ f(subctx) })
+        predepfns.map(function (f){ f(subscope) })
     }
 
     var imports = data.instanceArgs.imports;
 
-    var depsPromise = doImports(subctx, imports);
-    subctx.promises.importsLoaded = depsPromise
+    var depsPromise = doImports(subscope, imports);
+    subscope.promises.importsLoaded = depsPromise
 
-    subctx.promises.connected = new Promise(function (accept, reject) {
+    subscope.promises.connected = new Promise(function (accept, reject) {
         WebIO.onConnected(function () {
             // internal message to notify julia
-            WebIO.send(subctx, "_setup_context", {});
-            accept(subctx);
+            WebIO.send(subscope, "_setup_scope", {});
+            accept(subscope);
         })
     })
 
     depsPromise.then(function (deps) {
-        appendChildren(subctx, fragment, data.children);
+        appendChildren(subscope, fragment, data.children);
     })
 
     if (handlers["importsLoaded"]){
         depsPromise.then(function(alldeps){
             var ondepsfns = handlers["importsLoaded"]
-            ondepsfns.map(function (f){ f.apply(subctx, alldeps) })
+            ondepsfns.map(function (f){ f.apply(subscope, alldeps) })
         })
     }
 
@@ -338,7 +338,7 @@ function createWidget(ctx, data) {
 
 var style = document.createElement('style')
 style.type = 'text/css'
-style.innerHTML = '.wio-context { display:inherit; margin:inherit }'
+style.innerHTML = '.wio-scope { display:inherit; margin:inherit }'
 document.getElementsByTagName('head')[0].appendChild(style)
 
 WebIO.NodeTypes = {
@@ -346,8 +346,8 @@ WebIO.NodeTypes = {
         namespaces: namespaces,
         create: createDOM
     },
-    Widget: {
-        create: createWidget
+    Scope: {
+        create: createScope
     }
 }
 

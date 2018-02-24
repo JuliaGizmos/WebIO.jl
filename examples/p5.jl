@@ -2,8 +2,8 @@ using WebIO
 setup_provider("mux")
 
 function myapp(req)
-    withcontext(Widget()) do ctx
-        adddeps!(ctx, ["//cdnjs.cloudflare.com/ajax/libs/p5.js/0.5.7/p5.js"])
+    withcontext(Scope()) do scope
+        adddeps!(scope, ["//cdnjs.cloudflare.com/ajax/libs/p5.js/0.5.7/p5.js"])
         sketch = @js function (p5)
             @var s = function(p)
                 @var barWidth = 20
@@ -29,7 +29,7 @@ function myapp(req)
             this.dom.querySelector("#p5container").innerText = "";
             @new p5(s, "p5container");
         end
-        ondependencies(ctx, sketch)
+        ondependencies(scope, sketch)
 
         dom"div#p5container"("Loading p5...")
     end

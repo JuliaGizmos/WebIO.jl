@@ -47,7 +47,7 @@ function Base.send(p::WebSockConnection, data)
 end
 
 
-function Mux.Response(o::Node)
+function Mux.Response(o::Union{Node, Scope})
     Mux.Response(
         """
         <!doctype html>

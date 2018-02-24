@@ -148,14 +148,14 @@ end
 
 function jsexpr(io, o::Observable)
     if !haskey(observ_id_dict, o)
-        error("No context associated with observer being interpolated")
+        error("No scope associated with observer being interpolated")
     end
-    _ctx, name = observ_id_dict[o]
-    _ctx.value === nothing && error("Widget of the observable doesn't exist anymore.")
-    ctx = _ctx.value
+    _scope, name = observ_id_dict[o]
+    _scope.value === nothing && error("Scope of the observable doesn't exist anymore.")
+    scope = _scope.value
 
     obsobj = Dict("type" => "observable",
-                  "context" => ctx.id,
+                  "scope" => scope.id,
                   "name" => name,
                   "id" => obsid(o))
 

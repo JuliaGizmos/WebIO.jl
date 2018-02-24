@@ -10,9 +10,9 @@ import WebIO: dispatch
 
 @testset "communication" begin
 
-    w = Widget("testctx1")
+    w = Scope("testctx1")
 
-   #@test isa(instanceof(w), Widget)
+   #@test isa(instanceof(w), Scope)
    #@test instanceof(w).id == "testctx1"
 
     send(w, :msg_to_js, "hello js") # Queue a message to the JS side.
