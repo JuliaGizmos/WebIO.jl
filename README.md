@@ -72,7 +72,7 @@ You can create a nested Node object:
 
 ```julia
 Node(:ul,
-    Node(:li, "get milk")
+    Node(:li, "get milk"),
     Node(:li, "make a pie"), attributes=Dict(:class => "my-list"))
 ```
 
