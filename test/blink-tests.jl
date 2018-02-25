@@ -35,4 +35,4 @@ notinstalled && AtomShell.install()
 end
 
 
-notinstalled && AtomShell.remove()
+notinstalled && AtomShell.uninstall()
