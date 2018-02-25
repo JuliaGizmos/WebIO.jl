@@ -5,13 +5,13 @@ function arrays_and_equal(arr1, arr2){
     return is_array(arr1) && is_array(arr2) && arrays_equal(arr1, arr2)
 }
 
-var contexts = {};
-var obscontexts = {};
+var scopes = {};
+var obsscopes = {};
 
-function makeWidget(id, data, sendCallback, dom, handlers, observables)
+function makeScope(id, data, sendCallback, dom, handlers, observables)
 {
-    var ctx = {
-        type: "context",
+    var scope = {
+        type: "scope",
         id: id,
         data: data,
         sendCallback: sendCallback,
@@ -21,32 +21,32 @@ function makeWidget(id, data, sendCallback, dom, handlers, observables)
         promises: {}
     }
 
-    contexts[id] = ctx;
+    scopes[id] = scope;
     if (observables){
-        Object.keys(observables).forEach(function setobscontext(name){
+        Object.keys(observables).forEach(function setobsscope(name){
             var o = observables[name]
-            if (typeof obscontexts[o.id] === "undefined"){
-                obscontexts[o.id] = []
+            if (typeof obsscopes[o.id] === "undefined"){
+                obsscopes[o.id] = []
             }
-            //obname is the name of the observable in this context
-            obscontexts[o.id].push({ctx: ctx, obname: name})
+            //obname is the name of the observable in this scope
+            obsscopes[o.id].push({scope: scope, obname: name})
         })
     }
 
-    return ctx;
+    return scope;
 }
 
 
-function createNode(context, data, parentNode)
+function createNode(scope, data, parentNode)
 {
     var nodeType = data.nodeType;
     return WebIO.NodeTypes[nodeType]
-           .create(context, data, parentNode)
+           .create(scope, data, parentNode)
 }
 
-function getHandlers(ctx, cmd)
+function getHandlers(scope, cmd)
 {
-    var fs = ctx.handlers[cmd];
+    var fs = scope.handlers[cmd];
     if (typeof fs !== "undefined") {
         return fs;
     }
@@ -59,7 +59,7 @@ function getHandlers(ctx, cmd)
         }
     }
     return [function () {
-        console.error("Invalid command ", cmd, "received for context", ctx)
+        console.error("Invalid command ", cmd, "received for scope", scope)
     }]
 }
 
@@ -69,20 +69,20 @@ function dispatch(msg)
     if (msg.type != "command") {
         console.warn("invalid message received", msg)
     } else {
-        var ctx = contexts[msg.context];
-        var fs = getHandlers(ctx, msg.command);
+        var scope = scopes[msg.scope];
+        var fs = getHandlers(scope, msg.command);
         for (var i=0, l=fs.length; i<l; i++) {
             var f = fs[i]
-            f.call(ctx, msg.data, false) // false for "not client-side"
+            f.call(scope, msg.data, false) // false for "not client-side"
         }
     }
 }
 
 function mount(id, targetQuery, data)
 {
-    // TODO: separate targetQuery from Widget id
-    // every root element gets a context by default
-    var context = makeWidget(id, data, WebIO.sendCallback)
+    // TODO: separate targetQuery from Scope id
+    // every root element gets a scope by default
+    var scope = makeScope(id, data, WebIO.sendCallback)
     var target;
 
     if (targetQuery) {
@@ -93,8 +93,8 @@ function mount(id, targetQuery, data)
         }
     }
 
-    var node = createNode(context, data, target);
-    context.dom = node;
+    var node = createNode(scope, data, target);
+    scope.dom = node;
 
     if (target) {
         target.appendChild(node);
@@ -103,18 +103,18 @@ function mount(id, targetQuery, data)
     return node
 }
 
-function send(ctx, cmd, data)
+function send(scope, cmd, data)
 {
-    ctx.sendCallback(message(ctx, cmd, data));
+    scope.sendCallback(message(scope, cmd, data));
 }
 
 function setval(ob, val) {
-    var allcontexts = obscontexts[ob.id]
+    var allscopes = obsscopes[ob.id]
     var synced_julia = false
-    allcontexts.forEach(function propagate_to_other_contexts(octxinfo){
-        var ctx = octxinfo.ctx
-        var name = octxinfo.obname // the name of the observable in octx
-        var x = ctx.observables[name]
+    allscopes.forEach(function propagate_to_other_scopes(oscopeinfo){
+        var scope = oscopeinfo.scope
+        var name = oscopeinfo.obname // the name of the observable in oscope
+        var x = scope.observables[name]
         if (val === x.value || arrays_and_equal(val, x.value) ||
                 (val !== val && x.value !== x.value)) {
             // adapted from Vue.js reactiveSetter, avoids calling handlers if value
@@ -123,33 +123,33 @@ function setval(ob, val) {
             return
         }
         x.value = val
-        if (typeof ctx.handlers[name] !== "undefined") {
-            var fs = ctx.handlers[name];
+        if (typeof scope.handlers[name] !== "undefined") {
+            var fs = scope.handlers[name];
             for (var i=0, l=fs.length; i<l; i++) {
                 var f = fs[i]
-                f.call(ctx, val, true) // true for "client-side"
+                f.call(scope, val, true) // true for "client-side"
             }
         }
 
-        // sync the observable's value to julia if `sync` is true in any context
+        // sync the observable's value to julia if `sync` is true in any scope
         if (x.sync && !synced_julia) {
-            WebIO.send(ctx, name, val);
+            WebIO.send(scope, name, val);
             synced_julia = true
         }
     })
 }
 
 function getval(ob) {
-    var ctx = contexts[ob.context]
-    var x = ctx.observables[ob.name]
+    var scope = scopes[ob.scope]
+    var x = scope.observables[ob.name]
     return x.value
 }
 
-function message(ctx, cmd, data)
+function message(scope, cmd, data)
 {
     return {
         type: "message",
-        context: ctx.id,
+        scope: scope.id,
         command: cmd,
         data: data
     }
@@ -216,8 +216,8 @@ var WebIO = {
     // For Base.show or a package to print an element.
     mount: mount,
 
-    // Create Widget - for use by NodeTypes
-    makeWidget: makeWidget,
+    // Create Scope - for use by NodeTypes
+    makeScope: makeScope,
 
     // createNode
     createNode: createNode,
@@ -225,7 +225,7 @@ var WebIO = {
     // For Providers to call when messages are received from Julia
     dispatch: dispatch,
 
-    // Send a message back to the Widget on Julia
+    // Send a message back to the Scope on Julia
     send: send,
 
     // A variant of send which sets the value of an observable

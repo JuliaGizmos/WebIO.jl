@@ -2,7 +2,7 @@ using Blink
 using WebIO
 
 function counter(start=0)
-    w = Widget()
+    w = Scope()
 
     # updates to this update the UI
     count = Observable(w, "count", start)

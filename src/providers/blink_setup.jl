@@ -5,7 +5,7 @@ immutable BlinkConnection <: WebIO.AbstractConnection
     page::Page
 end
 
-function Blink.body!(p::Page, x::Union{Node, Widget})
+function Blink.body!(p::Page, x::Union{Node, Scope})
     wait(p)
     loadjs!(p, "/pkg/WebIO/webio/bundle.js")
     loadjs!(p, "/pkg/WebIO/providers/blink_setup.js")
@@ -18,7 +18,7 @@ function Blink.body!(p::Page, x::Union{Node, Widget})
     body!(p, stringmime(MIME"text/html"(), x))
 end
 
-function Blink.body!(p::Window, x::Union{Node, Widget})
+function Blink.body!(p::Window, x::Union{Node, Scope})
     body!(p.content, x)
 end
 

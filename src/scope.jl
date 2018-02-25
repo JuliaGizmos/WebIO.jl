@@ -1,8 +1,8 @@
 using JSON
 
-export Widget,
+export Scope,
        AbstractConnection,
-       withcontext,
+       withscope,
        Observable,
        setobservable!,
        on, onjs,
@@ -16,7 +16,7 @@ import Base: send
 import Observables: Observable
 
 """
-    Widget(id; kwargs...)
+    Scope(id; kwargs...)
 
 An object which can send and receive messages.
 
@@ -24,9 +24,9 @@ Fields:
 - `id::String`: A unique ID
 - `outbox::Channel`: Channel for outgoing messages
 - `imports`: An array of js/html/css assets to load
-  before rendering the contents of a context.
+  before rendering the contents of a scope.
 """
-mutable struct Widget
+mutable struct Scope
     id::AbstractString
     dom::Any
     outbox::Channel
@@ -35,9 +35,9 @@ mutable struct Widget
     jshandlers
 end
 
-const contexts = Dict{String, Widget}()
+const scopes = Dict{String, Scope}()
 
-function Widget(id::String=newid("context");
+function Scope(id::String=newid("scope");
         dom=nothing,
         outbox::Channel=Channel{Any}(32),
         observs::Dict=Dict(),
@@ -51,17 +51,17 @@ function Widget(id::String=newid("context");
         imports = dependencies
     end
 
-    if haskey(contexts, id)
-        warn("A context by the id $id already exists. Overwriting.")
+    if haskey(scopes, id)
+        warn("A scope by the id $id already exists. Overwriting.")
     end
 
-    contexts[id] = Widget(id, dom, outbox, observs, imports, jshandlers)
+    scopes[id] = Scope(id, dom, outbox, observs, imports, jshandlers)
 end
-Base.@deprecate Widget(id::AbstractString; kwargs...) Widget(; id=id, kwargs...)
+Base.@deprecate Scope(id::AbstractString; kwargs...) Scope(; id=id, kwargs...)
 
-(w::Widget)(arg) = (w.dom = arg; w)
+(w::Scope)(arg) = (w.dom = arg; w)
 
-function Observables.on(f, w::Widget, key)
+function Observables.on(f, w::Scope, key)
     key = string(key)
     listener, _ = Base.@get! w.observs key (Observable{Any}(w, key, nothing), nothing)
     on(f, listener)
@@ -74,7 +74,7 @@ const observ_id_dict = WeakKeyDict()
 function setobservable!(ctx, key, obs; sync=nothing)
     key = string(key)
     if haskey(ctx.observs, key)
-        warn("An observable named $key already exists in context $(ctx.id).
+        warn("An observable named $key already exists in scope $(ctx.id).
              Overwriting.")
     end
 
@@ -86,7 +86,7 @@ function setobservable!(ctx, key, obs; sync=nothing)
     obs
 end
 
-function Base.getindex(w::Widget, key)
+function Base.getindex(w::Scope, key)
     key = string(key)
     if haskey(w.observs, key)
         w.observs[key][1]
@@ -95,15 +95,15 @@ function Base.getindex(w::Widget, key)
     end
 end
 
-function Base.setindex!(w::Widget, obs, key)
+function Base.setindex!(w::Scope, obs, key)
     setobservable!(w, key, obs)
 end
 
-function (::Type{Observable{T}}){T}(ctx::Widget, key, value; sync=nothing)
+function (::Type{Observable{T}}){T}(ctx::Scope, key, value; sync=nothing)
     setobservable!(ctx, key, Observable{T}(value), sync=sync)
 end
 
-function Observable{T}(ctx::Widget, key, val::T; sync=nothing)
+function Observable{T}(ctx::Scope, key, val::T; sync=nothing)
     Observable{T}(ctx, key, val; sync=sync)
 end
 
@@ -111,7 +111,7 @@ const Observ = Observable
 
 include("imports.jl")
 
-function JSON.lower(x::Widget)
+function JSON.lower(x::Scope)
     Dict(
         "id" => x.id,
         "imports" => lowerdeps(x.imports),
@@ -133,10 +133,10 @@ function lowerobserv(ob_)
          "id" => obsid(ob))
 end
 
-function send(ctx::Widget, key, data)
+function send(ctx::Scope, key, data)
     command_data = Dict(
       "type" => "command",
-      "context" => ctx.id,
+      "scope" => ctx.id,
       "command" => key,
       "data" => data,
     )
@@ -148,11 +148,11 @@ macro evaljs(ctx, expr)
     :(send($(esc(ctx)), "Basics.eval", jsexpr($(Expr(:quote, expr)))))
 end
 
-function after(ctx::Widget, promise_name, expr)
+function after(ctx::Scope, promise_name, expr)
     @evaljs ctx begin
-        @var widget = this;
+        @var scope = this;
         this.promises[$promise_name].
-            then(val -> $expr.call(widget, val))
+            then(val -> $expr.call(scope, val))
     end
 end
 
@@ -164,11 +164,11 @@ Base.@deprecate ondependencies(ctx, jsf) onimport(ctx, jsf)
 
 const waiting_messages = Dict{String, Condition}()
 
-function send_sync(ctx::Widget, key, data)
+function send_sync(ctx::Scope, key, data)
     msgid = string(rand(UInt128))
     command_data = Dict(
       "type" => "command",
-      "context" => ctx.id,
+      "scope" => ctx.id,
       "messageId" => msgid,
       "command" => key,
       "data" => data,
@@ -180,13 +180,13 @@ function send_sync(ctx::Widget, key, data)
     wait(cond)
 end
 
-const lifecycle_commands = ["widget_created"]
+const lifecycle_commands = ["scope_created"]
 function dispatch(ctx, key, data)
     if haskey(ctx.observs, string(key))
         Observables.setexcludinghandlers(ctx.observs[key][1], data, x->!isa(x, Backedge))
     else
         key ∈ lifecycle_commands ||
-            warn("$key does not have a handler for context id $(ctx.id)")
+            warn("$key does not have a handler for scope id $(ctx.id)")
     end
 end
 
@@ -227,11 +227,11 @@ function onjs(ob::Observable, f)
         ensure_js_updates(ctx, key, ob)
         onjs(ctx, key, f)
     else
-        error("This observable is not associated with any context.")
+        error("This observable is not associated with any scope.")
     end
 end
 
-function Base.show(io::IO, m::MIME"text/html", x::Widget)
+function Base.show(io::IO, m::MIME"text/html", x::Scope)
     id = x.id
     write(io, """<div id='$id'></div>
                  <unsafe-script>WebIO.mount('$id', '#$id',""")
@@ -239,11 +239,12 @@ function Base.show(io::IO, m::MIME"text/html", x::Widget)
     write(io, ")</unsafe-script>")
 end
 
-function _show(io::IO, el::Widget, indent_level=0)
+function _show(io::IO, el::Scope, indent_level=0)
     showindent(io, indent_level)
     _show(io, el.dom, indent_level)
 end
 
-Base.@deprecate_binding Context Widget
+Base.@deprecate_binding Context Scope
+Base.@deprecate_binding Widget Scope
 Base.@deprecate handle! on
 Base.@deprecate handlejs! onjs

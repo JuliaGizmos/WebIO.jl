@@ -3,10 +3,6 @@ using IJulia.CommManager
 
 using WebIO
 
-function script(f)
-    display(HTML("<script src='/pkg/WebIO/webio/bundle.js'></script>"))
-end
-
 immutable IJuliaConnection <: AbstractConnection
     comm::CommManager.Comm
 end

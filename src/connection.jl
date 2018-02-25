@@ -22,16 +22,16 @@ end
 function dispatch(conn::AbstractConnection, data)
     # first, check if the message is one of the administrative ones
     cmd = data["command"]
-    ctxid = data["context"]
-    if cmd == "_setup_context"
-        if haskey(contexts, ctxid)
-            ctx = contexts[ctxid]
+    scopeid = data["scope"]
+    if cmd == "_setup_scope"
+        if haskey(scopes, scopeid)
+            scope = scopes[scopeid]
             @async while true
-                msg = take!(ctx.outbox)
+                msg = take!(scope.outbox)
                 send(conn, msg)
             end
         else
-            log(conn, "Client says it has unknown context $ctxid", "warn")
+            log(conn, "Client says it has unknown scope $scopeid", "warn")
         end
     elseif cmd == "_acknowledge_message"
         msgid = data["messageId"]
@@ -45,12 +45,12 @@ function dispatch(conn::AbstractConnection, data)
                 "warn")
         end
     else
-        if !haskey(contexts, ctxid)
-            log(conn, "Message $data received for unknown context $ctxid", "warn")
+        if !haskey(scopes, scopeid)
+            log(conn, "Message $data received for unknown scope $scopeid", "warn")
             return
         end
-        ctx = contexts[ctxid]
-        dispatch(ctx, cmd, data["data"])
+        scope = scopes[scopeid]
+        dispatch(scope, cmd, data["data"])
     end
 end
 
