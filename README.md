@@ -140,7 +140,7 @@ Node(:div, children..., className="<class>", id="<id>",
 
 Everything except the tag ('div' in the example) is optional. So,
 
-`dom"div"`, `dom"div.class1"`, `dom"div.class1.class2"`, `dom"div#my-id`,
+`dom"div"`, `dom"div.class1"`, `dom"div.class1.class2"`, `dom"div#my-id"`,
 `dom"input.check[type=checkbox]"` are all valid invocations.
 
 WebIO.render
