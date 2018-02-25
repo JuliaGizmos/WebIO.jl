@@ -17,7 +17,7 @@ import WebIO: dispatch
 
     send(w, :msg_to_js, "hello js") # Queue a message to the JS side.
     @test take!(w.outbox) == Dict("type"=>"command",
-                                  "context"=>"testctx1",
+                                  "scope"=>"testctx1",
                                   "command"=>:msg_to_js,
                                   "data"=>"hello js")
     
@@ -25,11 +25,11 @@ import WebIO: dispatch
 
     conn = TestConn(nothing) # create a test connection
 
-    # mimic front-end sending a _setup_context special message
+    # mimic front-end sending a _setup_scope special message
     # this message denotes that `conn` will be handling messages
-    # to and from the context with the given id
-    dispatch(conn, Dict("command" => "_setup_context",
-                        "context" => "testctx1"))
+    # to and from the scope with the given id
+    dispatch(conn, Dict("command" => "_setup_scope",
+                        "scope" => "testctx1"))
 
     yield() # allow a chance for ctx.outbox to write to connection
 
@@ -37,7 +37,7 @@ import WebIO: dispatch
     # in TestConn the message is simply stored in its msg ref field
     @test conn.msg == Dict("type"=>"command",
                            "command"=>:msg_to_js,
-                           "context"=>"testctx1",
+                           "scope"=>"testctx1",
                            "data"=>"hello js again")
 
     # further messages are sent freely
@@ -45,30 +45,30 @@ import WebIO: dispatch
     yield()
     @test conn.msg == Dict("type"=>"command",
                            "command"=>:msg_to_js,
-                           "context"=>"testctx1",
+                           "scope"=>"testctx1",
                            "data"=>"hello js a third time")
 
     # mimic messages coming in from JS side
 
-    # no context named xx
+    # no scope named xx
     dispatch(conn, Dict("command" => "incoming",
-                        "data"=>"hi Julia", "context"=>"xx"))
+                        "data"=>"hi Julia", "scope"=>"xx"))
     yield()
     # a warning was raised on receiving a message for an unknown
-    # context xx
+    # scope xx
     @test conn.msg["type"] == "log"
-    @test contains(conn.msg["message"], "unknown context xx")
+    @test contains(conn.msg["message"], "unknown scope xx")
 
     # this should give a warning
     dispatch(conn, Dict("command" => "incoming",
-                        "data"=>"hi Julia", "context"=>"testctx1"))
+                        "data"=>"hi Julia", "scope"=>"testctx1"))
 
     msg = Ref("")
     on(x -> msg[] = x, w, "incoming") # setup the handler
 
     # dispatch message again
     dispatch(conn, Dict("command" => "incoming",
-                        "data"=>"hi Julia!", "context"=>"testctx1"))
+                        "data"=>"hi Julia!", "scope"=>"testctx1"))
 
     @test msg[] == "hi Julia!"
 end
