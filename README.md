@@ -20,10 +20,19 @@ To install WebIO, run:
 
 ```julia
 Pkg.clone("https://github.com/shashi/WebIO.jl.git")
+Pkg.build("WebIO") # this will set up the IJulia server plugin
 
 using WebIO
 WebIO.devsetup()
 WebIO.bundlejs()
+```
+
+If you want to use WebIO in Jupyter Lab, you need to install the WebIO extension for Jupyter Lab.
+
+```julia
+cd(Pkg.dir("WebIO", "assets"))
+;jupyter labextension install webio
+;jupyter labextension enable webio/jupyterlab_entry
 ```
 
 You will need nodejs installed and `node` binary to be in PATH to build the required JavaScript files.
@@ -32,7 +41,7 @@ You will need nodejs installed and `node` binary to be in PATH to build the requ
 
 First, load the front end package (e.g. Blink or Mux; IJulia and Atom packages are already loaded when you are using them). Then run `using WebIO` to load this package.
 
-- On **IJulia**
+- On **IJulia** or **Jupyter Lab**
 Whenever a code cell returns a `WebIO.Node` object, IJulia will render it. For example,
 
 ```julia
