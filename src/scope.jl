@@ -157,7 +157,9 @@ function after(ctx::Scope, promise_name, expr)
 end
 
 function onimport(ctx, f)
-    after(ctx, "importsLoaded", @js deps -> $f.apply(this, deps))
+    after(ctx, "importsLoaded", js"function (deps) {
+          $f.apply(this, deps)
+      }""")
 end
 
 Base.@deprecate ondependencies(ctx, jsf) onimport(ctx, jsf)
