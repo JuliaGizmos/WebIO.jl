@@ -52,10 +52,39 @@ immutable JSString
     s::String
 end
 
-macro js_str(s)
-    :(JSString($(esc(s))))
+function str_interpolate(s, i0 = start(s))
+    l = endof(s)
+    strs = []
+    prev_c = '_'
+    while i0 <= l
+        c, i = next(s, i0)
+        while !(prev_c != '\\' && c == '$') && i <= l
+            prev_c = c
+            c, i = next(s, i)
+        end
+        if i0 <= i
+            j = c == '$' ? prevind(s, prevind(s, i)) : prevind(s, i)
+            push!(strs, s[i0:j])
+        end
+        if i <= l
+            expr, i = parse(s, i, greedy=false, raise=false)
+            push!(strs, expr)
+        end
+        i0 = i
+    end
+    strs
 end
 
+macro js_str(s)
+    writes = [x isa String ? :(print(io, $(esc(x)))) : :(jsexpr(io, $(esc(x))))
+              for x in str_interpolate(s)]
+
+    :(JSString(sprint() do io
+                   $(writes...)
+                   end))
+end
+
+Base.string(s::JSString) = s.s
 Base.:(==)(x::JSString, y::JSString) = x.s==y.s
 
 JSON.lower(x::JSString) = x.s
