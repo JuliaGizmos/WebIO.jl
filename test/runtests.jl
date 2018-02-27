@@ -46,7 +46,13 @@ end
 @testset "@js_str" begin
     @test js"x=y".s == "x=y"
     y = 1
-    @test js"x=$y".s == "x=\$y"
+    @test js"x=$y".s == "x=1"
+
+    y = js"f(42)"
+    @test js"x=$y" == js"x=f(42)"
+
+    y = Dict()
+    @test js"x=$y" == js"x={}"
 end
 
 WebIO.devsetup()
