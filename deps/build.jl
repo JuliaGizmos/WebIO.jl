@@ -4,7 +4,11 @@ const BEGIN_MARKER = "###JULIA-WEBIO-CONFIG-BEGIN"
 const END_MARKER = "###JULIA-WEBIO-CONFIG-END"
 function install_ijulia_config()
     config_file = joinpath(ENV["HOME"], ".jupyter", "jupyter_notebook_config.py")
-    config_str = String(read(config_file))
+    if isfile(config_file)
+        config_str = String(read(config_file))
+    else
+        config_str = ""
+    end
 
     # remove previous config
     config_str = replace(config_str, Regex("\n" * BEGIN_MARKER * ".*" * END_MARKER, "s"), "")
