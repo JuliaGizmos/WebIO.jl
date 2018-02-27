@@ -1,38 +1,56 @@
 using WebIO
-setup_provider("mux")
+using JSExpr
 
-function myapp(req)
-    withcontext(Scope()) do scope
-        adddeps!(scope, ["//cdnjs.cloudflare.com/ajax/libs/p5.js/0.5.7/p5.js"])
-        sketch = @js function (p5)
-            @var s = function(p)
-                @var barWidth = 20
-                @var lastBar = -1
+function hue_app()
+    scope = Scope()
+    import!(scope, ["//cdnjs.cloudflare.com/ajax/libs/p5.js/0.5.7/p5.js"])
 
-                p.setup = function ()
-                   p.createCanvas(720, 400)
-                   p.colorMode(p.HSB, p.height, p.height, p.height)
-                   p.noStroke()
-                   p.background(0)
-                end
+    sketch = @js function (p5)
+        @var s = function(p)
+            @var barWidth = 20
+            @var lastBar = -1
 
-                p.draw = function ()
-                    @var whichBar = p.mouseX / barWidth
-                    @var barX = whichBar * barWidth;
-                    if whichBar != lastBar
-                       p.fill(p.mouseY, p.height, p.height)
-                       p.rect(barX, 0, barWidth, p.height)
-                       lastBar = whichBar
-                   end
-                end
+            p.setup = function ()
+               p.createCanvas(720, 400)
+               p.colorMode(p.HSB, p.height, p.height, p.height)
+               p.noStroke()
+               p.background(0)
             end
-            this.dom.querySelector("#p5container").innerText = "";
-            @new p5(s, "p5container");
-        end
-        ondependencies(scope, sketch)
 
-        dom"div#p5container"("Loading p5...")
+            p.draw = function ()
+                @var whichBar = p.mouseX / barWidth
+                @var barX = whichBar * barWidth;
+                if whichBar != lastBar
+                   p.fill(p.mouseY, p.height, p.height)
+                   p.rect(barX, 0, barWidth, p.height)
+                   lastBar = whichBar
+               end
+            end
+        end
+        this.dom.querySelector("#p5container").innerText = "";
+        @new p5(s, "p5container");
+    end
+    onimport(scope, sketch)
+
+    scope.dom = dom"div#p5container"("Loading p5...")
+
+    scope
+end
+
+# Display in whatever frontend is avalaible
+function main()
+    if isdefined(:IJulia) || isdefined(:Juno)
+        return hue_app()
+    elseif isdefined(:Blink)
+        win = Window()
+        body!(win, hue_app())
+        win
+    elseif isdefined(:Mux)
+        @sync webio_serve(page("/", req -> hue_app()), rand(8000:9000))
+    else
+        error("do one of using Mux, using Blink before running the
+               example, or run it from within IJulia or Juno")
     end
 end
 
-webio_serve(page("/", req -> myapp(req)))
+main()
