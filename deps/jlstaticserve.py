@@ -11,6 +11,10 @@ class JuliaPackageAssetServer(IPythonHandler, StaticFileHandler):
         IPythonHandler.initialize(self, *args)
         StaticFileHandler.initialize(self, "", *args)
 
+    def set_extra_headers(self, path):
+        # Disable cache
+        self.set_header('Cache-Control', 'no-store, no-cache, must-revalidate, max-age=0')
+
     def get(self, pkg, fpath):
         dirs = self.julia_load_path
         for d in dirs:

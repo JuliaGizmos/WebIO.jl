@@ -145,19 +145,21 @@ function send(ctx::Scope, key, data)
 end
 
 macro evaljs(ctx, expr)
-    :(send($(esc(ctx)), "Basics.eval", jsexpr($(Expr(:quote, expr)))))
+    :(send($(esc(ctx)), "Basics.eval", $expr))
 end
 
-function after(ctx::Scope, promise_name, expr)
-    @evaljs ctx begin
-        @var scope = this;
-        this.promises[$promise_name].
-            then(val -> $expr.call(scope, val))
-    end
+function after(ctx::Scope, promise_name, f)
+    @show f
+    @evaljs ctx js"""
+    var scope = this;
+    this.promises[$promise_name].then(function (val) {
+        ($f).call(scope, val);
+    })
+    """
 end
 
 function onimport(ctx, f)
-    after(ctx, "importsLoaded", @js deps -> $f.apply(this, deps))
+    after(ctx, "importsLoaded", js"function (deps) { ($f).apply(this, deps); }")
 end
 
 Base.@deprecate ondependencies(ctx, jsf) onimport(ctx, jsf)

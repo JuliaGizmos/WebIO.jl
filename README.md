@@ -232,9 +232,13 @@ alert("Hello, World!")
 """
 ```
 
-This will return an object of type `JSExpr` which can be used anywhere WebIO expects javascript expressions.
+This will return an object of type `JSString` which can be used anywhere WebIO expects javascript expressions.
 
-The second way is to use the `@js` macro. `@js` macro can translate Julia expressions to JavaScript expressions (`JSExpr`). For example,
+The second way is to use the `@js` macro from [JSExpr.jl](https://github.com/JuliaGizmos/JSExpr.jl). `@js` macro can translate Julia expressions to JavaScript expressions (`JSString`). For example,
+
+```julia
+using JSExpr # gives @js
+```
 
 ```julia
 @js alert("Hello, World!")
@@ -261,6 +265,9 @@ Note that `@js` just translates a Julia expression to the equivalent JavaScript,
 You can load dependencies by creating a Scope object and passing in `imports` argument.
 
 ```julia
+
+using WebIO, JSExpr
+
 w = Scope(imports=["//cdnjs.cloudflare.com/ajax/libs/p5.js/0.5.11/p5.js"])
 
 onimport(w, @js function (p5)
@@ -335,7 +342,7 @@ An observable can be updated using the `x[] = value` syntax on Julia. To update 
 @js $obs[] = Math.random()
 ```
 
-This will return a `JSExpr` which you can use anywhere WebIO expects JavaScript, such as a event handler. But an event handler should be a function so you would need to enclose this in a function: `@js () -> $obs[] = Math.random()`.
+This will return a `JSString` which you can use anywhere WebIO expects JavaScript, such as a event handler. But an event handler should be a function so you would need to enclose this in a function: `@js () -> $obs[] = Math.random()`.
 
 ```
   dom"button"(

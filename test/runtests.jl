@@ -43,13 +43,24 @@ end
     @test props(n1) == Dict(:prop=>"x")
 end
 
+@testset "@js_str" begin
+    @test js"x=y".s == "x=y"
+    y = 1
+    @test js"x=$y".s == "x=1"
+
+    y = js"f(42)"
+    @test js"x=$y" == js"x=f(42)"
+
+    y = Dict()
+    @test js"x=$y" == js"x={}"
+end
+
 WebIO.devsetup()
 try
     WebIO.bundlejs(watch=false)
 catch err
 end
 
-include("syntax.jl")
 include("communication.jl")
 include("blink-tests.jl")
 include("util-tests.jl")

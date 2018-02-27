@@ -20,18 +20,6 @@ notinstalled && AtomShell.install()
     content = Blink.@js(w, document.body.innerHTML)
     @test all(x->contains(content, x), substrings)
 
-    @testset "observable interpolation" begin
-        w = Scope("testwidget2")
-        ob = Observable(0)
-        @test_throws ErrorException WebIO.@js $ob
-
-        ob = Observable{Any}(w, "test", nothing)
-        @test WebIO.@js($ob) == js"{\"name\":\"test\",\"scope\":\"testwidget2\",\"id\":\"ob_03\",\"type\":\"observable\"}"
-
-        @test WebIO.@js($ob[]) == js"WebIO.getval({\"name\":\"test\",\"scope\":\"testwidget2\",\"id\":\"ob_03\",\"type\":\"observable\"})"
-        @test WebIO.@js($ob[] = 1) == js"WebIO.setval({\"name\":\"test\",\"scope\":\"testwidget2\",\"id\":\"ob_03\",\"type\":\"observable\"},1)"
-    end
-
 end
 
 
