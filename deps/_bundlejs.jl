@@ -5,13 +5,17 @@ cd(Pkg.dir()) do
     Pkg.Entry.resolve(merge(Pkg.Reqs.parse("REQUIRE"), reqs))
 end
 
+cwd = pwd()
+
+cd(joinpath(dirname(@__FILE__), "..", "assets", "webio"))
+
 using NodeJS
 node = NodeJS.nodejs_cmd()
 npm = NodeJS.npm_cmd()
 
-cd(joinpath(pwd(), "..", "assets", "webio")) do
-    run(`$node ../../deps/node_modules/webpack-cli/bin/webpack.js --watch`)
-end
+run(`$node ../../deps/node_modules/webpack-cli/bin/webpack.js`)
+
+cd(cwd)
 
 cd(Pkg.dir()) do
     Pkg.Entry.resolve() # Uninstall NodeJS if it wasn't there before

@@ -23,8 +23,6 @@ Pkg.clone("https://github.com/shashi/WebIO.jl.git")
 Pkg.build("WebIO") # this will set up the IJulia server plugin
 
 using WebIO
-WebIO.devsetup()
-WebIO.bundlejs()
 ```
 
 If you want to use WebIO in Jupyter Lab, you need to install the WebIO extension for Jupyter Lab.
@@ -35,7 +33,12 @@ cd(Pkg.dir("WebIO", "assets"))
 ;jupyter labextension enable webio/jupyterlab_entry
 ```
 
-You will need nodejs installed and `node` binary to be in PATH to build the required JavaScript files.
+**Development setup** if you want to edit the javascript files in this repository, you will need to setup ways to build them. It's made easy for you:
+```julia
+using WebIO
+WebIO.devsetup() # run once
+WebIO.bundlejs() # run every time you update a file
+```
 
 ### Getting things to display
 

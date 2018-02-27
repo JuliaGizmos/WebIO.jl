@@ -5,6 +5,9 @@ cd(Pkg.dir()) do
     Pkg.Entry.resolve(merge(Pkg.Reqs.parse("REQUIRE"), reqs))
 end
 
+cwd = pwd()
+
+cd(dirname(@__FILE__))
 using NodeJS
 node = NodeJS.nodejs_cmd()
 npm = NodeJS.npm_cmd()
@@ -13,6 +16,8 @@ npm = NodeJS.npm_cmd()
 # to install webpack!
 run(`$npm install yarn`)
 run(`$node node_modules/yarn/bin/yarn.js add webpack-cli`)
+
+cd(cwd)
 
 cd(Pkg.dir()) do
     Pkg.Entry.resolve() # Uninstall NodeJS if it wasn't there before
