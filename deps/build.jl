@@ -7,6 +7,7 @@ function install_ijulia_config()
     if isfile(config_file)
         config_str = String(read(config_file))
     else
+        mkpath(dirname(config_file))
         config_str = ""
     end
 
