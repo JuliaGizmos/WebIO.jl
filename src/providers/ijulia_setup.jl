@@ -16,7 +16,7 @@ function WebIO.register_renderable(T::Type)
 end
 
 function main()
-    display(HTML("<script src='/pkg/WebIO/webio/bundle.js'></script>"))
+    display(HTML("<script src='/pkg/WebIO/webio/dist/bundle.js'></script>"))
     display(HTML("<script src='/pkg/WebIO/providers/ijulia_setup.js'></script>"))
 
     comm = Comm(:webio_comm)

@@ -7,7 +7,7 @@ end
 
 function Blink.body!(p::Page, x::Union{Node, Scope})
     wait(p)
-    loadjs!(p, "/pkg/WebIO/webio/bundle.js")
+    loadjs!(p, "/pkg/WebIO/webio/dist/bundle.js")
     loadjs!(p, "/pkg/WebIO/providers/blink_setup.js")
 
     conn = BlinkConnection(p)

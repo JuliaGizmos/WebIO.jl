@@ -1,5 +1,6 @@
 using WebIO
 using Base.Test
+using NodeJS
 
 import WebIO: DOM, instanceof
 @testset "node" begin
