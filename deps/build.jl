@@ -17,12 +17,15 @@ function install_ijulia_config()
     loadpath = JSON.json(vcat(Pkg.dir(), LOAD_PATH))
     config_str *= """
     $BEGIN_MARKER
-    import sys
-    sys.path.append("$(dirname(@__FILE__))")
-    c = get_config()
-    c.NotebookApp.nbserver_extensions = {
-        "jlstaticserve": True
-    }
+    import sys, os
+    if os.path.isfile("$(joinpath(dirname(@__FILE__), "jlstaticserve.py"))"):
+        sys.path.append("$(dirname(@__FILE__))")
+        c = get_config()
+        c.NotebookApp.nbserver_extensions = {
+            "jlstaticserve": True
+        }
+    else:
+        print("WebIO config in ~/.jupyter/jupyter_notebook_config.py but WebIO plugin not found")
     $END_MARKER
     """
     write(config_file, config_str)
