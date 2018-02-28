@@ -14,8 +14,7 @@ npm = NodeJS.npm_cmd()
 
 # it's faster to install yarn and then use that
 # to install webpack!
-run(`$npm install yarn`)
-run(`$node node_modules/yarn/bin/yarn.js add webpack-cli`)
+run(`$npm install webpack-cli`)
 
 cd(cwd)
 
