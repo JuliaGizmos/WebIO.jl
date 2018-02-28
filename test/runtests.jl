@@ -56,14 +56,6 @@ end
     @test js"x=$y" == js"x={}"
 end
 
-try
-    WebIO.devsetup()
-    WebIO.bundlejs(watch=false)
-catch err
-    println(STDERR, "devsetup errored")
-    Base.showerror(STDERR, err)
-end
-
 include("communication.jl")
 include("blink-tests.jl")
 include("util-tests.jl")

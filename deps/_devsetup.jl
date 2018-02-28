@@ -12,10 +12,11 @@ using NodeJS
 node = NodeJS.nodejs_cmd()
 npm = NodeJS.npm_cmd()
 
-run(`$npm install webpack webpack-cli --scripts-prepend-node-path`)
-
-cd(cwd)
-
-cd(Pkg.dir()) do
-    Pkg.Entry.resolve() # Uninstall NodeJS if it wasn't there before
+try
+    run(`$npm install webpack webpack-cli --scripts-prepend-node-path`)
+finally
+    cd(cwd)
+    cd(Pkg.dir()) do
+        Pkg.Entry.resolve(Pkg.Reqs.parse("REQUIRE")) # Uninstall NodeJS if it wasn't there before
+    end
 end
