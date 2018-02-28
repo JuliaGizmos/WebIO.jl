@@ -149,7 +149,6 @@ macro evaljs(ctx, expr)
 end
 
 function after(ctx::Scope, promise_name, f)
-    @show f
     @evaljs ctx js"""
     var scope = this;
     this.promises[$promise_name].then(function (val) {
