@@ -12,9 +12,7 @@ using NodeJS
 node = NodeJS.nodejs_cmd()
 npm = NodeJS.npm_cmd()
 
-# it's faster to install yarn and then use that
-# to install webpack!
-run(`$npm install webpack-cli`)
+run(`$npm install webpack webpack-cli --scripts-prepend-node-path`)
 
 cd(cwd)
 
