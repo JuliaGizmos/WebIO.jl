@@ -1,5 +1,4 @@
-julia 0.5
-Compat 0.17
+julia 0.6
 JSON 0.7
 FunctionalCollections
 Observables
