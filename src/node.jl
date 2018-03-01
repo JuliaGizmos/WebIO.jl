@@ -105,16 +105,17 @@ function JSON.lower(n::Node)
         "type" => "node",
         "nodeType" => nodetype(n),
         "instanceArgs" => JSON.lower(n.instanceof),
-        "children" => children(n),
+        "children" => map!(render,
+                           Vector{Any}(length(children(n))),
+                           children(n)),
         "props" => props(n),
     )
 end
 
 function Base.show(io::IO, m::MIME"text/html", x::Node)
-    id = newid("node")
     write(io, "<div class='display:none'></div>" *
           """<unsafe-script>
-          WebIO.mount('$id', this.previousSibling,""")
+          WebIO.mount(this.previousSibling,""")
     # NOTE: do NOT add space between </div> and <unsafe-script>
     jsexpr(io, x)
     write(io, ")</unsafe-script>")
@@ -202,7 +203,7 @@ function _show(io::IO, el::Node, indent_level=0)
     write(io, ")")
 end
 
-function _show(io::IO, el::String, indent_level)
+function _show(io::IO, el, indent_level)
     showindent(io, indent_level)
     show(io, el)
 end

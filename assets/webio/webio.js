@@ -81,7 +81,7 @@ function dispatch(msg)
     }
 }
 
-function mount(id, target, data)
+function mount(target, data)
 {
     while (target.firstChild) {
         target.removeChild(target.firstChild);

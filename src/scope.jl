@@ -132,6 +132,10 @@ function lowerobserv(ob_)
          "id" => obsid(ob))
 end
 
+function render(s::Scope)
+    Node(s, s.dom)
+end
+
 function send(ctx::Scope, key, data)
     command_data = Dict(
       "type" => "command",
@@ -231,13 +235,7 @@ function onjs(ob::Observable, f)
 end
 
 function Base.show(io::IO, m::MIME"text/html", x::Scope)
-    id = x.id
-    write(io, "<div class='display:none'></div>" *
-          """<unsafe-script>
-          WebIO.mount('$id', this.previousSibling,""")
-    # NOTE: do NOT add space between </div> and <unsafe-script>
-    jsexpr(io, Node(x, x.dom))
-    write(io, ")</unsafe-script>")
+    show(io, m, render(x))
 end
 
 function _show(io::IO, el::Scope, indent_level=0)

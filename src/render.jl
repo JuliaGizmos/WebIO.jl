@@ -5,14 +5,11 @@ Generic function that defines how a Julia object is rendered. Should return a
 `Node` object.
 """
 function render end
-render(x::Node) = x
+render(x::Union{Node, String}) = x
 render(x::Text) = dom"pre"(x.content)
-render(x::String) = render(Text(x))
 render(::Void) = ""
 render(x::Any) =
     dom"div"(; setInnerHtml=richest_html(x))
-
-function render_inline end
 
 const renderable_types = Type[]
 """
@@ -67,14 +64,13 @@ end
 function richest_html(val)
     topmime = richest_mime(val)
     str_repr = stringmime(topmime, val)
-    res = (if topmime == MIME("text/html")
-        str_repr |> WebIO.encode_scripts
-    elseif topmime in map(MIME, ["image/svg+xml", "image/png", "image/jpeg"])
-        "<img src='data:image/png;base64,$str_repr'></img>"
-    elseif topmime == MIME("text/plain")
-        "<pre>$str_repr</pre>"
-    end)
-    res
+    if topmime == MIME("text/html") || topmime == MIME("image/svg+xml")
+        return str_repr |> WebIO.encode_scripts
+    elseif topmime in map(MIME, ["image/png", "image/jpeg"])
+        return "<img src='data:image/png;base64,$str_repr'></img>"
+    else
+        return "<pre>$str_repr</pre>"
+    end
 end
 
 richest_html(::Void) = ""
