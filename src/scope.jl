@@ -9,8 +9,7 @@ export Scope,
        onimport,
        ondependencies,
        adddeps!,
-       import!,
-       after
+       import!
 
 import Base: send
 import Observables: Observable
@@ -148,7 +147,8 @@ macro evaljs(ctx, expr)
     :(send($(esc(ctx)), "Basics.eval", $expr))
 end
 
-function after(scope::Scope, promise_name, f)
+function onimport(scope::Scope, f)
+    promise_name = "importsLoaded"
     jshandlers = scope.jshandlers
     if !haskey(jshandlers, "_promises")
         jshandlers["_promises"] = Dict()
@@ -157,10 +157,6 @@ function after(scope::Scope, promise_name, f)
         jshandlers["_promises"][promise_name] = []
     end
     push!(jshandlers["_promises"][promise_name], f)
-end
-
-function onimport(ctx, f)
-    after(ctx, "importsLoaded", f)
 end
 
 Base.@deprecate ondependencies(ctx, jsf) onimport(ctx, jsf)
