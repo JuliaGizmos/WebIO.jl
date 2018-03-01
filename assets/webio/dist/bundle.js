@@ -3008,7 +3008,7 @@ if (document.createElement("unsafe-script").constructor === HTMLElement) {
         this.style.display = "none"
     }
     proto.attachedCallback = function() {
-        evalInContext(this.textContent, this)
+        evalInContext(this.innerHTML, this)
     }
 
     var UnsafeScript = document.registerElement("unsafe-script", {
