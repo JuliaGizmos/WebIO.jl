@@ -2904,10 +2904,11 @@ function createScope(options, data) {
         appendChildren(scope, fragment, data.children);
     })
 
-    if (handlers["importsLoaded"]){
+    if (handlers._promises !== undefined &&
+        handlers._promises["importsLoaded"]){
+        var onimportfns = handlers._promises["importsLoaded"]
         depsPromise.then(function(alldeps){
-            var ondepsfns = handlers["importsLoaded"]
-            ondepsfns.map(function (f){ f.apply(scope, alldeps) })
+            onimportfns.map(function (f){ f.apply(scope, alldeps) })
         })
     }
 

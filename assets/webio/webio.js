@@ -10,7 +10,6 @@ var obsscopes = {};
 
 function makeScope(id, data, sendCallback, dom, handlers, observables)
 {
-    debugger;
     var scope = {
         type: "scope",
         id: id,

@@ -148,17 +148,19 @@ macro evaljs(ctx, expr)
     :(send($(esc(ctx)), "Basics.eval", $expr))
 end
 
-function after(ctx::Scope, promise_name, f)
-    @evaljs ctx js"""
-    var scope = this;
-    this.promises[$promise_name].then(function (val) {
-        ($f).call(scope, val);
-    })
-    """
+function after(scope::Scope, promise_name, f)
+    jshandlers = scope.jshandlers
+    if !haskey(jshandlers, "_promises")
+        jshandlers["_promises"] = Dict()
+    end
+    if !haskey(jshandlers["_promises"], promise_name)
+        jshandlers["_promises"][promise_name] = []
+    end
+    push!(jshandlers["_promises"][promise_name], f)
 end
 
 function onimport(ctx, f)
-    after(ctx, "importsLoaded", js"function (deps) { ($f).apply(this, deps); }")
+    after(ctx, "importsLoaded", f)
 end
 
 Base.@deprecate ondependencies(ctx, jsf) onimport(ctx, jsf)
