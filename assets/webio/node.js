@@ -158,13 +158,13 @@ function makeEventHandler(scope, value)
     return eventHandler;
 }
 
-function appendChildren(scope, parentNode, children) {
+function appendChildren(options, parentNode, children) {
     if (children) {
         for (var nChildren=children.length, i=0; i<nChildren; i++) {
             if (typeof children[i] === "string") {
                 parentNode.appendChild(document.createTextNode(children[i]));
             } else {
-                var child = WebIO.createNode(scope, children[i], parentNode);
+                var child = WebIO.createNode(options, children[i], parentNode);
                 parentNode.appendChild(child);
             }
         }
@@ -174,7 +174,7 @@ function appendChildren(scope, parentNode, children) {
 
 var namespaces = {svg: "http://www.w3.org/2000/svg"}
 
-function createDOM(scope, data, parentNode) {
+function createDOM(options, data, parentNode) {
 
     var args = data.instanceArgs;
     var dom;
@@ -185,8 +185,8 @@ function createDOM(scope, data, parentNode) {
         dom = document.createElementNS(ns, args.tag);
     }
 
-    applyProps(scope, dom, data.props);
-    appendChildren(scope, dom, data.children)
+    applyProps(options, dom, data.props);
+    appendChildren(options, dom, data.children)
 
     return dom;
 }
@@ -293,7 +293,7 @@ function doImports(scope, imp) {
     }
 }
 
-function createScope(scope, data) {
+function createScope(options, data) {
     var fragment = document.createElement("div");
     fragment.className = "wio-scope";
 
@@ -301,35 +301,35 @@ function createScope(scope, data) {
     var observables = data.instanceArgs.observables;
     var handlers = data.instanceArgs.handlers;
 
-    var subscope = WebIO.makeScope(data.instanceArgs.id, scope.data,
-                             scope.sendCallback, fragment, handlers, observables);
+    var scope = WebIO.makeScope(data.instanceArgs.id, data,
+                             options.sendCallback, fragment, handlers, observables);
 
     if (handlers["preDependencies"]) {
         var predepfns = handlers["preDependencies"]
-        predepfns.map(function (f){ f(subscope) })
+        predepfns.map(function (f){ f(scope) })
     }
 
     var imports = data.instanceArgs.imports;
 
-    var depsPromise = doImports(subscope, imports);
-    subscope.promises.importsLoaded = depsPromise
+    var depsPromise = doImports(scope, imports);
+    scope.promises.importsLoaded = depsPromise
 
-    subscope.promises.connected = new Promise(function (accept, reject) {
+    scope.promises.connected = new Promise(function (accept, reject) {
         WebIO.onConnected(function () {
             // internal message to notify julia
-            WebIO.send(subscope, "_setup_scope", {});
-            accept(subscope);
+            WebIO.send(scope, "_setup_scope", {});
+            accept(scope);
         })
     })
 
     depsPromise.then(function (deps) {
-        appendChildren(subscope, fragment, data.children);
+        appendChildren(scope, fragment, data.children);
     })
 
     if (handlers["importsLoaded"]){
         depsPromise.then(function(alldeps){
             var ondepsfns = handlers["importsLoaded"]
-            ondepsfns.map(function (f){ f.apply(subscope, alldeps) })
+            ondepsfns.map(function (f){ f.apply(scope, alldeps) })
         })
     }
 
