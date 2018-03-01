@@ -105,29 +105,13 @@ function JSON.lower(n::Node)
         "type" => "node",
         "nodeType" => nodetype(n),
         "instanceArgs" => JSON.lower(n.instanceof),
-        "children" => children_to_show(n),
+        "children" => children(n),
         "props" => props(n),
     )
 end
 
-# Dict to store callbacks when displaying a Node
-const showcbs = Dict{Any, Function}()
-
-"""
-Runs show callbacks on child nodes if any are defined. This will be called
-when `JSON.lower(n::Node)` runs, and thus will end up being called recursively
-on all descendent Nodes from `n`.
-"""
-function children_to_show(n::Node)
-    map!(Vector{Any}(length(children(n))), children(n)) do x
-        x in keys(showcbs) && (x = showcbs[x]())
-        x
-    end
-end
-
 function Base.show(io::IO, m::MIME"text/html", x::Node)
     id = newid("node")
-    x in keys(showcbs) && (x = showcbs[x](id))
     write(io, "<div class='display:none'></div>" *
           """<unsafe-script>
           WebIO.mount('$id', this.previousSibling,""")
