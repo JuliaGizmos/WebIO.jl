@@ -68,7 +68,7 @@ function richest_html(val)
         return str_repr |> WebIO.encode_scripts
     elseif topmime in map(MIME, ["image/png", "image/jpeg"])
         return "<img src='data:image/png;base64,$str_repr'></img>"
-    elseif topmim ==  topmime == MIME("image/svg+xml")
+    elseif topmime == MIME("image/svg+xml")
         return str_repr
     else
         return "<pre>$str_repr</pre>"
