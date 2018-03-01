@@ -112,12 +112,23 @@ function JSON.lower(n::Node)
     )
 end
 
+## TODO -- optimize
+function escapeHTML(i::String)
+    # Refer to http://stackoverflow.com/a/7382028/3822752 for spec. links
+    o = replace(i, "&", "&amp;")
+    o = replace(o, "\"", "&quot;")
+    o = replace(o, "'", "&#39;")
+    o = replace(o, "<", "&lt;")
+    o = replace(o, ">", "&gt;")
+    return o
+end
+
 function Base.show(io::IO, m::MIME"text/html", x::Node)
     write(io, "<div class='display:none'></div>" *
-          """<unsafe-script>
+          """<unsafe-script style='display:none'>
           WebIO.mount(this.previousSibling,""")
     # NOTE: do NOT add space between </div> and <unsafe-script>
-    jsexpr(io, x)
+    write(io, escapeHTML(sprint(s->jsexpr(s, x))))
     write(io, ")</unsafe-script>")
 end
 
