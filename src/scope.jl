@@ -233,7 +233,7 @@ function onjs(ob::Observable, f)
 end
 
 function Base.show(io::IO, m::MIME"text/html", x::Scope)
-    id = newid("scope")
+    id = x.id
     write(io, "<div class='display:none'></div>" *
           """<unsafe-script>
           WebIO.mount('$id', this.previousSibling,""")
