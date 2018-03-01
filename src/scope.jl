@@ -233,9 +233,11 @@ function onjs(ob::Observable, f)
 end
 
 function Base.show(io::IO, m::MIME"text/html", x::Scope)
-    id = x.id
-    write(io, """<div id='$id'></div>
-                 <unsafe-script>WebIO.mount('$id', '#$id',""")
+    id = newid("scope")
+    write(io, "<div class='display:none'></div>" *
+          """<unsafe-script>
+          WebIO.mount('$id', this.previousSibling,""")
+    # NOTE: do NOT add space between </div> and <unsafe-script>
     jsexpr(io, Node(x, x.dom))
     write(io, ")</unsafe-script>")
 end

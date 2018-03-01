@@ -78,27 +78,20 @@ function dispatch(msg)
     }
 }
 
-function mount(id, targetQuery, data)
+function mount(id, target, data)
 {
     // TODO: separate targetQuery from Scope id
     // every root element gets a scope by default
     var scope = makeScope(id, data, WebIO.sendCallback)
-    var target;
 
-    if (targetQuery) {
-        target = document.querySelector(targetQuery);
-
-        while (target.firstChild) {
-            target.removeChild(target.firstChild);
-        }
+    while (target.firstChild) {
+        target.removeChild(target.firstChild);
     }
 
     var node = createNode(scope, data, target);
     scope.dom = node;
 
-    if (target) {
-        target.appendChild(node);
-    }
+    target.parentNode.replaceChild(node, target)
 
     return node
 }

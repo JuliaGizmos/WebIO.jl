@@ -128,8 +128,10 @@ end
 function Base.show(io::IO, m::MIME"text/html", x::Node)
     id = newid("node")
     x in keys(showcbs) && (x = showcbs[x](id))
-    write(io, """<div id='$id'></div>
-                 <unsafe-script>WebIO.mount('$id', '#$id',""")
+    write(io, "<div class='display:none'></div>" *
+          """<unsafe-script>
+          WebIO.mount('$id', this.previousSibling,""")
+    # NOTE: do NOT add space between </div> and <unsafe-script>
     jsexpr(io, x)
     write(io, ")</unsafe-script>")
 end

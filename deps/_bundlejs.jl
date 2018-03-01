@@ -13,6 +13,7 @@ using NodeJS
 node = NodeJS.nodejs_cmd()
 npm = NodeJS.npm_cmd()
 
+run(`$npm install --scripts-prepend-node-path`)
 run(`$node ../../deps/node_modules/webpack-cli/bin/webpack.js`)
 
 cd(cwd)

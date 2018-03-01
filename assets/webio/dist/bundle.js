@@ -179,27 +179,20 @@ function dispatch(msg)
     }
 }
 
-function mount(id, targetQuery, data)
+function mount(id, target, data)
 {
     // TODO: separate targetQuery from Scope id
     // every root element gets a scope by default
     var scope = makeScope(id, data, WebIO.sendCallback)
-    var target;
 
-    if (targetQuery) {
-        target = document.querySelector(targetQuery);
-
-        while (target.firstChild) {
-            target.removeChild(target.firstChild);
-        }
+    while (target.firstChild) {
+        target.removeChild(target.firstChild);
     }
 
     var node = createNode(scope, data, target);
     scope.dom = node;
 
-    if (target) {
-        target.appendChild(node);
-    }
+    target.parentNode.replaceChild(node, target)
 
     return node
 }
@@ -2922,11 +2915,6 @@ function createScope(scope, data) {
     return fragment;
 }
 
-var style = document.createElement('style')
-style.type = 'text/css'
-style.innerHTML = '.wio-scope { display:inherit; margin:inherit }'
-document.getElementsByTagName('head')[0].appendChild(style)
-
 WebIO.NodeTypes = {
     DOM: {
         namespaces: namespaces,
@@ -3006,14 +2994,17 @@ module.exports = isArray || function (val) {
 /* 12 */
 /***/ (function(module, exports) {
 
+function evalInContext(js, context) {
+    return (function() { return eval(js); }).call(context);
+}
 if (document.createElement("unsafe-script").constructor === HTMLElement) {
     var proto = Object.create(HTMLElement.prototype);
     proto.createdCallback = function() {
         this.style.display = "none"
     }
     proto.attachedCallback = function() {
-        eval(this.textContent)
-    };
+        evalInContext(this.textContent, this)
+    }
 
     var UnsafeScript = document.registerElement("unsafe-script", {
         prototype: proto
