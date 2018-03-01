@@ -336,6 +336,11 @@ function createScope(scope, data) {
     return fragment;
 }
 
+var style = document.createElement('style')
+style.type = 'text/css'
+style.innerHTML = '.wio-scope { display:inherit; margin:inherit }'
+document.getElementsByTagName('head')[0].appendChild(style)
+
 WebIO.NodeTypes = {
     DOM: {
         namespaces: namespaces,

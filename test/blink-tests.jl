@@ -21,5 +21,4 @@ notinstalled && AtomShell.install()
     @test all(x->contains(content, x), substrings)
 end
 
-
 notinstalled && AtomShell.uninstall()
