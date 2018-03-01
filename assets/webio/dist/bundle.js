@@ -122,6 +122,9 @@ function makeScope(id, data, sendCallback, dom, handlers, observables)
         promises: {}
     }
 
+    if (typeof scopes[id] !== "undefined") {
+        console.warn("A scope with id '"+id+"' already exists.")
+    }
     scopes[id] = scope;
     if (observables){
         Object.keys(observables).forEach(function setobsscope(name){
@@ -179,27 +182,16 @@ function dispatch(msg)
     }
 }
 
-function mount(id, targetQuery, data)
+function mount(target, data)
 {
-    // TODO: separate targetQuery from Scope id
-    // every root element gets a scope by default
-    var scope = makeScope(id, data, WebIO.sendCallback)
-    var target;
-
-    if (targetQuery) {
-        target = document.querySelector(targetQuery);
-
-        while (target.firstChild) {
-            target.removeChild(target.firstChild);
-        }
+    while (target.firstChild) {
+        target.removeChild(target.firstChild);
     }
 
-    var node = createNode(scope, data, target);
-    scope.dom = node;
+    var opts = {sendCallback: WebIO.sendCallback}
+    var node = createNode(opts, data, target);
 
-    if (target) {
-        target.appendChild(node);
-    }
+    target.parentNode.replaceChild(node, target)
 
     return node
 }
@@ -2744,13 +2736,13 @@ function makeEventHandler(scope, value)
     return eventHandler;
 }
 
-function appendChildren(scope, parentNode, children) {
+function appendChildren(options, parentNode, children) {
     if (children) {
         for (var nChildren=children.length, i=0; i<nChildren; i++) {
             if (typeof children[i] === "string") {
                 parentNode.appendChild(document.createTextNode(children[i]));
             } else {
-                var child = WebIO.createNode(scope, children[i], parentNode);
+                var child = WebIO.createNode(options, children[i], parentNode);
                 parentNode.appendChild(child);
             }
         }
@@ -2760,7 +2752,7 @@ function appendChildren(scope, parentNode, children) {
 
 var namespaces = {svg: "http://www.w3.org/2000/svg"}
 
-function createDOM(scope, data, parentNode) {
+function createDOM(options, data, parentNode) {
 
     var args = data.instanceArgs;
     var dom;
@@ -2771,8 +2763,8 @@ function createDOM(scope, data, parentNode) {
         dom = document.createElementNS(ns, args.tag);
     }
 
-    applyProps(scope, dom, data.props);
-    appendChildren(scope, dom, data.children)
+    applyProps(options, dom, data.props);
+    appendChildren(options, dom, data.children)
 
     return dom;
 }
@@ -2879,7 +2871,7 @@ function doImports(scope, imp) {
     }
 }
 
-function createScope(scope, data) {
+function createScope(options, data) {
     var fragment = document.createElement("div");
     fragment.className = "wio-scope";
 
@@ -2887,35 +2879,36 @@ function createScope(scope, data) {
     var observables = data.instanceArgs.observables;
     var handlers = data.instanceArgs.handlers;
 
-    var subscope = WebIO.makeScope(data.instanceArgs.id, scope.data,
-                             scope.sendCallback, fragment, handlers, observables);
+    var scope = WebIO.makeScope(data.instanceArgs.id, data,
+                             options.sendCallback, fragment, handlers, observables);
 
     if (handlers["preDependencies"]) {
         var predepfns = handlers["preDependencies"]
-        predepfns.map(function (f){ f(subscope) })
+        predepfns.map(function (f){ f(scope) })
     }
 
     var imports = data.instanceArgs.imports;
 
-    var depsPromise = doImports(subscope, imports);
-    subscope.promises.importsLoaded = depsPromise
+    var depsPromise = doImports(scope, imports);
+    scope.promises.importsLoaded = depsPromise
 
-    subscope.promises.connected = new Promise(function (accept, reject) {
+    scope.promises.connected = new Promise(function (accept, reject) {
         WebIO.onConnected(function () {
             // internal message to notify julia
-            WebIO.send(subscope, "_setup_scope", {});
-            accept(subscope);
+            WebIO.send(scope, "_setup_scope", {});
+            accept(scope);
         })
     })
 
     depsPromise.then(function (deps) {
-        appendChildren(subscope, fragment, data.children);
+        appendChildren(scope, fragment, data.children);
     })
 
-    if (handlers["importsLoaded"]){
+    if (handlers._promises !== undefined &&
+        handlers._promises["importsLoaded"]){
+        var onimportfns = handlers._promises["importsLoaded"]
         depsPromise.then(function(alldeps){
-            var ondepsfns = handlers["importsLoaded"]
-            ondepsfns.map(function (f){ f.apply(subscope, alldeps) })
+            onimportfns.map(function (f){ f.apply(scope, alldeps) })
         })
     }
 
@@ -3006,14 +2999,17 @@ module.exports = isArray || function (val) {
 /* 12 */
 /***/ (function(module, exports) {
 
+function evalInContext(js, context) {
+    return (function() { return eval(js); }).call(context);
+}
 if (document.createElement("unsafe-script").constructor === HTMLElement) {
-    var proto = Object.create(HTMLElement.prototype);
+    var proto = Object.create(HTMLScriptElement.prototype);
     proto.createdCallback = function() {
         this.style.display = "none"
     }
     proto.attachedCallback = function() {
-        eval(this.textContent)
-    };
+        evalInContext(this.textContent, this)
+    }
 
     var UnsafeScript = document.registerElement("unsafe-script", {
         prototype: proto

@@ -105,32 +105,30 @@ function JSON.lower(n::Node)
         "type" => "node",
         "nodeType" => nodetype(n),
         "instanceArgs" => JSON.lower(n.instanceof),
-        "children" => children_to_show(n),
+        "children" => map!(render,
+                           Vector{Any}(length(children(n))),
+                           children(n)),
         "props" => props(n),
     )
 end
 
-# Dict to store callbacks when displaying a Node
-const showcbs = Dict{Any, Function}()
-
-"""
-Runs show callbacks on child nodes if any are defined. This will be called
-when `JSON.lower(n::Node)` runs, and thus will end up being called recursively
-on all descendent Nodes from `n`.
-"""
-function children_to_show(n::Node)
-    map!(Vector{Any}(length(children(n))), children(n)) do x
-        x in keys(showcbs) && (x = showcbs[x]())
-        x
-    end
+## TODO -- optimize
+function escapeHTML(i::String)
+    # Refer to http://stackoverflow.com/a/7382028/3822752 for spec. links
+    o = replace(i, "&", "&amp;")
+    o = replace(o, "\"", "&quot;")
+    o = replace(o, "'", "&#39;")
+    o = replace(o, "<", "&lt;")
+    o = replace(o, ">", "&gt;")
+    return o
 end
 
 function Base.show(io::IO, m::MIME"text/html", x::Node)
-    id = newid("node")
-    x in keys(showcbs) && (x = showcbs[x](id))
-    write(io, """<div id='$id'></div>
-                 <unsafe-script>WebIO.mount('$id', '#$id',""")
-    jsexpr(io, x)
+    write(io, "<div class='display:none'></div>" *
+          """<unsafe-script style='display:none'>
+          WebIO.mount(this.previousSibling,""")
+    # NOTE: do NOT add space between </div> and <unsafe-script>
+    write(io, escapeHTML(sprint(s->jsexpr(s, x))))
     write(io, ")</unsafe-script>")
 end
 
@@ -216,7 +214,7 @@ function _show(io::IO, el::Node, indent_level=0)
     write(io, ")")
 end
 
-function _show(io::IO, el::String, indent_level)
+function _show(io::IO, el, indent_level)
     showindent(io, indent_level)
     show(io, el)
 end

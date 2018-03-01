@@ -9,8 +9,7 @@ export Scope,
        onimport,
        ondependencies,
        adddeps!,
-       import!,
-       after
+       import!
 
 import Base: send
 import Observables: Observable
@@ -38,7 +37,7 @@ end
 const scopes = Dict{String, Scope}()
 
 function Scope(id::String=newid("scope");
-        dom=nothing,
+        dom=dom"span"(),
         outbox::Channel=Channel{Any}(32),
         observs::Dict=Dict(),
         dependencies=nothing,
@@ -133,6 +132,10 @@ function lowerobserv(ob_)
          "id" => obsid(ob))
 end
 
+function render(s::Scope)
+    Node(s, s.dom)
+end
+
 function send(ctx::Scope, key, data)
     command_data = Dict(
       "type" => "command",
@@ -148,17 +151,16 @@ macro evaljs(ctx, expr)
     :(send($(esc(ctx)), "Basics.eval", $expr))
 end
 
-function after(ctx::Scope, promise_name, f)
-    @evaljs ctx js"""
-    var scope = this;
-    this.promises[$promise_name].then(function (val) {
-        ($f).call(scope, val);
-    })
-    """
-end
-
-function onimport(ctx, f)
-    after(ctx, "importsLoaded", js"function (deps) { ($f).apply(this, deps); }")
+function onimport(scope::Scope, f)
+    promise_name = "importsLoaded"
+    jshandlers = scope.jshandlers
+    if !haskey(jshandlers, "_promises")
+        jshandlers["_promises"] = Dict()
+    end
+    if !haskey(jshandlers["_promises"], promise_name)
+        jshandlers["_promises"][promise_name] = []
+    end
+    push!(jshandlers["_promises"][promise_name], f)
 end
 
 Base.@deprecate ondependencies(ctx, jsf) onimport(ctx, jsf)
@@ -233,11 +235,7 @@ function onjs(ob::Observable, f)
 end
 
 function Base.show(io::IO, m::MIME"text/html", x::Scope)
-    id = x.id
-    write(io, """<div id='$id'></div>
-                 <unsafe-script>WebIO.mount('$id', '#$id',""")
-    jsexpr(io, Node(x, x.dom))
-    write(io, ")</unsafe-script>")
+    show(io, m, render(x))
 end
 
 function _show(io::IO, el::Scope, indent_level=0)

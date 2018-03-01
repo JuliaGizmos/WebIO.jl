@@ -21,6 +21,9 @@ function makeScope(id, data, sendCallback, dom, handlers, observables)
         promises: {}
     }
 
+    if (typeof scopes[id] !== "undefined") {
+        console.warn("A scope with id '"+id+"' already exists.")
+    }
     scopes[id] = scope;
     if (observables){
         Object.keys(observables).forEach(function setobsscope(name){
@@ -78,27 +81,16 @@ function dispatch(msg)
     }
 }
 
-function mount(id, targetQuery, data)
+function mount(target, data)
 {
-    // TODO: separate targetQuery from Scope id
-    // every root element gets a scope by default
-    var scope = makeScope(id, data, WebIO.sendCallback)
-    var target;
-
-    if (targetQuery) {
-        target = document.querySelector(targetQuery);
-
-        while (target.firstChild) {
-            target.removeChild(target.firstChild);
-        }
+    while (target.firstChild) {
+        target.removeChild(target.firstChild);
     }
 
-    var node = createNode(scope, data, target);
-    scope.dom = node;
+    var opts = {sendCallback: WebIO.sendCallback}
+    var node = createNode(opts, data, target);
 
-    if (target) {
-        target.appendChild(node);
-    }
+    target.parentNode.replaceChild(node, target)
 
     return node
 }
