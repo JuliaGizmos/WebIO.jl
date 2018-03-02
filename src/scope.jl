@@ -6,6 +6,7 @@ export Scope,
        Observable,
        setobservable!,
        on, onjs,
+       evaljs,
        onimport,
        ondependencies,
        adddeps!,
@@ -148,7 +149,12 @@ function send(ctx::Scope, key, data)
 end
 
 macro evaljs(ctx, expr)
-    :(send($(esc(ctx)), "Basics.eval", $expr))
+    warn("@evaljs is deprecated, use evaljs function instead")
+    :(send($(esc(ctx)), "Basics.eval", $(esc(expr))))
+end
+
+function evaljs(ctx, expr)
+    send(ctx, "Basics.eval", expr)
 end
 
 function onimport(scope::Scope, f)
