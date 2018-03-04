@@ -26,14 +26,14 @@
     if (!webComponentsSupported) {
         var script = document.createElement('script');
         script.async = true;
-        script.src = '/pkg/WebIO/webio/node_modules/@webcomponents/webcomponentsjs/webcomponents-lite.js';
+        script.src = '/pkg/WebIO/webio/dist/webcomponents-lite.min.js';
         document.head.appendChild(script);
         document.addEventListener("WebComponentsReady", function () {
-            setup()
+            if (customElements.get("unsafe-script") === undefined) {
+                setup()
+            }
         })
-    } else {
-        if (!(document.createElement("unsafe-script") instanceof HTMLElement)) {
-            setup()
-        }
+    } else if (customElements.get("unsafe-script") === undefined) {
+        setup()
     }
 })();
