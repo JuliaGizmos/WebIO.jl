@@ -1,15 +1,33 @@
-module.exports = {
+var webpack = require("webpack");
+
+module.exports = [{
   mode: 'production',
   optimization: {
-      minimize: false
+    minimize: false
   },
   entry: {
-    WebIO: './index.js'
+    bundle: './index.js'
   },
   output: {
-    filename: 'bundle.js'
+    filename: '[name].js'
   },
   node: {
     fs: 'empty'
   }
-};
+},
+{
+  mode: 'production',
+  optimization: {
+    minimize: true
+  },
+  entry: {
+    'webcomponentsjs.min': './node_modules/@webcomponents/webcomponentsjs/webcomponents-lite.js'
+  },
+  output: {
+    filename: '[name].js'
+  },
+  plugins: [new webpack.IgnorePlugin(/vertx/)],
+  node: {
+    fs: 'empty'
+  }
+}]

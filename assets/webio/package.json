@@ -2,7 +2,6 @@
   "name": "julia-web-io",
   "version": "0.1.0",
   "description": "Supporting Javascript files for WebIO.jl Julia package",
-  "main": "index.js",
   "repository": "https://github.com/shashi/WebIO.jl",
   "author": "Shashi Gowda",
   "license": "MIT",
@@ -12,6 +11,8 @@
   "dependencies": {
     "array-equal": "^1.0",
     "is-array": "^1.0.1",
+    "webpack": "^4.1.0",
+    "@webcomponents/webcomponentsjs": "^1.0.2",
     "systemjs": "^0.21.0"
   }
 }

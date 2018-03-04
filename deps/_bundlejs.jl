@@ -14,7 +14,12 @@ node = NodeJS.nodejs_cmd()
 npm = NodeJS.npm_cmd()
 
 run(`$npm install --scripts-prepend-node-path`)
-run(`$node ../../deps/node_modules/webpack-cli/bin/webpack.js`)
+if haskey(ENV, "WEBIO_WEBPACK_ARGS")
+    args = [ENV["WEBIO_WEBPACK_ARGS"]]
+else
+    args =[]
+end
+run(`$node ../../deps/node_modules/webpack-cli/bin/webpack.js $args`)
 
 cd(cwd)
 
