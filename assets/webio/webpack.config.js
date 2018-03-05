@@ -21,7 +21,7 @@ module.exports = [{
     minimize: true
   },
   entry: {
-    'webcomponentsjs.min': './node_modules/@webcomponents/webcomponentsjs/webcomponents-lite.js'
+    'webcomponents-lite.min': './node_modules/@webcomponents/webcomponentsjs/webcomponents-lite.js'
   },
   output: {
     filename: '[name].js'
