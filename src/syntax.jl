@@ -16,7 +16,7 @@ function cssparse(s)
     id = match(r"#-?[_a-zA-Z][_a-zA-Z0-9-]*", s)
     id == nothing || (props[:id] = trimfirst(id.match))
     classes = matchall(r"\.-?[_a-zA-Z][_a-zA-Z0-9-]*", s)
-    isempty(classes) || (props[:className] = map(trimfirst, classes))
+    isempty(classes) || (props[:className] = join(map(trimfirst, classes), " "))
     tagm = match(r"^[^\.#\[\]]+", s)
     tagm == nothing && error("Invalid tag syntax $s")
     tag = tagm.match
