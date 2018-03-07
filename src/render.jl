@@ -76,3 +76,36 @@ function richest_html(val)
 end
 
 richest_html(::Void) = ""
+
+
+"""
+WebIO.render(obs::Observable)
+
+Returns a WebIO Node whose contents are the richest version of the observable's
+value, and which updates to display the observable's current value
+"""
+function render(obs::Observable)
+    # setup output area which updates when `obs`'s value changes
+    scope = Scope()
+
+    # get the richest representation of obs's current value (as a string)
+    html_contents_str = richest_html(obs[])
+
+    # Avoid nested <script> issues by initialising as an empty node and updating later
+    scope.dom = dom"div#out"(; setInnerHtml=html_contents_str)
+
+    # will store the string of html which the `obs` value is converted to
+    scope["obs-output"] = Observable{Any}(html_contents_str)
+
+    # ensure updates with the new html representation of obs when obs updates
+    map!(richest_html, scope["obs-output"], obs)
+
+    # ensure the output area updates when output_obs updates (after obs updates)
+    output_updater = js"""function (updated_htmlstr) {
+        var el = this.dom.querySelector("#out");
+        WebIO.propUtils.setInnerHtml(el, updated_htmlstr);
+    }"""
+    onjs(scope["obs-output"], output_updater)
+
+    scope
+end
