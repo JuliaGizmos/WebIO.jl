@@ -107,5 +107,5 @@ function render(obs::Observable)
     }"""
     onjs(scope["obs-output"], output_updater)
 
-    scope
+    WebIO.render(scope)
 end
