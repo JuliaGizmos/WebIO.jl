@@ -4,6 +4,7 @@ export Scope,
        AbstractConnection,
        withscope,
        Observable,
+       @private,
        setobservable!,
        on, onjs,
        evaljs,
@@ -31,6 +32,7 @@ mutable struct Scope
     dom::Any
     outbox::Channel
     observs::Dict{String, Tuple{Observable, Union{Void,Bool}}} # bool marks if it is synced
+    private_obs::Set{String}
     imports
     jshandlers
 end
@@ -41,6 +43,7 @@ function Scope(id::String=newid("scope");
         dom=dom"span"(),
         outbox::Channel=Channel{Any}(32),
         observs::Dict=Dict(),
+        private_obs::Set{String}=Set{String}(),
         dependencies=nothing,
         imports=[],
         jshandlers::Dict=Dict(),
@@ -55,7 +58,7 @@ function Scope(id::String=newid("scope");
         warn("A scope by the id $id already exists. Overwriting.")
     end
 
-    scopes[id] = Scope(id, dom, outbox, observs, imports, jshandlers)
+    scopes[id] = Scope(id, dom, outbox, observs, private_obs, imports, jshandlers)
 end
 Base.@deprecate Scope(id::AbstractString; kwargs...) Scope(; id=id, kwargs...)
 
@@ -65,6 +68,22 @@ function Observables.on(f, w::Scope, key)
     key = string(key)
     listener, _ = Base.@get! w.observs key (Observable{Any}(w, key, nothing), nothing)
     on(f, listener)
+end
+
+private(scope::Scope, props...) = foreach(p->push!(scope.private_obs, string(p)), props)
+
+macro private(ex)
+    if ex.head == :(=)
+        ref, val = ex.args
+        scope, key = ref.args
+        quote
+            x=$(esc(ex))
+            private($(esc(scope)), $(esc(key)))
+            x
+        end
+    else
+        error("Wrong usage of @private. Use as in `@private scope[\"key\"] = observable`")
+    end
 end
 
 # we need to maintain mapping from an ID to observable
@@ -85,6 +104,21 @@ function setobservable!(ctx, key, obs; sync=nothing)
     observ_id_dict[obs]  = (WeakRef(ctx), key)
     obs
 end
+
+# Ask JS to send stuff
+function setup_comm(f, ob::Observable)
+    if haskey(observ_id_dict, ob)
+        scope, key = observ_id_dict[ob]
+        if !(key in scope.value.private_obs)
+            evaljs(scope.value, js"""
+                   console.log(this)
+                   this.observables[$key].sync = true
+            """)
+        end
+    end
+end
+
+# TODO: hook `off` up
 
 function Base.getindex(w::Scope, key)
     key = string(key)
@@ -112,25 +146,26 @@ const Observ = Observable
 include("imports.jl")
 
 function JSON.lower(x::Scope)
+    obs_dict = Dict()
+    for (k, ob_) in x.observs
+        ob, sync = ob_
+        if k in x.private_obs
+            continue
+        end
+        if sync === nothing
+            # by default, we sync if there are any listeners
+            # other than the JS back edge
+            sync = any(f-> !isa(f, Backedge), ob.listeners)
+        end
+        obs_dict[k] = Dict("sync" => sync,
+             "value" => ob[],
+             "id" => obsid(ob))
+    end
     Dict(
         "id" => x.id,
         "imports" => lowerdeps(x.imports),
         "handlers" => x.jshandlers,
-        "observables" => Dict(zip(keys(x.observs),
-                                    map(lowerobserv, values(x.observs)))),
-    ) # skip the rest
-end
-
-function lowerobserv(ob_)
-    ob, sync = ob_
-    if sync === nothing
-        # by default, we sync if there are any listeners
-        # other than the JS back edge
-        sync = any(f-> !isa(f, Backedge), ob.listeners)
-    end
-    Dict("sync" => sync,
-         "value" => ob[],
-         "id" => obsid(ob))
+        "observables" => obs_dict)
 end
 
 function render(s::Scope)

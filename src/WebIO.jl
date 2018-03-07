@@ -35,4 +35,8 @@ end
 @require Juno eval(Main, :(WebIO.setup("atom")))
 @require IJulia eval(Main, :(WebIO.setup("ijulia")))
 
+Requires.@init begin
+    push!(Observables.addhandler_callbacks, WebIO.setup_comm)
+end
+
 end # module
