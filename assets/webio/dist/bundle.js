@@ -3035,7 +3035,12 @@ module.exports = isArray || function (val) {
             }
         })
     } else if (customElements.get("unsafe-script") === undefined) {
-        setup()
+        if (document.readyState === "complete" || document.readyState === "loaded") {
+            setup()
+        } else {
+            // https://stackoverflow.com/questions/48498581/accessing-textcontent-within-connectedcallback-for-a-custom-htmlelement
+            document.addEventListener("DOMContentLoaded", function () { setup(); })
+        }
     }
 })();
 
