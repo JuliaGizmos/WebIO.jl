@@ -2882,6 +2882,9 @@ function createScope(options, data) {
     var scope = WebIO.makeScope(data.instanceArgs.id, data,
                              options.sendCallback, fragment, handlers, observables);
 
+    if (data.instanceArgs.systemjs_options)
+        SystemJS.config(data.instanceArgs.systemjs_options)
+
     if (handlers["preDependencies"]) {
         var predepfns = handlers["preDependencies"]
         predepfns.map(function (f){ f(scope) })

@@ -33,6 +33,7 @@ mutable struct Scope
     outbox::Channel
     observs::Dict{String, Tuple{Observable, Union{Void,Bool}}} # bool marks if it is synced
     private_obs::Set{String}
+    systemjs_options
     imports
     jshandlers
 end
@@ -45,6 +46,7 @@ function Scope(id::String=newid("scope");
         observs::Dict=Dict(),
         private_obs::Set{String}=Set{String}(),
         dependencies=nothing,
+        systemjs_options=nothing,
         imports=[],
         jshandlers::Dict=Dict(),
     )
@@ -58,7 +60,7 @@ function Scope(id::String=newid("scope");
         warn("A scope by the id $id already exists. Overwriting.")
     end
 
-    scopes[id] = Scope(id, dom, outbox, observs, private_obs, imports, jshandlers)
+    scopes[id] = Scope(id, dom, outbox, observs, private_obs, systemjs_options, imports, jshandlers)
 end
 Base.@deprecate Scope(id::AbstractString; kwargs...) Scope(; id=id, kwargs...)
 
@@ -163,6 +165,7 @@ function JSON.lower(x::Scope)
     end
     Dict(
         "id" => x.id,
+        "systemjs_options" => x.systemjs_options,
         "imports" => lowerdeps(x.imports),
         "handlers" => x.jshandlers,
         "observables" => obs_dict)
