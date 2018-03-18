@@ -12,7 +12,7 @@ function install_ijulia_config()
     end
 
     # remove previous config
-    config_str = replace(config_str, Regex("\n" * BEGIN_MARKER * ".*" * END_MARKER, "s"), "")
+    config_str = replace(config_str, Regex("\n?" * BEGIN_MARKER * ".*" * END_MARKER, "s"), "")
 
     loadpath = JSON.json(vcat(Pkg.dir(), LOAD_PATH))
     config_str *= """
