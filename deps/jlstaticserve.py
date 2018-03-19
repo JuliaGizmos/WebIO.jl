@@ -25,7 +25,10 @@ class JuliaPackageAssetServer(IPythonHandler, StaticFileHandler):
             if os.path.isdir(dirpath) and os.path.isfile(fullpath):
                 self.root = dirpath
                 yield StaticFileHandler.get(self, fpath)
-        raise HTTPError(404)
+                break
+        else:
+            # will execute only if the `for` loop never `break`s
+            raise HTTPError(404)
 
 def load_jupyter_server_extension(nb_server_app):
     """
