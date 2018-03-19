@@ -1,6 +1,7 @@
 from notebook.utils import url_path_join
 from notebook.base.handlers import IPythonHandler
 from tornado.web import StaticFileHandler, HTTPError
+from tornado import gen
 
 import os
 import json
@@ -15,6 +16,7 @@ class JuliaPackageAssetServer(IPythonHandler, StaticFileHandler):
         # Disable cache
         self.set_header('Cache-Control', 'no-store, no-cache, must-revalidate, max-age=0')
 
+    @gen.coroutine
     def get(self, pkg, fpath):
         dirs = self.julia_load_path
         for d in dirs:
@@ -22,9 +24,11 @@ class JuliaPackageAssetServer(IPythonHandler, StaticFileHandler):
             fullpath = os.path.join(dirpath, fpath)
             if os.path.isdir(dirpath) and os.path.isfile(fullpath):
                 self.root = dirpath
-                StaticFileHandler.get(self, fpath)
-                return
-        raise HTTPError(404)
+                yield StaticFileHandler.get(self, fpath)
+                break
+        else:
+            # will execute only if the `for` loop never `break`s
+            raise HTTPError(404)
 
 def load_jupyter_server_extension(nb_server_app):
     """
