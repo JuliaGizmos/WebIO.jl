@@ -11,7 +11,7 @@
   "dependencies": {
     "array-equal": "^1.0",
     "is-array": "^1.0.1",
-    "webpack": "^4.1.0",
+    "webpack": "^3.8",
     "@webcomponents/webcomponentsjs": "^1.0.2",
     "systemjs": "^0.21.0"
   }
