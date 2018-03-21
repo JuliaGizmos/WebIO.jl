@@ -16,8 +16,20 @@ function WebIO.register_renderable(T::Type)
 end
 
 function main()
-    display(HTML("<script src='/pkg/WebIO/webio/dist/bundle.js'></script>"))
-    display(HTML("<script src='/pkg/WebIO/providers/ijulia_setup.js'></script>"))
+    display(HTML("""
+        <script>
+            var curMatch =
+                window.location.href
+                .match(/(.*)\\/notebooks\\/(.*)\\.ipynb/);
+
+            if ( curMatch ) {
+                \$('head').append('<base href="' + curMatch[1] + '/">');
+            }
+        </script>
+    """))
+
+    display(HTML("<script src='pkg/WebIO/webio/dist/bundle.js'></script>"))
+    display(HTML("<script src='pkg/WebIO/providers/ijulia_setup.js'></script>"))
 
     comm = Comm(:webio_comm)
     conn = IJuliaConnection(comm)
@@ -25,6 +37,7 @@ function main()
         data = msg.content["data"]
         WebIO.dispatch(conn, data)
     end
+
     nothing
 end
 
