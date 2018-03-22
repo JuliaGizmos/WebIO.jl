@@ -66,6 +66,8 @@ function process_messages(pool::ConnectionPool)
                     if isopen(connection)
                         send(connection, msg)
                         msg_sent = true
+                    else
+                        delete!(pool.connections, connection)
                     end
                 end
             end
