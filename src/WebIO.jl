@@ -5,6 +5,8 @@ module WebIO
 using Observables
 using Requires
 
+abstract type AbstractConnection end
+
 include("util.jl")
 include("node.jl")
 include("syntax.jl")
