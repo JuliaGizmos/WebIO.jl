@@ -1,10 +1,12 @@
 type TestConn <: AbstractConnection
-    msg
+    channel::Channel
 end
 
 function Base.send(c::TestConn, msg)
-    c.msg = msg
+    put!(c.channel, msg)
 end
+
+Base.isopen(c::TestConn) = true
 
 import WebIO: dispatch
 
@@ -23,7 +25,7 @@ import WebIO: dispatch
 
     send(w, :msg_to_js, "hello js again") # Queue it again
 
-    conn = TestConn(nothing) # create a test connection
+    conn = TestConn(Channel{Any}(32)) # create a test connection
 
     # mimic front-end sending a _setup_scope special message
     # this message denotes that `conn` will be handling messages
@@ -31,33 +33,34 @@ import WebIO: dispatch
     dispatch(conn, Dict("command" => "_setup_scope",
                         "scope" => "testctx1"))
 
-    yield() # allow a chance for ctx.pool.outbox to write to connection
+    msg = take!(conn.channel)
 
     # now ctx should have passed on its queued message to connection
     # in TestConn the message is simply stored in its msg ref field
-    @test conn.msg == Dict("type"=>"command",
-                           "command"=>:msg_to_js,
-                           "scope"=>"testctx1",
-                           "data"=>"hello js again")
+    @test msg == Dict("type"=>"command",
+                      "command"=>:msg_to_js,
+                      "scope"=>"testctx1",
+                      "data"=>"hello js again")
 
     # further messages are sent freely
     send(w, :msg_to_js, "hello js a third time")
-    yield()
-    @test conn.msg == Dict("type"=>"command",
-                           "command"=>:msg_to_js,
-                           "scope"=>"testctx1",
-                           "data"=>"hello js a third time")
+    wait(conn.channel)
+    msg = take!(conn.channel)
+    @test msg == Dict("type"=>"command",
+                      "command"=>:msg_to_js,
+                      "scope"=>"testctx1",
+                      "data"=>"hello js a third time")
 
     # mimic messages coming in from JS side
 
     # no scope named xx
     dispatch(conn, Dict("command" => "incoming",
                         "data"=>"hi Julia", "scope"=>"xx"))
-    yield()
+    msg = take!(conn.channel)
     # a warning was raised on receiving a message for an unknown
     # scope xx
-    @test conn.msg["type"] == "log"
-    @test contains(conn.msg["message"], "unknown scope xx")
+    @test msg["type"] == "log"
+    @test contains(msg["message"], "unknown scope xx")
 
     # this should give a warning
     dispatch(conn, Dict("command" => "incoming",
