@@ -46,6 +46,8 @@ function Base.send(p::WebSockConnection, data)
     write(p.sock, sprint(io->JSON.print(io,data)))
 end
 
+Base.isopen(p::WebSockConnection) = isopen(p.sock)
+
 
 function Mux.Response(o::Union{Node, Scope})
     Mux.Response(

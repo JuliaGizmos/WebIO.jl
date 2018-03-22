@@ -16,11 +16,11 @@ import WebIO: dispatch
    #@test instanceof(w).id == "testctx1"
 
     send(w, :msg_to_js, "hello js") # Queue a message to the JS side.
-    @test take!(w.outbox) == Dict("type"=>"command",
+    @test take!(w.pool.outbox) == Dict("type"=>"command",
                                   "scope"=>"testctx1",
                                   "command"=>:msg_to_js,
                                   "data"=>"hello js")
-    
+
     send(w, :msg_to_js, "hello js again") # Queue it again
 
     conn = TestConn(nothing) # create a test connection
@@ -31,7 +31,7 @@ import WebIO: dispatch
     dispatch(conn, Dict("command" => "_setup_scope",
                         "scope" => "testctx1"))
 
-    yield() # allow a chance for ctx.outbox to write to connection
+    yield() # allow a chance for ctx.pool.outbox to write to connection
 
     # now ctx should have passed on its queued message to connection
     # in TestConn the message is simply stored in its msg ref field

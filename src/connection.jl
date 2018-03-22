@@ -1,4 +1,3 @@
-abstract type AbstractConnection end
 
 function send(c::AbstractConnection, msg)
     error("No send method for connection of type $(typeof(c))")
@@ -25,10 +24,7 @@ function dispatch(conn::AbstractConnection, data)
     if cmd == "_setup_scope"
         if haskey(scopes, scopeid)
             scope = scopes[scopeid]
-            @async while true
-                msg = take!(scope.outbox)
-                send(conn, msg)
-            end
+            addconnection!(scope.pool, conn)
         else
             log(conn, "Client says it has unknown scope $scopeid", "warn")
         end

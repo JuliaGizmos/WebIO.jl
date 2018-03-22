@@ -1,4 +1,5 @@
 using JSON
+using WebIO: AbstractConnection
 
 export Scope,
        AbstractConnection,
@@ -11,10 +12,71 @@ export Scope,
        onimport,
        ondependencies,
        adddeps!,
-       import!
+       import!,
+       addconnection!
 
 import Base: send
 import Observables: Observable
+
+"""
+    ConnectionPool(outbox::Channel, connections::Set{AbstractConnection}=Set())
+
+Manages the distribution of messages from the `outbox` channel to a set of
+connections. The ConnectionPool asynchronously takes messages from its outbox
+and sends each message to every connection in the pool. Any closed connections
+are automatically removed from the pool.
+"""
+struct ConnectionPool
+    outbox::Channel
+    connections::Set{AbstractConnection}
+    new_connections::Channel{AbstractConnection}
+
+    function ConnectionPool(outbox::Channel, connections=Set{AbstractConnection}())
+        new_connections = Channel{AbstractConnection}(32)
+        pool = new(outbox, connections, new_connections)
+        @async process_messages(pool)
+        pool
+    end
+end
+
+addconnection!(pool::ConnectionPool, c::AbstractConnection) = put!(pool.new_connections, c)
+send(pool::ConnectionPool, msg) = put!(pool.outbox, msg)
+
+"""
+Ensure that the pool has at least one connection, potentially blocking
+the current task until that is the case.
+"""
+function ensure_connection(pool::ConnectionPool)
+    if isempty(pool.connections)
+        wait(pool.new_connections)
+    end
+    while isready(pool.new_connections)
+        push!(pool.connections, take!(pool.new_connections))
+    end
+end
+
+function process_messages(pool::ConnectionPool)
+    while true
+        ensure_connection(pool)
+        msg = fetch(pool.outbox)  # don't take! yet, since we're not sure msg can be sent
+        msg_sent = false
+        @sync begin
+            for connection in pool.connections
+                @async begin
+                    if isopen(connection)
+                        send(connection, msg)
+                        msg_sent = true
+                    end
+                end
+            end
+        end
+        if msg_sent
+            # Message was sent, so remove it from the channel
+            take!(pool.outbox)
+        end
+    end
+end
+
 
 """
     Scope(id; kwargs...)
@@ -23,19 +85,18 @@ An object which can send and receive messages.
 
 Fields:
 - `id::String`: A unique ID
-- `outbox::Channel`: Channel for outgoing messages
 - `imports`: An array of js/html/css assets to load
   before rendering the contents of a scope.
 """
 mutable struct Scope
     id::AbstractString
     dom::Any
-    outbox::Channel
     observs::Dict{String, Tuple{Observable, Union{Void,Bool}}} # bool marks if it is synced
     private_obs::Set{String}
     systemjs_options
     imports
     jshandlers
+    pool::ConnectionPool
 end
 
 const scopes = Dict{String, Scope}()
@@ -48,7 +109,7 @@ function Scope(id::String=newid("scope");
         dependencies=nothing,
         systemjs_options=nothing,
         imports=[],
-        jshandlers::Dict=Dict(),
+        jshandlers::Dict=Dict()
     )
 
     if dependencies !== nothing
@@ -60,7 +121,9 @@ function Scope(id::String=newid("scope");
         warn("A scope by the id $id already exists. Overwriting.")
     end
 
-    scopes[id] = Scope(id, dom, outbox, observs, private_obs, systemjs_options, imports, jshandlers)
+    pool = ConnectionPool(outbox)
+
+    scopes[id] = Scope(id, dom, observs, private_obs, systemjs_options, imports, jshandlers, pool)
 end
 Base.@deprecate Scope(id::AbstractString; kwargs...) Scope(; id=id, kwargs...)
 
@@ -182,7 +245,7 @@ function send(ctx::Scope, key, data)
       "command" => key,
       "data" => data,
     )
-    put!(ctx.outbox, command_data)
+    send(ctx.pool, command_data)
     nothing
 end
 
