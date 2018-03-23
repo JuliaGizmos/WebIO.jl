@@ -3030,7 +3030,13 @@ module.exports = isArray || function (val) {
     if (!webComponentsSupported) {
         var script = document.createElement('script');
         script.async = true;
-        script.src = '/pkg/WebIO/webio/dist/webcomponents-lite.min.js';
+
+        if ( document.getElementsByTagName("base").length === 0 ) {
+          script.src = '/pkg/WebIO/webio/dist/webcomponents-lite.min.js';
+        } else {
+          script.src = 'pkg/WebIO/webio/dist/webcomponents-lite.min.js';
+        }
+
         document.head.appendChild(script);
         document.addEventListener("WebComponentsReady", function () {
             if (customElements.get("unsafe-script") === undefined) {
