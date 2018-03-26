@@ -11,7 +11,6 @@ function Base.send(c::IJuliaConnection, data)
     send_comm(c.comm, data)
 end
 
-# TODO: is this the right thing to check?
 Base.isopen(c::IJuliaConnection) = haskey(IJulia.CommManager.comms, c.comm.id)
 
 function WebIO.register_renderable(T::Type)
