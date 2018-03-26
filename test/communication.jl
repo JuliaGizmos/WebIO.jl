@@ -54,8 +54,9 @@ import WebIO: dispatch
     # mimic messages coming in from JS side
 
     # no scope named xx
-    dispatch(conn, Dict("command" => "incoming",
-                        "data"=>"hi Julia", "scope"=>"xx"))
+    @test_warn("unknown scope xx",
+        dispatch(conn, Dict("command" => "incoming",
+                            "data"=>"hi Julia", "scope"=>"xx")))
     msg = take!(conn.channel)
     # a warning was raised on receiving a message for an unknown
     # scope xx
@@ -63,8 +64,9 @@ import WebIO: dispatch
     @test contains(msg["message"], "unknown scope xx")
 
     # this should give a warning
-    dispatch(conn, Dict("command" => "incoming",
-                        "data"=>"hi Julia", "scope"=>"testctx1"))
+    @test_warn("incoming does not have a handler for scope id testctx1",
+               dispatch(conn, Dict("command" => "incoming",
+                                   "data"=>"hi Julia", "scope"=>"testctx1")))
 
     msg = Ref("")
     on(x -> msg[] = x, w, "incoming") # setup the handler
