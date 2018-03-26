@@ -3,7 +3,7 @@ using JSON
 const BEGIN_MARKER = "###JULIA-WEBIO-CONFIG-BEGIN"
 const END_MARKER = "###JULIA-WEBIO-CONFIG-END"
 function install_ijulia_config()
-    config_file = joinpath(ENV["HOME"], ".jupyter", "jupyter_notebook_config.py")
+    config_file = joinpath(homedir(), ".jupyter", "jupyter_notebook_config.py")
     if isfile(config_file)
         config_str = String(read(config_file))
     else
