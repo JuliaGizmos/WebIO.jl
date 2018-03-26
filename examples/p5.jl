@@ -5,7 +5,7 @@ function hue_app()
     scope = Scope()
     import!(scope, ["//cdnjs.cloudflare.com/ajax/libs/p5.js/0.5.7/p5.js"])
 
-    sketch = @js function (p5)
+    sketch = JSExpr.@js function (p5)
         @var s = function(p)
             @var barWidth = 20
             @var lastBar = -1
