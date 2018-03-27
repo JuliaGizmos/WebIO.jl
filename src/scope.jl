@@ -57,8 +57,8 @@ end
 
 function process_messages(pool::ConnectionPool)
     while true
-        ensure_connection(pool)
         msg = fetch(pool.outbox)  # don't take! yet, since we're not sure msg can be sent
+        ensure_connection(pool)
         msg_sent = false
         @sync begin
             for connection in pool.connections
