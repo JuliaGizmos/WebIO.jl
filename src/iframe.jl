@@ -23,7 +23,6 @@ function iframe(dom)
                 doc.body.style.margin = '0'
                 doc.documentElement.height = '100%'
                 doc.body.height = '100%'
-                alert(doc.body.offsetHeight)
             }
 
             webio.onload = function () {
