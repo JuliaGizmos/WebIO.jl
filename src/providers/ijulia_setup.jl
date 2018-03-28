@@ -20,7 +20,11 @@ function main()
         <script>
             var curMatch =
                 window.location.href
-                .match(/(.*)\\/notebooks\\/(.*)\\.ipynb/);
+                .match(/(.*)\\/notebooks\\/.*\\.ipynb/);
+
+            curMatch = curMatch ||
+                window.location.href
+                .match(/(.*)\\/apps\\/.*\\.ipynb/);
 
             if ( curMatch ) {
                 \$('head').append('<base href="' + curMatch[1] + '/">');
