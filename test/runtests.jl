@@ -43,6 +43,21 @@ end
     @test props(n1) == Dict(:prop=>"x")
 end
 
+function capture_plaintext(x)
+    io = IOBuffer()
+    show(io, MIME("text/plain"), x)
+    seek(io, 0)
+    readstring(io)
+end
+
+@testset "plaintext printing" begin
+    @test capture_plaintext(Node(:div)) == "(div)"
+    @test capture_plaintext(Node(:div, Node(:ul))) == "(div\n  (ul))"
+    @test capture_plaintext(Node(:div, Node(:ul, Node(:li, "hello")))) == "(div\n  (ul\n    (li\n      \"hello\")))"
+    @test capture_plaintext(Node(:div, id="foo", class="bar")) == "(div { id=\"foo\" class=\"bar\" })"
+    @test capture_plaintext(dom"ul"(dom"li"("hello"), dom"li"("world"))) == "(ul\n  (li\n    \"hello\")\n  (li\n    \"world\"))"
+end
+
 @testset "@js_str" begin
     @test js"x=y".s == "x=y"
     y = 1
