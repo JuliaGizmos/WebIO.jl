@@ -37,8 +37,13 @@
         if (document.readyState === "complete" || document.readyState === "loaded") {
             setup()
         } else {
-            // https://stackoverflow.com/questions/48498581/accessing-textcontent-within-connectedcallback-for-a-custom-htmlelement
-            document.addEventListener("DOMContentLoaded", function () { setup(); })
+            if (window.frameElement instanceof HTMLIFrameElement) {
+                // DOMContentLoaded is never fired, we'll just do this now.
+                setup();
+            } else {
+                // https://stackoverflow.com/questions/48498581/accessing-textcontent-within-connectedcallback-for-a-custom-htmlelement
+                document.addEventListener("DOMContentLoaded", function () { setup(); })
+            }
         }
     }
 })();
