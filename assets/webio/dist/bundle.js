@@ -3042,7 +3042,13 @@ module.exports = isArray || function (val) {
             setup()
         } else {
             // https://stackoverflow.com/questions/48498581/accessing-textcontent-within-connectedcallback-for-a-custom-htmlelement
-            document.addEventListener("DOMContentLoaded", function () { setup(); })
+            if (window.frameElement) {
+                // DOMContentLoaded is never fired, we'll just do this now.
+                setup();
+            } else {
+                // https://stackoverflow.com/questions/48498581/accessing-textcontent-within-connectedcallback-for-a-custom-htmlelement
+                document.addEventListener("DOMContentLoaded", function () { setup(); })
+            }
         }
     }
 })();
