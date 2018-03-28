@@ -336,7 +336,9 @@ var WebIO = {
 
     propUtils: {
         setInnerHtml: setInnerHtml
-    }
+    },
+    scopes: scopes,
+    obsscopes: obsscopes
 };
 
 if (window) {
@@ -3041,7 +3043,6 @@ module.exports = isArray || function (val) {
         if (document.readyState === "complete" || document.readyState === "loaded") {
             setup()
         } else {
-            // https://stackoverflow.com/questions/48498581/accessing-textcontent-within-connectedcallback-for-a-custom-htmlelement
             if (window.frameElement) {
                 // DOMContentLoaded is never fired, we'll just do this now.
                 setup();

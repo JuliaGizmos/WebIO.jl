@@ -11,6 +11,7 @@ include("syntax.jl")
 include("scope.jl")
 include("render.jl")
 include("connection.jl")
+include("iframe.jl")
 include("devsetup.jl")
 
 export setup_provider

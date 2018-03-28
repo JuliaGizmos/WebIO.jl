@@ -37,7 +37,7 @@
         if (document.readyState === "complete" || document.readyState === "loaded") {
             setup()
         } else {
-            if (window.frameElement instanceof HTMLIFrameElement) {
+            if (window.frameElement) {
                 // DOMContentLoaded is never fired, we'll just do this now.
                 setup();
             } else {

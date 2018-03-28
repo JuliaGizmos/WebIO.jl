@@ -235,7 +235,9 @@ var WebIO = {
 
     propUtils: {
         setInnerHtml: setInnerHtml
-    }
+    },
+    scopes: scopes,
+    obsscopes: obsscopes
 };
 
 if (window) {
