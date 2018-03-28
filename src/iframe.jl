@@ -1,18 +1,16 @@
-export IFrame
+export iframe
 
-struct IFrame
-    dom::Any
-end
-
-function Base.show(io::IO, m::MIME"text/html", f::IFrame)
-    str = stringmime(m, f.dom)
+function iframe(dom)
+    str = stringmime("text/html", dom)
     
     s = Scope()
     s.dom = Node(:div,
-        Node(:iframe, id="ifr", style=Dict("width"=>"100%", "height"=>"0", "border"=>0)),
-        style=Dict("overflow"=>"hidden"),
+                 Node(:iframe, id="ifr", style=Dict("width"=>"100%"),
+                      attributes=Dict("src"=>"javascript:void()","frameborder"=>0, "scrolling"=>"no", "height"=>"100%")),
+                style=Dict("overflow"=>"hidden"),
     )
-    onimport(s, js"""function () {
+    onimport(s,
+        js"""function () {
             var frame = this.dom.querySelector("#ifr");
             var doc = frame.contentDocument
             var win = frame.contentWindow
@@ -23,18 +21,20 @@ function Base.show(io::IO, m::MIME"text/html", f::IFrame)
             function resizeIframe() {
                 doc.body.style.padding = '0'
                 doc.body.style.margin = '0'
+                doc.documentElement.height = '100%'
+                doc.body.height = '100%'
+                alert(doc.body.offsetHeight)
             }
 
             webio.onload = function () {
                 win.WebIO.sendCallback = parent.WebIO.sendCallback; // Share stuff
                 win.WebIO.scopes = parent.WebIO.scopes
                 win.WebIO.obsscopes = parent.WebIO.obsscopes
-                doc.body.innerHTML = $str;
-                resizeIframe()
+                doc.body.innerHTML = "<html><body>" + $str + "</body></html>";
+                setTimeout(function () { resizeIframe() }, 0)
             }
 
             doc.body.appendChild(webio)
         }""")
-
-    show(io, m, WebIO.render(s))
+    s
 end
