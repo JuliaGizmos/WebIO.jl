@@ -6,7 +6,7 @@ function iframe(dom)
     s = Scope()
     s.dom = Node(:div,
                  Node(:iframe, id="ifr", style=Dict("width"=>"100%"),
-                      attributes=Dict("src"=>"javascript:void()","frameborder"=>0, "scrolling"=>"no", "height"=>"100%")),
+                      attributes=Dict("src"=>"javascript:void(0)","frameborder"=>0, "scrolling"=>"no", "height"=>"100%")),
                 style=Dict("overflow"=>"hidden"),
     )
     onimport(s,
@@ -29,6 +29,7 @@ function iframe(dom)
                 win.WebIO.sendCallback = parent.WebIO.sendCallback; // Share stuff
                 win.WebIO.scopes = parent.WebIO.scopes
                 win.WebIO.obsscopes = parent.WebIO.obsscopes
+                win.WebIO._connected = true
                 doc.body.innerHTML = "<html><body>" + $str + "</body></html>";
                 setTimeout(function () { resizeIframe() }, 0)
             }
