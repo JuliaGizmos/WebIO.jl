@@ -106,9 +106,6 @@ function arrays_and_equal(arr1, arr2){
     return is_array(arr1) && is_array(arr2) && arrays_equal(arr1, arr2)
 }
 
-var scopes = {};
-var obsscopes = {};
-
 function makeScope(id, data, sendCallback, dom, handlers, observables)
 {
     var scope = {
@@ -122,18 +119,18 @@ function makeScope(id, data, sendCallback, dom, handlers, observables)
         promises: {}
     }
 
-    if (typeof scopes[id] !== "undefined") {
+    if (typeof WebIO.scopes[id] !== "undefined") {
         console.warn("A scope with id '"+id+"' already exists.")
     }
-    scopes[id] = scope;
+    WebIO.scopes[id] = scope;
     if (observables){
         Object.keys(observables).forEach(function setobsscope(name){
             var o = observables[name]
-            if (typeof obsscopes[o.id] === "undefined"){
-                obsscopes[o.id] = []
+            if (typeof WebIO.obsscopes[o.id] === "undefined"){
+                WebIO.obsscopes[o.id] = []
             }
             //obname is the name of the observable in this scope
-            obsscopes[o.id].push({scope: scope, obname: name})
+            WebIO.obsscopes[o.id].push({scope: scope, obname: name})
         })
     }
 
@@ -173,7 +170,7 @@ function dispatch(msg)
     if (msg.type != "command") {
         console.warn("invalid message received", msg)
     } else {
-        var scope = scopes[msg.scope];
+        var scope = WebIO.scopes[msg.scope];
         var fs = getHandlers(scope, msg.command);
         for (var i=0, l=fs.length; i<l; i++) {
             var f = fs[i]
@@ -202,7 +199,7 @@ function send(scope, cmd, data)
 }
 
 function setval(ob, val) {
-    var allscopes = obsscopes[ob.id]
+    var allscopes = WebIO.obsscopes[ob.id]
     var synced_julia = false
     allscopes.forEach(function propagate_to_other_scopes(oscopeinfo){
         var scope = oscopeinfo.scope
@@ -233,7 +230,7 @@ function setval(ob, val) {
 }
 
 function getval(ob) {
-    var scope = scopes[ob.scope]
+    var scope = WebIO.scopes[ob.scope]
     var x = scope.observables[ob.name]
     return x.value
 }
@@ -337,8 +334,8 @@ var WebIO = {
     propUtils: {
         setInnerHtml: setInnerHtml
     },
-    scopes: scopes,
-    obsscopes: obsscopes
+    scopes: {},
+    obsscopes: {}
 };
 
 if (window) {
