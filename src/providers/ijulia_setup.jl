@@ -17,7 +17,7 @@ end
 
 function main()
     display(HTML("""
-        <script>
+        <script class='js-remove-script'>
             var curMatch =
                 window.location.href
                 .match(/(.*)\\/notebooks\\/.*\\.ipynb/);
@@ -32,8 +32,10 @@ function main()
         </script>
     """))
 
-    display(HTML("<script src='pkg/WebIO/webio/dist/bundle.js'></script>"))
-    display(HTML("<script src='pkg/WebIO/providers/ijulia_setup.js'></script>"))
+    display(HTML("<script class='js-remove-script' src='pkg/WebIO/webio/dist/bundle.js'></script>"))
+    display(HTML("<script class='js-remove-script' src='pkg/WebIO/providers/ijulia_setup.js'></script>"))
+
+    display(HTML("<script class='js-remove-script'>\$('.js-remove-script').closest('.output_area').remove();</script>"))
 
     comm = Comm(:webio_comm)
     conn = IJuliaConnection(comm)
