@@ -13,6 +13,15 @@ WebIO provides a simple abstraction for displaying and interacting with content.
 
 Scopes once created with WebIO will work on any of these front-ends.
 
+People using WebIO
+------------------
+
+This is a non-comprehensive list of websites using WebIO:
+
++ [Julia Tetris](http://juliatetris.com)
+
+If you want your page listed here, please open an [issue](https://github.com/JuliaGizmos/WebIO.jl/issues/new).
+
 Getting started
 ---------------
 
