@@ -13,7 +13,7 @@ node = NodeJS.nodejs_cmd()
 npm = NodeJS.npm_cmd()
 
 try
-    run(`$npm install webpack webpack-cli --scripts-prepend-node-path`)
+    run(`$npm install webpack@"^4.6" webpack-cli@"^2.1" --scripts-prepend-node-path`)
 finally
     cd(cwd)
     cd(Pkg.dir()) do
