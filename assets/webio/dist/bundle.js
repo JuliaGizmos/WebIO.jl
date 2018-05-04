@@ -2861,6 +2861,8 @@ function doImports(scope, imp) {
         case "js":
             var cfg = {paths: {}}
             cfg.paths[imp.name] = imp.url
+            cfg.meta = {};
+            cfg.meta[imp.url] = {authorization: true};
             SystemJS.config(cfg)
             return SystemJS.import(imp.url).then(function (mod) {
                 if (imp.name) {
