@@ -1,6 +1,5 @@
 function devsetup()
-    build_dir = joinpath(dirname(@__FILE__), "..", "deps")
-    include(joinpath(build_dir, "_devsetup.jl"))
+    Base.depwarn("WebIO.devsetup() is no longer required. You can simply run WebIO.bundlejs().", :webio_devesetup)
 end
 
 function bundlejs(;watch=false)

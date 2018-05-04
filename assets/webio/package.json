@@ -11,8 +11,14 @@
   "dependencies": {
     "array-equal": "^1.0",
     "is-array": "^1.0.1",
-    "webpack": "^3.8",
     "@webcomponents/webcomponentsjs": "^1.0.2",
-    "systemjs": "^0.21.0"
+    "systemjs": "^0.20"
+  },
+  "devDependencies": {
+    "webpack": "^4.6",
+    "webpack-cli": "^2.1"
+  },
+  "scripts": {
+    "build": "webpack"
   }
 }
