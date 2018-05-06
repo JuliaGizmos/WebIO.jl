@@ -45,7 +45,6 @@ cd(Pkg.dir("WebIO", "assets"))
 **Development setup** if you want to edit the javascript files in this repository, you will need to setup ways to build them. It's made easy for you:
 ```julia
 using WebIO
-WebIO.devsetup() # run once
 WebIO.bundlejs() # run every time you update a file
 ```
 
