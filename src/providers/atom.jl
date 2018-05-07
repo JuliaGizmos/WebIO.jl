@@ -1,11 +1,11 @@
+@require Juno begin
+
 using Juno
-using WebIO
 
 function get_page(opts::Dict=Dict())
     Juno.isactive() ? Juno.Atom.blinkplot() : Window(opts).content
 end
 
-media(Node, Media.Graphical)
 Juno.render(::Juno.PlotPane, n::Union{Node, Scope}) =
     (body!(get_page(), n); nothing)
 
@@ -21,4 +21,9 @@ function WebIO.register_renderable(T::Type)
             Juno.render(i, WebIO.render_inline(x))
     end
     WebIO.register_renderable_common(T)
+end
+
+WebIO.setup_provider(::Val{:atom}) = media(Node, Media.Graphical)
+WebIO.setup(:atom)
+
 end

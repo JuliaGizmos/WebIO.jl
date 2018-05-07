@@ -16,27 +16,23 @@ include("connection.jl")
 include("iframe.jl")
 include("devsetup.jl")
 
+setup_provider(s::Union{Symbol, AbstractString}) = setup_provider(Val(Symbol(s)))
 export setup_provider
 
-function setup_provider(name)
-    include(joinpath(dirname(@__FILE__), "providers", "$(name)_setup.jl"))
-end
+include(joinpath("providers", "atom.jl"))
+include(joinpath("providers", "blink.jl"))
+include(joinpath("providers", "mux.jl"))
+include(joinpath("providers", "ijulia.jl"))
 
-const providers_initialised = Set{String}()
+const providers_initialised = Set{Symbol}()
 
-function setup(provider)
+function setup(provider::Symbol)
     println("WebIO: setting up $provider")
     setup_provider(provider)
     push!(providers_initialised, provider)
     re_register_renderables()
 end
-
-
-# TODO check Juno since Blink might get loaded after/before?
-@require Mux eval(Main, :(WebIO.setup("mux")))
-@require Blink eval(Main, :(WebIO.setup("blink")))
-@require Juno eval(Main, :(WebIO.setup("atom")))
-@require IJulia eval(Main, :(WebIO.setup("ijulia")))
+setup(provider::AbstractString) = setup(Symbol(provider))
 
 Requires.@init begin
     push!(Observables.addhandler_callbacks, WebIO.setup_comm)

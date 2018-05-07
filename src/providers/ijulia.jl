@@ -1,7 +1,7 @@
+@require IJulia begin
+
 using IJulia
 using IJulia.CommManager
-
-using WebIO
 
 immutable IJuliaConnection <: AbstractConnection
     comm::CommManager.Comm
@@ -53,4 +53,7 @@ function main()
     nothing
 end
 
-main()
+WebIO.setup_provider(::Val{:ijulia}) = main() # calling setup_provider(Val(:ijulia)) will display the setup javascript
+WebIO.setup(:ijulia)
+
+end

@@ -1,5 +1,6 @@
-using Blink
-using WebIO
+@require Blink begin
+
+using Blink: Page, loadjs!, body!, Window
 
 immutable BlinkConnection <: WebIO.AbstractConnection
     page::Page
@@ -32,4 +33,9 @@ function WebIO.register_renderable(T::Type)
     Blink.body!(p::Union{Window, Page}, x::T) =
         Blink.body!(p, WebIO.render(x))
     WebIO.register_renderable_common(T)
+end
+
+WebIO.setup_provider(::Val{:blink}) = nothing  # blink setup has no side-effects
+WebIO.setup(:blink)
+
 end
