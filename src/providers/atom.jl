@@ -23,7 +23,10 @@ function WebIO.register_renderable(T::Type)
     WebIO.register_renderable_common(T)
 end
 
-WebIO.setup_provider(::Val{:atom}) = media(Node, Media.Graphical)
+function WebIO.setup_provider(::Val{:atom})
+    media(Node, Media.Graphical)
+    media(Scope, Media.Graphical)
+end
 WebIO.setup(:atom)
 
 end
