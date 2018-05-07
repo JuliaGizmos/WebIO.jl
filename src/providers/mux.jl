@@ -1,6 +1,8 @@
+@require Mux begin
+
 using Mux
 using JSON
-using WebIO
+export webio_serve
 
 """
     webio_serve(app, port=8000)
@@ -8,18 +10,18 @@ using WebIO
 Serve a Mux app which might return a WebIO node.
 """
 function webio_serve(app, port=8000)
-    @app http = (
+    http = Mux.App(Mux.mux(
         Mux.defaults,
         app,
-        Mux.notfound(),
-    )
+        Mux.notfound()
+    ))
 
-    @app websock = (
+    websock = Mux.App(Mux.mux(
         Mux.wdefaults,
         route("/webio-socket", create_socket),
         Mux.wclose,
         Mux.notfound(),
-    )
+    ))
 
     serve(http, websock, port)
 end
@@ -70,4 +72,9 @@ end
 function WebIO.register_renderable(T::Type)
     Mux.Response(x::T) = Mux.Response(WebIO.render(x))
     WebIO.register_renderable_common(T)
+end
+
+WebIO.setup_provider(::Val{:mux}) = nothing # Mux setup has no side-effects
+WebIO.setup(:mux)
+
 end
