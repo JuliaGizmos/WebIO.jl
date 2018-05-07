@@ -2,6 +2,7 @@
 
 using Mux
 using JSON
+export webio_serve
 
 """
     webio_serve(app, port=8000)
