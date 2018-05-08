@@ -71,6 +71,7 @@ end
 end
 
 include("communication.jl")
+include("mux-tests.jl")
 include("blink-tests.jl")
 include("util-tests.jl")
 include("bundling.jl")
