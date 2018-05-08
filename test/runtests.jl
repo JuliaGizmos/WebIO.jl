@@ -73,3 +73,4 @@ end
 include("communication.jl")
 include("blink-tests.jl")
 include("util-tests.jl")
+include("bundling.jl")
