@@ -87,11 +87,11 @@ end
         end
 
         @testset "global URL, no http:" begin
-            @test scope_import(w, "//people.csail.mit.edu/rdeits/trivial_import.js") == "ok"
+            @test scope_import(w, "//people.csail.mit.edu/rdeits/webio_tests/trivial_import.js") == "ok"
         end
 
         @testset "global URL, with http:" begin
-            @test scope_import(w, "http://people.csail.mit.edu/rdeits/trivial_import.js") == "ok"
+            @test scope_import(w, "http://people.csail.mit.edu/rdeits/webio_tests/trivial_import.js") == "ok"
         end
     end
 end
