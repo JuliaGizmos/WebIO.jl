@@ -24,7 +24,6 @@ function with_timeout(f::Function, timeout)
     take!(c)
 end
 
-
 @testset "Blink mocks" begin
 
     # open window and wait for it to initialize
@@ -58,6 +57,46 @@ end
         # Send a message and make sure we get it back from JS
         julia_to_js[] = "hello Blink"
         @test with_timeout(() -> take!(output), 5) == "hello Blink"
+    end
+
+    function scope_import(w::Window, url::AbstractString)
+        scope = Scope(
+            imports=[url]
+        )
+        js_to_julia = Observable{Any}(scope, "inbox", "")
+        output = Channel{Any}(1)
+        on(js_to_julia) do x
+            # Put the result in a channel so we can watch for it
+            put!(output, x)
+        end
+        onimport(scope, @JSExpr.js function (mod)
+            $js_to_julia[] = mod.x
+        end)
+        body!(w, scope)
+
+        return with_timeout(() -> take!(output), 5)
+    end
+
+    @testset "scope imports" begin
+        @testset "local package, absolute" begin
+            @test scope_import(w, "/pkg/WebIO/webio/test/trivial_import.js") == "ok"
+        end
+
+        @testset "local package, relative" begin
+            @test scope_import(w, "pkg/WebIO/webio/test/trivial_import.js") == "ok"
+        end
+
+        @testset "global URL, no http:" begin
+            # TODO: change this to a permanent URL because this CSAIL account
+            # will eventually expire. 
+            @test scope_import(w, "//people.csail.mit.edu/rdeits/webio_tests/trivial_import.js") == "ok"
+        end
+
+        @testset "global URL, with http:" begin
+            # TODO: change this to a permanent URL because this CSAIL account
+            # will eventually expire. 
+            @test scope_import(w, "http://people.csail.mit.edu/rdeits/webio_tests/trivial_import.js") == "ok"
+        end
     end
 end
 
