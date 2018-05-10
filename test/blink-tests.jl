@@ -69,8 +69,8 @@ end
             # Put the result in a channel so we can watch for it
             put!(output, x)
         end
-        onimport(scope, @JSExpr.js function (x)
-            $js_to_julia[] = x
+        onimport(scope, @JSExpr.js function (mod)
+            $js_to_julia[] = mod.x
         end)
         body!(w, scope)
 
