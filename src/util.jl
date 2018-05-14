@@ -1,11 +1,6 @@
 using FunctionalCollections
 
-let count=0
-    global newid
-    function newid(prefix)
-        string(prefix, '-', count+=1)
-    end
-end
+newid(prefix) = string(prefix, '-', Base.Random.uuid4())
 
 _pvec(x::PersistentVector) = x
 _pvec(x::AbstractArray) = pvec(x)
