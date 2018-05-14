@@ -105,7 +105,7 @@ const scopes = Dict{String, Scope}()
 
 function Scope(id::String=newid("scope");
         dom=dom"span"(),
-        outbox::Channel=Channel{Any}(32),
+        outbox::Channel=Channel{Any}(Inf),
         observs::Dict=Dict(),
         private_obs::Set{String}=Set{String}(),
         dependencies=nothing,
