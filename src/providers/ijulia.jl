@@ -18,6 +18,15 @@ function WebIO.register_renderable(T::Type)
 end
 
 function main()
+    if !IJulia.inited
+        # If IJulia has not been initialized and connected to Jupyter itself,
+        # then we have no way to display anything in the notebook and no way
+        # to set up comms, so this function cannot run. That's OK, because 
+        # any IJulia kernels will start up with a fresh process and a fresh 
+        # copy of WebIO and IJulia. 
+        return
+    end
+
     display(HTML("""
         <script class='js-collapse-script'>
             var curMatch =
@@ -49,7 +58,6 @@ function main()
         data = msg.content["data"]
         WebIO.dispatch(conn, data)
     end
-
     nothing
 end
 
