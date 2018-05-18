@@ -13,9 +13,7 @@ end
 
 Base.isopen(c::IJuliaConnection) = haskey(IJulia.CommManager.comms, c.comm.id)
 
-function WebIO.register_renderable(T::Type)
-    WebIO.register_renderable_common(T)
-end
+WebIO.register_renderable(T::Type, ::Val{:ijulia}) = nothing
 
 function main()
     if !IJulia.inited

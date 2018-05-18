@@ -29,10 +29,9 @@ end
 
 Base.isopen(b::BlinkConnection) = Blink.active(b.page)
 
-function WebIO.register_renderable(T::Type)
+function WebIO.register_renderable(T::Type, ::Val{:blink})
     Blink.body!(p::Union{Window, Page}, x::T) =
         Blink.body!(p, WebIO.render(x))
-    WebIO.register_renderable_common(T)
 end
 
 WebIO.setup_provider(::Val{:blink}) = nothing  # blink setup has no side-effects
