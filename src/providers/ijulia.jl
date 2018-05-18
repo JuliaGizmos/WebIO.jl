@@ -22,11 +22,11 @@ function main()
         <script class='js-collapse-script'>
             var curMatch =
                 window.location.href
-                .match(/(.*)\\/notebooks\\/.*\\.ipynb/);
+                .match(/(.*?)\\/notebooks\\/.*\\.ipynb/);
 
             curMatch = curMatch ||
                 window.location.href
-                .match(/(.*)\\/apps\\/.*\\.ipynb/);
+                .match(/(.*?)\\/apps\\/.*\\.ipynb/);
 
             if ( curMatch ) {
                 \$('head').append('<base href="' + curMatch[1] + '/">');
