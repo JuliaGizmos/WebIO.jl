@@ -7,3 +7,12 @@ using IJulia
 @testset "IJulia initialization" begin
     @test :ijulia in WebIO.providers_initialised
 end
+
+
+# Test the demo jupyter notebook and make sure all of its cells execute
+# without error. 
+using NBInclude
+
+@testset "Demo notebook" begin
+    nbinclude(joinpath(@__DIR__, "..", "examples", "jupyter-demo.ipynb"))
+end
