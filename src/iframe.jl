@@ -2,7 +2,7 @@ export iframe
 
 function iframe(dom)
     str = stringmime("text/html", dom)
-    
+
     s = Scope()
     s.dom = Node(:div,
                  Node(:iframe, id="ifr", style=Dict("width"=>"100%"),
@@ -17,12 +17,12 @@ function iframe(dom)
 
             // Determine if we're running on a Jupyter hosting service
             // that requires a base URL when retrieving assets
-            var curMatch = 
+            var curMatch =
                 window.location.href
-                .match(/(.*)\/notebooks\/.*\.ipynb/);
+                .match(/(.*?)\/notebooks\/.*\.ipynb/);
             curMatch = curMatch ||
                 window.location.href
-                .match(/(.*)\/apps\/.*\.ipynb/);
+                .match(/(.*?)\/apps\/.*\.ipynb/);
             if (curMatch) {
                 var base = doc.createElement("base");
                 base.setAttribute("href", curMatch[1] + '/');
