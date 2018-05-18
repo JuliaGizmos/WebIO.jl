@@ -69,9 +69,8 @@ function Mux.Response(o::Union{Node, Scope})
     )
 end
 
-function WebIO.register_renderable(T::Type)
+function WebIO.register_renderable(T::Type, ::Val{:mux})
     Mux.Response(x::T) = Mux.Response(WebIO.render(x))
-    WebIO.register_renderable_common(T)
 end
 
 WebIO.setup_provider(::Val{:mux}) = nothing # Mux setup has no side-effects

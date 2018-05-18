@@ -22,29 +22,21 @@ IJulia to display the WebIO rendered version of the type as appropriate.
 Also defines a `Base.show(io::IO, m::MIME"text/html", x::MyType)` as
 `Base.show(io, m, WebIO.render(x))`
 """
-function register_renderable(T)
-    # When a provider is initialised, a new method for this function will be
-    # created for T::Type, outspecialising this one. Until then  we store these
-    # types so we can register them when the provider is setup.
-    println("register_renderable(Any) called")
-    if T isa Type
-        push!(renderable_types, T)
-        return true
-    else
-        ArgumentError("register_renderable should only be called with a Type. Was called with $T which is a $(typeof(T))")
-    end
+function register_renderable(::Type{T}) where T
+    Base.show(io::IO, m::MIME"text/html", x::T) = Base.show(io, m, WebIO.render(x))
+    push!(renderable_types, T)
+    return true
 end
 
 """
 Called after a provider is setup
 """
 function re_register_renderables()
-    foreach(T->Base.invokelatest(register_renderable, T), renderable_types)
-end
-
-function register_renderable_common(T::Type)
-    Base.show(io::IO, m::MIME"text/html", x::T) =
-        Base.show(io, m, WebIO.render(x))
+    for provider in providers_initialised
+        for T in renderable_types
+            register_renderable(T, Val(provider))
+        end
+    end
 end
 
 

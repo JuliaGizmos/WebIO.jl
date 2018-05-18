@@ -25,7 +25,6 @@ function with_timeout(f::Function, timeout)
 end
 
 @testset "Blink mocks" begin
-
     # open window and wait for it to initialize
     w = Window(Dict(:show => false))
 
@@ -88,16 +87,36 @@ end
 
         @testset "global URL, no http:" begin
             # TODO: change this to a permanent URL because this CSAIL account
-            # will eventually expire. 
+            # will eventually expire.
             @test scope_import(w, "//people.csail.mit.edu/rdeits/webio_tests/trivial_import.js") == "ok"
         end
 
         @testset "global URL, with http:" begin
             # TODO: change this to a permanent URL because this CSAIL account
-            # will eventually expire. 
+            # will eventually expire.
             @test scope_import(w, "http://people.csail.mit.edu/rdeits/webio_tests/trivial_import.js") == "ok"
         end
     end
+end
+
+
+example_renderable_was_rendered = false
+
+struct ExampleRenderableType
+end
+
+function WebIO.render(::ExampleRenderableType)
+    global example_renderable_was_rendered
+    example_renderable_was_rendered = true
+    Node(:div, "hello world")
+end
+
+WebIO.register_renderable(ExampleRenderableType)
+
+@testset "register_renderable" begin
+    w = Window(Dict(:show => false))
+    body!(w, ExampleRenderableType())
+    @test example_renderable_was_rendered
 end
 
 notinstalled && AtomShell.uninstall()
