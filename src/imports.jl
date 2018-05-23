@@ -24,7 +24,7 @@ function lowerdeps(name, imp)
         while true
             if AssetRegistry.isregistered(cur_path)
                 key = AssetRegistry.getkey(cur_path)
-                url = "/assetserver/" * key * "/" * replace(path, cur_path, "")
+                url = key * "/" * replace(path, cur_path, "")
                 break
             end
             cur_path1 = dirname(cur_path)
@@ -32,7 +32,7 @@ function lowerdeps(name, imp)
                 # this means we have reached root directory,
                 # and none of the parents are in registry
                 # register the original path uniquely
-                url = "/assetserver/" * AssetRegistry.register(imp_path)
+                url = AssetRegistry.register(imp_path)
                 break
             end
             cur_path = cur_path1
