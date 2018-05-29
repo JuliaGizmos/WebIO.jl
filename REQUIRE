@@ -3,3 +3,4 @@ JSON 0.7
 FunctionalCollections
 Observables 0.0.3
 Requires
+Compat 0.59

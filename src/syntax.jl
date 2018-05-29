@@ -40,7 +40,7 @@ end
     dom"div.<class>#<id>[<prop>=<value>,...]"(x...; kw...)
 """
 macro dom_str(sraw)
-    str = parse(string('"', sraw, '"'))
+    str = Meta.parse(string('"', sraw, '"'))
     quote
         tagstr, props = WebIO.cssparse($(esc(str)))
         tag = Symbol(tagstr)
@@ -48,26 +48,26 @@ macro dom_str(sraw)
     end
 end
 
-immutable JSString
+struct JSString
     s::String
 end
 
-function str_interpolate(s, i0 = start(s))
-    l = endof(s)
+function str_interpolate(s, i0 = firstindex(s))
+    l = lastindex(s)
     strs = []
     prev_c = '_'
     while i0 <= l
-        c, i = next(s, i0)
+        c, i = iterate(s, i0)
         while !(prev_c != '\\' && c == '$') && i <= l
             prev_c = c
-            c, i = next(s, i)
+            c, i = iterate(s, i)
         end
         if i0 <= i
             j = c == '$' ? prevind(s, prevind(s, i)) : prevind(s, i)
             push!(strs, s[i0:j])
         end
         if i <= l
-            expr, i = parse(s, i, greedy=false, raise=false)
+            expr, i = Meta.parse(s, i, greedy=false, raise=false)
             push!(strs, expr)
         end
         i0 = i

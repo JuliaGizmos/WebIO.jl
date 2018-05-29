@@ -4,6 +4,7 @@ module WebIO
 
 using Observables
 using Requires
+using Compat
 
 abstract type AbstractConnection end
 

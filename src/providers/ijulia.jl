@@ -3,7 +3,7 @@
 using IJulia
 using IJulia.CommManager
 
-immutable IJuliaConnection <: AbstractConnection
+struct IJuliaConnection <: AbstractConnection
     comm::CommManager.Comm
 end
 
