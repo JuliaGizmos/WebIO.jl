@@ -7,7 +7,7 @@ Generic function that defines how a Julia object is rendered. Should return a
 function render end
 render(x::Union{Node, String}) = x
 render(x::Text) = dom"pre"(x.content)
-render(::Void) = ""
+render(::Nothing) = ""
 render(x::Any) =
     dom"div"(; setInnerHtml=richest_html(x))
 
@@ -23,7 +23,7 @@ Also defines a `Base.show(io::IO, m::MIME"text/html", x::MyType)` as
 `Base.show(io, m, WebIO.render(x))`
 """
 function register_renderable(::Type{T}) where T
-    Base.show(io::IO, m::MIME"text/html", x::T) = Base.show(io, m, WebIO.render(x))
+    @eval Base.show(io::IO, m::MIME"text/html", x::$T) = Base.show(io, m, WebIO.render(x))
     push!(renderable_types, T)
     return true
 end
@@ -43,7 +43,6 @@ end
 """
 Generic Conversion to Nodes
 """
-
 const mime_order = map(MIME, [ "text/html", "text/latex", "image/svg+xml", "image/png", "image/jpeg", "text/markdown", "application/javascript", "text/plain" ])
 
 function richest_mime(val)
@@ -67,7 +66,7 @@ function richest_html(val)
     end
 end
 
-richest_html(::Void) = ""
+richest_html(::Nothing) = ""
 
 
 """

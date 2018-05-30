@@ -26,7 +26,7 @@ function webio_serve(app, port=8000)
     serve(http, websock, port)
 end
 
-immutable WebSockConnection <: AbstractConnection
+struct WebSockConnection <: AbstractConnection
     sock
 end
 

@@ -2,7 +2,7 @@
 
 using Blink: Page, loadjs!, body!, Window
 
-immutable BlinkConnection <: WebIO.AbstractConnection
+struct BlinkConnection <: WebIO.AbstractConnection
     page::Page
 end
 

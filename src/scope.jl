@@ -15,7 +15,7 @@ export Scope,
        import!,
        addconnection!
 
-import Base: send
+import Compat.Sockets: send
 import Observables: Observable
 
 """
@@ -93,7 +93,7 @@ Fields:
 mutable struct Scope
     id::AbstractString
     dom::Any
-    observs::Dict{String, Tuple{Observable, Union{Void,Bool}}} # bool marks if it is synced
+    observs::Dict{String, Tuple{Observable, Union{Nothing,Bool}}} # bool marks if it is synced
     private_obs::Set{String}
     systemjs_options
     imports
@@ -200,11 +200,11 @@ function Base.setindex!(w::Scope, obs, key)
     setobservable!(w, key, obs)
 end
 
-function (::Type{Observable{T}}){T}(ctx::Scope, key, value; sync=nothing)
+function (::Type{Observable{T}})(ctx::Scope, key, value; sync=nothing) where {T}
     setobservable!(ctx, key, Observable{T}(value), sync=sync)
 end
 
-function Observable{T}(ctx::Scope, key, val::T; sync=nothing)
+function Observable(ctx::Scope, key, val::T; sync=nothing) where {T}
     Observable{T}(ctx, key, val; sync=sync)
 end
 
@@ -318,7 +318,7 @@ end
 # counter part of the same observable. When we
 # receive messages from the client, we skip updating
 # the backedges using Observables.setexcludinghandlers
-immutable Backedge
+struct Backedge
     ctx
     f
 end
