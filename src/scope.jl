@@ -353,6 +353,5 @@ function _show(io::IO, el::Scope, indent_level=0)
 end
 
 Base.@deprecate_binding Context Scope
-Base.@deprecate_binding Widget Scope
 Base.@deprecate handle! on
 Base.@deprecate handlejs! onjs
