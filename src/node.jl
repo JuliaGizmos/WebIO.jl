@@ -132,6 +132,7 @@ function Base.show(io::IO, m::MIME"text/html", x::Node)
     write(io, ")</unsafe-script>")
 end
 
+Base.show(io::IO, m::MIME"text/html", x::Observable) = show(io, m, WebIO.render(x))
 
 ### Utility
 
