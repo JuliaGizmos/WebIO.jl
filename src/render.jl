@@ -11,6 +11,10 @@ render(::Nothing) = ""
 render(x::Any) =
     dom"div"(; setInnerHtml=richest_html(x))
 
+@require LaTeXStrings begin
+    render(x::LaTeXStrings.LaTeXString) = render(x.s)
+end
+
 const renderable_types = Type[]
 """
     `WebIO.register_renderable(MyType::Type)`
