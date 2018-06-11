@@ -13,7 +13,8 @@ function lowerdeps(name, imp)
     imp_path = query_parts[1]
 
     if startswith(imp_path, "/pkg/")
-        warn_once("/pkg/ URLs are deprecated, load files with their absolute path in Scope")
+        Base.warn_once("/pkg/ URLs are deprecated, load files with their absolute path in Scope")
+        return imp_path
     end
 
     if islocal(imp_path) && isfile(abspath(imp_path))
