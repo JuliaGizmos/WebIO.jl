@@ -4,6 +4,7 @@ module WebIO
 
 using Observables
 using Requires
+using AssetRegistry
 
 abstract type AbstractConnection end
 

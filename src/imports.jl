@@ -4,32 +4,76 @@ struct Sync
     xs::AbstractArray
 end
 
-function lowerdeps(name, x)
-    simple_url = first(split(x, "?"))
+function islocal(x)
+    !any(startswith.((x,), ["//", "https://", "http://", "ftp://"]))
+end
+
+function lowerdeps(name, imp)
+    query_parts = split(imp, "?") # remove anything after ?
+    imp_path = query_parts[1]
+
+    if startswith(imp_path, "/pkg/")
+        warn_once("/pkg/ URLs are deprecated, load files with their absolute path in Scope")
+    end
+
+    if islocal(imp_path) && isfile(abspath(imp_path))
+        path = abspath(imp_path)
+        # first lookup to see if any of the file itself or any of the parent
+        # directories are registered.
+        cur_path = path
+        while true
+            if AssetRegistry.isregistered(cur_path)
+                key = AssetRegistry.getkey(cur_path)
+                url = "/assetserver/" * key * "/" * replace(path, cur_path, "")
+                break
+            end
+            cur_path1 = dirname(cur_path)
+            if cur_path1 == cur_path
+                # this means we have reached root directory,
+                # and none of the parents are in registry
+                # register the original path uniquely
+                url = "/assetserver/" * AssetRegistry.register(imp_path)
+                break
+            end
+            cur_path = cur_path1
+        end
+        if length(query_parts) > 1
+            url *= "?" * join(query_parts[2:end], "?")
+        end
+    else
+        url = imp
+    end
 
     allowed_types = ["js", "css", "html"]
 
-    for cur_type in allowed_types
-      is_type = endswith(simple_url, ".$(cur_type)")
-      is_type |= endswith(simple_url, "/$(cur_type)")
-
-      is_type || continue
-
-      cur_dict = Dict{String,Any}(
-        "type" => cur_type,
-        "name" => name,
-        "url" => x
-      )
-
-      return cur_dict
+    if !any(endswith.((imp_path,), allowed_types))
+        error("WebIO can't load dependency of unknown type $url")
     end
 
-    error("WebIO can't load dependency of unknown type $x")
+    return Dict{String,Any}(
+        "type" => split(imp_path, ".")[end],
+        "name" => name,
+        "url" => url
+    )
 end
 
 lowerdeps(x::String) = lowerdeps(nothing, x)
 lowerdeps(x::Pair) = lowerdeps(x[1], x[2])
-lowerdeps(x::Dict) = x
+function lowerdeps(x::Dict)
+    if haskey(x, "url")
+        key = "url"
+    elseif haskey(x, :url)
+        key = :url
+    else
+        error("Dict import specification doesn't have key :url")
+    end
+
+    url = x[key]
+    dict = lowerdeps(nothing, url)
+    x1 = copy(x)
+    x1[key] = dict["url"]
+    x1
+end
 
 lowerdeps(xs::AbstractArray) = Dict(
     "type" => "async_block",
