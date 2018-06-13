@@ -5,10 +5,12 @@ function hue_app()
     scope = Scope()
     import!(scope, ["//cdnjs.cloudflare.com/ajax/libs/p5.js/0.5.7/p5.js"])
 
+    # Note: we explicitly qualify @js, @var, and @new with the JSExpr module
+    # because Blink.jl exports macros with the same name.
     sketch = JSExpr.@js function (p5)
-        @var s = function(p)
-            @var barWidth = 20
-            @var lastBar = -1
+        JSExpr.@var s = function(p)
+            JSExpr.@var barWidth = 20
+            JSExpr.@var lastBar = -1
 
             p.setup = function ()
                p.createCanvas(720, 400)
@@ -18,8 +20,8 @@ function hue_app()
             end
 
             p.draw = function ()
-                @var whichBar = p.mouseX / barWidth
-                @var barX = whichBar * barWidth;
+                JSExpr.@var whichBar = p.mouseX / barWidth
+                JSExpr.@var barX = whichBar * barWidth;
                 if whichBar != lastBar
                    p.fill(p.mouseY, p.height, p.height)
                    p.rect(barX, 0, barWidth, p.height)
@@ -28,7 +30,7 @@ function hue_app()
             end
         end
         this.dom.querySelector("#p5container").innerText = "";
-        @new p5(s, "p5container");
+        JSExpr.@new p5(s, "p5container");
     end
     onimport(scope, sketch)
 

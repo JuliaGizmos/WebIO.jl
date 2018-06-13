@@ -3,7 +3,7 @@ using FunctionalCollections
 import FunctionalCollections: append
 export Node, instanceof, props
 
-immutable Node{T}
+struct Node{T}
     instanceof::T # if this changes the node must be *replaced*
 
     children::AbstractArray
@@ -16,7 +16,7 @@ end
 function Node(
         instanceof,
         children::AbstractArray,
-        props::Associative
+        props::AbstractDict
     )
     inst = promote_instanceof(instanceof)
     Node{typeof(inst)}(
@@ -30,7 +30,7 @@ end
 promote_instanceof(x) = x
 
 nodetype(n::Node) = typename(n.instanceof)
-typename{T}(n::T) = string(T.name.name)
+typename(n::T) where {T} = string(T.name.name)
 
 """
 Any </script> tags in the js/html node representation can cause problems,
@@ -57,7 +57,7 @@ function Node(instanceof, children...; props...)
     Node(instanceof, Any[children...], kwargs2props(props))
 end
 
-immutable DOM
+struct DOM
     namespace::Symbol
     tag::Symbol
 end
@@ -73,8 +73,8 @@ for (i, f) in enumerate(fields)
     args[i] = f
     @eval begin
         export $f, $setf
-        $f{T}(n::Node{T}) = n.$f
-        function $setf{T}(n::Node{T}, $f)
+        $f(n::Node{T}) where {T} = n.$f
+        function $setf(n::Node{T}, $f) where {T}
             Node($(args...))
         end
     end
@@ -132,6 +132,7 @@ function Base.show(io::IO, m::MIME"text/html", x::Node)
     write(io, ")</unsafe-script>")
 end
 
+Base.show(io::IO, m::MIME"text/html", x::Observable) = show(io, m, WebIO.render(x))
 
 ### Utility
 
@@ -153,7 +154,7 @@ const emptydict = Dict{Symbol,Any}()
 ## Element extension syntax
 
 (n::Node)(x, args...) = append(n, (x, args...))
-(n::Node)(props::Associative...) = mergeprops(n, props...)
+(n::Node)(props::AbstractDict...) = mergeprops(n, props...)
 (n::Node)(;kwargs...) = mergeprops(n, kwargs)
 (n::Node)(args...; kwargs...) = n(args...)(;kwargs...)
 
