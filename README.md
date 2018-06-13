@@ -258,7 +258,7 @@ using JSExpr # gives @js
 or
 
 ```julia
-@js Math.rand()
+@js Math.random()
 ```
 
 The same example could have been written using `@js` like this:
