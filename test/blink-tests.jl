@@ -85,6 +85,10 @@ end
             @test scope_import(w, "pkg/WebIO/webio/test/trivial_import.js") == "ok"
         end
 
+        @testset "local package, AssetRegistry" begin
+            @test scope_import(w, joinpath(@__DIR__, "..", "assets", "webio", "test", "trivial_import.js")) == "ok"
+        end
+
         @testset "global URL, no http:" begin
             # TODO: change this to a permanent URL because this CSAIL account
             # will eventually expire.

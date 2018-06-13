@@ -14,10 +14,8 @@ function lowerdeps(name, imp)
 
     if startswith(imp_path, "/pkg/")
         Base.warn_once("/pkg/ URLs are deprecated, load files with their absolute path in Scope")
-        return imp
-    end
-
-    if islocal(imp_path) && isfile(abspath(imp_path))
+        url = imp
+    elseif islocal(imp_path) && isfile(abspath(imp_path))
         path = abspath(imp_path)
         # first lookup to see if any of the file itself or any of the parent
         # directories are registered.
