@@ -1,5 +1,14 @@
 @require Blink begin
 
+using AssetRegistry
+
+const bundlepath = joinpath(dirname(@__FILE__), "..", "..",
+                            "assets", "webio", "dist",
+                            "bundle.js")
+const blinksetup = joinpath(dirname(@__FILE__), "..", "..",
+                            "assets", "providers",
+                            "blink_setup.js")
+
 using Blink: Page, loadjs!, body!, Window
 
 struct BlinkConnection <: WebIO.AbstractConnection
@@ -8,8 +17,12 @@ end
 
 function Blink.body!(p::Page, x::Union{Node, Scope})
     wait(p)
-    loadjs!(p, "/pkg/WebIO/webio/dist/bundle.js")
-    loadjs!(p, "/pkg/WebIO/providers/blink_setup.js")
+
+    bp = AssetRegistry.register(bundlepath)
+    bs = AssetRegistry.register(blinksetup)
+
+    loadjs!(p, bp)
+    loadjs!(p, bs)
 
     conn = BlinkConnection(p)
     Blink.handle(p, "webio") do msg
