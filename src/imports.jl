@@ -82,8 +82,8 @@ lowerdeps(xs::AbstractArray) = Dict(
 lowerdeps(x::Sync) = Dict("type"=>"sync_block",
                           "data" => map(lowerdeps, x.xs))
 
-function import!(scope, xs)
-    push!(scope.imports, xs)
+function import!(scope, x)
+    push!(scope.imports, lowerdeps(x))
 end
 
 Base.@deprecate adddeps!(scope, x) import!(scope, x)
