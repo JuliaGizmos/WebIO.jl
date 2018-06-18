@@ -2,6 +2,7 @@
 
 using Mux
 using JSON
+using AssetRegistry
 export webio_serve
 
 """
@@ -52,14 +53,15 @@ Base.isopen(p::WebSockConnection) = isopen(p.sock)
 
 
 function Mux.Response(o::Union{Node, Scope})
+    key = AssetRegistry.register(joinpath(@__DIR__, "..", "..", "assets"))
     Mux.Response(
         """
         <!doctype html>
         <html>
           <head>
             <meta charset="UTF-8">
-            <script src="/pkg/WebIO/webio/dist/bundle.js"></script>
-            <script src="/pkg/WebIO/providers/mux_setup.js"></script>
+            <script src="$key/webio/dist/bundle.js"></script>
+            <script src="$key/providers/mux_setup.js"></script>
           </head>
           <body>
             $(stringmime(MIME"text/html"(), o))

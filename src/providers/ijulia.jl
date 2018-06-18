@@ -2,6 +2,7 @@
 
 using IJulia
 using IJulia.CommManager
+using AssetRegistry
 
 struct IJuliaConnection <: AbstractConnection
     comm::CommManager.Comm
@@ -24,6 +25,7 @@ function main()
         # copy of WebIO and IJulia. 
         return
     end
+    key = AssetRegistry.register(joinpath(@__DIR__, "..", "..", "assets"))
 
     display(HTML("""
         <script class='js-collapse-script'>
@@ -41,8 +43,8 @@ function main()
         </script>
     """))
 
-    display(HTML("<script class='js-collapse-script' src='pkg/WebIO/webio/dist/bundle.js'></script>"))
-    display(HTML("<script class='js-collapse-script' src='pkg/WebIO/providers/ijulia_setup.js'></script>"))
+    display(HTML("<script class='js-collapse-script' src='$key/webio/dist/bundle.js'></script>"))
+    display(HTML("<script class='js-collapse-script' src='$key/providers/ijulia_setup.js'></script>"))
 
     display(HTML("""
       <script class='js-collapse-script'>
