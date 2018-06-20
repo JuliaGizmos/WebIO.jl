@@ -75,7 +75,7 @@ for (i, f) in enumerate(fields)
         export $f, $setf
         $f(n::Node{T}) where {T} = n.$f
         function $setf(n::Node{T}, $f) where {T}
-            Node($(args...))
+            Node($(args...,))
         end
     end
 end

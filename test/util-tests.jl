@@ -1,4 +1,4 @@
-using Base.Test
+using Test
 using WebIO
 
 import WebIO: kebab2camel, camel2kebab

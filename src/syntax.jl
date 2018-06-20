@@ -53,11 +53,7 @@ struct JSString
 end
 
 # TODO: Remove this once Compat.jl supports the new iteration protocol
-@static if VERSION < v"0.7.0-DEV.5124"
-    const _iterate = next
-else
-    const _iterate = iterate
-end
+const _iterate = iterate
 
 function str_interpolate(s, i0 = firstindex(s))
     l = lastindex(s)
@@ -87,7 +83,7 @@ macro js_str(s)
               for x in str_interpolate(s)]
 
     :(JSString(sprint() do io
-                   $(writes...)
+                   $(writes...,)
                    end))
 end
 

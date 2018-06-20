@@ -200,7 +200,7 @@ function Base.setindex!(w::Scope, obs, key)
     setobservable!(w, key, obs)
 end
 
-function (::Type{Observable{T}})(ctx::Scope, key, value; sync=nothing) where {T}
+function Observable{T}(ctx::Scope, key, value; sync=nothing) where {T}
     setobservable!(ctx, key, Observable{T}(value), sync=sync)
 end
 
@@ -309,7 +309,7 @@ end
 function offjs(ctx, key, f)
     if f in get(ctx.jshandlers, key, [])
         keys = ctx.jshandlers[key]
-        deleteat!(keys, findin(keys, f))
+        deleteat!(keys, findall(in(f), keys))
     end
     nothing
 end
