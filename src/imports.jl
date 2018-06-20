@@ -20,8 +20,9 @@ function lowerdeps(name, imp)
         # first lookup to see if any of the file itself or any of the parent
         # directories are registered.
         cur_path = path
+        AssetRegistry.isregistered(cur_path) && return AssetRegistry.getkey(cur_path)
         while true
-            if AssetRegistry.isregistered(cur_path)
+            if AssetRegistry.isregistered(cur_path) && isdir(cur_path)
                 key = AssetRegistry.getkey(cur_path)
                 url = key * "/" * replace(path, cur_path, "")
                 break
