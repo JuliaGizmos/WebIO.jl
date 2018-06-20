@@ -175,7 +175,7 @@ WebIO exports `WebIO.render` generic function which can be extended to define ho
 For example, a TodoItem type like:
 
 ```julia
-immutable TodoItem
+struct TodoItem
     description::String
     done::Bool
 end
@@ -198,7 +198,7 @@ end
 A todo list which contains a vector of `TodoItem`s and possibly a `title` field,
 
 ```julia
-immutable TodoList
+struct TodoList
     title::String
     list::Vector{TodoItem}
 end
