@@ -1,4 +1,4 @@
-type TestConn <: AbstractConnection
+mutable struct TestConn <: AbstractConnection
     channel::Channel
 end
 
