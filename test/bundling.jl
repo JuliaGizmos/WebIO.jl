@@ -1,5 +1,5 @@
 using WebIO
-using Base.Test
+using Test
 
 @testset "bundling javascript" begin
     # TODO: if we want to be picky, we can even test that

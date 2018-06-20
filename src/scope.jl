@@ -309,7 +309,7 @@ end
 function offjs(ctx, key, f)
     if f in get(ctx.jshandlers, key, [])
         keys = ctx.jshandlers[key]
-        deleteat!(keys, findin(keys, f))
+        deleteat!(keys, findall(in(f), keys))
     end
     nothing
 end

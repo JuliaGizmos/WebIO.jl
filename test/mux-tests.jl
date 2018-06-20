@@ -1,6 +1,6 @@
 module WebIOServeTest
     using WebIO
-    using Base.Test
+    using Test
 
     using Mux
     # Test that webio_serve was defined
