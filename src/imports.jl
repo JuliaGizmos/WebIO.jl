@@ -20,7 +20,10 @@ function lowerdeps(name, imp)
         # first lookup to see if any of the file itself or any of the parent
         # directories are registered.
         cur_path = path
-        AssetRegistry.isregistered(cur_path) && return AssetRegistry.getkey(cur_path)
+        if AssetRegistry.isregistered(cur_path)
+            url = AssetRegistry.getkey(cur_path)
+            @goto dict
+        end
         while true
             if AssetRegistry.isregistered(cur_path) && isdir(cur_path)
                 key = AssetRegistry.getkey(cur_path)
@@ -49,6 +52,8 @@ function lowerdeps(name, imp)
     if !any(endswith.((imp_path,), allowed_types))
         error("WebIO can't load dependency of unknown type $url")
     end
+
+    @label dict
 
     return Dict{String,Any}(
         "type" => split(imp_path, ".")[end],
