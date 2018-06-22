@@ -48,7 +48,10 @@ class JuliaPackageAssetServer(IPythonHandler, StaticFileHandler):
             if key in data:
                 f = data[key][0]
                 if len(parts) > 1:
+                    self.root = f
                     f = os.path.join(f, parts[1])
+                else:
+                    self.root = os.path.dirname(f)
                 yield StaticFileHandler.get(self, f)
             else:
                 raise HTTPError(404)
