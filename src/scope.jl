@@ -222,7 +222,7 @@ function JSON.lower(x::Scope)
         if sync === nothing
             # by default, we sync if there are any listeners
             # other than the JS back edge
-            sync = any(f-> !isa(f, Backedge), ob.listeners)
+            sync = any(f-> !isa(f, SyncCallback), ob.listeners)
         end
         obs_dict[k] = Dict("sync" => sync,
              "value" => ob[],
@@ -292,10 +292,28 @@ function send_sync(ctx::Scope, key, data)
     wait(cond)
 end
 
+"""
+A callable which updates the frontend
+"""
+struct SyncCallback
+    ctx
+    f
+end
+
+(s::SyncCallback)(xs...) = s.f(xs...)
+"""
+Set observable without synchronizing with the counterpart on the browser
+"""
+function set_nosync(ob, val)
+    Observables.setexcludinghandlers(ob, val, x -> !(x isa SyncCallback))
+end
+
 const lifecycle_commands = ["scope_created"]
 function dispatch(ctx, key, data)
     if haskey(ctx.observs, string(key))
-        Observables.setexcludinghandlers(ctx.observs[key][1], data, x->!isa(x, Backedge))
+        # this message has come from the browser
+        # so don't update the browser back!
+        set_nosync(ctx.observs[key][1], data)
     else
         key ∈ lifecycle_commands ||
             warn("$key does not have a handler for scope id $(ctx.id)")
@@ -314,20 +332,12 @@ function offjs(ctx, key, f)
     nothing
 end
 
-# Backedge denotes that the function updates the
-# counter part of the same observable. When we
-# receive messages from the client, we skip updating
-# the backedges using Observables.setexcludinghandlers
-struct Backedge
-    ctx
-    f
-end
-
-(s::Backedge)(xs...) = s.f(xs...)
-function ensure_js_updates(ctx, key, ob)
-    if !any(x->isa(x, Backedge) && x.ctx==ctx, ctx.observs[key][1].listeners)
-        f = Backedge(ctx, (msg) -> send(ctx, key, msg))
-        on(Backedge(ctx, f), ob)
+function ensure_sync(ctx, key)
+    ob = ctx.observs[key][1]
+    # have at most one synchronizing handler per observable
+    if !any(x->isa(x, SyncCallback) && x.ctx==ctx, ob.listeners)
+        f = SyncCallback(ctx, (msg) -> send(ctx, key, msg))
+        on(SyncCallback(ctx, f), ob)
     end
 end
 
@@ -336,7 +346,7 @@ function onjs(ob::Observable, f)
         ctx, key = observ_id_dict[ob]
         ctx = ctx.value
         # make sure updates are set up to propagate to JS
-        ensure_js_updates(ctx, key, ob)
+        ensure_sync(ctx, key)
         onjs(ctx, key, f)
     else
         error("This observable is not associated with any scope.")
