@@ -23,7 +23,7 @@ function makeScope(id, data, sendCallback, dom, handlers, observables)
     }
     WebIO.scopes[id] = scope;
     if (observables){
-        Object.keys(observables).forEach(function setobsscope(name){
+        Object.keys(observables).forEach(function setobsscope(name) {
             var o = observables[name]
             if (typeof WebIO.obsscopes[o.id] === "undefined"){
                 WebIO.obsscopes[o.id] = []
@@ -97,21 +97,22 @@ function send(scope, cmd, data)
     scope.sendCallback(message(scope, cmd, data));
 }
 
-function setval(ob, val) {
-    var allscopes = WebIO.obsscopes[ob.id]
-    var synced_julia = false
-    allscopes.forEach(function propagate_to_other_scopes(oscopeinfo){
+function setval(ob, val, sync) {
+    if (typeof sync == "undefined") {
+        sync = true // compat
+    }
+
+    var allscopes = WebIO.obsscopes[ob.id] // all scopes this observable appears in
+    var synced_julia = false               // have we synced with Julia yet?
+
+    allscopes.forEach(function (oscopeinfo) {
         var scope = oscopeinfo.scope
         var name = oscopeinfo.obname // the name of the observable in oscope
-        var x = scope.observables[name]
-        if (val === x.value || arrays_and_equal(val, x.value) ||
-                (val !== val && x.value !== x.value)) {
-            // adapted from Vue.js reactiveSetter, avoids calling handlers if value
-            // is unchanged. The second check is for arrays, since ["a"] !== ["a"].
-            // The third check is for values like NaN, since, e.g., NaN !== NaN
-            return
-        }
-        x.value = val
+        var observable = scope.observables[name]
+
+        observable.value = val
+
+        // fire any handlers for the given observable in this scope
         if (typeof scope.handlers[name] !== "undefined") {
             var fs = scope.handlers[name];
             for (var i=0, l=fs.length; i<l; i++) {
@@ -121,7 +122,7 @@ function setval(ob, val) {
         }
 
         // sync the observable's value to julia if `sync` is true in any scope
-        if (x.sync && !synced_julia) {
+        if (sync && observable.sync && !synced_julia) {
             WebIO.send(scope, name, val);
             synced_julia = true
         }
@@ -130,8 +131,10 @@ function setval(ob, val) {
 
 function getval(ob) {
     var scope = WebIO.scopes[ob.scope]
-    var x = scope.observables[ob.name]
-    return x.value
+    // NOTE: there maybe many scopes this observable is associated with
+    // (as stored in obsscopes) but we assume all of them have the same value
+    // this is an invariant that should be maintained by `setval`
+    return scope.observables[ob.name].value
 }
 
 function message(scope, cmd, data)
