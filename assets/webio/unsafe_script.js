@@ -27,10 +27,11 @@
         var script = document.createElement('script');
         script.async = true;
 
-        if ( document.getElementsByTagName("base").length === 0 ) {
-          script.src = '/pkg/WebIO/webio/dist/webcomponents-lite.min.js';
+        var webiojs_elem = document.querySelector("script[src*='webio/dist/bundle.js']")
+        if (!webiojs_elem) {
+            script.src = '/pkg/WebIO/webio/dist/webcomponents-lite.min.js'; // try our luck lol
         } else {
-          script.src = 'pkg/WebIO/webio/dist/webcomponents-lite.min.js';
+            script.src = webiojs_elem.src.replace("bundle.js", "webcomponents-lite.min.js")
         }
 
         document.head.appendChild(script);
