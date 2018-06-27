@@ -14,7 +14,7 @@ function install_ijulia_config()
     # remove previous config
     config_str = replace(config_str, Regex("\n?" * BEGIN_MARKER * ".*" * END_MARKER * "\n?", "s"), "")
 
-    if VERSION < v"0.7.0-dev"
+    if VERSION < v"0.7.0-"
         # enables legacy /pkg/ server in Jupyter
         loadpath = JSON.json(vcat(Pkg.dir(), LOAD_PATH))
         write("load_paths.json", loadpath)
