@@ -68,6 +68,13 @@ end
 
 richest_html(::Nothing) = ""
 
+function htmlstring(val)
+    sprint() do io
+        show(io, MIME"text/html"(), val)
+    end
+end
+
+htmlstring(val::AbstractString) = val
 
 """
 WebIO.render(obs::Observable)
@@ -80,7 +87,7 @@ function render(obs::Observable)
     scope = Scope()
 
     # get the richest representation of obs's current value (as a string)
-    html_contents_str = richest_html(obs[])
+    html_contents_str = htmlstring(WebIO.render(obs[]))
 
     # Avoid nested <script> issues by initialising as an empty node and updating later
     scope.dom = dom"div#out"(; setInnerHtml=html_contents_str)
@@ -89,7 +96,7 @@ function render(obs::Observable)
     scope["obs-output"] = Observable{Any}(html_contents_str)
 
     # ensure updates with the new html representation of obs when obs updates
-    map!(richest_html, scope["obs-output"], obs)
+    map!(htmlstring∘WebIO.render, scope["obs-output"], obs)
 
     # ensure the output area updates when output_obs updates (after obs updates)
     output_updater = js"""function (updated_htmlstr) {
