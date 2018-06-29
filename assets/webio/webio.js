@@ -94,7 +94,7 @@ function mount(target, data)
 
 function send(scope, cmd, data)
 {
-    scope.sendCallback(message(scope, cmd, data));
+    WebIO.sendCallback(message(scope, cmd, data));
 }
 
 function setval(ob, val, sync) {
