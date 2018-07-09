@@ -32,10 +32,21 @@ include(joinpath("providers", "blink.jl"))
 include(joinpath("providers", "mux.jl"))
 include(joinpath("providers", "ijulia.jl"))
 
+const baseurl = Ref{String}("")
+
+function setbaseurl!(str)
+    baseurl[] = str
+    if :ijulia in providers_initialised
+        # re-run IJulia setup with the new base URL
+        WebIO.setup_provider(Val{:ijulia}())
+    end
+end
+
 const providers_initialised = Set{Symbol}()
 
 function setup(provider::Symbol)
     haskey(ENV, "WEBIO_DEBUG") && println("WebIO: setting up $provider")
+    haskey(ENV, "JULIA_WEBIO_BASEURL") && (baseurl[] = ENV["JULIA_WEBIO_BASEURL"])
     setup_provider(provider)
     push!(providers_initialised, provider)
     re_register_renderables()

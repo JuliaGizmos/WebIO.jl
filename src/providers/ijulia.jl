@@ -43,8 +43,8 @@ function main()
         </script>
     """))
 
-    display(HTML("<script class='js-collapse-script' src='$key/webio/dist/bundle.js'></script>"))
-    display(HTML("<script class='js-collapse-script' src='$key/providers/ijulia_setup.js'></script>"))
+    display(HTML("<script class='js-collapse-script' src='$(baseurl[])$key/webio/dist/bundle.js'></script>"))
+    display(HTML("<script class='js-collapse-script' src='$(baseurl[])$key/providers/ijulia_setup.js'></script>"))
 
     display(HTML("""
       <script class='js-collapse-script'>
