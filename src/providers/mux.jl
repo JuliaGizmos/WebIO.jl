@@ -60,8 +60,8 @@ function Mux.Response(o::Union{Node, Scope})
         <html>
           <head>
             <meta charset="UTF-8">
-            <script src="$key/webio/dist/bundle.js"></script>
-            <script src="$key/providers/mux_setup.js"></script>
+            <script src="$(baseurl[])$key/webio/dist/bundle.js"></script>
+            <script src="$(baseurl[])$key/providers/mux_setup.js"></script>
           </head>
           <body>
             $(stringmime(MIME"text/html"(), o))
