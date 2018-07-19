@@ -10,7 +10,6 @@ export webio_serve
 
 Serve a Mux app which might return a WebIO node.
 """
-#print("HHHEHHHHHHHHHHHHHBBDBDHBDHBDBDDBBDDBHBDHBDBDBHDB")
 function webio_serve(app, port=8000)
     http = Mux.App(Mux.mux(
         Mux.defaults,
