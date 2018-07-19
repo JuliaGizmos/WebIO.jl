@@ -14,7 +14,12 @@ function install_ijulia_config()
     # remove previous config
     config_str = replace(config_str, Regex("\n?" * BEGIN_MARKER * ".*" * END_MARKER * "\n?", "s"), "")
 
-    loadpath = JSON.json(vcat(Pkg.dir(), LOAD_PATH))
+    if VERSION < v"0.7.0-"
+        # enables legacy /pkg/ server in Jupyter
+        loadpath = JSON.json(vcat(Pkg.dir(), LOAD_PATH))
+        write("load_paths.json", loadpath)
+    end
+
     config_str *= """
 
     $BEGIN_MARKER
@@ -30,7 +35,6 @@ function install_ijulia_config()
     $END_MARKER
     """
     write(config_file, config_str)
-    write("load_paths.json", loadpath)
 end
 
 install_ijulia_config()

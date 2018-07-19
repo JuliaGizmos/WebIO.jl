@@ -64,11 +64,16 @@ def load_jupyter_server_extension(nb_server_app):
     host_pattern = '.*$'
     route_pattern_old = url_path_join(web_app.settings['base_url'], '/pkg/([^/]+)/(.*)$')
     route_pattern = url_path_join(web_app.settings['base_url'], '/(assetserver)/(.*)$')
-    with open(os.path.join(os.path.dirname(__file__), "load_paths.json"), "r") as paths_file:
-        JuliaPackageAssetServer.julia_load_path = json.load(paths_file)
-    print("Will serve asset files from any Julia package under", JuliaPackageAssetServer.julia_load_path)
-    web_app.add_handlers(
-            host_pattern, [(route_pattern_old, JuliaPackageAssetServer)])
+    paths_file = os.path.join(os.path.dirname(__file__), "load_paths.json")
+    if not os.path.isfile(paths_file):
+        # Disable /pkg/ router
+        JuliaPackageAssetServer.julia_load_path = None
+    else:
+        with open(paths_file, "r") as paths_file:
+            JuliaPackageAssetServer.julia_load_path = json.load(paths_file)
+        print("Will serve asset files from any Julia package under", JuliaPackageAssetServer.julia_load_path)
+        web_app.add_handlers(
+                host_pattern, [(route_pattern_old, JuliaPackageAssetServer)])
 
     web_app.add_handlers(
             host_pattern, [(route_pattern, JuliaPackageAssetServer)])

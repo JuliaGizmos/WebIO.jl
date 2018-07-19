@@ -1,8 +1,8 @@
-@require Mux begin
-
+@require Mux="a975b10e-0019-58db-a62f-e48ff68538c9" begin
 using Mux
 using JSON
 using AssetRegistry
+
 export webio_serve
 
 """
@@ -71,9 +71,9 @@ function Mux.Response(o::Union{Node, Scope})
     )
 end
 
-function WebIO.register_renderable(T::Type, ::Val{:mux})
-    Mux.Response(x::T) = Mux.Response(WebIO.render(x))
-end
+#function WebIO.register_renderable(T::Type, ::Val{:mux})
+Mux.Response(x::T) = Mux.Response(WebIO.render(x))
+#end
 
 WebIO.setup_provider(::Val{:mux}) = nothing # Mux setup has no side-effects
 WebIO.setup(:mux)
