@@ -29,11 +29,9 @@ export setup_provider
 
 include(joinpath("providers", "atom.jl"))
 include(joinpath("providers", "blink.jl"))
-include(joinpath("providers", "mux.jl"))
 include(joinpath("providers", "ijulia.jl"))
 
 const providers_initialised = Set{Symbol}()
-
 function setup(provider::Symbol)
     haskey(ENV, "WEBIO_DEBUG") && println("WebIO: setting up $provider")
     setup_provider(provider)
@@ -44,6 +42,10 @@ setup(provider::AbstractString) = setup(Symbol(provider))
 
 Requires.@init begin
     push!(Observables.addhandler_callbacks, WebIO.setup_comm)
+    try
+        include(joinpath("src", "providers", "mux.jl"))
+    catch
+        include(joinpath("..", "src", "providers", "mux.jl"))
+    end
 end
-
 end # module
