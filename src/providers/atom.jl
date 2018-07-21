@@ -1,4 +1,4 @@
-@require Juno begin
+@require Juno="e5e0dc1b-0480-54bc-9374-aad01c23163d" begin
 
 using Juno
 
@@ -14,11 +14,11 @@ Juno.render(i::Juno.Editor, n::Union{Node, Scope}) =
 
 function WebIO.register_renderable(T::Type, ::Val{:atom})
     media(T, Media.Graphical)
-    Media.render(::Juno.PlotPane, x::T) =
-        (body!(get_page(), WebIO.render(x)); nothing)
+    eval(:(Media.render(::Juno.PlotPane, x::$T) =
+           (body!(get_page(), WebIO.render(x)); nothing)))
     if method_exists(WebIO.render_inline, (T,))
-        Juno.render(i::Juno.Editor, x::T) =
-            Juno.render(i, WebIO.render_inline(x))
+        eval(:(Juno.render(i::Juno.Editor, x::$T) =
+               Juno.render(i, WebIO.render_inline(x))))
     end
 end
 

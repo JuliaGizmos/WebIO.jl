@@ -2,7 +2,7 @@ mutable struct TestConn <: AbstractConnection
     channel::Channel
 end
 
-function Base.send(c::TestConn, msg)
+function Compat.Sockets.send(c::TestConn, msg)
     put!(c.channel, msg)
 end
 
@@ -91,7 +91,7 @@ import WebIO: dispatch
             # to advance to waiting for a new message rather than
             # continuing to look for new connections if the current
             # task yielded. We do so here to make sure it's fixed.
-            yield()            
+            yield()
             addconnection!(pool, t2)
             put!(outbox, "hello")
             @test take!(t1.channel) == "hello"

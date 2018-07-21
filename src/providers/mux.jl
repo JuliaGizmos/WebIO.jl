@@ -1,7 +1,7 @@
 @require Mux="a975b10e-0019-58db-a62f-e48ff68538c9" begin
-using Mux
 using JSON
 using AssetRegistry
+using Compat.Sockets
 
 export webio_serve
 
@@ -19,12 +19,12 @@ function webio_serve(app, port=8000)
 
     websock = Mux.App(Mux.mux(
         Mux.wdefaults,
-        route("/webio-socket", create_socket),
+        Mux.route("/webio-socket", create_socket),
         Mux.wclose,
         Mux.notfound(),
     ))
 
-    serve(http, websock, port)
+    Mux.serve(http, websock, port)
 end
 
 struct WebSockConnection <: AbstractConnection
@@ -45,7 +45,7 @@ function create_socket(req)
     wait(t)
 end
 
-function Base.send(p::WebSockConnection, data)
+function Compat.Sockets.send(p::WebSockConnection, data)
     write(p.sock, sprint(io->JSON.print(io,data)))
 end
 
@@ -71,9 +71,9 @@ function Mux.Response(o::Union{Node, Scope})
     )
 end
 
-#function WebIO.register_renderable(T::Type, ::Val{:mux})
-Mux.Response(x::T) = Mux.Response(WebIO.render(x))
-#end
+function WebIO.register_renderable(::Type{T}, ::Val{:mux}) where {T}
+    eval(:(Mux.Response(x::$T) = Mux.Response(WebIO.render(x))))
+end
 
 WebIO.setup_provider(::Val{:mux}) = nothing # Mux setup has no side-effects
 WebIO.setup(:mux)
