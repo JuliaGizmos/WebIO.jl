@@ -1,4 +1,4 @@
-@require Blink begin
+@require Blink="ad839575-38b3-5650-b840-f874b8c74a25" begin
 
 using AssetRegistry
 
@@ -10,6 +10,7 @@ const blinksetup = joinpath(dirname(@__FILE__), "..", "..",
                             "blink_setup.js")
 
 using Blink: Page, loadjs!, body!, Window
+using Compat.Sockets
 
 struct BlinkConnection <: WebIO.AbstractConnection
     page::Page
@@ -36,15 +37,15 @@ function Blink.body!(p::Window, x::Union{Node, Scope})
     body!(p.content, x)
 end
 
-function Base.send(b::BlinkConnection, data)
+function Compat.Sockets.send(b::BlinkConnection, data)
     Blink.msg(b.page, Dict(:type=>"webio", :data=>data))
 end
 
 Base.isopen(b::BlinkConnection) = Blink.active(b.page)
 
 function WebIO.register_renderable(T::Type, ::Val{:blink})
-    Blink.body!(p::Union{Window, Page}, x::T) =
-        Blink.body!(p, WebIO.render(x))
+    eval(:(Blink.body!(p::Union{Window, Page}, x::$T) =
+           Blink.body!(p, WebIO.render(x))))
 end
 
 WebIO.setup_provider(::Val{:blink}) = nothing  # blink setup has no side-effects

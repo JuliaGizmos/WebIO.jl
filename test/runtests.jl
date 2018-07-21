@@ -1,5 +1,6 @@
 using WebIO
-using Base.Test
+using Compat.Test
+using Compat.Sockets
 
 import WebIO: DOM, instanceof
 @testset "node" begin
