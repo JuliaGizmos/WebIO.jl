@@ -406,5 +406,5 @@ clock_obs = Observable(timestr())
     sleep(1)
     clock_obs[] = timestr()
 end
-WebIO.render(clock_obs)
+clock_obs
 ```
