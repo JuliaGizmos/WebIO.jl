@@ -4,8 +4,8 @@ function iframe(dom)
     str = stringmime("text/html", dom)
 
     s = Scope()
-    s.dom = Node(:div,
-                 Node(:iframe, id="ifr", style=Dict("width"=>"100%"),
+    s.dom = node(:div,
+                 node(:iframe, id="ifr", style=Dict("width"=>"100%"),
                       attributes=Dict("src"=>"javascript:void(0)","frameborder"=>0, "scrolling"=>"no", "height"=>"100%")),
                 style=Dict("overflow"=>"hidden"),
     )

@@ -1,31 +1,29 @@
 using FunctionalCollections
 
 import FunctionalCollections: append
-export Node, instanceof, props
+export Node, node, instanceof, props
 
 struct Node{T}
     instanceof::T # if this changes the node must be *replaced*
 
-    children::AbstractArray
-    props::Dict
+    children::PersistentVector{Any}
+    props::Dict{Symbol, Any}
 
     _descendants_count::Int
 
 end
 
-function Node(
-        instanceof,
-        children::AbstractArray,
-        props::AbstractDict
-    )
+function Node(instanceof, children::AbstractVector, props::AbstractDict)
     inst = promote_instanceof(instanceof)
-    Node{typeof(inst)}(
-        inst,
-        _pvec(children),
-        props,
-        descendants_count(children),
-    )
+    Node{typeof(inst)}(inst, _pvec(children), kwargs2props(props), descendants_count(children))
 end
+
+function node(instanceof, children...; props...)
+    Node(instanceof, PersistentVector{Any}(collect(children)), Dict(props))
+end
+
+@deprecate(Node(instanceof, children...; props...),
+           node(instanceof, children...; props...))
 
 promote_instanceof(x) = x
 
@@ -48,15 +46,6 @@ function kwargs2props(propkwargs)
     props # XXX IJulia/JSON bug? kernel seems to crash if this is a String not a Dict (which is obviously silly but still, it shouldn't crash the IJulia kernel)
 end
 
-function Node(instanceof, children::AbstractArray; props...)
-    Node(instanceof, children, kwargs2props(props))
-end
-
-function Node(instanceof, children...; props...)
-    # TODO: fix push on pvec to promote properly
-    Node(instanceof, Any[children...], kwargs2props(props))
-end
-
 struct DOM
     namespace::Symbol
     tag::Symbol
@@ -64,21 +53,14 @@ end
 
 promote_instanceof(s::Symbol) = DOM(:html, s)
 
-const fields = [:instanceof, :children, :props]
-const expr = :(Node(n.instanceof, n.children, n.props))
+export children, setchildren, instanceof, setinstanceof, props, setprops
 
-for (i, f) in enumerate(fields)
-    setf = Symbol("set" * string(f))
-    args = expr.args[2:end]
-    args[i] = f
-    @eval begin
-        export $f, $setf
-        $f(n::Node{T}) where {T} = n.$f
-        function $setf(n::Node{T}, $f) where {T}
-            Node($(args...))
-        end
-    end
-end
+children(n::Node) = n.children
+setchildren(n::Node, children) = Node(n.instanceof, _pvec(children), n.props)
+instanceof(n::Node) = n.instanceof
+setinstanceof(n::Node, instanceof) = Node(instanceof, n.children, n.props)
+props(n::Node) = n.props
+setprops(n::Node, props) = Node(n.instanceof, n.children, props)
 
 ######## modifying an element #######
 
