@@ -56,8 +56,10 @@ First, load the front end package (e.g. Blink or Mux; IJulia and Atom packages a
 Whenever a code cell returns a `WebIO.Node` object, IJulia will render it. For example,
 
 ```julia
-In[*]: Node(:div, "Hello, World")
+In[*]: node(:div, "Hello, World")
 ```
+
+The `node` (lowercase) function is a helper function which provides a convenient way to construct `WebIO.Node` objects.
 
 - On **Blink**
 
@@ -74,7 +76,7 @@ Return the WebIO Node from a web app to render it. Use `webio_serve` to serve th
 
 ```julia
 function myapp(req) # an "App" takes a request, returns the output
-    Node(:div, "Hello, World!")
+    node(:div, "Hello, World!")
 end
 
 webio_serve(page("/", req -> myapp(req)))
@@ -95,9 +97,9 @@ Let's say you want to display the following HTML:
 You can create a nested Node object:
 
 ```julia
-Node(:ul,
-    Node(:li, "get milk"),
-    Node(:li, "make a pie"), attributes=Dict(:class => "my-list"))
+node(:ul,
+    node(:li, "get milk"),
+    node(:li, "make a pie"), attributes=Dict(:class => "my-list"))
 ```
 
 `attributes` keyword argument sets the attributes of the HTML element.
@@ -107,7 +109,7 @@ Any other keyword argument to `DOM` is set as the property of the [DOM object](h
 For example,
 
 ```julia
-Node(:ul, className="my-list")
+node(:ul, className="my-list")
 ```
 
 does the equivalent of the following in JavaScript:
@@ -121,7 +123,7 @@ element.className = "my-list"
 Some DOM properties can themselves be objects, you can set them using Julia dictionaries:
 
 ```julia
-Node(:div, "Hello, World",
+node(:div, "Hello, World",
      style=Dict(:backgroundColor => "black",
                 :color => "white",
                 :padding => "12px"))
@@ -144,7 +146,7 @@ This is in turn equivalent to:
 
 and hence also equivalent to:
 ```html
-Node(:div, attributes=Dict(:style => "background-color: black; color: white; padding: 12px"))
+node(:div, attributes=Dict(:style => "background-color: black; color: white; padding: 12px"))
 ```
 
 ### The `dom""` macro
@@ -158,7 +160,7 @@ dom"div.<class>#<id>[<attr>=<value>,...]"(children...; props...)
 And is equivalent to:
 
 ```julia
-Node(:div, children..., className="<class>", id="<id>",
+node(:div, children..., className="<class>", id="<id>",
      attributes=Dict(attr1=>val1, attr2=>val2...); props...)
 ```
 
@@ -170,7 +172,7 @@ Everything except the tag ('div' in the example) is optional. So,
 WebIO.render
 ------------
 
-WebIO exports `WebIO.render` generic function which can be extended to define how to render something into WebIO's DOM. Think of it as a better version of `show(io::IO, m::MIME"text/html", x)`. Whenever an object is used as an argument to `Node`, this `render` function will be called to create the `Node` object to display.
+WebIO exports `WebIO.render` generic function which can be extended to define how to render something into WebIO's DOM. Think of it as a better version of `show(io::IO, m::MIME"text/html", x)`. Whenever an object is used as an argument to `node`, this `render` function will be called to create the `Node` object to display.
 
 For example, a TodoItem type like:
 
@@ -200,7 +202,7 @@ A todo list which contains a vector of `TodoItem`s and possibly a `title` field,
 ```julia
 struct TodoList
     title::String
-    list::Vector{TodoItem}
+    items::Vector{TodoItem}
 end
 
 mylist = TodoList("My todo list",
@@ -216,7 +218,7 @@ function render(list::TodoList)
     dom"div"(
         dom"h2"(list.title),
         dom"div.todo-list"(
-            list.items # each element will be rendered using WebIO.render
+            list.items... # each element will be rendered using WebIO.render
         )
     )
 end
@@ -224,7 +226,7 @@ end
 
 ## Executing JavaScript
 
-Event handlers can be set up by passing a dict as the `events` keyword argument to `Node`, (and hence `dom"foo"`). For example,
+Event handlers can be set up by passing a dict as the `events` keyword argument to `node`, (and hence `dom"foo"`). For example,
 
 ```julia
 dom"button"("Greet",
