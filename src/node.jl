@@ -56,7 +56,7 @@ promote_instanceof(s::Symbol) = DOM(:html, s)
 export children, setchildren, instanceof, setinstanceof, props, setprops
 
 children(n::Node) = n.children
-setchildren(n::Node, children) = Node(n.instanceof, _pvec(children), n.props)
+setchildren(n::Node, children) = Node(n.instanceof, PersistentVector{Any}(collect(children)), n.props)
 instanceof(n::Node) = n.instanceof
 setinstanceof(n::Node, instanceof) = Node(instanceof, n.children, n.props)
 props(n::Node) = n.props
