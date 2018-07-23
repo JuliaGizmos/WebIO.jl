@@ -6,6 +6,7 @@ using Observables
 using Requires
 using AssetRegistry
 using Compat
+import Widgets: node
 
 abstract type AbstractConnection end
 
