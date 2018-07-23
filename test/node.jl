@@ -15,6 +15,11 @@ function compare_nodes(n1::Node, n2::Node)
 end
 compare_nodes(x1, x2) = x1 == x2
 
+@testset "Constructing Nodes from Strings" begin
+    @test compare_nodes(node("div", "hello", "world"),
+                        node(:div, "hello", "world"))
+end
+
 @testset "Setting node fields" begin
     n1 = node(:div, node(:div, "hello"), node(:div, "world"), foo="bar")
     n2 = node(:div, node(:div, "hello"), node(:div, "world"), foo="bar")

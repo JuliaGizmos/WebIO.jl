@@ -26,6 +26,8 @@ end
            node(instanceof, children...; props...))
 
 promote_instanceof(x) = x
+promote_instanceof(s::Symbol) = DOM(:html, s)
+promote_instanceof(s::AbstractString) = promote_instanceof(Symbol(s))
 
 nodetype(n::Node) = typename(n.instanceof)
 typename(n::T) where {T} = string(T.name.name)
@@ -51,7 +53,6 @@ struct DOM
     tag::Symbol
 end
 
-promote_instanceof(s::Symbol) = DOM(:html, s)
 
 export children, setchildren, instanceof, setinstanceof, props, setprops
 
