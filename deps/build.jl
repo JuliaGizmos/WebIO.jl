@@ -19,8 +19,8 @@ function install_ijulia_config()
 
     $BEGIN_MARKER
     import sys, os
-    if os.path.isfile("$(joinpath(dirname(@__FILE__), "jlstaticserve.py"))"):
-        sys.path.append("$(dirname(@__FILE__))")
+    if os.path.isfile($(repr(joinpath(dirname(@__FILE__), "jlstaticserve.py")))):
+        sys.path.append($(repr(dirname(@__FILE__))))
         c = get_config()
         c.NotebookApp.nbserver_extensions = {
             "jlstaticserve": True
