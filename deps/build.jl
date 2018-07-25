@@ -30,6 +30,25 @@ function install_ijulia_config()
     $END_MARKER
     """
     write(config_file, config_str)
+    config_file_json = joinpath(homedir(), ".jupyter", "jupyter_notebook_config.json")
+
+    if isfile(config_file_json)
+        dict = try
+            JSON.parse(read(config_file_json, String))
+        catch err
+            println(STDERR, "Error parsing Jupyter config file $config_file_json - fix it and build again or delete it to enable WebIO")
+            @goto jsondone
+        end
+        app = Base.@get! dict "NotebookApp" Dict()
+        nbext = Base.@get! app "nbserver_extensions" Dict()
+        nbext["jlstaticserve"] = true
+        open(config_file_json, "w") do io
+            prettyio = JSON.Writer.PrettyContext(io, 4)
+            JSON.print(prettyio, dict)
+        end
+    end
+    @label jsondone
+
     write("load_paths.json", loadpath)
 end
 
