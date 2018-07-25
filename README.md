@@ -396,3 +396,15 @@ w(
 
 The javascript function passed to `onjs` gets the value of the update as the argument. `this` is set to the Scope object. Notice the use of `this.dom.querySelector("#clock")`. `this.dom` contains the rendered DOM of the scope. `querySelector("#<id>")` will look up the element which has the id `<id>`. `clock.textContent = val` will set the text contained in `clock`, the DOM element.
 
+For an even easier way to send values from Julia to JavaScript, we can simply rely on the fact that WebIO knows how to render `Observable`s directly to HTML. In this case WebIO will automatically construct a `Scope` and insert the relevant JavaScript to update the rendered content whenever the `Observable` changes value:
+
+```julia
+timestr() = Dates.format(now(), "HH:MM:SS")
+
+clock_obs = Observable(timestr())
+@async while true
+    sleep(1)
+    clock_obs[] = timestr()
+end
+clock_obs
+```
