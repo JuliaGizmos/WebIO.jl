@@ -31,7 +31,7 @@ end
     body!(w, dom"div"("hello, blink"))
     sleep(5) # wait for it to render.
 
-    substrings = ["<div>hello, blink</div>", r"\<unsafe-script.+", "WebIO.mount\(",
+    substrings = ["<div>hello, blink</div>", r"\<unsafe-script.+", "WebIO.mount(",
     """{"props":{},"nodeType":"DOM","type":"node","instanceArgs":{"namespace":"html","tag":"div"},"children":["hello, blink"]}"""]
     content = Blink.@js(w, document.body.innerHTML)
     @test all(x->contains(content, x), substrings)

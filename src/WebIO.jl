@@ -42,10 +42,6 @@ setup(provider::AbstractString) = setup(Symbol(provider))
 
 Requires.@init begin
     push!(Observables.addhandler_callbacks, WebIO.setup_comm)
-    try
-        include(joinpath("src", "providers", "mux.jl"))
-    catch
-        include(joinpath("..", "src", "providers", "mux.jl"))
-    end
+    include(joinpath(@__DIR__, "providers", "mux.jl"))
 end
 end # module
