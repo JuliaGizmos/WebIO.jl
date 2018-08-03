@@ -237,7 +237,7 @@ function JSON.lower(x::Scope)
 end
 
 function render(s::Scope)
-    Node(s, s.dom)
+    node(s, s.dom)
 end
 
 function send(ctx::Scope, key, data)

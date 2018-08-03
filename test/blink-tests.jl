@@ -112,7 +112,7 @@ end
 function WebIO.render(::ExampleRenderableType)
     global example_renderable_was_rendered
     example_renderable_was_rendered = true
-    Node(:div, "hello world")
+    node(:div, "hello world")
 end
 
 WebIO.register_renderable(ExampleRenderableType)

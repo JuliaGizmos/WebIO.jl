@@ -31,7 +31,7 @@ function makedom(tag, props)
         DOM(:html, tag)
     end
     function dom(args...; kwargs...)
-        n = Node(d, args...)(Dict(kwargs))
+        n = node(d, args...)(Dict(kwargs))
         isempty(props) ? n : n(props)
     end
 end
