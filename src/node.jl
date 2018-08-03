@@ -148,9 +148,6 @@ end
 _count(t) = 1
 _count(el::Node) = el._descendants_count + 1
 
-const emptypvec = pvec([])
-const emptydict = Dict{Symbol,Any}()
-
 ## Element extension syntax
 
 (n::Node)(x, args...) = append(n, (x, args...))
