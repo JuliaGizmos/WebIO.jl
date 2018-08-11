@@ -54,17 +54,17 @@ import WebIO: dispatch
     # mimic messages coming in from JS side
 
     # no scope named xx
-    @test_warn("unknown scope xx",
+    @test_logs((:warn, r".*unknown scope xx.*"),
         dispatch(conn, Dict("command" => "incoming",
                             "data"=>"hi Julia", "scope"=>"xx")))
     msg = take!(conn.channel)
     # a warning was raised on receiving a message for an unknown
     # scope xx
     @test msg["type"] == "log"
-    @test contains(msg["message"], "unknown scope xx")
+    @test occursin("unknown scope xx", msg["message"])
 
     # this should give a warning
-    @test_warn("incoming does not have a handler for scope id testctx1",
+    @test_logs((:warn, r".*incoming does not have a handler for scope id testctx1.*"),
                dispatch(conn, Dict("command" => "incoming",
                                    "data"=>"hi Julia", "scope"=>"testctx1")))
 

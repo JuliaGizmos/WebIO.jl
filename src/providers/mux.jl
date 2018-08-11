@@ -1,8 +1,10 @@
-@require Mux="a975b10e-0019-58db-a62f-e48ff68538c" begin
+module MuxProvider
 
+using Mux
 using JSON
 using AssetRegistry
 using Sockets
+using WebIO
 export webio_serve
 
 """
@@ -27,7 +29,7 @@ function webio_serve(app, port=8000)
     Mux.serve(http, websock, port)
 end
 
-struct WebSockConnection <: AbstractConnection
+struct WebSockConnection <: WebIO.AbstractConnection
     sock
 end
 

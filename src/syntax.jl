@@ -15,7 +15,7 @@ function cssparse(s)
     trimfirst(str) = str[2:end]
     id = match(r"#-?[_a-zA-Z][_a-zA-Z0-9-]*", s)
     id == nothing || (props[:id] = trimfirst(id.match))
-    classes = matchall(r"\.-?[_a-zA-Z][_a-zA-Z0-9-]*", s)
+    classes = collect(m.match for m in eachmatch(r"\.-?[_a-zA-Z][_a-zA-Z0-9-]*", s))
     isempty(classes) || (props[:className] = join(map(trimfirst, classes), " "))
     tagm = match(r"^[^\.#\[\]]+", s)
     tagm == nothing && error("Invalid tag syntax $s")
@@ -24,7 +24,7 @@ function cssparse(s)
 end
 
 function makedom(tag, props)
-    d = if contains(string(tag), ":")
+    d = if occursin(":", string(tag))
         ns, t = split(string(tag), ":")
         DOM(Symbol(ns), Symbol(t))
     else

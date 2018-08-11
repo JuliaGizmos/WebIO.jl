@@ -1,6 +1,8 @@
-@require Juno="e5e0dc1b-0480-54bc-9374-aad01c23163d" begin
+module JunoProvider
 
+using Blink
 using Juno
+using WebIO
 
 function get_page(opts::Dict=Dict())
     Juno.isactive() ? Juno.Atom.blinkplot() : Window(opts).content

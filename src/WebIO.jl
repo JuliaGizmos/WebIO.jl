@@ -28,11 +28,6 @@ in IJulia, this causes the frontend to load the webio javascript bundle.
 setup_provider(s::Union{Symbol, AbstractString}) = setup_provider(Val(Symbol(s)))
 export setup_provider
 
-include(joinpath("providers", "atom.jl"))
-include(joinpath("providers", "blink.jl"))
-include(joinpath("providers", "mux.jl"))
-include(joinpath("providers", "ijulia.jl"))
-
 const baseurl = Ref{String}("")
 
 function setbaseurl!(str)
@@ -46,6 +41,7 @@ end
 const providers_initialised = Set{Symbol}()
 
 function setup(provider::Symbol)
+    @show provider
     haskey(ENV, "WEBIO_DEBUG") && println("WebIO: setting up $provider")
     haskey(ENV, "JULIA_WEBIO_BASEURL") && (baseurl[] = ENV["JULIA_WEBIO_BASEURL"])
     setup_provider(provider)
@@ -54,8 +50,24 @@ function setup(provider::Symbol)
 end
 setup(provider::AbstractString) = setup(Symbol(provider))
 
-Requires.@init begin
+function __init__()
     push!(Observables.addhandler_callbacks, WebIO.setup_comm)
+    @require Mux="a975b10e-0019-58db-a62f-e48ff68538c9" begin
+        include(joinpath("providers", "mux.jl"))
+        using .MuxProvider
+    end
+    @require Juno="e5e0dc1b-0480-54bc-9374-aad01c23163d" begin
+        include(joinpath("providers", "atom.jl"))
+        using .JunoProvider
+    end
+    @require Blink="ad839575-38b3-5650-b840-f874b8c74a25" begin
+        include(joinpath("providers", "blink.jl"))
+        using .BlinkProvider
+    end
+    @require IJulia="7073ff75-c697-5162-941a-fcdaad2a7d2a" begin
+        include(joinpath("providers", "ijulia.jl"))
+        using .IJuliaProvider
+    end
 end
 
 end # module

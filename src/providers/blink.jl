@@ -1,6 +1,8 @@
-@require Blink="ad839575-38b3-5650-b840-f874b8c74a25" begin
+module BlinkProvider
 
+using Blink
 using AssetRegistry
+using WebIO
 
 const bundlepath = joinpath(dirname(@__FILE__), "..", "..",
                             "assets", "webio", "dist",

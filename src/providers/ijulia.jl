@@ -1,9 +1,10 @@
-@require IJulia="7073ff75-c697-5162-941a-fcdaad2a7d2a" begin
+module IJuliaProvider
 
 using IJulia
 using IJulia.CommManager
 using AssetRegistry
 using Sockets
+using WebIO
 
 struct IJuliaConnection <: AbstractConnection
     comm::CommManager.Comm
