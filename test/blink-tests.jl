@@ -2,7 +2,7 @@ using WebIO
 using Blink
 using Observables
 using JSExpr
-using Base.Test
+using Test
 
 notinstalled = !AtomShell.isinstalled()
 
