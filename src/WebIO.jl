@@ -41,7 +41,6 @@ end
 const providers_initialised = Set{Symbol}()
 
 function setup(provider::Symbol)
-    @show provider
     haskey(ENV, "WEBIO_DEBUG") && println("WebIO: setting up $provider")
     haskey(ENV, "JULIA_WEBIO_BASEURL") && (baseurl[] = ENV["JULIA_WEBIO_BASEURL"])
     setup_provider(provider)
