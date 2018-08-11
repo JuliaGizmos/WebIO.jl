@@ -1,6 +1,7 @@
 using FunctionalCollections
+using UUIDs
 
-newid(prefix) = string(prefix, '-', Base.Random.uuid4())
+newid(prefix) = string(prefix, '-', uuid4())
 
 _pvec(x::PersistentVector) = x
 _pvec(x::AbstractArray) = pvec(x)
