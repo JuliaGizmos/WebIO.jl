@@ -1,14 +1,15 @@
-@require IJulia begin
+@require IJulia="7073ff75-c697-5162-941a-fcdaad2a7d2a" begin
 
 using IJulia
 using IJulia.CommManager
 using AssetRegistry
+using Sockets
 
 struct IJuliaConnection <: AbstractConnection
     comm::CommManager.Comm
 end
 
-function Base.send(c::IJuliaConnection, data)
+function Sockets.send(c::IJuliaConnection, data)
     send_comm(c.comm, data)
 end
 
@@ -20,9 +21,9 @@ function main()
     if !IJulia.inited
         # If IJulia has not been initialized and connected to Jupyter itself,
         # then we have no way to display anything in the notebook and no way
-        # to set up comms, so this function cannot run. That's OK, because 
-        # any IJulia kernels will start up with a fresh process and a fresh 
-        # copy of WebIO and IJulia. 
+        # to set up comms, so this function cannot run. That's OK, because
+        # any IJulia kernels will start up with a fresh process and a fresh
+        # copy of WebIO and IJulia.
         return
     end
     key = AssetRegistry.register(joinpath(@__DIR__, "..", "..", "assets"))
