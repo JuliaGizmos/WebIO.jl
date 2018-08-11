@@ -1,13 +1,8 @@
-module IJuliaProvider
-
-using IJulia
-using IJulia.CommManager
 using AssetRegistry
 using Sockets
-using WebIO
 
 struct IJuliaConnection <: AbstractConnection
-    comm::CommManager.Comm
+    comm::IJulia.CommManager.Comm
 end
 
 function Sockets.send(c::IJuliaConnection, data)
@@ -65,5 +60,3 @@ end
 
 WebIO.setup_provider(::Val{:ijulia}) = main() # calling setup_provider(Val(:ijulia)) will display the setup javascript
 WebIO.setup(:ijulia)
-
-end

@@ -1,8 +1,4 @@
-module BlinkProvider
-
-using Blink
 using AssetRegistry
-using WebIO
 using Base64: stringmime
 
 const bundlepath = joinpath(dirname(@__FILE__), "..", "..",
@@ -53,5 +49,3 @@ end
 
 WebIO.setup_provider(::Val{:blink}) = nothing  # blink setup has no side-effects
 WebIO.setup(:blink)
-
-end

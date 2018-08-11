@@ -1,10 +1,6 @@
-module MuxProvider
-
-using Mux
 using JSON
 using AssetRegistry
 using Sockets
-using WebIO
 using Base64: stringmime
 export webio_serve
 
@@ -80,5 +76,3 @@ end
 
 WebIO.setup_provider(::Val{:mux}) = nothing # Mux setup has no side-effects
 WebIO.setup(:mux)
-
-end
