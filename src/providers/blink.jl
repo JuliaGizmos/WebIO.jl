@@ -3,6 +3,7 @@ module BlinkProvider
 using Blink
 using AssetRegistry
 using WebIO
+using Base64: stringmime
 
 const bundlepath = joinpath(dirname(@__FILE__), "..", "..",
                             "assets", "webio", "dist",

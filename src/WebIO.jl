@@ -5,7 +5,7 @@ module WebIO
 using Observables
 using Requires
 using AssetRegistry
-using Compat
+using Base64: stringmime
 import Widgets: node
 
 abstract type AbstractConnection end

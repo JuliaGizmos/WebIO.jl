@@ -5,6 +5,7 @@ using JSON
 using AssetRegistry
 using Sockets
 using WebIO
+using Base64: stringmime
 export webio_serve
 
 """
