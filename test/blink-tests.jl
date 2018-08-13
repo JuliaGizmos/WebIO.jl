@@ -77,14 +77,6 @@ end
     end
 
     @testset "scope imports" begin
-        @testset "local package, absolute" begin
-            @test scope_import(w, "/pkg/WebIO/webio/test/trivial_import.js") == "ok"
-        end
-
-        @testset "local package, relative" begin
-            @test scope_import(w, "pkg/WebIO/webio/test/trivial_import.js") == "ok"
-        end
-
         @testset "local package, AssetRegistry" begin
             @test scope_import(w, joinpath(@__DIR__, "..", "assets", "webio", "test", "trivial_import.js")) == "ok"
         end
