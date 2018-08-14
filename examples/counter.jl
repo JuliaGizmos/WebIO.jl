@@ -32,12 +32,12 @@ end
 
 # Display in whatever frontend is avalaible
 function main()
-    if isdefined(:IJulia) || isdefined(:Juno)
+    if @isdefined(IJulia) || @isdefined(Juno)
         return counter(1)
-    elseif isdefined(:Blink)
+    elseif @isdefined(Blink)
         win = Window()
         body!(win, counter(1))
-    elseif isdefined(:Mux)
+    elseif @isdefined(Mux)
         @sync webio_serve(page("/", req -> counter(1)), rand(8000:9000))
     else
         error("do one of using Mux, using Blink before running the
