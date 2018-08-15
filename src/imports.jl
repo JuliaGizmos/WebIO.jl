@@ -27,7 +27,7 @@ function lowerdeps(name, imp)
         while true
             if AssetRegistry.isregistered(cur_path) && isdir(cur_path)
                 key = AssetRegistry.getkey(cur_path)
-                url = baseurl[] * key * "/" * replace(path, cur_path, "")
+                url = baseurl[] * key * "/" * replace(path, cur_path => "")
                 break
             end
             cur_path1 = dirname(cur_path)
