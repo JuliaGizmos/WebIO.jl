@@ -39,7 +39,7 @@ a javascript string, the html parser will still read them as a closing script
 tag, and thus end the script content prematurely, causing untold woe.
 """
 encode_scripts(htmlstr::String) =
-    replace(htmlstr, "</script>", "</_script>")
+    replace(htmlstr, "</script>" => "</_script>")
 
 function kwargs2props(propkwargs)
     props = Dict{Symbol,Any}(propkwargs)

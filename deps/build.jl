@@ -12,7 +12,7 @@ function install_ijulia_config()
     end
 
     # remove previous config
-    config_str = replace(config_str, Regex("\n?" * BEGIN_MARKER * ".*" * END_MARKER * "\n?", "s"), "")
+    config_str = replace(config_str, Regex("\n?" * BEGIN_MARKER * ".*" * END_MARKER * "\n?", "s") => "")
 
     config_str *= """
 

@@ -47,7 +47,7 @@ const mime_order = map(MIME, [ "text/html", "text/latex", "image/svg+xml", "imag
 
 function richest_mime(val)
     for mimetype in mime_order
-        mimewritable(mimetype, val) && return mimetype
+        showable(mimetype, val) && return mimetype
     end
     error("value not writable for any mimetypes")
 end
