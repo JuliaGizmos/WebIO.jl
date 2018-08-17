@@ -6,7 +6,7 @@ using Observables
 using Requires
 using AssetRegistry
 using Base64: stringmime
-import Widgets: node
+import Widgets: node, AbstractWidget
 
 abstract type AbstractConnection end
 

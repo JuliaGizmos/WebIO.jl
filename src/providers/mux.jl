@@ -51,7 +51,7 @@ end
 Base.isopen(p::WebSockConnection) = isopen(p.sock)
 
 
-function Mux.Response(o::Union{Node, Scope})
+function Mux.Response(o::Union{Node, Scope, AbstractWidget})
     key = AssetRegistry.register(joinpath(@__DIR__, "..", "..", "assets"))
     Mux.Response(
         """

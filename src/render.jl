@@ -107,3 +107,5 @@ function render(obs::Observable)
 
     WebIO.render(scope)
 end
+
+render(w::AbstractWidget) = render(Widgets.layout(w)(w))
