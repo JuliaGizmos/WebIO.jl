@@ -117,6 +117,16 @@ end
 
 Base.show(io::IO, m::MIME"text/html", x::Observable) = show(io, m, WebIO.render(x))
 
+function Base.show(io::IO, m::MIME"text/html", x::AbstractWidget)
+    if !Widgets.isijulia()
+        show(io, m, WebIO.render(x))
+    else
+        write(io, "<div class='tex2jax_ignore interactbulma'>\n")
+        show(io, m, WebIO.render(x))
+        write(io, "\n</div>")
+    end
+end
+
 ### Utility
 
 descendants_count(t::String) = 0

@@ -2,10 +2,10 @@ function get_page(opts::Dict=Dict())
     Juno.isactive() ? Juno.Atom.blinkplot() : Window(opts).content
 end
 
-Juno.render(::Juno.PlotPane, n::Union{Node, Scope}) =
+Juno.render(::Juno.PlotPane, n::Union{Node, Scope, AbstractWidget}) =
     (body!(get_page(), n); nothing)
 
-Juno.render(i::Juno.Editor, n::Union{Node, Scope}) =
+Juno.render(i::Juno.Editor, n::Union{Node, Scope, AbstractWidget}) =
     Juno.render(i, Text("$(n.instanceof) Node with $(n._descendants_count) descendent(s)"))
 
 function WebIO.register_renderable(T::Type, ::Val{:atom})

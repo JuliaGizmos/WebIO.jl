@@ -14,7 +14,7 @@ struct BlinkConnection <: WebIO.AbstractConnection
     page::Blink.Page
 end
 
-function Blink.body!(p::Blink.Page, x::Union{Node, Scope})
+function Blink.body!(p::Blink.Page, x::Union{Node, Scope, AbstractWidget})
     wait(p)
 
     bp = AssetRegistry.register(bundlepath)
@@ -31,7 +31,7 @@ function Blink.body!(p::Blink.Page, x::Union{Node, Scope})
     Blink.body!(p, stringmime(MIME"text/html"(), x))
 end
 
-function Blink.body!(p::Blink.Window, x::Union{Node, Scope})
+function Blink.body!(p::Blink.Window, x::Union{Node, Scope, AbstractWidget})
     Blink.body!(p.content, x)
 end
 
