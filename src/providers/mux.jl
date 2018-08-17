@@ -1,8 +1,7 @@
-@require Mux begin
-
-using Mux
 using JSON
 using AssetRegistry
+using Sockets
+using Base64: stringmime
 export webio_serve
 
 """
@@ -19,15 +18,15 @@ function webio_serve(app, port=8000)
 
     websock = Mux.App(Mux.mux(
         Mux.wdefaults,
-        route("/webio-socket", create_socket),
+        Mux.route("/webio-socket", create_socket),
         Mux.wclose,
         Mux.notfound(),
     ))
 
-    serve(http, websock, port)
+    Mux.serve(http, websock, port)
 end
 
-struct WebSockConnection <: AbstractConnection
+struct WebSockConnection <: WebIO.AbstractConnection
     sock
 end
 
@@ -45,7 +44,7 @@ function create_socket(req)
     wait(t)
 end
 
-function Base.send(p::WebSockConnection, data)
+function Sockets.send(p::WebSockConnection, data)
     write(p.sock, sprint(io->JSON.print(io,data)))
 end
 
@@ -60,8 +59,8 @@ function Mux.Response(o::Union{Node, Scope})
         <html>
           <head>
             <meta charset="UTF-8">
-            <script src="$(baseurl[])$key/webio/dist/bundle.js"></script>
-            <script src="$(baseurl[])$key/providers/mux_setup.js"></script>
+            <script src="$(WebIO.baseurl[])$key/webio/dist/bundle.js"></script>
+            <script src="$(WebIO.baseurl[])$key/providers/mux_setup.js"></script>
           </head>
           <body>
             $(stringmime(MIME"text/html"(), o))
@@ -71,11 +70,9 @@ function Mux.Response(o::Union{Node, Scope})
     )
 end
 
-function WebIO.register_renderable(T::Type, ::Val{:mux})
-    Mux.Response(x::T) = Mux.Response(WebIO.render(x))
+function WebIO.register_renderable(::Type{T}, ::Val{:mux}) where {T}
+    eval(:(Mux.Response(x::$T) = Mux.Response(WebIO.render(x))))
 end
 
 WebIO.setup_provider(::Val{:mux}) = nothing # Mux setup has no side-effects
 WebIO.setup(:mux)
-
-end

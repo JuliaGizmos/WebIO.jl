@@ -5,9 +5,9 @@ end
 
 function logmsg(msg, level="info", data=nothing)
     if level == "error" || level == "warn"
-        warn(msg)
+        @warn(msg)
     else
-        info(msg)
+        @info(msg)
     end
 
     Dict("type"=>"log", "message"=>msg, "level"=>level, data=>data)

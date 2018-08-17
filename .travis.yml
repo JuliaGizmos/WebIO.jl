@@ -3,17 +3,26 @@ language: julia
 matrix:
   include:
     - os: linux
-      julia: 0.6
+      julia: 0.7
       env: TESTCMD="xvfb-run julia"
-    # - os: linux
-    #   julia: nightly
-    #   env: TESTCMD="xvfb-run julia"
+    - os: linux
+      julia: 1.0
+      env: TESTCMD="xvfb-run julia"
+    - os: linux
+      julia: nightly
+      env: TESTCMD="xvfb-run julia"
     - os: osx
-      julia: 0.6
+      julia: 0.7
       env: TESTCMD="julia"
-    # - os: osx
-    #   julia: nightly
-    #   env: TESTCMD="julia"
+    - os: osx
+      julia: 1.0
+      env: TESTCMD="julia"
+    - os: osx
+      julia: nightly
+      env: TESTCMD="julia"
+  allow_failures:
+    - julia: nightly
+
 script:
   - if [[ -a .git/shallow ]]; then git fetch --unshallow; fi
   - $TESTCMD -e 'Pkg.clone(pwd()); Pkg.build("WebIO"); Pkg.test("WebIO"; coverage=true)'

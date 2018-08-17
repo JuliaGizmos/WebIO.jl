@@ -1,6 +1,7 @@
 using FunctionalCollections
+using UUIDs
 
-newid(prefix) = string(prefix, '-', Base.Random.uuid4())
+newid(prefix) = string(prefix, '-', uuid4())
 
 _pvec(x::PersistentVector) = x
 _pvec(x::AbstractArray) = pvec(x)
@@ -8,7 +9,7 @@ _pvec(x::AbstractArray) = pvec(x)
 # b can be array of pairs / kwargs etc.
 function recmerge!(a, b, f=recmerge!)
     for (k, v) in b
-        if isa(v, Associative) && haskey(a, k) && isa(a[k], Associative)
+        if isa(v, AbstractDict) && haskey(a, k) && isa(a[k], AbstractDict)
             a[k] = f(a[k], v)
         else
             a[k] = v

@@ -2,7 +2,7 @@ using WebIO
 using Blink
 using Observables
 using JSExpr
-using Base.Test
+using Test
 
 notinstalled = !AtomShell.isinstalled()
 
@@ -31,10 +31,10 @@ end
     body!(w, dom"div"("hello, blink"))
     sleep(5) # wait for it to render.
 
-    substrings = ["<div>hello, blink</div>", r"\<unsafe-script.+", "WebIO.mount\(",
+    substrings = ["<div>hello, blink</div>", r"\<unsafe-script.+", "WebIO.mount(",
     """{"props":{},"nodeType":"DOM","type":"node","instanceArgs":{"namespace":"html","tag":"div"},"children":["hello, blink"]}"""]
     content = Blink.@js(w, document.body.innerHTML)
-    @test all(x->contains(content, x), substrings)
+    @test all(x->occursin(x, content), substrings)
 
     @testset "round-trip communication" begin
         scope = Scope()
@@ -77,14 +77,6 @@ end
     end
 
     @testset "scope imports" begin
-        @testset "local package, absolute" begin
-            @test scope_import(w, "/pkg/WebIO/webio/test/trivial_import.js") == "ok"
-        end
-
-        @testset "local package, relative" begin
-            @test scope_import(w, "pkg/WebIO/webio/test/trivial_import.js") == "ok"
-        end
-
         @testset "local package, AssetRegistry" begin
             @test scope_import(w, joinpath(@__DIR__, "..", "assets", "webio", "test", "trivial_import.js")) == "ok"
         end

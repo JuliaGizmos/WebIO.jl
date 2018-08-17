@@ -115,12 +115,12 @@ function Scope(id::String=newid("scope");
     )
 
     if dependencies !== nothing
-        warn("dependencies key word argument is deprecated, use imports instead")
+        @warn("dependencies key word argument is deprecated, use imports instead")
         imports = dependencies
     end
 
     if haskey(scopes, id)
-        warn("A scope by the id $id already exists. Overwriting.")
+        @warn("A scope by the id $id already exists. Overwriting.")
     end
 
     pool = ConnectionPool(outbox)
@@ -160,7 +160,7 @@ const observ_id_dict = WeakKeyDict()
 function setobservable!(ctx, key, obs; sync=nothing)
     key = string(key)
     if haskey(ctx.observs, key)
-        warn("An observable named $key already exists in scope $(ctx.id).
+        @warn("An observable named $key already exists in scope $(ctx.id).
              Overwriting.")
     end
 
@@ -252,7 +252,7 @@ function send(ctx::Scope, key, data)
 end
 
 macro evaljs(ctx, expr)
-    warn("@evaljs is deprecated, use evaljs function instead")
+    @warn("@evaljs is deprecated, use evaljs function instead")
     :(send($(esc(ctx)), "Basics.eval", $(esc(expr))))
 end
 
@@ -316,7 +316,7 @@ function dispatch(ctx, key, data)
         set_nosync(ctx.observs[key][1], data)
     else
         key ∈ lifecycle_commands ||
-            warn("$key does not have a handler for scope id $(ctx.id)")
+            @warn("$key does not have a handler for scope id $(ctx.id)")
     end
 end
 

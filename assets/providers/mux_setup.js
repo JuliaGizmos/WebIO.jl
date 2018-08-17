@@ -12,8 +12,10 @@
     }
 
     function tryconnect(url) {
-
-        var ws = new WebSocket(url + "/webio-socket");
+        if (url.substring(url.length - 1, url.length) !== "/") {
+            url += "/"
+        }
+        var ws = new WebSocket(url + "webio-socket");
         ws.onopen = function () {
             WebIO.sendCallback = function (msg) {
                 ws.send(JSON.stringify(msg))

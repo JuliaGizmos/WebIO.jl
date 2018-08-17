@@ -1,5 +1,6 @@
 using WebIO
-using Base.Test
+using Test
+using Sockets
 
 import WebIO: DOM, instanceof
 @testset "node" begin
@@ -47,7 +48,7 @@ function capture_plaintext(x)
     io = IOBuffer()
     show(io, MIME("text/plain"), x)
     seek(io, 0)
-    readstring(io)
+    read(io, String)
 end
 
 @testset "plaintext printing" begin
