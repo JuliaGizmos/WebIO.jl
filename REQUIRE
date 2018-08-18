@@ -1,7 +1,7 @@
 julia 0.7
 JSON 0.7
 FunctionalCollections
-Observables 0.0.3
+Observables 0.2.1
 AssetRegistry
 Requires
 Compat 0.59
