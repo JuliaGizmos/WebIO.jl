@@ -16,7 +16,7 @@ export Scope,
        addconnection!
 
 import Compat.Sockets: send
-import Observables: Observable
+import Observables: Observable, AbstractObservable, observe
 
 """
     ConnectionPool(outbox::Channel, connections::Set{AbstractConnection}=Set())
@@ -157,7 +157,10 @@ end
 # in order to allow interpolation of observables.
 const observ_id_dict = WeakKeyDict()
 
-function setobservable!(ctx, key, obs; sync=nothing)
+setobservable!(ctx, key, obs::AbstractObservable; sync=nothing) =
+    setobservable!(ctx, key, observe(obs); sync=sync)
+
+function setobservable!(ctx, key, obs::Observable; sync=nothing)
     key = string(key)
     if haskey(ctx.observs, key)
         @warn("An observable named $key already exists in scope $(ctx.id).
@@ -340,6 +343,8 @@ function ensure_sync(ctx, key)
         on(SyncCallback(ctx, f), ob)
     end
 end
+
+onjs(ob::AbstractObservable, f) = onjs(observe(ob), f)
 
 function onjs(ob::Observable, f)
     if haskey(observ_id_dict, ob)
