@@ -49,7 +49,7 @@ function main()
       </script>
     """))
 
-    comm = Comm(:webio_comm)
+    comm = IJulia.CommManager.Comm(:webio_comm)
     conn = IJuliaConnection(comm)
     comm.on_msg = function (msg)
         data = msg.content["data"]
