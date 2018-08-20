@@ -341,7 +341,7 @@ function ensure_sync(ctx, key)
     end
 end
 
-function onjs(ob::Observable, f)
+function onjs(ob::AbstractObservable, f)
     if haskey(observ_id_dict, ob)
         ctx, key = observ_id_dict[ob]
         ctx = ctx.value
