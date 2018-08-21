@@ -6,7 +6,7 @@ struct IJuliaConnection <: AbstractConnection
 end
 
 function Sockets.send(c::IJuliaConnection, data)
-    send_comm(c.comm, data)
+    IJulia.send_comm(c.comm, data)
 end
 
 Base.isopen(c::IJuliaConnection) = haskey(IJulia.CommManager.comms, c.comm.id)

@@ -373,6 +373,8 @@ Notice the last expression actually _calls_ the scope `w` with the contents to d
 Here's a clock where the time is formatted and updated every second from Julia. We use the `onjs` handler and mutate the `#clock` DOM element to acheive this.
 
 ```julia
+using Dates
+
 w = Scope()
 obs = Observable(w, "clock-value", "")
 
