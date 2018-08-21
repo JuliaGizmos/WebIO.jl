@@ -6,7 +6,7 @@ struct IJuliaConnection <: AbstractConnection
 end
 
 function Sockets.send(c::IJuliaConnection, data)
-    send_comm(c.comm, data)
+    IJulia.send_comm(c.comm, data)
 end
 
 Base.isopen(c::IJuliaConnection) = haskey(IJulia.CommManager.comms, c.comm.id)
@@ -49,7 +49,7 @@ function main()
       </script>
     """))
 
-    comm = Comm(:webio_comm)
+    comm = IJulia.CommManager.Comm(:webio_comm)
     conn = IJuliaConnection(comm)
     comm.on_msg = function (msg)
         data = msg.content["data"]
