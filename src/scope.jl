@@ -16,7 +16,7 @@ export Scope,
        addconnection!
 
 import Compat.Sockets: send
-import Observables: Observable
+import Observables: Observable, AbstractObservable, listeners
 
 """
     ConnectionPool(outbox::Channel, connections::Set{AbstractConnection}=Set())
@@ -93,7 +93,7 @@ Fields:
 mutable struct Scope
     id::AbstractString
     dom::Any
-    observs::Dict{String, Tuple{Observable, Union{Nothing,Bool}}} # bool marks if it is synced
+    observs::Dict{String, Tuple{AbstractObservable, Union{Nothing,Bool}}} # bool marks if it is synced
     private_obs::Set{String}
     systemjs_options
     imports
@@ -173,7 +173,7 @@ function setobservable!(ctx, key, obs; sync=nothing)
 end
 
 # Ask JS to send stuff
-function setup_comm(f, ob::Observable)
+function setup_comm(f, ob::AbstractObservable)
     if haskey(observ_id_dict, ob)
         scope, key = observ_id_dict[ob]
         if !(key in scope.value.private_obs)
@@ -222,7 +222,7 @@ function JSON.lower(x::Scope)
         if sync === nothing
             # by default, we sync if there are any listeners
             # other than the JS back edge
-            sync = any(f-> !isa(f, SyncCallback), ob.listeners)
+            sync = any(f-> !isa(f, SyncCallback), listeners(ob))
         end
         obs_dict[k] = Dict("sync" => sync,
              "value" => ob[],
@@ -335,13 +335,13 @@ end
 function ensure_sync(ctx, key)
     ob = ctx.observs[key][1]
     # have at most one synchronizing handler per observable
-    if !any(x->isa(x, SyncCallback) && x.ctx==ctx, ob.listeners)
+    if !any(x->isa(x, SyncCallback) && x.ctx==ctx, listeners(ob))
         f = SyncCallback(ctx, (msg) -> send(ctx, key, msg))
         on(SyncCallback(ctx, f), ob)
     end
 end
 
-function onjs(ob::Observable, f)
+function onjs(ob::AbstractObservable, f)
     if haskey(observ_id_dict, ob)
         ctx, key = observ_id_dict[ob]
         ctx = ctx.value
