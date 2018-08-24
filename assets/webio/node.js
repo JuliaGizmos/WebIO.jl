@@ -249,7 +249,7 @@ function doImports(scope, imp) {
         case "js":
             var cfg = {paths: {}}
             cfg.paths[imp.name] = imp.url
-            if (imp.url.slice(0, 4) === "pkg/" || imp.url.slice(0, 5) === "/pkg/") {
+            if (imp.url.slice(0, 12) === "assetserver/" || imp.url.slice(0, 13) === "/assetserver/") {
                 cfg.meta = {};
                 cfg.meta[imp.url] = {authorization: true};
             }
