@@ -52,22 +52,15 @@ struct JSString
     s::String
 end
 
-# TODO: Remove this once Compat.jl supports the new iteration protocol
-@static if VERSION < v"0.7.0-DEV.5124"
-    const _iterate = next
-else
-    const _iterate = iterate
-end
-
 function str_interpolate(s, i0 = firstindex(s))
     l = lastindex(s)
     strs = []
     prev_c = '_'
     while i0 <= l
-        c, i = _iterate(s, i0)
+        c, i = iterate(s, i0)
         while !(prev_c != '\\' && c == '$') && i <= l
             prev_c = c
-            c, i = _iterate(s, i)
+            c, i = iterate(s, i)
         end
         if i0 <= i
             j = c == '$' ? prevind(s, prevind(s, i)) : prevind(s, i)
