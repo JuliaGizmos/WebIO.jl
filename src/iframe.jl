@@ -2,7 +2,8 @@ export iframe
 
 function iframe(dom)
     str = stringmime("text/html", dom)
-
+    key = AssetRegistry.register(bundlepath)
+    bundle_url = string(baseurl[], key)
     s = Scope()
     s.dom = node(:div,
                  node(:iframe, id="ifr", style=Dict("width"=>"100%"),
@@ -15,22 +16,15 @@ function iframe(dom)
             var doc = frame.contentDocument
             var win = frame.contentWindow
 
-            // Determine if we're running on a Jupyter hosting service
-            // that requires a base URL when retrieving assets
-            var curMatch =
-                window.location.href
-                .match(/(.*?)\/notebooks\/.*\.ipynb/);
-            curMatch = curMatch ||
-                window.location.href
-                .match(/(.*?)\/apps\/.*\.ipynb/);
-            if (curMatch) {
-                var base = doc.createElement("base");
-                base.setAttribute("href", curMatch[1] + '/');
-                doc.head.appendChild(base);
-            }
+            // Ensure that the iframe's baseURI matches the baseURI of the
+            // outer document. This is necessary to resolve
+            // https://github.com/JuliaGizmos/WebIO.jl/issues/167
+            var base = doc.createElement("base");
+            base.setAttribute("href", document.baseURI);
+            doc.head.appendChild(base);
 
             var webio = doc.createElement("script")
-            webio.src = "pkg/WebIO/webio/dist/bundle.js"
+            webio.src = $bundle_url
             var parent = window
 
             function resizeIframe() {

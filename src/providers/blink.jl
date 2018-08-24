@@ -1,9 +1,6 @@
 using AssetRegistry
 using Base64: stringmime
 
-const bundlepath = joinpath(dirname(@__FILE__), "..", "..",
-                            "assets", "webio", "dist",
-                            "bundle.js")
 const blinksetup = joinpath(dirname(@__FILE__), "..", "..",
                             "assets", "providers",
                             "blink_setup.js")
@@ -17,7 +14,7 @@ end
 function Blink.body!(p::Blink.Page, x::Union{Node, Scope, AbstractWidget})
     wait(p)
 
-    bp = AssetRegistry.register(bundlepath)
+    bp = AssetRegistry.register(WebIO.bundlepath)
     bs = AssetRegistry.register(blinksetup)
 
     Blink.loadjs!(p, bp)
