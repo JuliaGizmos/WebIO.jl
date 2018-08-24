@@ -58,7 +58,7 @@ end
         @test with_timeout(() -> take!(output), 5) == "hello Blink"
     end
 
-    function scope_import(w::Window, url::AbstractString)
+    function scope_import(w::Window, url::AbstractString, use_iframe=false)
         scope = Scope(
             imports=[url]
         )
@@ -71,26 +71,32 @@ end
         onimport(scope, @JSExpr.js function (mod)
             $js_to_julia[] = mod.x
         end)
-        body!(w, scope)
+        if use_iframe
+            body!(w, iframe(scope))
+        else
+            body!(w, scope)
+        end
 
         return with_timeout(() -> take!(output), 5)
     end
 
     @testset "scope imports" begin
-        @testset "local package, AssetRegistry" begin
-            @test scope_import(w, joinpath(@__DIR__, "..", "assets", "webio", "test", "trivial_import.js")) == "ok"
-        end
+        for use_iframe in (false, true)
+            @testset "local package, AssetRegistry" begin
+                @test scope_import(w, joinpath(@__DIR__, "..", "assets", "webio", "test", "trivial_import.js"), use_iframe) == "ok"
+            end
 
-        @testset "global URL, no http:" begin
-            # TODO: change this to a permanent URL because this CSAIL account
-            # will eventually expire.
-            @test scope_import(w, "//people.csail.mit.edu/rdeits/webio_tests/trivial_import.js") == "ok"
-        end
+            @testset "global URL, no http:" begin
+                # TODO: change this to a permanent URL because this CSAIL account
+                # will eventually expire.
+                @test scope_import(w, "//people.csail.mit.edu/rdeits/webio_tests/trivial_import.js", use_iframe) == "ok"
+            end
 
-        @testset "global URL, with http:" begin
-            # TODO: change this to a permanent URL because this CSAIL account
-            # will eventually expire.
-            @test scope_import(w, "http://people.csail.mit.edu/rdeits/webio_tests/trivial_import.js") == "ok"
+            @testset "global URL, with http:" begin
+                # TODO: change this to a permanent URL because this CSAIL account
+                # will eventually expire.
+                @test scope_import(w, "http://people.csail.mit.edu/rdeits/webio_tests/trivial_import.js", use_iframe) == "ok"
+            end
         end
     end
 end
