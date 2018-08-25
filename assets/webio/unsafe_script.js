@@ -29,7 +29,7 @@
 
         var webiojs_elem = document.querySelector("script[src*='webio/dist/bundle.js']")
         if (!webiojs_elem) {
-            script.src = '/pkg/WebIO/webio/dist/webcomponents-lite.min.js'; // try our luck lol
+            console.warn("WebIO cannot find webio/dist/bundle.js, so it cannot load the webcomponents-lite support. Widgets may be broken in this environment.");
         } else {
             script.src = webiojs_elem.src.replace("bundle.js", "webcomponents-lite.min.js")
         }

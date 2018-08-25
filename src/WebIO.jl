@@ -28,7 +28,8 @@ setup_provider(s::Union{Symbol, AbstractString}) = setup_provider(Val(Symbol(s))
 export setup_provider
 
 const baseurl = Ref{String}("")
-const bundlepath = joinpath(@__DIR__, "..", "assets", "webio", "dist", "bundle.js")
+const assetpath = joinpath(@__DIR__, "..", "assets")
+const bundlepath = joinpath(assetpath, "webio", "dist", "bundle.js")
 
 function setbaseurl!(str)
     baseurl[] = str

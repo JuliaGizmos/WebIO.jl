@@ -2,8 +2,8 @@ export iframe
 
 function iframe(dom)
     str = stringmime("text/html", dom)
-    key = AssetRegistry.register(bundlepath)
-    bundle_url = string(baseurl[], key)
+    key = AssetRegistry.register(assetpath)
+    bundle_url = string(baseurl[], key, "/webio/dist/bundle.js")
     s = Scope()
     s.dom = node(:div,
                  node(:iframe, id="ifr", style=Dict("width"=>"100%"),
