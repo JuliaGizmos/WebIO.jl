@@ -12,7 +12,7 @@ function WebIO.register_renderable(T::Type, ::Val{:atom})
     Juno.media(T, Juno.Media.Graphical)
     eval(:(Juno.Media.render(::Juno.PlotPane, x::$T) =
           (body!(get_page(), WebIO.render(x)); nothing)))
-    if method_exists(WebIO.render_inline, (T,))
+    if hasmethod(WebIO.render_inline, (T,))
         eval(:(Juno.render(i::Juno.Editor, x::$T) =
                Juno.render(i, WebIO.render_inline(x))))
     end

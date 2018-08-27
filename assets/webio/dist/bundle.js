@@ -2864,7 +2864,7 @@ function doImports(scope, imp) {
         case "js":
             var cfg = {paths: {}}
             cfg.paths[imp.name] = imp.url
-            if (imp.url.slice(0, 4) === "pkg/" || imp.url.slice(0, 5) === "/pkg/") {
+            if (imp.url.slice(0, 12) === "assetserver/" || imp.url.slice(0, 13) === "/assetserver/") {
                 cfg.meta = {};
                 cfg.meta[imp.url] = {authorization: true};
             }
@@ -3073,7 +3073,7 @@ module.exports = isArray || function (val) {
 
         var webiojs_elem = document.querySelector("script[src*='webio/dist/bundle.js']")
         if (!webiojs_elem) {
-            script.src = '/pkg/WebIO/webio/dist/webcomponents-lite.min.js'; // try our luck lol
+            console.warn("WebIO cannot find webio/dist/bundle.js, so it cannot load the webcomponents-lite support. Widgets may be broken in this environment.");
         } else {
             script.src = webiojs_elem.src.replace("bundle.js", "webcomponents-lite.min.js")
         }

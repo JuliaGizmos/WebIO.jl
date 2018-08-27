@@ -35,7 +35,7 @@ function install_ijulia_config()
         dict = try
             JSON.parse(read(config_file_json, String))
         catch err
-            println(STDERR, "Error parsing Jupyter config file $config_file_json - fix it and build again or delete it to enable WebIO")
+            println(stderr, "Error parsing Jupyter config file $config_file_json - fix it and build again or delete it to enable WebIO")
             @goto jsondone
         end
         app = Base.@get! dict "NotebookApp" Dict()
