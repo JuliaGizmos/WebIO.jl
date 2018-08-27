@@ -56,7 +56,9 @@ function __init__()
         include(joinpath("providers", "mux.jl"))
     end
     @require Juno="e5e0dc1b-0480-54bc-9374-aad01c23163d" begin
-        include(joinpath("providers", "atom.jl"))
+        @require Mux="a975b10e-0019-58db-a62f-e48ff68538c9" begin
+            include(joinpath("providers", "atom.jl"))
+        end
     end
     @require Blink="ad839575-38b3-5650-b840-f874b8c74a25" begin
         include(joinpath("providers", "blink.jl"))

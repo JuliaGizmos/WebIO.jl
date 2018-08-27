@@ -1,25 +1,45 @@
-function get_page(opts::Dict=Dict())
-    Juno.isactive() ? Juno.Atom.blinkplot() : Window(opts).content
+using Logging
+
+pages = Dict{String,Any}()
+server = Ref{Any}(nothing)
+
+function routepages(req)
+    return pages[req[:params][:id]]
 end
 
-Juno.render(::Juno.PlotPane, n::Union{Node, Scope, AbstractWidget}) =
-    (body!(get_page(), n); nothing)
-
-Juno.render(i::Juno.Editor, n::Union{Node, Scope, AbstractWidget}) =
-    Juno.render(i, Text("$(n.instanceof) Node with $(n._descendants_count) descendent(s)"))
-
-function WebIO.register_renderable(T::Type, ::Val{:atom})
-    Juno.media(T, Juno.Media.Graphical)
-    eval(:(Juno.Media.render(::Juno.PlotPane, x::$T) =
-          (body!(get_page(), WebIO.render(x)); nothing)))
-    if hasmethod(WebIO.render_inline, (T,))
-        eval(:(Juno.render(i::Juno.Editor, x::$T) =
-               Juno.render(i, WebIO.render_inline(x))))
+function create_silent_socket(req)
+    # hide errors
+    try
+        create_socket(req)
+    catch err
     end
 end
 
-function WebIO.setup_provider(::Val{:atom})
-    Juno.media(Node, Juno.Media.Graphical)
-    Juno.media(Scope, Juno.Media.Graphical)
+function Base.show(io::IO, ::MIME"application/juno+plotpane", n::Union{Node, Scope, AbstractWidget})
+    global pages, server
+    id = rand(UInt128)
+    pages[string(id)] = n
+
+    if server[] === nothing
+        # hide http logging messages
+        with_logger(NullLogger()) do
+            @async begin
+                http = Mux.App(Mux.mux(
+                    Mux.defaults,
+                    Mux.route("/:id", routepages),
+                    Mux.notfound()
+                ))
+
+                websock = Mux.App(Mux.mux(
+                    Mux.wdefaults,
+                    Mux.route("/webio-socket", create_silent_socket),
+                    Mux.wclose,
+                    Mux.notfound(),
+                ))
+
+                server[] = Mux.serve(http, websock, 8000)
+            end
+        end
+    end
+    print(io, "<meta http-equiv=\"refresh\" content=\"0; url=http://localhost:8000/$(id)\"/>")
 end
-WebIO.setup(:atom)
