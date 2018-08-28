@@ -4,14 +4,12 @@ using Sockets
 using Base64: stringmime
 export webio_serve
 
-webio_serve(app, port::Integer) = webio_serve(app, Sockets.localhost, port)
-
 """
     webio_serve(app, port=8000)
 
 Serve a Mux app which might return a WebIO node.
 """
-function webio_serve(app, host=Sockets.localhost, port=8000)
+function webio_serve(app, args...)
     http = Mux.App(Mux.mux(
         Mux.defaults,
         app,
@@ -25,7 +23,7 @@ function webio_serve(app, host=Sockets.localhost, port=8000)
         Mux.notfound(),
     ))
 
-    Mux.serve(http, websock, host, port)
+    Mux.serve(http, websock, args...)
 end
 
 struct WebSockConnection <: WebIO.AbstractConnection
