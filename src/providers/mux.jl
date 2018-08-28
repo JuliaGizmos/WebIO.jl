@@ -9,7 +9,7 @@ export webio_serve
 
 Serve a Mux app which might return a WebIO node.
 """
-function webio_serve(app, port=8000)
+function webio_serve(app, args...)
     http = Mux.App(Mux.mux(
         Mux.defaults,
         app,
@@ -23,7 +23,7 @@ function webio_serve(app, port=8000)
         Mux.notfound(),
     ))
 
-    Mux.serve(http, websock, port)
+    Mux.serve(http, websock, args...)
 end
 
 struct WebSockConnection <: WebIO.AbstractConnection
