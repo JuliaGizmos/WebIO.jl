@@ -22,9 +22,6 @@ function node(instanceof, children...; props...)
     Node(instanceof, PersistentVector{Any}(collect(children)), Dict(props))
 end
 
-@deprecate(Node(instanceof, children...; props...),
-           node(instanceof, children...; props...))
-
 promote_instanceof(x) = x
 promote_instanceof(s::Symbol) = DOM(:html, s)
 promote_instanceof(s::AbstractString) = promote_instanceof(Symbol(s))

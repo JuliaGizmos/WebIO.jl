@@ -50,21 +50,3 @@ end
     @test !compare_nodes(n1, n3)
     @test props(n3) == Dict(:one => 1, :two => 2)
 end
-
-@testset "Node deprecations" begin
-    # Verify that the deprecated Node(inst, vararg...) constructor
-    # still works (until we delete it in the next release)
-
-    @testset "one child" begin
-        n1 = Node(:div, "hello world")
-        n2 = node(:div, "hello world")
-        @test compare_nodes(n1, n2)
-    end
-    @testset "multiple children" begin
-        n1 = Node(:div, Node(:div, "hello"), Node(:div, "world"), foo="bar")
-        n2 = node(:div, node(:div, "hello"), node(:div, "world"), foo="bar")
-        @test compare_nodes(n1, n2)
-    end
-end
-
-
