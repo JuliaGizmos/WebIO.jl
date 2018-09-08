@@ -1,7 +1,12 @@
 using FunctionalCollections
+using Random: MersenneTwister
 using UUIDs
 
-newid(prefix) = string(prefix, '-', uuid4())
+const newid = let rng = MersenneTwister()
+    function(prefix)
+        string(prefix, '-', uuid4(rng))
+    end
+end
 
 _pvec(x::PersistentVector) = x
 _pvec(x::AbstractArray) = pvec(x)
