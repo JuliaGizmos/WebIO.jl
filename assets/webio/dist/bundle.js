@@ -2864,7 +2864,7 @@ function doImports(scope, imp) {
         case "js":
             var cfg = {paths: {}}
             cfg.paths[imp.name] = imp.url
-            if (imp.url.replace(/^https?:\/\//, "") == imp.url) { // this means the URL is relative
+            if (imp.url.replace(/^https?:\/\//, "") == imp.url && imp.url.slice(0, 2) !== "//") { // this means the URL is relative
                 cfg.meta = {};
                 // forward cookies
                 // see https://github.com/systemjs/systemjs/issues/1731
