@@ -13,6 +13,14 @@ Base.isopen(c::IJuliaConnection) = haskey(IJulia.CommManager.comms, c.comm.id)
 
 WebIO.register_renderable(T::Type, ::Val{:ijulia}) = nothing
 
+function IJulia.CommManager.register_comm(comm::IJulia.CommManager.Comm{:webio_comm}, x)
+    conn = IJuliaConnection(comm)
+    comm.on_msg = function (msg)
+        data = msg.content["data"]
+        WebIO.dispatch(conn, data)
+    end
+end
+
 function main()
     if !IJulia.inited
         # If IJulia has not been initialized and connected to Jupyter itself,
@@ -48,14 +56,6 @@ function main()
         \$('.js-collapse-script').parent('.output_subarea').css('padding', '0');
       </script>
     """))
-
-    comm = IJulia.CommManager.Comm(:webio_comm)
-    conn = IJuliaConnection(comm)
-    comm.on_msg = function (msg)
-        data = msg.content["data"]
-        WebIO.dispatch(conn, data)
-    end
-    nothing
 end
 
 WebIO.setup_provider(::Val{:ijulia}) = main() # calling setup_provider(Val(:ijulia)) will display the setup javascript
