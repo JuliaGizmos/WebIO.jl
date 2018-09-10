@@ -6,15 +6,23 @@
 
         // Register a "target" so that Julia can create a Comm
         // to communicate.
-        commManager.register_target("webio_comm",
-            function (comm) {
-                WebIO.triggerConnected();
-                WebIO.sendCallback = function (msg) { comm.send(msg); }
-                comm.on_msg(function (msg) {
-                    WebIO.dispatch(msg.content.data);
-                });
-            }
-        );
+        commManager.register_target("webio_comm", function (comm) { })
+
+        // Create a comm -- this will be receprocated by Julia, and will trigger the
+        // method IJulia.CommManager.register_comm(Comm{:webio_comm}, x) which will
+        // set up forwarding of messages
+        var comm = commManager.new_comm("webio_comm", {})
+
+        // Set how WebIO communicates with Julia
+        WebIO.sendCallback = function (msg) { comm.send(msg) }
+
+        // dispatch messages from Julia to WebIO
+        comm.on_msg(function (msg) {
+            WebIO.dispatch(msg.content.data)
+        });
+
+        // Get existing Scopes ready
+        WebIO.triggerConnected()
     }
 
     $(document).ready(function() {
