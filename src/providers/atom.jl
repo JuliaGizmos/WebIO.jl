@@ -1,7 +1,7 @@
 using Logging
 
-pages = Dict{String,Any}()
-server = Ref{Any}(nothing)
+const pages = Dict{String,Any}()
+const serving = Ref{Bool}(false)
 
 function routepages(req)
     return pages[req[:params][:id]]
@@ -20,7 +20,7 @@ function Base.show(io::IO, ::MIME"application/juno+plotpane", n::Union{Node, Sco
     id = rand(UInt128)
     pages[string(id)] = n
 
-    if server[] === nothing
+    if !serving[]
         # hide http logging messages
         with_logger(NullLogger()) do
             @async begin
@@ -37,7 +37,8 @@ function Base.show(io::IO, ::MIME"application/juno+plotpane", n::Union{Node, Sco
                     Mux.notfound(),
                 ))
 
-                server[] = Mux.serve(http, websock, 8000)
+                Mux.serve(http, websock, 8000)
+                serving[] = true
             end
         end
     end
