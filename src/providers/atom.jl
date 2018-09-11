@@ -12,6 +12,7 @@ function create_silent_socket(req)
     try
         create_socket(req)
     catch err
+        @debug err
     end
 end
 
@@ -19,6 +20,8 @@ function Base.show(io::IO, ::MIME"application/juno+plotpane", n::Union{Node, Sco
     global pages, server
     id = rand(UInt128)
     pages[string(id)] = n
+
+    port = rand(8000:9000)
 
     if !serving[]
         # hide http logging messages
@@ -37,10 +40,10 @@ function Base.show(io::IO, ::MIME"application/juno+plotpane", n::Union{Node, Sco
                     Mux.notfound(),
                 ))
 
-                Mux.serve(http, websock, 8000)
+                Mux.serve(http, websock, port)
                 serving[] = true
             end
         end
     end
-    print(io, "<meta http-equiv=\"refresh\" content=\"0; url=http://localhost:8000/$(id)\"/>")
+    print(io, "<meta http-equiv=\"refresh\" content=\"0; url=http://localhost:$(port)/$(id)\"/>")
 end
