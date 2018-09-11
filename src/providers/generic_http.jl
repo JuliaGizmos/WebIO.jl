@@ -27,7 +27,7 @@ end
 
 function asseturl(file)
     path = string(normpath(WebIO.assetpath), '/', normpath(file))
-    AssetRegistry.register(path)
+    WebIO.baseurl[] * AssetRegistry.register(path)
 end
 
 function serve_assets(req, serve_page)
