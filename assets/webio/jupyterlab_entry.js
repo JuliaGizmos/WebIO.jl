@@ -13,26 +13,23 @@ define(['./index.js', '@jupyterlab/notebook'], function(WebIO, Notebook){
         });
 
         function newKernel(kernel) {
-            kernel.registerCommTarget('webio_comm', function (comm, commMsg) {
-                if (commMsg.content.target_name !== 'webio_comm') {
-                   return;
-                }
+            var comm = kernel.connectToComm("webio_comm")
+            comm.open()
+            WebIO.sendCallback = function (msg) {
+                comm.send(msg)
+            }
 
-                WebIO.triggerConnected()
+            comm.onMsg = function (msg) {
+                WebIO.dispatch(msg.content.data);
+            }
 
-                WebIO.sendCallback = function (msg) {
-                    comm.send(msg)
-                }
+            comm.onClose = function (msg) {
+              console.log(msg);  // 'bye'
+            }
 
-                comm.onMsg = function (msg) {
-                    WebIO.dispatch(msg.content.data);
-                }
+            WebIO.triggerConnected()
+        }
 
-                comm.onClose = function (msg) {
-                  console.log(msg);  // 'bye'
-                }
-            })
-       }
     }
 
     return {
