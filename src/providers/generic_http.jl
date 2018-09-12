@@ -133,7 +133,7 @@ function WebIOServer(
             serve_assets(req, default_response)
         end
         server = HTTP.Server(handler)
-        server_task = @async (ret = HTTP.serve(server, verbose = verbose))
+        server_task = @async (ret = HTTP.serve(server, baseurl, http_port, verbose = verbose))
         tcpref = Ref{Sockets.TCPServer}()
         # Start HTTP listen server on port $port_HTTP"
         ws_task = @async HTTP.listen(
