@@ -3,8 +3,12 @@ define(['./index.js', '@jupyterlab/notebook'], function(WebIO, Notebook){
     function activateWebIO(app, notebooks) {
         notebooks.widgetAdded.connect(function (sender, panel) {
            panel.context.session
-                .kernelChanged.connect(function (sender, kernel) {
-              newKernel(kernel);
+                .kernelChanged.connect(function (sender, change) {
+                    if (change.hasOwnProperty('newValue')) {
+                        newKernel(change.newValue)
+                    } else {
+                        newKernel(change) // compatibility before JupyterLab 0.34
+                    }
             });
 
             if (panel.context.session.kernel) {
