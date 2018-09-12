@@ -79,47 +79,53 @@ const singleton_instance = Ref{WebIOServer}()
 usage:
 
 ```example
-asset_port = 8081
-base_url = "127.0.0.1"
-websocket_port = 8000
-const app = Ref{Any}()
-
-server = WebIOServer(
-        baseurl = base_url, http_port = asset_port, ws_port = websocket_port,
-        logging_io = stdout
-    ) do req
-    req.target != "/" && return missing # don't do anything
-    isassigned(app) || return "no app"
-    ws_url = string("ws://", base_url, ':', websocket_port)
-    webio_script = asseturl("/webio/dist/bundle.js")
-    ws_script = asseturl("/providers/websocket_connection.js")
-    return sprint() do io
-        print(io, "
-            <!doctype html>
-            <html>
-            <head>
-            <meta charset="UTF-8">
-            <script> var websocket_url = \$(repr(ws_url)) </script>
-            <script src="\$webio_script"></script>
-            <script src="\$ws_script"></script>
-            </head>
-            <body>
-        ")
-        tohtml(io, app[])
-        print(io, "
-            </body>
-            </html>
-        ")
+    asset_port = 8081
+    base_url = "127.0.0.1"
+    const app = Ref{Any}()
+    #WebIO.setbaseurl!(baseurl) # plus port!?
+    server = WebIOServer(
+            baseurl = base_url, http_port = asset_port, verbose = true
+        ) do req
+        req.target != "/" && return missing # don't do anything
+        isassigned(app) || return "no app"
+        ws_url = string("ws://", base_url, ':', asset_port, "/webio_websocket/")
+        webio_script = wio_asseturl("/webio/dist/bundle.js")
+        ws_script = wio_asseturl("/providers/websocket_connection.js")
+        return sprint() do io
+            print(io, "
+                <!doctype html>
+                <html>
+                <head>
+                <meta charset="UTF-8">
+                <script> var websocket_url = \$(repr(ws_url)) </script>
+                <script src="\$webio_script"></script>
+                <script src="\$ws_script"></script>
+                </head>
+                <body>
+            ")
+            tohtml(io, app[])
+            print(io, "
+                </body>
+                </html>
+            ")
+        end
     end
-end
 
-app[] = node(:div, "Hello, World",
-    style = Dict(
-        :backgroundColor => "black",
-        :color => "white",
-        :padding => "12px"
-    )
-)
+    w = Scope()
+
+    obs = Observable(w, "rand-value", 0.0)
+
+    on(obs) do x
+        println("JS sent \$x")
+    end
+
+    using JSExpr
+    app[] = w(
+      dom"button"(
+        "generate random",
+        events=Dict("click"=>@js () -> \$obs[] = Math.random()),
+      ),
+    );
 ```
 """
 function WebIOServer(
