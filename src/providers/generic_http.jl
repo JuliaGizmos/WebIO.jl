@@ -1,7 +1,7 @@
 using WebSockets, Sockets
-using HTTP, AssetRegistry, WebIO, JSON
+import HTTP, AssetRegistry, JSON
 using WebSockets: is_upgrade, upgrade
-
+using WebIO
 struct WSConnection{T} <: WebIO.AbstractConnection
     sock::T
 end
@@ -26,13 +26,15 @@ function tohtml(io, node)
 end
 
 function asseturl(file)
-    path = string(normpath(WebIO.assetpath), '/', normpath(file))
+    path = normpath(file)
     WebIO.baseurl[] * AssetRegistry.register(path)
 end
 
+wio_asseturl(file) = asseturl(string(normpath(WebIO.assetpath), '/', normpath(file)))
+
 function serve_assets(req, serve_page)
     response = serve_page(req)
-    response === missing || return response
+    response !== missing && return response
     if haskey(AssetRegistry.registry, req.target)
         filepath = AssetRegistry.registry[req.target]
         if isfile(filepath)
@@ -46,7 +48,7 @@ function serve_assets(req, serve_page)
     return "not found"
 end
 
-function websocket_handler(req, ws)
+function websocket_handler(ws)
     conn = WSConnection(ws)
     while isopen(ws)
         data, success = readguarded(ws)
@@ -59,10 +61,9 @@ end
 struct WebIOServer{S}
     server::S
     serve_task::Task
-    ws_task::Task
 end
 
-kill!(server::WebIOServer) = put!(server.in, HTTP.Servers.KILL)
+kill!(server::WebIOServer) = put!(server.server.in, HTTP.Servers.KILL)
 
 const singleton_instance = Ref{WebIOServer}()
 
@@ -93,22 +94,22 @@ server = WebIOServer(
     webio_script = asseturl("/webio/dist/bundle.js")
     ws_script = asseturl("/providers/websocket_connection.js")
     return sprint() do io
-        print(io, """
+        print(io, "
             <!doctype html>
             <html>
             <head>
             <meta charset="UTF-8">
-            <script> var websocket_url = $(repr(ws_url)) </script>
-            <script src="$webio_script"></script>
-            <script src="$ws_script"></script>
+            <script> var websocket_url = \$(repr(ws_url)) </script>
+            <script src="\$webio_script"></script>
+            <script src="\$ws_script"></script>
             </head>
             <body>
-        """)
+        ")
         tohtml(io, app[])
-        print(io, """
+        print(io, "
             </body>
             </html>
-        """)
+        ")
     end
 end
 
@@ -124,24 +125,25 @@ app[] = node(:div, "Hello, World",
 function WebIOServer(
         default_response::Function = (req)-> missing;
         baseurl::String = "127.0.0.1", http_port::Int = "8081",
-        ws_port::Int = 8000, verbose = false, singleton = true,
-        logging_io = devnull
+        verbose = false, singleton = true,
+        websocket_route = "/webio_websocket/",
+        logging_io = devnull,
+        server_kw_args...
     )
-    WebIO.setbaseurl!(baseurl) # plus port!?
     if !singleton || !isassigned(singleton_instance)
         handler = HTTP.HandlerFunction() do req
             serve_assets(req, default_response)
         end
-        server = HTTP.Server(handler)
-        server_task = @async (ret = HTTP.serve(server, baseurl, http_port, verbose = verbose))
-        tcpref = Ref{Sockets.TCPServer}()
-        # Start HTTP listen server on port $port_HTTP"
-        ws_task = @async HTTP.listen(
-                baseurl, ws_port, tcpref = tcpref, verbose = verbose
-            ) do s
-            is_upgrade(s.message) && upgrade(websocket_handler, s)
+        wshandler = WebSockets.WebsocketHandler() do req, sock
+            try
+                req.target == websocket_route && websocket_handler(sock)
+            catch e
+                @warn(e)
+            end
         end
-        singleton_instance[] = WebIOServer(server, server_task, ws_task)
+        server = WebSockets.ServerWS(handler, wshandler; server_kw_args...)
+        server_task = @async (ret = WebSockets.serve(server, baseurl, http_port, verbose))
+        singleton_instance[] = WebIOServer(server, server_task)
     end
     return singleton_instance[]
 end
