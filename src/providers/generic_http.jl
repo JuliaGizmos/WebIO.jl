@@ -31,9 +31,8 @@ function asseturl(file)
 end
 
 function serve_assets(req, serve_page)
-    if req.target == "/"
-        return serve_page()
-    end
+    response = serve_page(req)
+    response === missing || return response
     if haskey(AssetRegistry.registry, req.target)
         filepath = AssetRegistry.registry[req.target]
         if isfile(filepath)
@@ -87,7 +86,8 @@ const app = Ref{Any}()
 server = WebIOServer(
         baseurl = base_url, http_port = asset_port, ws_port = websocket_port,
         logging_io = stdout
-    ) do
+    ) do req
+    req.target != "/" && return missing # don't do anything
     isassigned(app) || return "no app"
     ws_url = string("ws://", base_url, ':', websocket_port)
     webio_script = asseturl("/webio/dist/bundle.js")
@@ -122,7 +122,7 @@ app[] = node(:div, "Hello, World",
 ```
 """
 function WebIOServer(
-        default_response::Function = ()-> "";
+        default_response::Function = (req)-> missing;
         baseurl::String = "127.0.0.1", http_port::Int = "8081",
         ws_port::Int = 8000, verbose = false, singleton = true,
         logging_io = devnull
