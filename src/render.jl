@@ -9,7 +9,7 @@ render(x::Union{Node, String}) = x
 render(x::Text) = dom"pre"(x.content)
 render(::Nothing) = ""
 render(x::Any) =
-    dom"div"(; setInnerHtml=richest_html(x))
+    node(:div; setInnerHtml=escapeHTML(richest_html(x)))
 
 const renderable_types = Type[]
 """

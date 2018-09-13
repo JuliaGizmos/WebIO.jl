@@ -104,12 +104,11 @@ function escapeHTML(i::String)
 end
 
 function Base.show(io::IO, m::MIME"text/html", x::Node)
-    write(io, "<div class='display:none'></div>" *
-          """<unsafe-script style='display:none'>
-          WebIO.mount(this.previousSibling,""")
-    # NOTE: do NOT add space between </div> and <unsafe-script>
-    write(io, escapeHTML(sprint(s->jsexpr(s, x))))
-    write(io, ")</unsafe-script>")
+    id = WebIO.newid("div")
+    write(io, "<div class='display:inherit; margin: inherit' id='$id'></div>" *
+          """<script>WebIO.mount(document.getElementById('$id'),""")
+    jsexpr(io, x)
+    write(io, ")</script>")
 end
 
 Base.show(io::IO, m::MIME"text/html", x::Observable) = show(io, m, WebIO.render(x))
@@ -118,7 +117,7 @@ function Base.show(io::IO, m::MIME"text/html", x::AbstractWidget)
     if !Widgets.isijulia()
         show(io, m, WebIO.render(x))
     else
-        write(io, "<div class='tex2jax_ignore interactbulma'>\n")
+        write(io, "<div class='tex2jax_ignore interactbulma'>\n") # Hack to make MathJax look away ( makes Jupyter much faster)
         show(io, m, WebIO.render(x))
         write(io, "\n</div>")
     end
