@@ -1,7 +1,7 @@
 using WebSockets, Sockets
 import HTTP, AssetRegistry, JSON
 using WebSockets: is_upgrade, upgrade
-using WebIO
+
 struct WSConnection{T} <: WebIO.AbstractConnection
     sock::T
 end
@@ -156,17 +156,40 @@ end
 
 const webio_server_config = Ref{typeof((url = "", http_port = 0, ws_url = ""))}()
 
+"""
+Fetches the global configuration for our http + websocket server from environment
+variables. It will memoise the result, so after a first call, any update to
+the environment will get ignored.
+"""
 function global_server_config()
     if !isassigned(webio_server_config)
+
+        setbaseurl!(get(ENV, "JULIA_WEBIO_BASEURL", ""))
+
         url = get(ENV, "WEBIO_SERVER_HOST_URL", "127.0.0.1")
         http_port = parse(Int, get(ENV, "WEBIO_HTTP_PORT", "8081"))
         ws_default = string(url, ":", http_port, "/webio_websocket/")
         ws_url = get(ENV, "WEBIO_WEBSOCKT_URL", ws_default)
         webio_server_config[] = (url = url, http_port = http_port, ws_url = ws_url)
+
     end
     webio_server_config[]
 end
 
+"""
+Generic show method that will make sure that an asset & websocket server is running
+it will print the required html scripts + WebIO div mounting code directly into `io`.
+can be used in the following way to create a generic display method for webio:
+    ```example
+    function Base.display(d::MyWebDisplay, m::MIME"application/webio", app)
+        println(d.io, "outer html")
+        show(io, m, app)
+        println(d.io, "close outer html")
+    end
+    ```
+The above example enables display code & webio code that doesn't rely on any
+provider dependencies.
+"""
 function Base.show(io::IO, ::MIME"application/webio", app::Union{Scope, Node})
     # Make sure we run a server
     c = global_server_config()
@@ -179,6 +202,5 @@ function Base.show(io::IO, ::MIME"application/webio", app::Union{Scope, Node})
     println(io, "<script src=$(repr(webio_script))></script>")
     println(io, "<script src=$(repr(ws_script))   ></script>")
     tohtml(io, app)
-
     return
 end

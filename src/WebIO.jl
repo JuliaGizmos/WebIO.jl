@@ -17,6 +17,7 @@ include("render.jl")
 include("connection.jl")
 include("iframe.jl")
 include("devsetup.jl")
+include("providers/generic_http.jl")
 
 """
     setup_provider(s::Union{Symbol, AbstractString})
