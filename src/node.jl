@@ -92,17 +92,6 @@ function JSON.lower(n::Node)
     )
 end
 
-## TODO -- optimize
-function escapeHTML(i::String)
-    # Refer to http://stackoverflow.com/a/7382028/3822752 for spec. links
-    o = replace(i, "&" => "&amp;")
-    o = replace(o, "\"" => "&quot;")
-    o = replace(o, "'" => "&#39;")
-    o = replace(o, "<" => "&lt;")
-    o = replace(o, ">" => "&gt;")
-    return o
-end
-
 function Base.show(io::IO, m::MIME"text/html", x::Node)
     id = WebIO.newid("div")
     write(io, "<div class='display:inherit; margin: inherit' id='$id'></div>" *

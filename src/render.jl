@@ -9,7 +9,7 @@ render(x::Union{Node, String}) = x
 render(x::Text) = dom"pre"(x.content)
 render(::Nothing) = ""
 render(x::Any) =
-    node(:div; setInnerHtml=escapeHTML(richest_html(x)))
+    node(:div; setInnerHtml=richest_html(x))
 
 const renderable_types = Type[]
 """
@@ -87,16 +87,16 @@ function render(obs::Observable)
     scope = Scope()
 
     # get the richest representation of obs's current value (as a string)
-    html_contents_str = htmlstring(WebIO.render(obs[]))
+    html_contents_str = encode_scripts(htmlstring(WebIO.render(obs[])))
 
     # Avoid nested <script> issues by initialising as an empty node and updating later
     scope.dom = dom"div#out"(; setInnerHtml=html_contents_str)
 
     # will store the string of html which the `obs` value is converted to
-    scope["obs-output"] = Observable{Any}(html_contents_str)
+    scope["obs-output"] = Observable{Any}("") # The initial value has already been rendered directly
 
     # ensure updates with the new html representation of obs when obs updates
-    map!(htmlstring∘WebIO.render, scope["obs-output"], obs)
+    map!(encode_scripts∘htmlstring∘WebIO.render, scope["obs-output"], obs)
 
     # ensure the output area updates when output_obs updates (after obs updates)
     output_updater = js"""function (updated_htmlstr) {
