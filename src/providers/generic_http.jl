@@ -67,7 +67,6 @@ kill!(server::WebIOServer) = put!(server.server.in, HTTP.Servers.KILL)
 
 const singleton_instance = Ref{WebIOServer}()
 
-
 """
     WebIOServer(
         default_response::Function = ()-> "";
@@ -130,12 +129,13 @@ usage:
 """
 function WebIOServer(
         default_response::Function = (req)-> missing;
-        baseurl::String = "127.0.0.1", http_port::Int = "8081",
+        baseurl::String = "127.0.0.1", http_port::Int = 8081,
         verbose = false, singleton = true,
         websocket_route = "/webio_websocket/",
         logging_io = devnull,
         server_kw_args...
     )
+    # TODO test if actually still running, otherwise restart even if singleton
     if !singleton || !isassigned(singleton_instance)
         handler = HTTP.HandlerFunction() do req
             serve_assets(req, default_response)
@@ -152,4 +152,33 @@ function WebIOServer(
         singleton_instance[] = WebIOServer(server, server_task)
     end
     return singleton_instance[]
+end
+
+const webio_server_config = Ref{typeof((url = "", http_port = 0, ws_url = ""))}()
+
+function global_server_config()
+    if !isassigned(webio_server_config)
+        webio_server_config[] = (
+            url = get(ENV, "WEBIO_SERVER_HOST_URL", "127.0.0.1"),
+            http_port = parse(Int, get(ENV, "WEBIO_HTTP_PORT", "8081")),
+            ws_url = get(ENV, "WEBIO_WEBSOCKT_URL", url * ":" * http_port * "/webio_websocket/")
+        )
+    end
+    webio_server_config[]
+end
+
+function Base.show(io::IO, ::MIME"application/webio", app::Union{Scope, Node})
+    # Make sure we run a server
+    c = global_server_config()
+    WebIOServer(baseurl = c.url, http_port = c.http_port)
+
+    webio_script = wio_asseturl("/webio/dist/bundle.js")
+    ws_script = wio_asseturl("/providers/websocket_connection.js")
+
+    println(io, "<script> var websocket_url = $(repr(c.ws_url)) </script>")
+    println(io, "<script src=$(repr(webio_script))></script>")
+    println(io, "<script src=$(repr(ws_script))   ></script>")
+    tohtml(io, app)
+
+    return
 end
