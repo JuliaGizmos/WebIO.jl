@@ -35,8 +35,11 @@ because if they are printed inside a <script> tag, even if they are in quotes in
 a javascript string, the html parser will still read them as a closing script
 tag, and thus end the script content prematurely, causing untold woe.
 """
-encode_scripts(htmlstr::String) =
-    replace(htmlstr, "</script>" => "</_script>")
+function encode_scripts(htmlstr::String)
+    # sometimes a </script> can be inside a string inside a string inside a string...
+    # we need to go deeper....
+    replace(htmlstr, r"</(_*)script>" => x->replace(x, "/"=>"/_"))
+end
 
 function kwargs2props(propkwargs)
     props = Dict{Symbol,Any}(propkwargs)

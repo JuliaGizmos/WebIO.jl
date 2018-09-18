@@ -171,7 +171,7 @@ function sendNotSetUp()
 //unescape closing script tags which cause problems in html documents
 function unencode_scripts(htmlstr){
     if (typeof htmlstr !== "string") return htmlstr;
-    return htmlstr.replace(new RegExp("</_script>", "g"), "</scr"+"ipt>")
+    return htmlstr.replace(new RegExp("</_*script>", "g"), function (x) { return x.replace("_script", "script"); })
 }
 
 // Add an html string as the contents of an element
