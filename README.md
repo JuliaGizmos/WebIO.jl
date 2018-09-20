@@ -83,6 +83,32 @@ end
 webio_serve(page("/", req -> myapp(req)))
 ```
 
+- Generic **HTTP**
+
+You can use the generic HTTP provider for any app - without the need to rely on WebIO.
+
+```julia
+
+# You can just create your own display function
+function Base.display(d::MyWebDisplay, m::MIME"application/webio", app)
+    println(d.io, "outer html")
+    # calling show will make sure a server is running and serves dependencies
+    # from AssetRegistry and a websocket connection gets established.
+    show(d.io, m, app) #<- prints the html + scripts webio needs to work into io
+    println(d.io, "close outer html")
+end
+# You can customize the server via the following environment variables:
+
+ENV["JULIA_WEBIO_BASEURL"] = "url/to/base/route" # e.g. if you have a proxy
+
+url = ENV["WEBIO_SERVER_HOST_URL"] = "127.0.0.1" # the url you want the server to listen on
+http_port = ENV["WEBIO_HTTP_PORT"] = "8081" # the port you want the server to listen on
+# the url that the websocket connects to:
+ENV["WEBIO_WEBSOCKT_URL"] = string(url, ":", http_port, "/webio_websocket/")
+
+```
+
+
 Composing content
 ------------------
 
