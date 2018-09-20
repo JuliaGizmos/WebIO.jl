@@ -1,5 +1,5 @@
-using WebSockets, Sockets
-import HTTP, AssetRegistry, JSON
+using Sockets
+import AssetRegistry, JSON
 using WebSockets: is_upgrade, upgrade
 
 struct WSConnection{T} <: WebIO.AbstractConnection
@@ -66,6 +66,8 @@ end
 kill!(server::WebIOServer) = put!(server.server.in, HTTP.Servers.KILL)
 
 const singleton_instance = Ref{WebIOServer}()
+
+const routing_callback = Ref{Any}((req)-> missing)
 
 """
     WebIOServer(
@@ -193,7 +195,7 @@ provider dependencies.
 function Base.show(io::IO, ::MIME"application/webio", app::Union{Scope, Node})
     # Make sure we run a server
     c = global_server_config()
-    WebIOServer(baseurl = c.url, http_port = c.http_port)
+    WebIOServer(routing_callback[], baseurl = c.url, http_port = c.http_port)
 
     webio_script = wio_asseturl("/webio/dist/bundle.js")
     ws_script = wio_asseturl("/providers/websocket_connection.js")
