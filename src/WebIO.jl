@@ -17,7 +17,7 @@ include("render.jl")
 include("connection.jl")
 include("iframe.jl")
 include("devsetup.jl")
-include("providers/generic_http.jl")
+
 
 """
     setup_provider(s::Union{Symbol, AbstractString})
@@ -65,6 +65,12 @@ function __init__()
     @require IJulia="7073ff75-c697-5162-941a-fcdaad2a7d2a" begin
         include(joinpath("providers", "ijulia.jl"))
     end
+    @require HTTP="cd3eb016-35fb-5094-929b-558a96fad6f3" begin
+        @require WebSockets="104b5d7c-a370-577a-8038-80a2059c5097" begin
+            include(joinpath("providers", "generic_http.jl"))
+        end
+    end
+
 end
 
 end # module
