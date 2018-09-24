@@ -51,7 +51,7 @@ end
 function websocket_handler(ws)
     conn = WSConnection(ws)
     while isopen(ws)
-        data, success = readguarded(ws)
+        data, success = WebSockets.readguarded(ws)
         !success && break
         msg = JSON.parse(String(data))
         WebIO.dispatch(conn, msg)
