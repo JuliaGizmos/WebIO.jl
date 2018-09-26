@@ -1,5 +1,5 @@
 using WebIO
-using HTTP, WebSockets
+using WebSockets
 using JSExpr
 using Test
 
