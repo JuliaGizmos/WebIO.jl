@@ -17,5 +17,6 @@
             }
         }
     }
+
     tryconnect(window.websocket_url)
 })();
