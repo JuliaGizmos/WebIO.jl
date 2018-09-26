@@ -191,15 +191,26 @@ can be used in the following way to create a generic display method for webio:
     ```
 The above example enables display code & webio code that doesn't rely on any
 provider dependencies.
+If you want to host the bundle + websocket script somewhere else, you can also call:
+    ```example
+    function Base.display(d::MyWebDisplay, m::MIME"application/webio", app)
+        println(d.io, "outer html")
+        show(io, m, app, bundle_url, websocket_url)
+        println(d.io, "close outer html")
+    end
+    ```
 """
-function Base.show(io::IO, ::MIME"application/webio", app::Union{Scope, Node})
+function Base.show(io::IO, m::MIME"application/webio", app::Union{Scope, Node})
+    webio_script = wio_asseturl("/webio/dist/bundle.js")
+    ws_script = wio_asseturl("/providers/websocket_connection.js")
+    show(io, m, app, webio_script, ws_script)
+    return
+end
+
+function Base.show(io::IO, ::MIME"application/webio", app::Union{Scope, Node}, webio_script, ws_script)
     # Make sure we run a server
     c = global_server_config()
     WebIOServer(routing_callback[], baseurl = c.url, http_port = c.http_port)
-
-    webio_script = wio_asseturl("/webio/dist/bundle.js")
-    ws_script = wio_asseturl("/providers/websocket_connection.js")
-
     println(io, "<script> var websocket_url = $(repr(c.ws_url)) </script>")
     println(io, "<script src=$(repr(webio_script))></script>")
     println(io, "<script src=$(repr(ws_script))   ></script>")
