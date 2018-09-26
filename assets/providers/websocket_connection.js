@@ -1,7 +1,9 @@
 (function () {
     function tryconnect(url) {
         var ws = new WebSocket(url);
+        console.log(ws);
         ws.onopen = function () {
+            console.log("opening up!");
             WebIO.sendCallback = function (msg) {
                 ws.send(JSON.stringify(msg))
             }
@@ -17,5 +19,6 @@
             }
         }
     }
+
     tryconnect(window.websocket_url)
 })();

@@ -1,6 +1,9 @@
 using Sockets
 import AssetRegistry, JSON
-using WebSockets: is_upgrade, upgrade
+using WebIO
+using .WebSockets: is_upgrade, upgrade
+using .WebSockets: HTTP
+
 
 struct WSConnection{T} <: WebIO.AbstractConnection
     sock::T
@@ -32,9 +35,7 @@ end
 
 wio_asseturl(file) = asseturl(string(normpath(WebIO.assetpath), '/', normpath(file)))
 
-function serve_assets(req, serve_page)
-    response = serve_page(req)
-    response !== missing && return response
+function serve_assets(req)
     if haskey(AssetRegistry.registry, req.target)
         filepath = AssetRegistry.registry[req.target]
         if isfile(filepath)
@@ -49,6 +50,7 @@ function serve_assets(req, serve_page)
 end
 
 function websocket_handler(ws)
+    println("handling websocket")
     conn = WSConnection(ws)
     while isopen(ws)
         data, success = WebSockets.readguarded(ws)
@@ -134,23 +136,23 @@ function WebIOServer(
         baseurl::String = "127.0.0.1", http_port::Int = 8081,
         verbose = false, singleton = true,
         websocket_route = "/webio_websocket/",
-        logging_io = devnull,
+        logger = Base.DevNull(),
         server_kw_args...
     )
     # TODO test if actually still running, otherwise restart even if singleton
     if !singleton || !isassigned(singleton_instance)
         handler = HTTP.HandlerFunction() do req
-            serve_assets(req, default_response)
+            response = default_response(req)
+            response !== missing && return response
+            return serve_assets(req)
         end
         wshandler = WebSockets.WebsocketHandler() do req, sock
-            try
-                req.target == websocket_route && websocket_handler(sock)
-            catch e
-                @warn(e)
-            end
+            req.target == websocket_route && websocket_handler(sock)
         end
-        server = WebSockets.ServerWS(handler, wshandler; server_kw_args...)
-        server_task = @async (ret = WebSockets.serve(server, baseurl, http_port, verbose))
+        server = WebSockets.ServerWS(handler, wshandler, logger; server_kw_args...)
+        # server_task = with_logger(NullLogger()) do
+        server_task = @async WebSockets.serve(server, baseurl, http_port, verbose)
+        # end
         singleton_instance[] = WebIOServer(server, server_task)
     end
     return singleton_instance[]
@@ -170,7 +172,7 @@ function global_server_config()
 
         url = get(ENV, "WEBIO_SERVER_HOST_URL", "127.0.0.1")
         http_port = parse(Int, get(ENV, "WEBIO_HTTP_PORT", "8081"))
-        ws_default = string(url, ":", http_port, "/webio_websocket/")
+        ws_default = string("ws://", url, ":", http_port, "/webio_websocket/")
         ws_url = get(ENV, "WEBIO_WEBSOCKT_URL", ws_default)
         webio_server_config[] = (url = url, http_port = http_port, ws_url = ws_url)
 
