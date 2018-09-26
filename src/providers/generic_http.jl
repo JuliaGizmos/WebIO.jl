@@ -50,7 +50,6 @@ function serve_assets(req)
 end
 
 function websocket_handler(ws)
-    println("handling websocket")
     conn = WSConnection(ws)
     while isopen(ws)
         data, success = WebSockets.readguarded(ws)
@@ -79,57 +78,24 @@ const routing_callback = Ref{Any}((req)-> missing)
         logging_io = devnull
     )
 
-usage:
+usage to serve some webio html:
 
-```example
-    asset_port = 8081
-    base_url = "127.0.0.1"
-    const app = Ref{Any}()
-    #WebIO.setbaseurl!(baseurl) # plus port!?
-    server = WebIOServer(
-            baseurl = base_url, http_port = asset_port, verbose = true
-        ) do req
-        req.target != "/" && return missing # don't do anything
-        isassigned(app) || return "no app"
-        ws_url = string("ws://", base_url, ':', asset_port, "/webio_websocket/")
-        webio_script = wio_asseturl("/webio/dist/bundle.js")
-        ws_script = wio_asseturl("/providers/websocket_connection.js")
+    ```example
+    using WebSockets, WebIO
+    app = Ref{Any}(node(:div, "hi"))
+    function serve_app(req)
+        req.target != "/" && return missing
         return sprint() do io
-            print(io, "
-                <!doctype html>
-                <html>
-                <head>
-                <meta charset="UTF-8">
-                <script> var websocket_url = \$(repr(ws_url)) </script>
-                <script src="\$webio_script"></script>
-                <script src="\$ws_script"></script>
-                </head>
-                <body>
-            ")
-            tohtml(io, app[])
-            print(io, "
-                </body>
-                </html>
-            ")
+            print(io, \"\"\"
+                <!doctype html><html><head>
+                <meta charset="UTF-8"></head><body>
+            \"\"\")
+            show(io, MIME"application/webio"(), app[])
+            print(io, "</body></html>")
         end
     end
-
-    w = Scope()
-
-    obs = Observable(w, "rand-value", 0.0)
-
-    on(obs) do x
-        println("JS sent \$x")
-    end
-
-    using JSExpr
-    app[] = w(
-      dom"button"(
-        "generate random",
-        events=Dict("click"=>@js () -> \$obs[] = Math.random()),
-      ),
-    );
-```
+    server = WebIO.WebIOServer(serve_app, logger = stdout, verbose = true)
+    ```
 """
 function WebIOServer(
         default_response::Function = (req)-> missing;
@@ -150,9 +116,9 @@ function WebIOServer(
             req.target == websocket_route && websocket_handler(sock)
         end
         server = WebSockets.ServerWS(handler, wshandler, logger; server_kw_args...)
-        # server_task = with_logger(NullLogger()) do
-        server_task = @async WebSockets.serve(server, baseurl, http_port, verbose)
-        # end
+        server_task = with_logger(NullLogger()) do
+            @async WebSockets.serve(server, baseurl, http_port, verbose)
+        end
         singleton_instance[] = WebIOServer(server, server_task)
     end
     return singleton_instance[]
