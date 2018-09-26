@@ -102,7 +102,7 @@ function WebIOServer(
         baseurl::String = "127.0.0.1", http_port::Int = 8081,
         verbose = false, singleton = true,
         websocket_route = "/webio_websocket/",
-        logger = Base.DevNull(),
+        logger = devnull,
         server_kw_args...
     )
     # TODO test if actually still running, otherwise restart even if singleton
