@@ -12,22 +12,6 @@ end
 Sockets.send(p::WSConnection, data) = writeguarded(p.sock, JSON.json(data))
 Base.isopen(p::WSConnection) = isopen(p.sock)
 
-"""
-Prints a inlineable representation of `node` to `io`
-"""
-function tohtml(io, node)
-    # Is this a more reliable way to mount the webio nodes?!
-    # At least with the default WebIO method I get some flaky behaviour
-    id = rand(UInt64) # TODO is this needed to be unique?!
-    print(io,
-        "<div id=\"$id\"></div>",
-        "<script style='display:none'>",
-        "WebIO.mount(document.getElementById('$id'),"
-    )
-    WebIO.jsexpr(io, WebIO.render(node))
-    print(io, ")</script>")
-end
-
 function asseturl(file)
     path = normpath(file)
     WebIO.baseurl[] * AssetRegistry.register(path)
@@ -175,13 +159,13 @@ function Base.show(io::IO, m::MIME"application/webio", app::Union{Scope, Node})
     return
 end
 
-function Base.show(io::IO, ::MIME"application/webio", app::Union{Scope, Node}, webio_script, ws_script)
+function Base.show(io::IO, ::MIME"application/webio", app::Union{AbstractWidget, Scope, Node}, webio_script, ws_script)
     # Make sure we run a server
     c = global_server_config()
     WebIOServer(routing_callback[], baseurl = c.url, http_port = c.http_port)
     println(io, "<script> var websocket_url = $(repr(c.ws_url)) </script>")
     println(io, "<script src=$(repr(webio_script))></script>")
     println(io, "<script src=$(repr(ws_script))   ></script>")
-    tohtml(io, app)
+    show(io, ::MIME"text/html", app)
     return
 end
