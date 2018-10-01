@@ -43,8 +43,9 @@ end
 
 function kwargs2props(propkwargs)
     props = Dict{Symbol,Any}(propkwargs)
-    Symbol("setInnerHtml") in keys(props) &&
-        (props[:setInnerHtml] = encode_scripts(props[:setInnerHtml]))
+    if :setInnerHtml in keys(props)
+        (props[:setInnerHtml] = props[:setInnerHtml])
+    end
     props # XXX IJulia/JSON bug? kernel seems to crash if this is a String not a Dict (which is obviously silly but still, it shouldn't crash the IJulia kernel)
 end
 
