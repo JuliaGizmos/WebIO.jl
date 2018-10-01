@@ -73,6 +73,7 @@ end
 
 include("communication.jl")
 include("node.jl")
+include("http-tests.jl")
 include("mux-tests.jl")
 include("blink-tests.jl")
 include("util-tests.jl")
