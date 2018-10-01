@@ -166,6 +166,6 @@ function Base.show(io::IO, ::MIME"application/webio", app::Union{AbstractWidget,
     println(io, "<script> var websocket_url = $(repr(c.ws_url)) </script>")
     println(io, "<script src=$(repr(webio_script))></script>")
     println(io, "<script src=$(repr(ws_script))   ></script>")
-    show(io, ::MIME"text/html", app)
+    show(io, MIME"text/html"(), app)
     return
 end
