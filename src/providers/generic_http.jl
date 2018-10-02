@@ -35,7 +35,9 @@ end
 
 function websocket_handler(ws)
     conn = WSConnection(ws)
+    println("websock connected: ", isopen(ws))
     while isopen(ws)
+        println("talking with ws")
         data, success = WebSockets.readguarded(ws)
         !success && break
         msg = JSON.parse(String(data))
@@ -100,9 +102,9 @@ function WebIOServer(
             req.target == websocket_route && websocket_handler(sock)
         end
         server = WebSockets.ServerWS(handler, wshandler, logger; server_kw_args...)
-        server_task = with_logger(NullLogger()) do
-            @async WebSockets.serve(server, baseurl, http_port, verbose)
-        end
+        # server_task = with_logger(NullLogger()) do
+            server_task = @async WebSockets.serve(server, baseurl, http_port, verbose)
+        # end
         singleton_instance[] = WebIOServer(server, server_task)
     end
     return singleton_instance[]

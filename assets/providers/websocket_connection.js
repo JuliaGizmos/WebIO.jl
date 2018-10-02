@@ -2,6 +2,7 @@
     function tryconnect(url) {
         var ws = new WebSocket(url);
         ws.onopen = function () {
+            console.log("connected websocket with: " + url)
             WebIO.sendCallback = function (msg) {
                 ws.send(JSON.stringify(msg))
             }
@@ -13,7 +14,8 @@
         ws.onclose = function (evt) {
             if (evt.code === 1005) {
                 // TODO what to do?
-                //tryconnect(url)
+                console.log("closing websocket")
+                // tryconnect(url)
             }
         }
     }

@@ -100,9 +100,11 @@ function render(obs::Observable)
 
     # ensure the output area updates when output_obs updates (after obs updates)
     output_updater = js"""function (updated_htmlstr) {
+        console.log(updated_htmlstr)
         var el = this.dom.querySelector("#out");
         WebIO.propUtils.setInnerHtml(el, updated_htmlstr);
     }"""
+
     onjs(scope["obs-output"], output_updater)
 
     WebIO.render(scope)
