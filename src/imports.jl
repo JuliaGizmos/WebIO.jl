@@ -5,58 +5,57 @@ struct Sync
 end
 
 function islocal(x)
-    !any(startswith.((x,), ["//", "https://", "http://", "ftp://"]))
+    !any(startswith.(x, ("//", "https://", "http://", "ftp://")))
 end
 
-function lowerdeps(name, imp)
-    query_parts = split(imp, "?") # remove anything after ?
-    imp_path = query_parts[1]
-
-    if startswith(imp_path, "/pkg/")
+function path2url(path::AbstractString)
+    if startswith(path, "/pkg/")
         Base.warn_once("/pkg/ URLs are deprecated, load files with their absolute path in Scope")
-        url = baseurl[] * imp
-    elseif islocal(imp_path) && isfile(abspath(imp_path))
-        path = abspath(imp_path)
+        return path
+    elseif isfile(abspath(path))
+        path = abspath(path)
         # first lookup to see if any of the file itself or any of the parent
         # directories are registered.
+        AssetRegistry.isregistered(path) && AssetRegistry.getkey(path)
         cur_path = path
-        if AssetRegistry.isregistered(cur_path)
-            url = AssetRegistry.getkey(cur_path)
-            @goto dict
-        end
         while true
             if AssetRegistry.isregistered(cur_path) && isdir(cur_path)
                 key = AssetRegistry.getkey(cur_path)
-                url = baseurl[] * key * "/" * replace(path, cur_path => "")
-                break
+                url = key * "/" * replace(path, cur_path => "")
+                return url
             end
             cur_path1 = dirname(cur_path)
             if cur_path1 == cur_path
                 # this means we have reached root directory,
                 # and none of the parents are in registry
                 # register the original path uniquely
-                url = AssetRegistry.register(imp_path)
-                break
+                return AssetRegistry.register(path)
             end
             cur_path = cur_path1
         end
-        if length(query_parts) > 1
-            url *= "?" * join(query_parts[2:end], "?")
-        end
     else
-        url = imp
+        error("File $path not found")
     end
+end
 
-    allowed_types = ["js", "css", "html"]
+function dep2url(dep::AbstractString)
+    # if is an url, we are done :)
+    islocal(dep) || return dep
+    query_parts = split(dep, "?") # remove anything after ?
+    file_path = first(query_parts)
+    query_part = length(query_parts) == 2 ? query_parts[2] : ""
+    url = path2url(file_path)
+    return string(baseurl[], url, query_part)
+end
 
-    if !any(endswith.((imp_path,), allowed_types))
+function lowerdeps(name, imp)
+    url = dep2url(imp)
+    extension = split(url, '.')[end]
+    if !(extension in ("js", "css", "html"))
         error("WebIO can't load dependency of unknown type $url")
     end
-
-    @label dict
-
     return Dict{String,Any}(
-        "type" => split(imp_path, ".")[end],
+        "type" => extension,
         "name" => name,
         "url" => url
     )
