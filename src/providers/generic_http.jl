@@ -1,7 +1,7 @@
 using Sockets
 import AssetRegistry, JSON
 using WebIO
-using .WebSockets: is_upgrade, upgrade
+using .WebSockets: is_upgrade, upgrade, writeguarded
 using .WebSockets: HTTP
 
 
