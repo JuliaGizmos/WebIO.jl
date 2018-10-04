@@ -130,6 +130,8 @@ function global_server_config()
     webio_server_config[]
 end
 
+const WebApp = Union{AbstractWidget, Scope, Node, AbstractObservable}
+
 """
 Generic show method that will make sure that an asset & websocket server is running
 it will print the required html scripts + WebIO div mounting code directly into `io`.
@@ -152,14 +154,14 @@ If you want to host the bundle + websocket script somewhere else, you can also c
     end
     ```
 """
-function Base.show(io::IO, m::MIME"application/webio", app::Union{Scope, Node})
+function Base.show(io::IO, m::MIME"application/webio", app::WebApp)
     webio_script = wio_asseturl("/webio/dist/bundle.js")
     ws_script = wio_asseturl("/providers/websocket_connection.js")
     show(io, m, app, webio_script, ws_script)
     return
 end
 
-function Base.show(io::IO, ::MIME"application/webio", app::Union{AbstractWidget, Scope, Node}, webio_script, ws_script)
+function Base.show(io::IO, ::MIME"application/webio", app::WebApp, webio_script, ws_script)
     # Make sure we run a server
     c = global_server_config()
     WebIOServer(routing_callback[], baseurl = c.url, http_port = c.http_port)
