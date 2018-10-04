@@ -75,9 +75,18 @@ function str_interpolate(s, i0 = firstindex(s))
     strs
 end
 
+"""
+Generate a js_str representation for an object.
+"""
+function js_str_repr end
+js_str_repr(io, x::Any) = jsexpr(io, x)
+js_str_repr(io, x::String) = print(io, x)
+js_str_repr(io, x::JSString) = print(io, x.s)
+
 macro js_str(s)
-    writes = [x isa String ? :(print(io, $(esc(x)))) : :(jsexpr(io, $(esc(x))))
-              for x in str_interpolate(s)]
+    writes = [:(js_str_repr(io, $(esc(x)))) for x in str_interpolate(s)]
+    # writes = [x isa String ? :(print(io, $(esc(x)))) : :(jsexpr(io, $(esc(x))))
+    #           for x in str_interpolate(s)]
 
     :(JSString(sprint() do io
                    $(writes...)

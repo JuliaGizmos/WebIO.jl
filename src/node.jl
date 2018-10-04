@@ -93,7 +93,7 @@ function JSON.lower(n::Node)
         "type" => "node",
         "nodeType" => nodetype(n),
         "instanceArgs" => JSON.lower(n.instanceof),
-        "children" => map!(renderPreferScopeJSON,
+        "children" => map!(render_internal,
                            Vector{Any}(undef, length(children(n))),
                            children(n)),
         "props" => props(n),
@@ -101,18 +101,13 @@ function JSON.lower(n::Node)
     return result
 end
 
-## TODO -- optimize
-function escapeHTML(i::String)
-    # Refer to http://stackoverflow.com/a/7382028/3822752 for spec. links
-    o = replace(i, "&" => "&amp;")
-    o = replace(o, "\"" => "&quot;")
-    o = replace(o, "'" => "&#39;")
-    o = replace(o, "<" => "&lt;")
-    o = replace(o, ">" => "&gt;")
-    return o
-end
-
-function escapeJSONForScriptTag(s::String)
+"""
+Escape characters for a "safe" representation of JSON.
+In particular, we escape '/' characters to avoid the presence of "</" (and
+especially "</script>") which cause the browser to break out of the current
+<script /> tag.
+"""
+function escape_json(s::String)
     # Replace all "/" with "\/"'s.
     # This prevents the browser from interpreting "</" as a close tag; since
     # everything within the string is JSON, any appearances of "/" should be
@@ -121,24 +116,17 @@ function escapeJSONForScriptTag(s::String)
     return replace(s, "/" => "\\/")
 end
 
+escape_json(x::Any) = escape_json(JSON.json(x))
+
 function Base.show(io::IO, m::MIME"text/html", x::Node)
-    # write(io, "<div class='display:none'></div>" *
-    #       """<unsafe-script style='display:none'>
-    #       WebIO.mount(this.previousSibling,""")
-    # # NOTE: do NOT add space between </div> and <unsafe-script>
-    # write(io, sprint(s->jsexpr(s, x)))
-    # write(io, ")</unsafe-script>")
-    println("=== Base.show(::IO, text/html, ::Node)")
-    println("=== Base.show: Node: $x")
     jsrepr = jsexpr(x)
-    println("===jsexpr(Node): $jsrepr")
     write(
         io,
         """
         <div class=\"webio-connected\"><script defer>
             WebIO.mount(
                 document.currentScript.parentElement,
-                $(escapeJSONForScriptTag(JSON.json(x))),
+                $(escape_json(x)),
             )
         </script></div>
         """

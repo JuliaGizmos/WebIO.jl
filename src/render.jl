@@ -77,20 +77,17 @@ end
 htmlstring(val::AbstractString) = val
 
 # TODO: this is awkward
-function renderPreferScopeJSON(child)
-    println("renderPreferScopeJSON(::Any/$(typeof(child)))")
+function render_internal(child)
     render(child)
 end
-function renderPreferScopeJSON(child::Observable)
-    warn("renderPreferScopeJSON(::$(typeof(child)))")
+function render_internal(child::Observable)
     # show(STDOUT, "text/plain", stacktrace())
-    renderPreferScopeJSON(observable_to_scope(child))
+    render_internal(observable_to_scope(child))
 end
-function renderPreferScopeJSON(child::Node)
-    println("renderPreferScopeJSON(::$(typeof(child)))")
+function render_internal(child::Node)
     return JSON.lower(child)
 end
-renderPreferScopeJSON(child::Scope) = renderPreferScopeJSON(node(child, child.dom))
+render_internal(child::Scope) = render_internal(node(child, child.dom))
 
 function observable_to_scope(obs::Observable)
 
