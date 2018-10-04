@@ -1,4 +1,5 @@
 using FunctionalCollections
+using JSON
 
 import FunctionalCollections: append
 export Node, node, instanceof, props
@@ -29,19 +30,20 @@ promote_instanceof(s::AbstractString) = promote_instanceof(Symbol(s))
 nodetype(n::Node) = typename(n.instanceof)
 typename(n::T) where {T} = string(T.name.name)
 
-"""
-Any </script> tags in the js/html node representation can cause problems,
-because if they are printed inside a <script> tag, even if they are in quotes in
-a javascript string, the html parser will still read them as a closing script
-tag, and thus end the script content prematurely, causing untold woe.
-"""
-encode_scripts(htmlstr::String) =
-    replace(htmlstr, "</script>" => "</_script>")
+# """
+# Any </script> tags in the js/html node representation can cause problems,
+# because if they are printed inside a <script> tag, even if they are in quotes in
+# a javascript string, the html parser will still read them as a closing script
+# tag, and thus end the script content prematurely, causing untold woe.
+# """
+# encode_scripts(htmlstr::String) =
+    # replace(htmlstr, "</script>" => "</_script>")
 
 function kwargs2props(propkwargs)
     props = Dict{Symbol,Any}(propkwargs)
-    Symbol("setInnerHtml") in keys(props) &&
-        (props[:setInnerHtml] = encode_scripts(props[:setInnerHtml]))
+    # we no longer transform </script> into <_/script> -- travigd
+    # Symbol("setInnerHtml") in keys(props) &&
+    #     (props[:setInnerHtml] = encode_scripts(props[:setInnerHtml]))
     props # XXX IJulia/JSON bug? kernel seems to crash if this is a String not a Dict (which is obviously silly but still, it shouldn't crash the IJulia kernel)
 end
 
@@ -76,20 +78,27 @@ function mergeprops(n::Node, p, ps...)
     setprops(n, out)
 end
 
-using JSON
-
 ####### Rendering to HTML ########
 
+"""
+    noderepr = JSON.lower(node)
+
+Generate a Dict representation of a WebIO node (for JSON serialization).
+
+Inputs:
+* `node` is a WebIO node instance.
+"""
 function JSON.lower(n::Node)
-    Dict{String, Any}(
+    result = Dict{String, Any}(
         "type" => "node",
         "nodeType" => nodetype(n),
         "instanceArgs" => JSON.lower(n.instanceof),
-        "children" => map!(render,
+        "children" => map!(renderPreferScopeJSON,
                            Vector{Any}(undef, length(children(n))),
                            children(n)),
         "props" => props(n),
     )
+    return result
 end
 
 ## TODO -- optimize
@@ -103,16 +112,54 @@ function escapeHTML(i::String)
     return o
 end
 
+function escapeJSONForScriptTag(s::String)
+    # Replace all "/" with "\/"'s.
+    # This prevents the browser from interpreting "</" as a close tag; since
+    # everything within the string is JSON, any appearances of "/" should be
+    # within strings and when the JSON is parsed, the "\/"'s will be interpreted
+    # as just normal "/"'s.
+    return replace(s, "/" => "\\/")
+end
+
 function Base.show(io::IO, m::MIME"text/html", x::Node)
-    write(io, "<div class='display:none'></div>" *
-          """<unsafe-script style='display:none'>
-          WebIO.mount(this.previousSibling,""")
-    # NOTE: do NOT add space between </div> and <unsafe-script>
-    write(io, escapeHTML(sprint(s->jsexpr(s, x))))
-    write(io, ")</unsafe-script>")
+    # write(io, "<div class='display:none'></div>" *
+    #       """<unsafe-script style='display:none'>
+    #       WebIO.mount(this.previousSibling,""")
+    # # NOTE: do NOT add space between </div> and <unsafe-script>
+    # write(io, sprint(s->jsexpr(s, x)))
+    # write(io, ")</unsafe-script>")
+    println("=== Base.show(::IO, text/html, ::Node)")
+    println("=== Base.show: Node: $x")
+    jsrepr = jsexpr(x)
+    println("===jsexpr(Node): $jsrepr")
+    write(
+        io,
+        """
+        <div class=\"webio-connected\"><script defer>
+            WebIO.mount(
+                document.currentScript.parentElement,
+                $(escapeJSONForScriptTag(JSON.json(x))),
+            )
+        </script></div>
+        """
+    )
+    # # NOTE: do NOT add space between </div> and <unsafe-script>
+    # write(io, escapeHTML(sprint(s->jsexpr(s, x))))
+    # write(io, ")</unsafe-script>")
+end
+
+WEBIO_NODE_MIME = MIME"application/vnd.webio.node+json"
+Base.Multimedia.istextmime(::WEBIO_NODE_MIME) = true
+
+function Base.show(io::IO, m::WEBIO_NODE_MIME, node::Node)
+    write(io, JSON.json(Dict(
+        "type" => "node",
+        "node" => node,
+    )))
 end
 
 Base.show(io::IO, m::MIME"text/html", x::Observable) = show(io, m, WebIO.render(x))
+Base.show(io::IO, m::WEBIO_NODE_MIME, x::Observable) = show(io, m, WebIO.render(x))
 
 function Base.show(io::IO, m::MIME"text/html", x::AbstractWidget)
     if !Widgets.isijulia()

@@ -56,7 +56,7 @@ function richest_html(val)
     topmime = richest_mime(val)
     str_repr = stringmime(topmime, val)
     if topmime == MIME("text/html")
-        return str_repr |> WebIO.encode_scripts
+        return str_repr # |> WebIO.encode_scripts
     elseif topmime in map(MIME, ["image/png", "image/jpeg"])
         return "<img src='data:image/png;base64,$str_repr'></img>"
     elseif topmime == MIME("image/svg+xml")
@@ -76,36 +76,76 @@ end
 
 htmlstring(val::AbstractString) = val
 
+# TODO: this is awkward
+function renderPreferScopeJSON(child)
+    println("renderPreferScopeJSON(::Any/$(typeof(child)))")
+    render(child)
+end
+function renderPreferScopeJSON(child::Observable)
+    warn("renderPreferScopeJSON(::$(typeof(child)))")
+    # show(STDOUT, "text/plain", stacktrace())
+    renderPreferScopeJSON(observable_to_scope(child))
+end
+function renderPreferScopeJSON(child::Node)
+    println("renderPreferScopeJSON(::$(typeof(child)))")
+    return JSON.lower(child)
+end
+renderPreferScopeJSON(child::Scope) = renderPreferScopeJSON(node(child, child.dom))
+
+function observable_to_scope(obs::Observable)
+
+
+
+    # Create scope that will contain our output observable for rendering.
+    scope = Scope()
+
+    # Create output observable (stored rich html representation of input obs).
+    # We must create output via the Observable(scope, ...) constructor so that
+    # the onjs call below works (the js is attached to the scope, not the
+    # observable itself).
+    output = Observable{AbstractString}(
+        scope,
+        "obs-output",
+        richest_html(obs[])
+    )
+
+    # Map new values of obs into the output observable and give it a label
+    # within the scope.
+    map!(output, obs) do data
+        # data -> htmlstring(WebIO.render(data)),
+        rich = richest_html(data)
+        return rich
+    end
+    scope["obs-output"] = output
+
+    # Avoid not-executing <script> issues by initialising as an empty node and
+    # updating later.
+    scope.dom = dom"div.webio-observable"(; setInnerHtml=output[])
+    onjs(
+        output,
+        js"""
+        function (value, scope) {
+            scope.setInnerHTML(value);
+        }
+        """,
+    )
+
+
+    # ensure the output area updates when output_obs updates (after obs updates)
+    return scope
+end
+
 """
 WebIO.render(obs::Observable)
 
-Returns a WebIO Node whose contents are the richest version of the observable's
-value, and which updates to display the observable's current value
+Generates a scope that contains the target observable and whose .dom attribute
+is the richest representation of that observable (wrapped in a div).
+
+Returns the WebIO node (via WebIO.render()) of that scope.
 """
 function render(obs::Observable)
-    # setup output area which updates when `obs`'s value changes
-    scope = Scope()
-
-    # get the richest representation of obs's current value (as a string)
-    html_contents_str = htmlstring(WebIO.render(obs[]))
-
-    # Avoid nested <script> issues by initialising as an empty node and updating later
-    scope.dom = dom"div#out"(; setInnerHtml=html_contents_str)
-
-    # will store the string of html which the `obs` value is converted to
-    scope["obs-output"] = Observable{Any}(html_contents_str)
-
-    # ensure updates with the new html representation of obs when obs updates
-    map!(htmlstring∘WebIO.render, scope["obs-output"], obs)
-
-    # ensure the output area updates when output_obs updates (after obs updates)
-    output_updater = js"""function (updated_htmlstr) {
-        var el = this.dom.querySelector("#out");
-        WebIO.propUtils.setInnerHtml(el, updated_htmlstr);
-    }"""
-    onjs(scope["obs-output"], output_updater)
-
-    WebIO.render(scope)
+    scope = observable_to_scope(obs)
+    return WebIO.render(scope)
 end
 
 render(w::AbstractWidget) = render(Widgets.layout(w)(w))

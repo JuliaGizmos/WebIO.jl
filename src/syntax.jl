@@ -87,7 +87,7 @@ end
 Base.string(s::JSString) = s.s
 Base.:(==)(x::JSString, y::JSString) = x.s==y.s
 
-JSON.lower(x::JSString) = x.s
+JSON.lower(x::JSString) = JSON.lower(x.s)
 
 const JSONContext = JSON.Writer.StructuralContext
 const JSONSerialization = JSON.Serializations.CommonSerialization
@@ -111,4 +111,9 @@ function JSON.show_json(io::JSONContext, ::JSEvalSerialization, x::JSString)
 end
 
 # note: this function is different from JSExpr.jsexpr
-jsexpr(io, x) = JSON.show_json(io, JSEvalSerialization(), x)
+# jsexpr(io, x) = JSON.show_json(io, JSEvalSerialization(), x)
+
+# TRAVIGD: We actually want the JS expr's to be passed as normal JSON strings
+# because that makes escaping millions of times easier.
+jsexpr(io, x) = write(io, JSON.json(x))
+jsexpr(x) = JSON.json(x)
