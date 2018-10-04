@@ -97,13 +97,11 @@ function render(obs::Observable)
 
     # ensure updates with the new html representation of obs when obs updates
     map!(encode_scripts∘htmlstring∘WebIO.render, scope["obs-output"], obs)
-
     # ensure the output area updates when output_obs updates (after obs updates)
-    output_updater = js"""function (updated_htmlstr) {
-        console.log(updated_htmlstr)
-        var el = this.dom.querySelector("#out");
+    output_updater = js"function (updated_htmlstr) {
+        var el = this.dom.querySelector(\"#out\");
         WebIO.propUtils.setInnerHtml(el, updated_htmlstr);
-    }"""
+    }"
 
     onjs(scope["obs-output"], output_updater)
 

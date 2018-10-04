@@ -35,9 +35,7 @@ end
 
 function websocket_handler(ws)
     conn = WSConnection(ws)
-    println("websock connected: ", isopen(ws))
     while isopen(ws)
-        println("talking with ws")
         data, success = WebSockets.readguarded(ws)
         !success && break
         msg = JSON.parse(String(data))
@@ -88,7 +86,7 @@ function WebIOServer(
         baseurl::String = "127.0.0.1", http_port::Int = 8081,
         verbose = false, singleton = true,
         websocket_route = "/webio_websocket/",
-        logger = devnull,
+        logger = NullLogger(),
         server_kw_args...
     )
     # TODO test if actually still running, otherwise restart even if singleton
@@ -101,10 +99,10 @@ function WebIOServer(
         wshandler = WebSockets.WebsocketHandler() do req, sock
             req.target == websocket_route && websocket_handler(sock)
         end
-        server = WebSockets.ServerWS(handler, wshandler, logger; server_kw_args...)
-        # server_task = with_logger(NullLogger()) do
+        server = WebSockets.ServerWS(handler, wshandler; server_kw_args...)
+        server_task = with_logger(logger) do
             server_task = @async WebSockets.serve(server, baseurl, http_port, verbose)
-        # end
+        end
         singleton_instance[] = WebIOServer(server, server_task)
     end
     return singleton_instance[]

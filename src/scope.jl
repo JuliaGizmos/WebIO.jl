@@ -178,8 +178,7 @@ function setup_comm(f, ob::AbstractObservable)
         scope, key = observ_id_dict[ob]
         if !(key in scope.value.private_obs)
             evaljs(scope.value, js"""
-                   console.log(this)
-                   this.observables[$key].sync = true
+                this.observables[$key].sync = true
             """)
         end
     end
