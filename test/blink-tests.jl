@@ -26,15 +26,15 @@ end
 
 @testset "Blink mocks" begin
     # open window and wait for it to initialize
+    # w = Window(Dict(:show => true))
+    # Blink.opentools(w)
     w = Window(Dict(:show => false))
 
     body!(w, dom"div"("hello, blink"))
     sleep(5) # wait for it to render.
 
-    substrings = ["<div>hello, blink</div>", r"\<unsafe-script.+", "WebIO.mount(",
-    """{"props":{},"nodeType":"DOM","type":"node","instanceArgs":{"namespace":"html","tag":"div"},"children":["hello, blink"]}"""]
     content = Blink.@js(w, document.body.innerHTML)
-    @test all(x->occursin(x, content), substrings)
+    @test occursin("<div>hello, blink</div>", content)
 
     @testset "round-trip communication" begin
         scope = Scope()
@@ -83,7 +83,7 @@ end
     @testset "scope imports" begin
         for use_iframe in (false, true)
             @testset "local package, AssetRegistry" begin
-                @test scope_import(w, joinpath(@__DIR__, "..", "assets", "webio", "test", "trivial_import.js"), use_iframe) == "ok"
+                @test scope_import(w, joinpath(@__DIR__, "assets", "trivial_import.js"), use_iframe) == "ok"
             end
 
             @testset "global URL, no http:" begin

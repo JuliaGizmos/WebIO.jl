@@ -17,6 +17,7 @@ if (Blink && Blink.sock) {
   };
 
   if (typeof window !== "undefined") {
+    console.warn("WebIO is registering WebIO window global.");
     (window as any).WebIO = webIO;
   }
 } else {

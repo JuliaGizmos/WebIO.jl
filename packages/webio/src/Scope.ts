@@ -1,4 +1,5 @@
 import createLogger from "debug";
+import System from "systemjs";
 const debug = createLogger("WebIO:Scope");
 
 import WebIONode, {WebIONodeDataBase, WebIONodeParams, WebIONodeType} from "./Node";
@@ -8,6 +9,7 @@ import {WebIOCommand, WebIOMessage} from "./message";
 import {createWebIOEventListener} from "./events";
 import WebIODomNode from "./DomNode";
 import createNode from "./createNode";
+import {BlockImport, importBlock} from "./imports";
 
 /**
  * A map of observable names to arrays-of-listeners that should be
@@ -22,7 +24,7 @@ export interface ScopeListeners {
 }
 
 export interface ScopePromises {
-  importsLoaded: Promise<void>; // TODO
+  importsLoaded: Promise<any[] | null>;
   connected: Promise<WebIOScope>;
 }
 
@@ -70,14 +72,26 @@ export interface ScopeNodeData extends WebIONodeDataBase {
     handlers?: {
       [observableName: string]: string[];
     };
+
+    imports?: BlockImport;
   }
+}
+
+/**
+ * Handlers that are associated with the scope promises.
+ *
+ * @todo This needs to be refactored.
+ */
+export interface PromiseHandlers {
+  importsLoaded?: string; // (imports: any[] | null) => void;
+  // TODO: other promise handlers?
 }
 
 class WebIOScope extends WebIONode {
 
   readonly id: string;
   readonly element: HTMLDivElement;
-  children: Array<WebIOScope | WebIODomNode | string>;
+  children: Array<WebIOScope | WebIODomNode | string> | null = null;
   handlers: ScopeListeners;
   observables: {[observableName: string]: WebIOObservable};
   promises: ScopePromises;
@@ -96,40 +110,62 @@ class WebIOScope extends WebIONode {
     const {id, observables = {}, handlers = {}} = scopeData.instanceArgs;
     this.id = id;
 
+    // Create WebIOObservables.
     this.observables = {};
     Object.keys(observables).forEach((name) => {
       this.observables[name] = new WebIOObservable(name, observables[name], this);
     });
 
-    // Map the function strings into handlers which have `this` bound to the scope's
-    // element and which have access to the _webIOScope variable (via closure).
     this.handlers = {};
-    Object.keys(handlers).forEach((observableName) => {
+
+    // TODO: refactor registerScope as described elsewhere
+    this.webIO.registerScope(this);
+
+    // TODO: refactor way initialization/import promises are done
+    const initializationPromise = this.initialize(scopeData);
+
+    this.promises = {
+      connected: this.webIO.connected.then(() => this),
+      importsLoaded: initializationPromise,
+    };
+
+    this.setupScope();
+  }
+
+  /**
+   * Perform asynchronous initialization tasks.
+   */
+  private async initialize(scopeData: ScopeNodeData) {
+    const {handlers = {}, imports} = scopeData.instanceArgs;
+
+    // (Asynchronously) perform dependency initialization
+    const {preDependencies = [], _promises = {}, ...restHandlers} = handlers;
+    preDependencies
+      .map((functionString) => createWebIOEventListener(this.element, functionString, this))
+      .forEach((handler) => handler.call(this))
+    ;
+
+    // Map the function strings into handlers which have `this` bound to the scope's
+    // element and which have access to the _webIOScope resources variable (via closure).
+    Object.keys(restHandlers).forEach((observableName) => {
       this.handlers[observableName] = handlers[observableName].map((handlerString) => {
         return createWebIOEventListener(this.element, handlerString, this);
       });
     });
 
-    // TODO
-    this.promises = null as any;
+    const resources = imports ? await importBlock(imports) : null;
 
-    this.webIO.registerScope(this);
+    // TypeScript hackery to deal with out promiseHandlers is a very special case
+    const {importsLoaded: importsLoadedHandler} = _promises as any as PromiseHandlers;
+    if (resources && importsLoadedHandler) {
+      // `as any` necessary because createWebIOEventListener normally returns
+      // a function which is expected to be an event listener... but this is kind of a
+      // special case of that.
+      debug("Invoking importsLoaded Scope handler.", {importsLoadedHandler, resources});
+      (createWebIOEventListener(this.element, importsLoadedHandler, this) as any)(...resources);
+    }
 
-    // this.node = node;
-    // this.handlers = handlers;
-    // this.observables  = observables;
-    //
-    // // (Asynchronously) perform dependency initialization
-    // const {preDependencies = []} = this.handlers;
-    // preDependencies.forEach((handler) => handler.call(this));
-    // const importsLoaded = Promise.resolve(); // TODO
-    //
-    // // (Asynchronously) connect to the WebIO Julia machinery
-    // const connected = this.connect().then(() => this);
-    //
-    // this.promises = {importsLoaded, connected};
-
-    // Create children and append to this node's element.
+    // Finally, create children.
     this.children = scopeData.children.map((nodeData) => {
       if (typeof nodeData === "string") {
         return nodeData;
@@ -144,7 +180,9 @@ class WebIOScope extends WebIONode {
       }
     }
 
-    this.setupScope();
+    // This isn't super clean, but this function is used to create the
+    // importsLoaded promise, so we need to return the promises.
+    return resources;
   }
 
   getObservableValue(observable: ObservableSpecifier) {

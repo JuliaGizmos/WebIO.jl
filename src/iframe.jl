@@ -10,6 +10,7 @@ function iframe(dom)
                       attributes=Dict("src"=>"javascript:void(0)","frameborder"=>0, "scrolling"=>"no", "height"=>"100%")),
                 style=Dict("overflow"=>"hidden"),
     )
+    # TODO: rework this.
     onimport(s,
         js"""function () {
             var frame = this.dom.querySelector("#ifr");

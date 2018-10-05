@@ -52,9 +52,24 @@ export interface WebIONodeParams {
  * applied to it.
  */
 abstract class WebIONode {
+  /**
+   * The actual DOM element associated with this node.
+   */
   abstract readonly element: WebIODomElement;
-  abstract children: Array<WebIOScope | WebIODomNode | string>;
+
+  /**
+   * An array of children (or null if not yet initialized).
+   */
+  abstract children: Array<WebIOScope | WebIODomNode | string> | null;
+
+  /**
+   * The closest-ancestor scope associated with this node.
+   */
   readonly scope?: WebIOScope;
+
+  /**
+   * The top-level WebIO instance associated with this node.
+   */
   readonly webIO: WebIO;
 
   protected constructor(
