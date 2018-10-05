@@ -11,12 +11,18 @@ module.exports = {
   devtool: "cheap-module-source-map",
 
   entry: {
-    'mux': ['@babel/polyfill', 'providers/mux-entrypoint.ts']
+    // Running in browser, we need polyfill for ES2015 support.
+    // We don't really need *all* of the babel polyfill but it's not
+    // **that** big. We could have our own custom entrypoint where
+    // we only import relevant core-js modules if we wanted.
+    'mux': ['@babel/polyfill', 'providers/mux.ts'],
+    // Babel isn't necessary in Electron (right?).
+    'blink': ['@babel/polyfill', 'providers/blink.ts'],
   },
 
   // https://webpack.js.org/configuration/output/
   output: {
-    path: path.resolve( __dirname, 'dist/' ),
+    path: path.resolve(__dirname, 'dist/'),
     filename: '[name].bundle.js',
   },
 

@@ -81,7 +81,7 @@
 /******/
 /******/
 /******/ 	// Load entry module and return exports
-/******/ 	return __webpack_require__(__webpack_require__.s = 0);
+/******/ 	return __webpack_require__(__webpack_require__.s = 1);
 /******/ })
 /************************************************************************/
 /******/ ({
@@ -11174,131 +11174,34 @@ var createWebIOEventListener = function createWebIOEventListener(_webIOElement, 
 
 /***/ }),
 
-/***/ "./providers/mux.ts":
-/*!**************************!*\
-  !*** ./providers/mux.ts ***!
-  \**************************/
-/*! exports provided: getMuxWSUrl, connectWebIOToWebSocket */
+/***/ "./providers/blink.ts":
+/*!****************************!*\
+  !*** ./providers/blink.ts ***!
+  \****************************/
+/*! no exports provided */
 /***/ (function(module, __webpack_exports__, __webpack_require__) {
 
 "use strict";
 __webpack_require__.r(__webpack_exports__);
-/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "getMuxWSUrl", function() { return getMuxWSUrl; });
-/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "connectWebIOToWebSocket", function() { return connectWebIOToWebSocket; });
-/* harmony import */ var debug__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! debug */ "../node_modules/debug/src/browser.js");
-/* harmony import */ var debug__WEBPACK_IMPORTED_MODULE_0___default = /*#__PURE__*/__webpack_require__.n(debug__WEBPACK_IMPORTED_MODULE_0__);
-/* harmony import */ var _WebIO__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! ../WebIO */ "./WebIO.ts");
-var _this = undefined;
+/* harmony import */ var _WebIO__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! ../WebIO */ "./WebIO.ts");
 
-var __awaiter = undefined && undefined.__awaiter || function (thisArg, _arguments, P, generator) {
-  return new (P || (P = Promise))(function (resolve, reject) {
-    function fulfilled(value) {
-      try {
-        step(generator.next(value));
-      } catch (e) {
-        reject(e);
-      }
-    }
 
-    function rejected(value) {
-      try {
-        step(generator["throw"](value));
-      } catch (e) {
-        reject(e);
-      }
-    }
-
-    function step(result) {
-      result.done ? resolve(result.value) : new P(function (resolve) {
-        resolve(result.value);
-      }).then(fulfilled, rejected);
-    }
-
-    step((generator = generator.apply(thisArg, _arguments || [])).next());
+if (Blink && Blink.sock) {
+  var webIO = new _WebIO__WEBPACK_IMPORTED_MODULE_0__["default"]();
+  webIO.setSendCallback(function (message) {
+    Blink.msg("webio", message);
   });
-};
 
+  Blink.handlers.webio = function (message) {
+    webIO.dispatch(message.data);
+  };
 
-var log = debug__WEBPACK_IMPORTED_MODULE_0___default()("WebIO:Mux");
-
-/**
- * Get the standard url of the Mux/WebIO WebSocket.
- */
-
-var getMuxWSUrl = function getMuxWSUrl() {
-  var _window$location = window.location,
-      protocol = _window$location.protocol,
-      host = _window$location.host,
-      pathname = _window$location.pathname;
-  var wsProtocol = protocol == "https:" ? "wss:" : "ws:";
-  var basePath = pathname[pathname.length - 1] == "/" ? pathname : pathname + "/";
-  var wsPath = basePath + "webio-socket";
-  return "".concat(wsProtocol, "//").concat(host).concat(wsPath);
-};
-/**
- * Create a WebIO instance connected to a Mux WebSocket.
- * @param webIO - the WebIO instance to connect.
- * @param wsUrl - the url of the WebSocket to connect to.
- */
-
-var connectWebIOToWebSocket = function connectWebIOToWebSocket(webIO) {
-  var wsUrl = arguments.length > 1 && arguments[1] !== undefined ? arguments[1] : getMuxWSUrl();
-  return new Promise(function (resolve, reject) {
-    var webSocket = new WebSocket(wsUrl);
-
-    webSocket.onopen = function () {
-      webIO.setSendCallback(function (msg) {
-        webSocket.send(JSON.stringify(msg));
-      });
-      resolve();
-    };
-
-    webSocket.onclose = function (closeEvent) {
-      // Rejecting a resolved or already-rejected promise is a no-op.
-      reject(closeEvent);
-    };
-
-    webSocket.onerror = function (error) {
-      // Rejecting a resolved or already-rejected promise is a no-op.
-      reject(error);
-    };
-
-    webSocket.onmessage = function (_ref) {
-      var data = _ref.data;
-      var message = JSON.parse(data);
-      webIO.dispatch(message);
-    };
-  });
-};
-
-var muxEntrypoint = function muxEntrypoint() {
-  return __awaiter(_this, void 0, void 0,
-  /*#__PURE__*/
-  regeneratorRuntime.mark(function _callee() {
-    var webIO;
-    return regeneratorRuntime.wrap(function _callee$(_context) {
-      while (1) {
-        switch (_context.prev = _context.next) {
-          case 0:
-            webIO = new _WebIO__WEBPACK_IMPORTED_MODULE_1__["default"](); // We do window as any to allow defining new members.
-
-            window.WebIO = webIO;
-            _context.next = 4;
-            return connectWebIOToWebSocket(webIO);
-
-          case 4:
-            log("Connected WebIO to WebSocket.");
-
-          case 5:
-          case "end":
-            return _context.stop();
-        }
-      }
-    }, _callee, this);
-  }));
-};
-
-muxEntrypoint();
+  if (typeof window !== "undefined") {
+    window.WebIO = webIO;
+  }
+} else {
+  console.error("WebIO is unable to initialize (Blink is not connected)!");
+}
 
 /***/ }),
 
@@ -11322,18 +11225,18 @@ var getObservableName = function getObservableName(specifier) {
 
 /***/ }),
 
-/***/ 0:
-/*!**********************************************!*\
-  !*** multi @babel/polyfill providers/mux.ts ***!
-  \**********************************************/
+/***/ 1:
+/*!************************************************!*\
+  !*** multi @babel/polyfill providers/blink.ts ***!
+  \************************************************/
 /*! no static exports found */
 /***/ (function(module, exports, __webpack_require__) {
 
 __webpack_require__(/*! @babel/polyfill */"../node_modules/@babel/polyfill/lib/index.js");
-module.exports = __webpack_require__(/*! providers/mux.ts */"./providers/mux.ts");
+module.exports = __webpack_require__(/*! providers/blink.ts */"./providers/blink.ts");
 
 
 /***/ })
 
 /******/ });
-//# sourceMappingURL=mux.bundle.js.map
+//# sourceMappingURL=blink.bundle.js.map
