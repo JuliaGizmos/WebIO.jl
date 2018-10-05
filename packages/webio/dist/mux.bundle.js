@@ -10217,6 +10217,10 @@ function (_WebIONode) {
 
 
     _this.children = nodeData.children.map(function (nodeData) {
+      if (typeof nodeData === "string") {
+        return nodeData;
+      }
+
       return Object(_createNode__WEBPACK_IMPORTED_MODULE_3__["default"])(nodeData, {
         webIO: _this.webIO,
         scope: _this.scope
@@ -10230,7 +10234,11 @@ function (_WebIONode) {
       for (var _iterator = _this.children[Symbol.iterator](), _step; !(_iteratorNormalCompletion = (_step = _iterator.next()).done); _iteratorNormalCompletion = true) {
         var child = _step.value;
 
-        _this.element.appendChild(child.element);
+        if (typeof child === "string") {
+          _this.element.appendChild(document.createTextNode(child));
+        } else {
+          _this.element.appendChild(child.element);
+        }
       }
     } catch (err) {
       _didIteratorError = true;
@@ -10724,6 +10732,10 @@ function (_WebIONode) {
 
 
     _this.children = scopeData.children.map(function (nodeData) {
+      if (typeof nodeData === "string") {
+        return nodeData;
+      }
+
       return Object(_createNode__WEBPACK_IMPORTED_MODULE_5__["default"])(nodeData, {
         webIO: _this.webIO,
         scope: _assertThisInitialized(_assertThisInitialized(_this))
@@ -10737,7 +10749,11 @@ function (_WebIONode) {
       for (var _iterator = _this.children[Symbol.iterator](), _step; !(_iteratorNormalCompletion = (_step = _iterator.next()).done); _iteratorNormalCompletion = true) {
         var child = _step.value;
 
-        _this.element.appendChild(child.element);
+        if (typeof child === "string") {
+          _this.element.appendChild(document.createTextNode(child));
+        } else {
+          _this.element.appendChild(child.element);
+        }
       }
     } catch (err) {
       _didIteratorError = true;
@@ -11059,6 +11075,14 @@ function () {
   }, {
     key: "mount",
     value: function mount(element, nodeData) {
+      if (!element) {
+        console.error("WebIO cannot mount node into element.", {
+          element: element,
+          nodeData: nodeData
+        });
+        throw new Error("WebIO cannot mount node into element.");
+      }
+
       var node = Object(_createNode__WEBPACK_IMPORTED_MODULE_1__["default"])(nodeData, {
         webIO: this
       });

@@ -77,7 +77,7 @@ class WebIOScope extends WebIONode {
 
   readonly id: string;
   readonly element: HTMLDivElement;
-  children: Array<WebIOScope | WebIODomNode>;
+  children: Array<WebIOScope | WebIODomNode | string>;
   handlers: ScopeListeners;
   observables: {[observableName: string]: WebIOObservable};
   promises: ScopePromises;
@@ -130,11 +130,18 @@ class WebIOScope extends WebIONode {
     // this.promises = {importsLoaded, connected};
 
     // Create children and append to this node's element.
-    this.children = scopeData.children.map((nodeData) => (
-      createNode(nodeData, {webIO: this.webIO, scope: this})
-    ));
+    this.children = scopeData.children.map((nodeData) => {
+      if (typeof nodeData === "string") {
+        return nodeData;
+      }
+      return createNode(nodeData, {webIO: this.webIO, scope: this})
+    });
     for (const child of this.children) {
-      this.element.appendChild(child.element);
+      if (typeof child === "string") {
+        this.element.appendChild(document.createTextNode(child));
+      } else {
+        this.element.appendChild(child.element);
+      }
     }
 
     this.setupScope();

@@ -119,16 +119,21 @@ end
 escape_json(x::Any) = escape_json(JSON.json(x))
 
 function Base.show(io::IO, m::MIME"text/html", x::Node)
-    jsrepr = jsexpr(x)
+    mountpoint_id = rand(UInt64)
     write(
         io,
         """
-        <div class=\"webio-connected\"><script defer>
-            WebIO.mount(
-                document.currentScript.parentElement,
-                $(escape_json(x)),
-            )
-        </script></div>
+        <div
+            class="webio-mountpoint"
+            data-webio-mountpoint="$(mountpoint_id)"
+        >
+            <script>
+                WebIO.mount(
+                    document.querySelector('[data-webio-mountpoint="$(mountpoint_id)"]'),
+                    $(escape_json(x)),
+                )
+            </script>
+        </div>
         """
     )
     # # NOTE: do NOT add space between </div> and <unsafe-script>

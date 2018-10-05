@@ -101,11 +101,15 @@ class WebIO {
    * @param nodeData - The data associated with the WebIO node.
    */
   mount(element: WebIODomElement, nodeData: WebIONodeData) {
+    if (!element) {
+      console.error("WebIO cannot mount node into element.", {element, nodeData});
+      throw new Error(`WebIO cannot mount node into element.`);
+    }
     const node = createNode(nodeData, {webIO: this});
     if (!element.parentElement) {
       throw new Error("Cannot mount WebIO node into HTMLElement that isn't mounted in DOM.")
     }
-    element.parentElement!.replaceChild(node.element, element);
+    element.parentElement.replaceChild(node.element, element);
   }
 
 }

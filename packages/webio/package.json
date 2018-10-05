@@ -11,6 +11,7 @@
   "dependencies": {
     "@babel/core": "^7.1.2",
     "@babel/polyfill": "^7.0.0",
+    "@babel/runtime": "^7.1.2",
     "@types/debug": "0.0.30",
     "debug": "^4.0.1"
   },

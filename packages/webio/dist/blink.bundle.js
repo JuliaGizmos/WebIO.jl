@@ -86,15 +86,15 @@
 /************************************************************************/
 /******/ ({
 
-/***/ "../node_modules/@babel/polyfill/lib/index.js":
-/*!****************************************************!*\
-  !*** ../node_modules/@babel/polyfill/lib/index.js ***!
-  \****************************************************/
+/***/ "../node_modules/@babel/polyfill/lib/noConflict.js":
+/*!*********************************************************!*\
+  !*** ../node_modules/@babel/polyfill/lib/noConflict.js ***!
+  \*********************************************************/
 /*! no static exports found */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
-/* WEBPACK VAR INJECTION */(function(global) {
+
 
 __webpack_require__(/*! core-js/es6 */ "../node_modules/core-js/es6/index.js");
 
@@ -118,12 +118,17 @@ __webpack_require__(/*! core-js/web */ "../node_modules/core-js/web/index.js");
 
 __webpack_require__(/*! regenerator-runtime/runtime */ "../node_modules/@babel/polyfill/node_modules/regenerator-runtime/runtime.js");
 
-if (global._babelPolyfill && typeof console !== "undefined" && console.warn) {
-  console.warn("@babel/polyfill is loaded more than once on this page. This is probably not desirable/intended " + "and may have consequences if different versions of the polyfills are applied sequentially. " + "If you do need to load the polyfill more than once, use @babel/polyfill/noConflict " + "instead to bypass the warning.");
-}
+/***/ }),
 
-global._babelPolyfill = true;
-/* WEBPACK VAR INJECTION */}.call(this, __webpack_require__(/*! ./../../../webpack/buildin/global.js */ "../node_modules/webpack/buildin/global.js")))
+/***/ "../node_modules/@babel/polyfill/noConflict.js":
+/*!*****************************************************!*\
+  !*** ../node_modules/@babel/polyfill/noConflict.js ***!
+  \*****************************************************/
+/*! no static exports found */
+/***/ (function(module, exports, __webpack_require__) {
+
+__webpack_require__(/*! ./lib/noConflict */ "../node_modules/@babel/polyfill/lib/noConflict.js");
+
 
 /***/ }),
 
@@ -10113,37 +10118,6 @@ process.umask = function() { return 0; };
 
 /***/ }),
 
-/***/ "../node_modules/webpack/buildin/global.js":
-/*!*************************************************!*\
-  !*** ../node_modules/webpack/buildin/global.js ***!
-  \*************************************************/
-/*! no static exports found */
-/***/ (function(module, exports) {
-
-var g;
-
-// This works in non-strict mode
-g = (function() {
-	return this;
-})();
-
-try {
-	// This works if eval is allowed (see CSP)
-	g = g || Function("return this")() || (1, eval)("this");
-} catch (e) {
-	// This works if the window reference is available
-	if (typeof window === "object") g = window;
-}
-
-// g can still be undefined, but nothing to do about it...
-// We return undefined, instead of nothing here, so it's
-// easier to handle this case. if(!global) { ...}
-
-module.exports = g;
-
-
-/***/ }),
-
 /***/ "./DomNode.ts":
 /*!********************!*\
   !*** ./DomNode.ts ***!
@@ -10217,6 +10191,10 @@ function (_WebIONode) {
 
 
     _this.children = nodeData.children.map(function (nodeData) {
+      if (typeof nodeData === "string") {
+        return nodeData;
+      }
+
       return Object(_createNode__WEBPACK_IMPORTED_MODULE_3__["default"])(nodeData, {
         webIO: _this.webIO,
         scope: _this.scope
@@ -10230,7 +10208,11 @@ function (_WebIONode) {
       for (var _iterator = _this.children[Symbol.iterator](), _step; !(_iteratorNormalCompletion = (_step = _iterator.next()).done); _iteratorNormalCompletion = true) {
         var child = _step.value;
 
-        _this.element.appendChild(child.element);
+        if (typeof child === "string") {
+          _this.element.appendChild(document.createTextNode(child));
+        } else {
+          _this.element.appendChild(child.element);
+        }
       }
     } catch (err) {
       _didIteratorError = true;
@@ -10724,6 +10706,10 @@ function (_WebIONode) {
 
 
     _this.children = scopeData.children.map(function (nodeData) {
+      if (typeof nodeData === "string") {
+        return nodeData;
+      }
+
       return Object(_createNode__WEBPACK_IMPORTED_MODULE_5__["default"])(nodeData, {
         webIO: _this.webIO,
         scope: _assertThisInitialized(_assertThisInitialized(_this))
@@ -10737,7 +10723,11 @@ function (_WebIONode) {
       for (var _iterator = _this.children[Symbol.iterator](), _step; !(_iteratorNormalCompletion = (_step = _iterator.next()).done); _iteratorNormalCompletion = true) {
         var child = _step.value;
 
-        _this.element.appendChild(child.element);
+        if (typeof child === "string") {
+          _this.element.appendChild(document.createTextNode(child));
+        } else {
+          _this.element.appendChild(child.element);
+        }
       }
     } catch (err) {
       _didIteratorError = true;
@@ -11059,6 +11049,14 @@ function () {
   }, {
     key: "mount",
     value: function mount(element, nodeData) {
+      if (!element) {
+        console.error("WebIO cannot mount node into element.", {
+          element: element,
+          nodeData: nodeData
+        });
+        throw new Error("WebIO cannot mount node into element.");
+      }
+
       var node = Object(_createNode__WEBPACK_IMPORTED_MODULE_1__["default"])(nodeData, {
         webIO: this
       });
@@ -11184,6 +11182,8 @@ var createWebIOEventListener = function createWebIOEventListener(_webIOElement, 
 "use strict";
 __webpack_require__.r(__webpack_exports__);
 /* harmony import */ var _WebIO__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! ../WebIO */ "./WebIO.ts");
+// TODO: remove me
+localStorage.debug = "*";
 
 
 if (Blink && Blink.sock) {
@@ -11226,13 +11226,13 @@ var getObservableName = function getObservableName(specifier) {
 /***/ }),
 
 /***/ 1:
-/*!************************************************!*\
-  !*** multi @babel/polyfill providers/blink.ts ***!
-  \************************************************/
+/*!***********************************************************!*\
+  !*** multi @babel/polyfill/noConflict providers/blink.ts ***!
+  \***********************************************************/
 /*! no static exports found */
 /***/ (function(module, exports, __webpack_require__) {
 
-__webpack_require__(/*! @babel/polyfill */"../node_modules/@babel/polyfill/lib/index.js");
+__webpack_require__(/*! @babel/polyfill/noConflict */"../node_modules/@babel/polyfill/noConflict.js");
 module.exports = __webpack_require__(/*! providers/blink.ts */"./providers/blink.ts");
 
 

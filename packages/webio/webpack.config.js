@@ -16,8 +16,13 @@ module.exports = {
     // **that** big. We could have our own custom entrypoint where
     // we only import relevant core-js modules if we wanted.
     'mux': ['@babel/polyfill', 'providers/mux.ts'],
-    // Babel isn't necessary in Electron (right?).
-    'blink': ['@babel/polyfill', 'providers/blink.ts'],
+    // Babel isn't necessary in Electron.
+    // TODO: we need multiple webpack configs for the various things
+    // Electron includes an instance of the babel polyfill but not the
+    // regenerator runtime (???) but we also don't need to transpile things
+    // as far down as we do for the browser (e.g. we need the runtime to use
+    // async/await but that's supported in electron natively).
+    'blink': ['@babel/polyfill/noConflict', 'providers/blink.ts'],
   },
 
   // https://webpack.js.org/configuration/output/

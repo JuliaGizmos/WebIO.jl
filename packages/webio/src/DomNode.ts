@@ -80,7 +80,7 @@ export interface DomNodeData extends WebIONodeDataBase {
 
 class WebIODomNode extends WebIONode {
   readonly element: WebIODomElement;
-  children: Array<WebIOScope | WebIODomNode>;
+  children: Array<WebIOScope | WebIODomNode | string>;
   private eventListeners: {[eventType: string]: EventListenerOrEventListenerObject | undefined} = {};
 
   private static createElement(data: DomNodeData) {
@@ -102,11 +102,18 @@ class WebIODomNode extends WebIONode {
     this.applyProps(nodeData.props);
 
     // Create children and append to this node's element.
-    this.children = nodeData.children.map((nodeData) => (
-      createNode(nodeData, {webIO: this.webIO, scope: this.scope})
-    ));
+    this.children = nodeData.children.map((nodeData) => {
+      if (typeof nodeData === "string") {
+        return nodeData;
+      }
+      return createNode(nodeData, {webIO: this.webIO, scope: this.scope})
+    });
     for (const child of this.children) {
-      this.element.appendChild(child.element);
+      if (typeof child === "string") {
+        this.element.appendChild(document.createTextNode(child));
+      } else {
+        this.element.appendChild(child.element);
+      }
     }
   }
 

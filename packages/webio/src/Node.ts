@@ -36,7 +36,7 @@ export const enum WebIONodeType {
 export interface WebIONodeDataBase {
   type: "node";
   nodeType: WebIONodeType;
-  children: WebIONodeData[];
+  children: Array<WebIONodeData | string>;
 }
 
 export interface WebIONodeParams {
@@ -53,7 +53,7 @@ export interface WebIONodeParams {
  */
 abstract class WebIONode {
   abstract readonly element: WebIODomElement;
-  abstract children: Array<WebIOScope | WebIODomNode>;
+  abstract children: Array<WebIOScope | WebIODomNode | string>;
   readonly scope?: WebIOScope;
   readonly webIO: WebIO;
 
