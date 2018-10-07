@@ -1,7 +1,6 @@
 using WebIO
 using Blink
 using Observables
-using JSExpr
 using Test
 
 notinstalled = !AtomShell.isinstalled()
@@ -46,9 +45,11 @@ end
         end
 
         julia_to_js = Observable(scope, "outbox", "")
-        onjs(julia_to_js, @JSExpr.js function (val)
-            $js_to_julia[] = val
-        end)
+        onjs(julia_to_js, js"""
+        function (val) {
+            _webIOScope.setObservableValue("inbox", val);
+        }
+        """)
 
         # Render the scope into the Blink window
         body!(w, scope)
@@ -68,9 +69,13 @@ end
             # Put the result in a channel so we can watch for it
             put!(output, x)
         end
-        onimport(scope, @JSExpr.js function (mod)
-            $js_to_julia[] = mod.x
-        end)
+        onimport(
+            scope,
+            js"""
+            function (mod) {
+                _webIOScope.setObservableValue("inbox", mod.x);
+            }
+            """)
         if use_iframe
             body!(w, iframe(scope))
         else
