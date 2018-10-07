@@ -80,7 +80,7 @@ export interface DomNodeData extends WebIONodeDataBase {
 
 class WebIODomNode extends WebIONode {
   readonly element: WebIODomElement;
-  children: Array<WebIOScope | WebIODomNode | string>;
+  children: Array<WebIONode | string>;
   private eventListeners: {[eventType: string]: EventListenerOrEventListenerObject | undefined} = {};
 
   private static createElement(data: DomNodeData) {

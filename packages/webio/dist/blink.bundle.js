@@ -12554,6 +12554,153 @@ function (_WebIONode) {
 
 /***/ }),
 
+/***/ "./IFrame.ts":
+/*!*******************!*\
+  !*** ./IFrame.ts ***!
+  \*******************/
+/*! exports provided: default */
+/***/ (function(module, __webpack_exports__, __webpack_require__) {
+
+"use strict";
+__webpack_require__.r(__webpack_exports__);
+/* harmony import */ var debug__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! debug */ "../node_modules/debug/src/browser.js");
+/* harmony import */ var debug__WEBPACK_IMPORTED_MODULE_0___default = /*#__PURE__*/__webpack_require__.n(debug__WEBPACK_IMPORTED_MODULE_0__);
+/* harmony import */ var _Node__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! ./Node */ "./Node.ts");
+/* harmony import */ var _setInnerHTML__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! ./setInnerHTML */ "./setInnerHTML.ts");
+function _typeof(obj) { if (typeof Symbol === "function" && typeof Symbol.iterator === "symbol") { _typeof = function _typeof(obj) { return typeof obj; }; } else { _typeof = function _typeof(obj) { return obj && typeof Symbol === "function" && obj.constructor === Symbol && obj !== Symbol.prototype ? "symbol" : typeof obj; }; } return _typeof(obj); }
+
+function _classCallCheck(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError("Cannot call a class as a function"); } }
+
+function _defineProperties(target, props) { for (var i = 0; i < props.length; i++) { var descriptor = props[i]; descriptor.enumerable = descriptor.enumerable || false; descriptor.configurable = true; if ("value" in descriptor) descriptor.writable = true; Object.defineProperty(target, descriptor.key, descriptor); } }
+
+function _createClass(Constructor, protoProps, staticProps) { if (protoProps) _defineProperties(Constructor.prototype, protoProps); if (staticProps) _defineProperties(Constructor, staticProps); return Constructor; }
+
+function _possibleConstructorReturn(self, call) { if (call && (_typeof(call) === "object" || typeof call === "function")) { return call; } return _assertThisInitialized(self); }
+
+function _assertThisInitialized(self) { if (self === void 0) { throw new ReferenceError("this hasn't been initialised - super() hasn't been called"); } return self; }
+
+function _getPrototypeOf(o) { _getPrototypeOf = Object.setPrototypeOf ? Object.getPrototypeOf : function _getPrototypeOf(o) { return o.__proto__ || Object.getPrototypeOf(o); }; return _getPrototypeOf(o); }
+
+function _inherits(subClass, superClass) { if (typeof superClass !== "function" && superClass !== null) { throw new TypeError("Super expression must either be null or a function"); } subClass.prototype = Object.create(superClass && superClass.prototype, { constructor: { value: subClass, writable: true, configurable: true } }); if (superClass) _setPrototypeOf(subClass, superClass); }
+
+function _setPrototypeOf(o, p) { _setPrototypeOf = Object.setPrototypeOf || function _setPrototypeOf(o, p) { o.__proto__ = p; return o; }; return _setPrototypeOf(o, p); }
+
+var __awaiter = undefined && undefined.__awaiter || function (thisArg, _arguments, P, generator) {
+  return new (P || (P = Promise))(function (resolve, reject) {
+    function fulfilled(value) {
+      try {
+        step(generator.next(value));
+      } catch (e) {
+        reject(e);
+      }
+    }
+
+    function rejected(value) {
+      try {
+        step(generator["throw"](value));
+      } catch (e) {
+        reject(e);
+      }
+    }
+
+    function step(result) {
+      result.done ? resolve(result.value) : new P(function (resolve) {
+        resolve(result.value);
+      }).then(fulfilled, rejected);
+    }
+
+    step((generator = generator.apply(thisArg, _arguments || [])).next());
+  });
+};
+
+
+var debug = debug__WEBPACK_IMPORTED_MODULE_0___default()("WebIO:IFrame");
+
+
+
+var WebIOIFrame =
+/*#__PURE__*/
+function (_WebIONode) {
+  _inherits(WebIOIFrame, _WebIONode);
+
+  function WebIOIFrame(iframeData, options) {
+    var _this;
+
+    _classCallCheck(this, WebIOIFrame);
+
+    _this = _possibleConstructorReturn(this, _getPrototypeOf(WebIOIFrame).call(this, iframeData, options));
+    _this.children = null;
+    debug("Creating new WebIOIFrame.", iframeData);
+    var iframe = _this.element = document.createElement("iframe");
+    iframe.className = "webio-iframe";
+    iframe.src = "about:blank";
+    iframe.frameBorder = "0";
+    iframe.scrolling = "no";
+    iframe.height = "100%";
+    iframe.width = "100%";
+    iframe.style.display = "block";
+    var innerHTML = iframeData.instanceArgs.innerHTML;
+
+    iframe.onload = function () {
+      return _this.initializeIFrame(innerHTML);
+    };
+
+    return _this;
+  }
+  /**
+   * Initialize the IFrame after the onload event has been fired.
+   * @param innerHTML
+   */
+
+
+  _createClass(WebIOIFrame, [{
+    key: "initializeIFrame",
+    value: function initializeIFrame(innerHTML) {
+      return __awaiter(this, void 0, void 0,
+      /*#__PURE__*/
+      regeneratorRuntime.mark(function _callee() {
+        var iframe, iframeWindow, iframeDocument, baseTag;
+        return regeneratorRuntime.wrap(function _callee$(_context) {
+          while (1) {
+            switch (_context.prev = _context.next) {
+              case 0:
+                iframe = this.element; // This method requires that onload has been fired which means that window
+                // and document are defined (hence the `!` operator).
+
+                iframeWindow = iframe.contentWindow;
+                iframeDocument = iframe.contentDocument; // Set WebIO window global.
+
+                iframeWindow.WebIO = this.webIO; // Add <base> tag to tell IFrame to load relative resources from the same
+                // place that the current page is.
+
+                baseTag = document.createElement("base");
+                baseTag.href = document.baseURI;
+                iframeDocument.head.appendChild(baseTag); // Apply some styling.
+                // It seems that there's not an easy way to get the iframe to have the
+                // "correct" size (i.e. exactly the size of its contents, as if it were
+                // just a normal <div> element). This currently doesn't really work.
+
+                iframeDocument.body.style.cssText = "\n      margin: 0;\n      padding: 0;\n      height: 100%;\n    "; // Set inner html of body.
+
+                Object(_setInnerHTML__WEBPACK_IMPORTED_MODULE_2__["default"])(iframeDocument.body, innerHTML);
+
+              case 9:
+              case "end":
+                return _context.stop();
+            }
+          }
+        }, _callee, this);
+      }));
+    }
+  }]);
+
+  return WebIOIFrame;
+}(_Node__WEBPACK_IMPORTED_MODULE_1__["default"]);
+
+/* harmony default export */ __webpack_exports__["default"] = (WebIOIFrame);
+
+/***/ }),
+
 /***/ "./Node.ts":
 /*!*****************!*\
   !*** ./Node.ts ***!
@@ -12565,14 +12712,7 @@ function (_WebIONode) {
 __webpack_require__.r(__webpack_exports__);
 /* harmony import */ var debug__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! debug */ "../node_modules/debug/src/browser.js");
 /* harmony import */ var debug__WEBPACK_IMPORTED_MODULE_0___default = /*#__PURE__*/__webpack_require__.n(debug__WEBPACK_IMPORTED_MODULE_0__);
-function _toConsumableArray(arr) { return _arrayWithoutHoles(arr) || _iterableToArray(arr) || _nonIterableSpread(); }
-
-function _nonIterableSpread() { throw new TypeError("Invalid attempt to spread non-iterable instance"); }
-
-function _iterableToArray(iter) { if (Symbol.iterator in Object(iter) || Object.prototype.toString.call(iter) === "[object Arguments]") return Array.from(iter); }
-
-function _arrayWithoutHoles(arr) { if (Array.isArray(arr)) { for (var i = 0, arr2 = new Array(arr.length); i < arr.length; i++) { arr2[i] = arr[i]; } return arr2; } }
-
+/* harmony import */ var _setInnerHTML__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! ./setInnerHTML */ "./setInnerHTML.ts");
 function _classCallCheck(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError("Cannot call a class as a function"); } }
 
 function _defineProperties(target, props) { for (var i = 0; i < props.length; i++) { var descriptor = props[i]; descriptor.enumerable = descriptor.enumerable || false; descriptor.configurable = true; if ("value" in descriptor) descriptor.writable = true; Object.defineProperty(target, descriptor.key, descriptor); } }
@@ -12581,6 +12721,7 @@ function _createClass(Constructor, protoProps, staticProps) { if (protoProps) _d
 
 
 var log = debug__WEBPACK_IMPORTED_MODULE_0___default()("WebIO:Node");
+
 /**
  * A high-level "point-of-entry" under which WebIO "things" are rendered.
  *
@@ -12602,49 +12743,14 @@ function () {
     this.webIO = webIO;
   }
   /**
-   * Set the `innerHTML` attribute of the node's element.
-   *
-   * This method will guarantee the execution of `<script />`s which is not done
-   * by simply setting `element.innerHTML = ...`.
-   *
-   * @param html - The HTML string to use; any special HTML characters (`<`, `>`, `&`, etc.)
-   *    should be &-escaped as appropriate (e.g. to set the displayed text to "foo&bar",
-   *    `html` should be `foo&amp;bar`).
+   * Set the innerHTML of the node's DOM element.
    */
 
 
   _createClass(WebIONode, [{
     key: "setInnerHTML",
     value: function setInnerHTML(html) {
-      // In the original WebIO, we like to replace </script> with </_script> because the whole shebang
-      // is executed inside a <script></script> block (and we don't want to close it too early).
-      html = html.replace(/<\/_script>/g, "</script>");
-      log("setInnerHTML", html);
-      this.element.innerHTML = html; // If the HTML contained any <script> tags, these are NOT executed when we assign the DOM
-      // innerHTML attribute, so we have to find-and-replace them to force them to execute.
-      // We do this weird array coercion because getElementsByTagName returns a
-      // HTMLCollection object, which updates as the contents of element update
-      // (creating an infinite loop).
-
-      var scripts = _toConsumableArray(this.element.getElementsByTagName("script"));
-
-      scripts.forEach(function (oldScript) {
-        var newScript = document.createElement("script"); // Copy all attributes.
-        // Unfortunately, attributes is a NamedNodeMap which doesn't have very
-        // ES6-like methods of manipulation
-
-        for (var i = 0; i < oldScript.attributes.length; ++i) {
-          var _oldScript$attributes = oldScript.attributes[i],
-              name = _oldScript$attributes.name,
-              value = _oldScript$attributes.value;
-          newScript.setAttribute(name, value);
-        } // Copy script content
-
-
-        newScript.appendChild(document.createTextNode(oldScript.innerHTML)); // Replace inside DOM
-
-        oldScript.parentNode.replaceChild(oldScript, newScript);
-      });
+      Object(_setInnerHTML__WEBPACK_IMPORTED_MODULE_1__["default"])(this.element, html);
     }
   }]);
 
@@ -13316,14 +13422,13 @@ function () {
         throw new Error("WebIO cannot mount node into element.");
       }
 
-      var node = Object(_createNode__WEBPACK_IMPORTED_MODULE_1__["default"])(nodeData, {
-        webIO: this
-      });
-
       if (!element.parentElement) {
         throw new Error("Cannot mount WebIO node into HTMLElement that isn't mounted in DOM.");
       }
 
+      var node = Object(_createNode__WEBPACK_IMPORTED_MODULE_1__["default"])(nodeData, {
+        webIO: this
+      });
       element.parentElement.replaceChild(node.element, element);
     }
   }]);
@@ -13346,6 +13451,8 @@ function () {
 __webpack_require__.r(__webpack_exports__);
 /* harmony import */ var _DomNode__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! ./DomNode */ "./DomNode.ts");
 /* harmony import */ var _Scope__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! ./Scope */ "./Scope.ts");
+/* harmony import */ var _IFrame__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! ./IFrame */ "./IFrame.ts");
+
 
 
 /**
@@ -13368,6 +13475,10 @@ var createNode = function createNode(nodeData, options) {
   /* SCOPE */
   ) {
       return new _Scope__WEBPACK_IMPORTED_MODULE_1__["default"](nodeData, options);
+    } else if (nodeData.nodeType === "IFrame"
+  /* IFRAME */
+  ) {
+      return new _IFrame__WEBPACK_IMPORTED_MODULE_2__["default"](nodeData, options);
     } else {
     console.error("Unable to generate WebIONode from nodeData:", nodeData);
     throw new Error("Unknown WebIO nodeType: ".concat(nodeData.nodeType, "."));
@@ -13690,6 +13801,69 @@ if (Blink && Blink.sock) {
 } else {
   console.error("WebIO is unable to initialize (Blink is not connected)!");
 }
+
+/***/ }),
+
+/***/ "./setInnerHTML.ts":
+/*!*************************!*\
+  !*** ./setInnerHTML.ts ***!
+  \*************************/
+/*! exports provided: default */
+/***/ (function(module, __webpack_exports__, __webpack_require__) {
+
+"use strict";
+__webpack_require__.r(__webpack_exports__);
+function _toConsumableArray(arr) { return _arrayWithoutHoles(arr) || _iterableToArray(arr) || _nonIterableSpread(); }
+
+function _nonIterableSpread() { throw new TypeError("Invalid attempt to spread non-iterable instance"); }
+
+function _iterableToArray(iter) { if (Symbol.iterator in Object(iter) || Object.prototype.toString.call(iter) === "[object Arguments]") return Array.from(iter); }
+
+function _arrayWithoutHoles(arr) { if (Array.isArray(arr)) { for (var i = 0, arr2 = new Array(arr.length); i < arr.length; i++) { arr2[i] = arr[i]; } return arr2; } }
+
+/**
+ * Set the `innerHTML` attribute of a DOM element.
+ *
+ * This method will guarantee the execution of `<script />`s which is not done
+ * by simply setting `element.innerHTML = ...`.
+ *
+ * @param element - The DOM element whose `innerHTML` will be set.
+ * @param html - The HTML string to use; any special HTML characters (`<`, `>`, `&`, etc.)
+ *    should be &-escaped as appropriate (e.g. to set the displayed text to "foo&bar",
+ *    `html` should be `foo&amp;bar`).
+ */
+var setInnerHTML = function setInnerHTML(element, html) {
+  // In the original WebIO, we like to replace </script> with </_script> because the whole shebang
+  // is executed inside a <script></script> block (and we don't want to close it too early).
+  html = html.replace(/<\/_script>/g, "</script>");
+  element.innerHTML = html; // If the HTML contained any <script> tags, these are NOT executed when we assign the DOM
+  // innerHTML attribute, so we have to find-and-replace them to force them to execute.
+  // We do this weird array coercion because getElementsByTagName returns a
+  // HTMLCollection object, which updates as the contents of element update
+  // (creating an infinite loop).
+
+  var scripts = _toConsumableArray(element.getElementsByTagName("script"));
+
+  scripts.forEach(function (oldScript) {
+    var newScript = document.createElement("script"); // Copy all attributes.
+    // Unfortunately, attributes is a NamedNodeMap which doesn't have very
+    // ES6-like methods of manipulation
+
+    for (var i = 0; i < oldScript.attributes.length; ++i) {
+      var _oldScript$attributes = oldScript.attributes[i],
+          name = _oldScript$attributes.name,
+          value = _oldScript$attributes.value;
+      newScript.setAttribute(name, value);
+    } // Copy script content
+
+
+    newScript.appendChild(document.createTextNode(oldScript.innerHTML)); // Replace inside DOM
+
+    oldScript.parentNode.replaceChild(newScript, oldScript);
+  });
+};
+
+/* harmony default export */ __webpack_exports__["default"] = (setInnerHTML);
 
 /***/ }),
 

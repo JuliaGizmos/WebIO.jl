@@ -91,7 +91,7 @@ class WebIOScope extends WebIONode {
 
   readonly id: string;
   readonly element: HTMLDivElement;
-  children: Array<WebIOScope | WebIODomNode | string> | null = null;
+  children: Array<WebIONode | string> | null = null;
   handlers: ScopeListeners;
   observables: {[observableName: string]: WebIOObservable};
   promises: ScopePromises;

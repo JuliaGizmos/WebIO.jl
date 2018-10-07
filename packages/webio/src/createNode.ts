@@ -1,6 +1,7 @@
 import WebIODomNode from "./DomNode";
 import WebIOScope from "./Scope";
 import {WebIONodeData, WebIONodeParams, WebIONodeType} from "./Node";
+import WebIOIFrame from "./IFrame";
 
 /**
 * Create a new WebIO node (a scope or a DOM node).
@@ -17,6 +18,8 @@ const createNode = (nodeData: WebIONodeData, options: WebIONodeParams) => {
     return new WebIODomNode(nodeData, options);
   } else if (nodeData.nodeType === WebIONodeType.SCOPE) {
     return new WebIOScope(nodeData, options);
+  } else if (nodeData.nodeType === WebIONodeType.IFRAME) {
+    return new WebIOIFrame(nodeData, options);
   } else {
     console.error("Unable to generate WebIONode from nodeData:", nodeData);
     throw new Error(`Unknown WebIO nodeType: ${(nodeData as any).nodeType}.`);

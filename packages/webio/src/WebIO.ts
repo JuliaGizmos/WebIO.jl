@@ -5,6 +5,7 @@ import {WebIOCommand, WebIOMessage, WebIOWireMessage} from "./message";
 import {WebIODomElement, WebIONodeData} from "./Node";
 import WebIOScope from "./Scope";
 import createNode from "./createNode";
+import setInnerHTML from "./setInnerHTML";
 
 const log = debug("WebIO");
 
@@ -105,10 +106,10 @@ class WebIO {
       console.error("WebIO cannot mount node into element.", {element, nodeData});
       throw new Error(`WebIO cannot mount node into element.`);
     }
-    const node = createNode(nodeData, {webIO: this});
     if (!element.parentElement) {
       throw new Error("Cannot mount WebIO node into HTMLElement that isn't mounted in DOM.")
     }
+    const node = createNode(nodeData, {webIO: this});
     element.parentElement.replaceChild(node.element, element);
   }
 
