@@ -1,0 +1,9 @@
+{
+  "packages": [
+    "webio",
+    "jupyter-notebook-provider",
+    "blink-provider",
+    "mux-provider"
+  ],
+  "version": "1.0.0"
+}

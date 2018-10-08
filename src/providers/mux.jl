@@ -52,14 +52,14 @@ Base.isopen(p::WebSockConnection) = isopen(p.sock)
 
 
 function Mux.Response(o::Union{Node, Scope, AbstractWidget})
-    key = AssetRegistry.register(joinpath(@__DIR__, "..", "..", "packages/webio/dist"))
+    key = AssetRegistry.register(joinpath(@__DIR__, "..", "..", "packages/mux-provider/dist"))
     Mux.Response(
         """
         <!doctype html>
         <html>
           <head>
             <meta charset="UTF-8">
-            <script src="$(WebIO.baseurl[])$key/mux.bundle.js"></script>
+            <script src="$(WebIO.baseurl[])$key/mux.js"></script>
           </head>
           <body>
             $(stringmime(MIME"text/html"(), o))
