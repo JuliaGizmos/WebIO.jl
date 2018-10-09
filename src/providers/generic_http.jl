@@ -41,7 +41,7 @@ function serve_assets(req)
         if isfile(filepath)
             return HTTP.Response(
                 200,
-                ["Content-Type" => "application/octet-stream"],
+                [],
                 body = read(filepath)
             )
         end
