@@ -1,10 +1,15 @@
-import debug from "debug";
-const log = debug("WebIO:DomNode")
+import createLogger from "debug";
+const debug = createLogger("WebIO:DomNode");
 
-import WebIONode, {WebIODomElement, WebIONodeDataBase, WebIONodeParams, WebIONodeType} from "./Node";
-import WebIOScope from "./Scope";
+import WebIONode, {
+  WebIODomElement,
+  WebIONodeSchema,
+  WebIONodeContext,
+} from "./Node";
 import {createWebIOEventListener} from "./events";
 import createNode from "./createNode";
+
+export const DOM_NODE_TYPE = "DOM";
 
 const enum DomNamespace {
   // "html" should actually be "http://www.w3.org/1999/xhtml" but it's okay
@@ -13,47 +18,50 @@ const enum DomNamespace {
 }
 
 /**
- * A map of style (CSS) attributes to the associated value.
- */
-interface StylesMap {
-  [attributeName: string]: string;
-}
-
-/**
- * A map of event names to listeners (or function definitions of listeners).
- */
-interface EventsMap {
-  [eventName: string]: string | EventListener;
-}
-
-/**
- * A map of (DOM?) attributes to their values (or null if they should be unset).
- */
-interface AttributesMap {
-  [attributeName: string]: string | null;
-}
-
-/**
- * A map of namespaced (DOM) attributes to their values (or null if they should
- * be unset).
- *
- * This doesn't seem to be implemented on the Julia side of things.
- */
-interface AttributesNSMap {
-  [attributeName: string]: {
-    namespace: DomNamespace;
-    value: string | null;
-  }
-}
-
-/**
- * Props associated with WebIO DOM nodes.
+ * Props associated with a WebIO DOM node serialization.
  */
 interface DomNodeProps {
-  style?: StylesMap;
-  events?: EventsMap;
-  attributes?: AttributesMap;
-  attributesNS?: AttributesNSMap;
+  /**
+   * A map of style (CSS) attributes to the associated value.
+   */
+  style?: {
+    [attributeName: string]: string;
+  };
+
+
+  /**
+   * A map of event names to listeners (or function definitions of listeners).
+   */
+  events?: {
+    [eventName: string]: string;
+  };
+
+  /**
+   * A map of (DOM?) attributes to their values (or null if they should be unset).
+   */
+  attributes?: {
+    [attributeName: string]: string | null;
+  };
+
+  /**
+   * A map of namespaced (DOM) attributes to their values (or null if they should
+   * be unset).
+   *
+   * This doesn't seem to be implemented on the Julia side of things.
+   */
+  attributesNS?: {
+    [attributeName: string]: {
+      namespace: DomNamespace;
+      value: string | null;
+    }
+  };
+
+  /**
+   * The `innerHTML` that should be set on the node.
+   *
+   * @todo Is there a reason that this is `setInnerHTML` rather than just
+   *    `innerHTML`?
+   */
   setInnerHtml?: string;
 
   /**
@@ -62,11 +70,14 @@ interface DomNodeProps {
   [otherProp: string]: any;
 }
 
+// Convenience declaration for use in methods within `WebIODomNode`
+type Props = Required<DomNodeProps>;
+
 /**
- * Data associated with a DOM node.
+ * Data required to construct a WebIO DOM node.
  */
-export interface DomNodeData extends WebIONodeDataBase {
-  nodeType: WebIONodeType.DOM;
+export interface DomNodeData extends WebIONodeSchema {
+  nodeType: typeof DOM_NODE_TYPE;
 
   /**
    * Information about the type of DOM node (e.g. a <div /> or SVG document).
@@ -81,7 +92,7 @@ export interface DomNodeData extends WebIONodeDataBase {
 class WebIODomNode extends WebIONode {
   readonly element: WebIODomElement;
   children: Array<WebIONode | string>;
-  private eventListeners: {[eventType: string]: EventListenerOrEventListenerObject | undefined} = {};
+  private eventListeners: {[eventType: string]: EventListener | undefined} = {};
 
   private static createElement(data: DomNodeData) {
     const {namespace, tag} = data.instanceArgs;
@@ -95,19 +106,21 @@ class WebIODomNode extends WebIONode {
     }
   }
 
-  constructor(nodeData: DomNodeData, options: WebIONodeParams) {
+  constructor(nodeData: DomNodeData, options: WebIONodeContext) {
     super(nodeData, options);
-    log("Creating WebIODomNode", {nodeData, options});
+    debug("Creating WebIODomNode", {nodeData, options});
     this.element = WebIODomNode.createElement(nodeData);
     this.applyProps(nodeData.props);
 
-    // Create children and append to this node's element.
+    // Recursively construct children.
     this.children = nodeData.children.map((nodeData) => {
       if (typeof nodeData === "string") {
         return nodeData;
       }
       return createNode(nodeData, {webIO: this.webIO, scope: this.scope})
     });
+
+    // Append childrens' elements to this node's element.
     for (const child of this.children) {
       if (typeof child === "string") {
         this.element.appendChild(document.createTextNode(child));
@@ -123,7 +136,7 @@ class WebIODomNode extends WebIONode {
    * @param props - The props to apply.
    */
   applyProps(props: DomNodeProps) {
-    log("applyProps", props);
+    debug("applyProps", props);
     const {style, events, attributes, attributesNS, setInnerHtml, ...rest} = props;
     style && this.applyStyles(style);
     events && this.applyEvents(events);
@@ -142,13 +155,14 @@ class WebIODomNode extends WebIONode {
    * @param props - The object of miscellaneous props and their values.
    */
   applyMiscellaneousProps(props: {[propName: string]: any}) {
-    log("applyMiscellaneousProps", props);
+    debug("applyMiscellaneousProps", props);
     for (const propName of Object.keys(props)) {
       (this.element as any)[propName] = props[propName];
     }
   }
 
-  applyStyles(styles: StylesMap) {
+  applyStyles(styles: Props["style"]) {
+    if (!styles) { return; }
     for (const attributeName of Object.keys(styles)) {
       this.element.style[attributeName as any] = styles[attributeName];
     }
@@ -164,7 +178,7 @@ class WebIODomNode extends WebIONode {
    *    changed!), then nothing happens; if the event name is absent (or null) in
    *    the map, then any previously setup listeners (if any) are removed.
    */
-  applyEvents(events: EventsMap) {
+  applyEvents(events: Props["events"]) {
     for (const eventName of Object.keys(events)) {
       const oldListener = this.eventListeners[eventName];
       const newListenerSource = events[eventName];
@@ -192,7 +206,7 @@ class WebIODomNode extends WebIONode {
    *
    * @param attributes - The map of attributes to apply.
    */
-  applyAttributes(attributes: AttributesMap) {
+  applyAttributes(attributes: Props["attributes"]) {
     for (const key of Object.keys(attributes)) {
       const value = attributes[key];
       if (value === null) {
@@ -208,7 +222,7 @@ class WebIODomNode extends WebIONode {
    *
    * @param attributes - The `{attributeName: {namespace, value}}` map to apply.
    */
-  applyAttributesNS(attributes: AttributesNSMap) {
+  applyAttributesNS(attributes: Props["attributesNS"]) {
     for (const key of Object.keys(attributes)) {
       const {namespace, value} = attributes[key];
       if (value === null) {

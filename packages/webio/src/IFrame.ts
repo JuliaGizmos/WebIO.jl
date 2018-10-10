@@ -1,14 +1,16 @@
 import createLogger from "debug";
 const debug = createLogger("WebIO:IFrame");
 
-import WebIONode, {WebIONodeDataBase, WebIONodeParams, WebIONodeType} from "./Node";
+import WebIONode, {WebIONodeSchema, WebIONodeContext} from "./Node";
 import setInnerHTML from "./setInnerHTML";
+
+export const IFRAME_NODE_TYPE = "IFrame";
 
 /**
  * Data associated with an IFrame node.
  */
-export interface IFrameNodeData extends WebIONodeDataBase {
-  nodeType: WebIONodeType.IFRAME;
+export interface IFrameNodeData extends WebIONodeSchema {
+  nodeType: typeof IFRAME_NODE_TYPE;
 
   instanceArgs: {
     innerHTML: string;
@@ -21,7 +23,7 @@ class WebIOIFrame extends WebIONode {
 
   constructor(
     iframeData: IFrameNodeData,
-    options: WebIONodeParams,
+    options: WebIONodeContext,
   ) {
     super(iframeData, options);
 

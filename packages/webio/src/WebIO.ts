@@ -2,10 +2,9 @@
 // import arrayEqual from "array-equal";
 import debug from "debug";
 import {WebIOCommand, WebIOMessage, WebIOWireMessage} from "./message";
-import {WebIODomElement, WebIONodeData} from "./Node";
+import {WebIODomElement, WebIONodeSchema} from "./Node";
 import WebIOScope from "./Scope";
-import createNode from "./createNode";
-import setInnerHTML from "./setInnerHTML";
+import createNode, {NODE_CLASSES} from "./createNode";
 
 const log = debug("WebIO");
 
@@ -19,6 +18,9 @@ class WebIO {
   private rejectConnected!: () => void;
   private scopes: {[scopeId: string]: WebIOScope | undefined} = {};
   private sendCallback?: WebIOSendCallback;
+
+  // Add reference to NODE_CLASSES to allow for extension
+  static readonly NODE_CLASSES = NODE_CLASSES;
 
   constructor() {
     // We have to use the !-postfix on {resolve,reject}Connected because TypeScript
@@ -101,7 +103,7 @@ class WebIO {
    * @param element - The element to be replaced with the WebIO node.
    * @param nodeData - The data associated with the WebIO node.
    */
-  mount(element: WebIODomElement, nodeData: WebIONodeData) {
+  mount(element: WebIODomElement, nodeData: WebIONodeSchema) {
     if (!element) {
       console.error("WebIO cannot mount node into element.", {element, nodeData});
       throw new Error(`WebIO cannot mount node into element.`);

@@ -2,7 +2,7 @@ import createLogger from "debug";
 import System from "systemjs";
 const debug = createLogger("WebIO:Scope");
 
-import WebIONode, {WebIONodeDataBase, WebIONodeParams, WebIONodeType} from "./Node";
+import WebIONode, {WebIONodeSchema, WebIONodeContext} from "./Node";
 import WebIOObservable, {ObservableData} from "./Observable";
 import {getObservableName, ObservableSpecifier, OptionalKeys} from "./utils";
 import {WebIOCommand, WebIOMessage} from "./message";
@@ -28,11 +28,13 @@ export interface ScopePromises {
   connected: Promise<WebIOScope>;
 }
 
+export const SCOPE_NODE_TYPE = "Scope";
+
 /**
  * Data associated with a scope node.
  */
-export interface ScopeNodeData extends WebIONodeDataBase {
-  nodeType: WebIONodeType.SCOPE;
+export interface ScopeNodeData extends WebIONodeSchema {
+  nodeType: typeof SCOPE_NODE_TYPE;
 
   instanceArgs: {
     /**
@@ -98,7 +100,7 @@ class WebIOScope extends WebIONode {
 
   constructor(
     scopeData: ScopeNodeData,
-    options: WebIONodeParams,
+    options: WebIONodeContext,
   ) {
     super(scopeData, options);
 

@@ -5,7 +5,7 @@ const baseConfig = require('../webpack.config.js');
 module.exports = merge(baseConfig, {
   context: path.resolve(__dirname, "src"),
   entry: {
-    "mux": "mux.ts",
+    "mux": ["@babel/polyfill", "mux.ts"],
   },
   output: {
     path: path.resolve(__dirname, 'dist/'),

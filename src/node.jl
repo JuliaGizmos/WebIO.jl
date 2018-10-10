@@ -130,7 +130,7 @@ function Base.show(io::IO, m::MIME"text/html", x::Node)
             data-webio-mountpoint="$(mountpoint_id)"
         >
             <script>
-            if (window.require || require.defined("nbextensions/webio/main")) {
+            if (window.require && require.defined && require.defined("nbextensions/webio/main")) {
                 console.log("Jupyter WebIO extension detected, not mounting.");
             } else if (window.WebIO) {
                 WebIO.mount(
