@@ -120,6 +120,8 @@ escape_json(x::Any) = escape_json(JSON.json(x))
 
 function Base.show(io::IO, m::MIME"text/html", x::Node)
     mountpoint_id = rand(UInt64)
+    # Is there any way to only include the require guard below for IJulia?
+    # I think IJulia defines their own ::IO type.
     write(
         io,
         """
@@ -128,10 +130,18 @@ function Base.show(io::IO, m::MIME"text/html", x::Node)
             data-webio-mountpoint="$(mountpoint_id)"
         >
             <script>
+            if (window.require || require.defined("nbextensions/webio/main")) {
+                console.log("Jupyter WebIO extension detected, not mounting.");
+            } else if (window.WebIO) {
                 WebIO.mount(
                     document.querySelector('[data-webio-mountpoint="$(mountpoint_id)"]'),
                     $(escape_json(x)),
-                )
+                );
+            } else {
+                document
+                    .querySelector('[data-webio-mountpoint="$(mountpoint_id)"]')
+                    .innerHTML = '<strong>WebIO not detected.</strong>';
+            }
             </script>
         </div>
         """
@@ -145,14 +155,11 @@ WEBIO_NODE_MIME = MIME"application/vnd.webio.node+json"
 Base.Multimedia.istextmime(::WEBIO_NODE_MIME) = true
 
 function Base.show(io::IO, m::WEBIO_NODE_MIME, node::Node)
-    write(io, JSON.json(Dict(
-        "type" => "node",
-        "node" => node,
-    )))
+    write(io, JSON.json(node))
 end
 
 Base.show(io::IO, m::MIME"text/html", x::Observable) = show(io, m, WebIO.render(x))
-Base.show(io::IO, m::WEBIO_NODE_MIME, x::Observable) = show(io, m, WebIO.render(x))
+Base.show(io::IO, m::WEBIO_NODE_MIME, x::Union{Observable, AbstractWidget}) = show(io, m, WebIO.render(x))
 
 function Base.show(io::IO, m::MIME"text/html", x::AbstractWidget)
     if !Widgets.isijulia()

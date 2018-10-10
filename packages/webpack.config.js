@@ -1,10 +1,15 @@
 const path = require('path');
 const webpack = require("webpack");
+const UglifyJSPlugin = require("uglifyjs-webpack-plugin");
 
 module.exports = {
 
   mode: "development",
   devtool: "cheap-module-source-map",
+
+  optimization: {
+    minimizer: [new UglifyJSPlugin()],
+  },
 
   // entry: {
   //   // Running in browser, we need polyfill for ES2015 support.

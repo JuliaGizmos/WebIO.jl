@@ -109,6 +109,7 @@ class WebIO {
     if (!element.parentElement) {
       throw new Error("Cannot mount WebIO node into HTMLElement that isn't mounted in DOM.")
     }
+    log("Mounting WebIO node.", {nodeData, element});
     const node = createNode(nodeData, {webIO: this});
     element.parentElement.replaceChild(node.element, element);
   }

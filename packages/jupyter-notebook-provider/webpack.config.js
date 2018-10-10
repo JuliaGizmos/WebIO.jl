@@ -5,7 +5,7 @@ const baseConfig = require('../webpack.config.js');
 module.exports = merge(baseConfig, {
   context: path.resolve(__dirname, "src"),
   entry: {
-    "jupyter-notebook-provider": "jupyter-notebook.js",
+    "main": ["@babel/polyfill", "jupyter-notebook.js"],
   },
   output: {
     library: undefined,

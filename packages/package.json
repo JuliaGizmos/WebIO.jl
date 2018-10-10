@@ -4,7 +4,8 @@
   "scripts": {
     "bootstrap": "lerna bootstrap",
     "postinstall": "bootstrap",
-    "build": "lerna run build"
+    "build": "lerna run build",
+    "build-prod": "lerna run build-prod"
   },
   "devDependencies": {
     "@babel/core": "^7.1.2",
@@ -14,6 +15,7 @@
     "lerna": "^3.4.1",
     "ts-loader": "^5.2.1",
     "typescript": "^3.1.1",
+    "uglifyjs-webpack-plugin": "^2.0.1",
     "webpack": "^4.20.2",
     "webpack-merge": "^4.1.4"
   },

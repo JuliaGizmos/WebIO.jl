@@ -30,32 +30,40 @@ function main()
         # copy of WebIO and IJulia.
         return
     end
-    key = AssetRegistry.register(joinpath(@__DIR__, "..", "..", "assets"))
 
-    display(HTML("""
-        <script class='js-collapse-script'>
-            var curMatch =
-                window.location.href
-                .match(/(.*?)\\/notebooks\\/.*\\.ipynb/);
+    # https://github.com/JuliaLang/IJulia.jl/pull/755
+    if isdefined(IJulia, :register_jsonmime)
+        IJulia.register_jsonmime(WEBIO_NODE_MIME())
+    else
+        @warn "IJulia doesn't have register_mime. WebIO may not work as expected."
+    end
 
-            curMatch = curMatch ||
-                window.location.href
-                .match(/(.*?)\\/apps\\/.*\\.ipynb/);
+    # TODO: we need to render a MIME bundle that's a no-op if the frontend
+    # nbextension is installed, but renders this HTML if it's not.
+    # Currently, WebIO in Jupyter without the accompanying nbextension results in WebIO not working
+    # (possibly silently?).
 
-            if ( curMatch ) {
-                \$('head').append('<base href="' + curMatch[1] + '/">');
-            }
-        </script>
-    """))
+    # key = AssetRegistry.register(joinpath(@__DIR__, "..", "..", "assets"))
+    # display(HTML("<script class='js-collapse-script' src='$(baseurl[])$key/webio/dist/bundle.js'></script>"))
+    # display(HTML("<script class='js-collapse-script' src='$(baseurl[])$key/providers/ijulia_setup.js'></script>"))
+    # display(HTML("""<script class='js-collapse-script'>\$('.js-collapse-script').parent('.output_subarea').css('padding', '0');</script>"""))
 
-    display(HTML("<script class='js-collapse-script' src='$(baseurl[])$key/webio/dist/bundle.js'></script>"))
-    display(HTML("<script class='js-collapse-script' src='$(baseurl[])$key/providers/ijulia_setup.js'></script>"))
-
-    display(HTML("""
-      <script class='js-collapse-script'>
-        \$('.js-collapse-script').parent('.output_subarea').css('padding', '0');
-      </script>
-    """))
+    # IJulia probably(?) shouldn't be adding tags to head in the notebook.
+    # display(HTML("""
+    #     <script class='js-collapse-script'>
+    #         var curMatch =
+    #             window.location.href
+    #             .match(/(.*?)\\/notebooks\\/.*\\.ipynb/);
+    #
+    #         curMatch = curMatch ||
+    #             window.location.href
+    #             .match(/(.*?)\\/apps\\/.*\\.ipynb/);
+    #
+    #         if ( curMatch ) {
+    #             \$('head').append('<base href="' + curMatch[1] + '/">');
+    #         }
+    #     </script>
+    # """))
 end
 
 WebIO.setup_provider(::Val{:ijulia}) = main() # calling setup_provider(Val(:ijulia)) will display the setup javascript

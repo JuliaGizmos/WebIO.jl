@@ -155,6 +155,44 @@ export const importJS = (importData: JSImport): any => {
   }
 };
 
+/**
+ * Import some href/url in a `<link />` tag.
+ * @param url
+ */
+const importLink = (url: string) => {
+  if (document.querySelector(`link[data-webio-import="${url}"]`)) {
+    debug("CSS resource (${url}) is already imported.");
+    // This actually has a slight race condition where if the import actually
+    // is still loading, we'll resolve immediately. Probably(?) not a big deal.
+    return Promise.resolve();
+  }
+
+  return new Promise((resolve, reject) => {
+    const link = document.createElement("link");
+    link.rel = "import";
+    link.href = url;
+    link.setAttribute("async", "");
+    link.onload = () => resolve();
+    link.onerror = () => {
+      link.remove();
+      reject();
+    };
+    document.head!.appendChild(link);
+  });
+};
+
+export const importCSS = (importData: CSSImport) => {
+  debug("Importing CSS resource.", importData);
+  const {url, blob} = importData;
+  if (url) {
+    return importLink(url);
+  } else if (blob) {
+    throw new Error(`Imports CSS blob is not yet implemented.`);
+  } else {
+    throw new Error(`One of blob or url must be specified in call to importCSS.`);
+  }
+};
+
 export const importSyncBlock = async (importData: SyncBlockImport): Promise<BlockImportResult> => {
   debug("Importing synchronous block.", importData);
   const results = [];
@@ -178,8 +216,11 @@ export const importResource = (importData: ConcreteImport): any | null => {
     case ImportType.JS:
       return importJS(importData);
 
+    case ImportType.CSS:
+      return importCSS(importData);
+
     default:
-      throw new Error(`not implemented`);
+      throw new Error(`Importing resource of type "${importData.type}" not supported.`);
   }
 };
 

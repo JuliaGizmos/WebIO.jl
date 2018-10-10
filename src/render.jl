@@ -81,7 +81,6 @@ function render_internal(child)
     render(child)
 end
 function render_internal(child::Observable)
-    # show(STDOUT, "text/plain", stacktrace())
     render_internal(observable_to_scope(child))
 end
 function render_internal(child::Node)
@@ -113,7 +112,6 @@ function observable_to_scope(obs::Observable)
         rich = richest_html(data)
         return rich
     end
-    scope["obs-output"] = output
 
     # Avoid not-executing <script> issues by initialising as an empty node and
     # updating later.
