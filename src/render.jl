@@ -99,6 +99,28 @@ function observable_to_scope(obs::Observable)
     # We must create output via the Observable(scope, ...) constructor so that
     # the onjs call below works (the js is attached to the scope, not the
     # observable itself).
+
+    if isa(obs[], Node)
+        #@info "Taking observable_to_scope Node route (scope.id=$(scope.id)). --travigd"
+        output = Observable{Node}(
+            scope,
+            "obs-node",
+            obs[],
+        )
+        # TODO: future values of obs might not be Nodes
+        map!(output, obs) do value
+            if !isa(value, Node)
+                @warn "A rendered observable (scope.id=$(scope.id), obs.id=$(obs.id)) changed from a WebIO node to $(typeof(value))."
+                return nothing
+            end
+            # @info "New node (scope.id=$(scope.id), obs.id=$(obs.id))! --travigd"
+            return value
+        end
+        ensure_sync(scope, "obs-node")
+        scope.dom = node(ObservableNode(output.id, "obs-node"))
+        return scope
+    end
+
     output = Observable{AbstractString}(
         scope,
         "obs-output",

@@ -108,6 +108,7 @@ class WebIOScope extends WebIONode {
 
     this.element = document.createElement("div");
     this.element.className = "webio-scope";
+    this.element.setAttribute("data-webio-scope-id",  scopeData.instanceArgs.id);
 
     const {id, observables = {}, handlers = {}} = scopeData.instanceArgs;
     this.id = id;
@@ -143,7 +144,7 @@ class WebIOScope extends WebIONode {
     // (Asynchronously) perform dependency initialization
     const {preDependencies = [], _promises = {}, ...restHandlers} = handlers;
     preDependencies
-      .map((functionString) => createWebIOEventListener(this.element, functionString, this))
+      .map((functionString) => createWebIOEventListener(this, functionString, this))
       .forEach((handler) => handler.call(this))
     ;
 
@@ -151,7 +152,7 @@ class WebIOScope extends WebIONode {
     // element and which have access to the _webIOScope resources variable (via closure).
     Object.keys(restHandlers).forEach((observableName) => {
       this.handlers[observableName] = handlers[observableName].map((handlerString) => {
-        return createWebIOEventListener(this.element, handlerString, this);
+        return createWebIOEventListener(this, handlerString, this);
       });
     });
 
@@ -164,7 +165,7 @@ class WebIOScope extends WebIONode {
       // a function which is expected to be an event listener... but this is kind of a
       // special case of that.
       debug("Invoking importsLoaded Scope handler.", {importsLoadedHandler, resources});
-      (createWebIOEventListener(this.element, importsLoadedHandler, this) as any)(...resources);
+      (createWebIOEventListener(this, importsLoadedHandler, this) as any)(...resources);
     }
 
     // Finally, create children.
@@ -187,12 +188,16 @@ class WebIOScope extends WebIONode {
     return resources;
   }
 
-  getObservableValue(observable: ObservableSpecifier) {
+  getObservable(observable: ObservableSpecifier) {
     const observableName = getObservableName(observable);
     if (!(observableName in this.observables)) {
       throw new Error(`Scope(id=${this.id}) has no observable named "${observableName}".`)
     }
-    return this.observables[observableName].value;
+    return this.observables[observableName];
+  }
+
+  getObservableValue(observable: ObservableSpecifier) {
+    return this.getObservable(observable).value;
   }
 
   /**
@@ -231,6 +236,7 @@ class WebIOScope extends WebIONode {
    * @deprecated
    */
   get dom() {
+    console.warn("scope.dom!");
     return this.element;
   }
 

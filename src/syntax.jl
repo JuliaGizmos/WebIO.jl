@@ -140,5 +140,6 @@ end
 
 # TRAVIGD: We actually want the JS expr's to be passed as normal JSON strings
 # because that makes escaping millions of times easier.
-jsexpr(io, x) = write(io, JSON.json(x))
-jsexpr(x) = JSON.json(x)
+jsexpr(io, x) = JSON.show_json(io, JSEvalSerialization(), x)
+jsexpr(x) = sprint(jsexpr, x)
+jsexpr(x::JSString) = x.s

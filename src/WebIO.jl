@@ -12,6 +12,7 @@ abstract type AbstractConnection end
 
 include("util.jl")
 include("node.jl")
+include("observable.jl")
 include("syntax.jl")
 include("scope.jl")
 include("render.jl")

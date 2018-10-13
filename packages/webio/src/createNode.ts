@@ -2,6 +2,7 @@ import WebIONode, {WebIONodeSchema, WebIONodeContext} from "./Node";
 import WebIODomNode, {DOM_NODE_TYPE} from "./DomNode";
 import WebIOScope, {SCOPE_NODE_TYPE} from "./Scope";
 import WebIOIFrame, {IFRAME_NODE_TYPE} from "./IFrame";
+import WebIOObservableNode, {OBSERVABLE_NODE_TYPE} from "./ObservableNode";
 
 /**
  * Map from node type to node class.
@@ -13,6 +14,7 @@ export const NODE_CLASSES: {[nodeType: string]: typeof WebIONode | undefined} = 
   [DOM_NODE_TYPE]: WebIODomNode,
   [SCOPE_NODE_TYPE]: WebIOScope,
   [IFRAME_NODE_TYPE]: WebIOIFrame,
+  [OBSERVABLE_NODE_TYPE]: WebIOObservableNode,
 };
 
 /**

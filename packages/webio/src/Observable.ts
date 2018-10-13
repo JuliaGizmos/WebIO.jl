@@ -4,6 +4,8 @@ export interface ObservableMap {
   [id: string]: WebIOObservable;
 }
 
+export type Subscription<T = any> = (value: T) => void;
+
 /**
  * Data that is sent from Julia/WebIO about the observable.
  */
@@ -18,6 +20,12 @@ class WebIOObservable<T = any> {
   readonly id: string;
   readonly sync: boolean;
   value: T;
+
+  /**
+   * An array of active subscriber/listener functions. These are evoked when
+   * the value of the observable changes.
+   */
+  private subscribers: Subscription<T>[] = [];
 
   constructor(
     name: string,
@@ -40,6 +48,7 @@ class WebIOObservable<T = any> {
    */
   setValue(newValue: T, sync: boolean = true) {
     this.value = newValue;
+    this.notifySubscribers();
     if (sync) {
       this.syncValue();
     }
@@ -59,6 +68,51 @@ class WebIOObservable<T = any> {
 
     // console.error(`WebIOObservable.syncValue not implemented.`);
     // this.scope.send
+  }
+
+  /**
+   * Register a new subscriber.
+   *
+   * @example
+   *    declare const obs: Observable<number>;
+   *    // We store a reference to listener so that we may give pass it to
+   *    // unsubscribe later.
+   *    const listener = (value: number) => {
+   *      console.log(`obs got ${value}!`);
+   *    };
+   *    obs.subscribe(listener);
+   *    // Later...
+   *    obs.unsubscribe(listener);
+   *
+   * @param subscriber - A function that is called every time the value of the
+   *    observable is called; the function is given the current value of the
+   *    observable.
+   */
+  subscribe(subscriber: Subscription<T>) {
+    this.subscribers.push(subscriber);
+  }
+
+  /**
+   * Deregister an existing subscriber.
+   *
+   * Note: this method requires that the reference to the original subscriber
+   *    function is retained (so that it can be used here).
+   *
+   * @param subscriber
+   */
+  unsubscribe(subscriber: Subscription<T>) {
+    const index = this.subscribers.indexOf(subscriber);
+    if (index != -1) {
+      this.subscribers.splice(index, 1);
+    }
+  }
+
+  /**
+   * Call each of the registered subscribers with the current value of the
+   * observable.
+   */
+  protected notifySubscribers() {
+    this.subscribers.forEach((subscriber) => subscriber(this.value));
   }
 }
 
