@@ -159,7 +159,7 @@ export const importJS = (importData: JSImport): any => {
  * Import some href/url in a `<link />` tag.
  * @param url
  */
-const importLink = (url: string) => {
+const importLink = (url: string, options: {rel?: string, type?: string, media?: string}) => {
   if (document.querySelector(`link[data-webio-import="${url}"]`)) {
     debug("CSS resource (${url}) is already imported.");
     // This actually has a slight race condition where if the import actually
@@ -169,7 +169,13 @@ const importLink = (url: string) => {
 
   return new Promise((resolve, reject) => {
     const link = document.createElement("link");
-    link.rel = "import";
+
+    // Apply options
+    const {rel, type, media} = options;
+    rel && (link.rel = rel);
+    type && (link.type = type);
+    media && (link.media = media);
+
     link.href = url;
     link.setAttribute("async", "");
     link.onload = () => resolve();
@@ -185,7 +191,11 @@ export const importCSS = (importData: CSSImport) => {
   debug("Importing CSS resource.", importData);
   const {url, blob} = importData;
   if (url) {
-    return importLink(url);
+    return importLink(url, {
+      rel: "stylesheet",
+      type: "text/css",
+      media: "all"
+    });
   } else if (blob) {
     throw new Error(`Imports CSS blob is not yet implemented.`);
   } else {

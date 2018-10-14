@@ -16963,7 +16963,7 @@ var importJS = function importJS(importData) {
  * @param url
  */
 
-var importLink = function importLink(url) {
+var importLink = function importLink(url, options) {
   if (document.querySelector("link[data-webio-import=\"".concat(url, "\"]"))) {
     debug("CSS resource (${url}) is already imported."); // This actually has a slight race condition where if the import actually
     // is still loading, we'll resolve immediately. Probably(?) not a big deal.
@@ -16972,8 +16972,14 @@ var importLink = function importLink(url) {
   }
 
   return new Promise(function (resolve, reject) {
-    var link = document.createElement("link");
-    link.rel = "import";
+    var link = document.createElement("link"); // Apply options
+
+    var rel = options.rel,
+        type = options.type,
+        media = options.media;
+    rel && (link.rel = rel);
+    type && (link.type = type);
+    media && (link.media = media);
     link.href = url;
     link.setAttribute("async", "");
 
@@ -16996,7 +17002,11 @@ var importCSS = function importCSS(importData) {
       blob = importData.blob;
 
   if (url) {
-    return importLink(url);
+    return importLink(url, {
+      rel: "stylesheet",
+      type: "text/css",
+      media: "all"
+    });
   } else if (blob) {
     throw new Error("Imports CSS blob is not yet implemented.");
   } else {
