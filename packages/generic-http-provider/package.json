@@ -1,6 +1,6 @@
 {
-  "name": "@webio/blink-provider",
-  "description": "Blink provider for WebIO.",
+  "name": "@webio/generic-http-provider",
+  "description": "Generic HTTP provider for WebIO.",
   "repository": "https://github.com/JuliaGizmos/WebIO.jl",
   "author": "Travis DePrato",
   "license": "MIT",

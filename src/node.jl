@@ -4,6 +4,12 @@ using JSON
 import FunctionalCollections: append
 export Node, node, instanceof, props
 
+const WEBIO_NODE_MIME = MIME"application/vnd.webio.node+json"
+Base.Multimedia.istextmime(::WEBIO_NODE_MIME) = true
+
+const WEBIO_APPLICATION_MIME = MIME"application/vnd.webio.application+html"
+Base.Multimedia.istextmime(::WEBIO_APPLICATION_MIME) = true
+
 struct Node{T}
     instanceof::T # if this changes the node must be *replaced*
 
@@ -150,9 +156,6 @@ function Base.show(io::IO, m::MIME"text/html", x::Node)
     # write(io, escapeHTML(sprint(s->jsexpr(s, x))))
     # write(io, ")</unsafe-script>")
 end
-
-WEBIO_NODE_MIME = MIME"application/vnd.webio.node+json"
-Base.Multimedia.istextmime(::WEBIO_NODE_MIME) = true
 
 function Base.show(io::IO, m::WEBIO_NODE_MIME, node::Node)
     write(io, JSON.json(node))

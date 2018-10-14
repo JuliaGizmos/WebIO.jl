@@ -3,7 +3,8 @@
     "webio",
     "jupyter-notebook-provider",
     "blink-provider",
-    "mux-provider"
+    "mux-provider",
+    "generic-http-provider"
   ],
   "version": "1.0.0"
 }

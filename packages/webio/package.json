@@ -1,8 +1,8 @@
 {
   "name": "@webio/webio",
-  "description": "Core frontend implementation of WebIO.",
+  "description": "Core implementation of the WebIO frontend.",
   "repository": "https://github.com/JuliaGizmos/WebIO.jl",
-  "author": "Shashi Gowda",
+  "author": "Travis DePrato",
   "license": "MIT",
   "version": "1.0.0",
   "main": "src/",

@@ -14,5 +14,5 @@ end
 using NBInclude
 
 @testset "Demo notebook" begin
-    @nbinclude(joinpath(@__DIR__, "..", "examples", "jupyter-demo.ipynb"))
+    @nbinclude(joinpath(@__DIR__, "assets", "jupyter-test.ipynb"))
 end

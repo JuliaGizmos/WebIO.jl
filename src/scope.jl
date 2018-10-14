@@ -182,12 +182,12 @@ end
 function setup_comm(f, ob::AbstractObservable)
     if haskey(observ_id_dict, ob)
         scope, key = observ_id_dict[ob]
-        if !(key in scope.value.private_obs)
-            evaljs(scope.value, js"""
-                   console.log(this)
-                   this.observables[$key].sync = true
-            """)
-        end
+        # if !(key in scope.value.private_obs)
+        #     evaljs(scope.value, js"""
+        #            console.log(this)
+        #            this.observables[$key].sync = true
+        #     """)
+        # end
     end
 end
 

@@ -98,6 +98,8 @@ class WebIOScope extends WebIONode {
   observables: {[observableName: string]: WebIOObservable};
   promises: ScopePromises;
 
+  get dom() { return this.element; }
+
   constructor(
     scopeData: ScopeNodeData,
     options: WebIONodeContext,
@@ -156,9 +158,25 @@ class WebIOScope extends WebIONode {
       });
     });
 
+    // Create children WebIONodes.
+    this.children = scopeData.children.map((nodeData) => {
+      if (typeof nodeData === "string") {
+        return nodeData;
+      }
+      return createNode(nodeData, {webIO: this.webIO, scope: this})
+    });
+    // Append children elements to our element.
+    for (const child of this.children) {
+      if (typeof child === "string") {
+        this.element.appendChild(document.createTextNode(child));
+      } else {
+        this.element.appendChild(child.element);
+      }
+    }
+
     const resources = imports ? await importBlock(imports) : null;
 
-    // TypeScript hackery to deal with out promiseHandlers is a very special case
+    // TypeScript hackery to deal with how promiseHandlers is a very special case
     const {importsLoaded: importsLoadedHandler} = _promises as any as PromiseHandlers;
     if (resources && importsLoadedHandler) {
       // `as any` necessary because createWebIOEventListener normally returns
@@ -166,21 +184,6 @@ class WebIOScope extends WebIONode {
       // special case of that.
       debug("Invoking importsLoaded Scope handler.", {importsLoadedHandler, resources});
       (createWebIOEventListener(this, importsLoadedHandler, this) as any)(...resources);
-    }
-
-    // Finally, create children.
-    this.children = scopeData.children.map((nodeData) => {
-      if (typeof nodeData === "string") {
-        return nodeData;
-      }
-      return createNode(nodeData, {webIO: this.webIO, scope: this})
-    });
-    for (const child of this.children) {
-      if (typeof child === "string") {
-        this.element.appendChild(document.createTextNode(child));
-      } else {
-        this.element.appendChild(child.element);
-      }
     }
 
     // This isn't super clean, but this function is used to create the
@@ -230,14 +233,6 @@ class WebIOScope extends WebIONode {
     listeners.forEach((listener) => {
       listener.call(this.element, this.getObservableValue(name), this);
     })
-  }
-
-  /**
-   * @deprecated
-   */
-  get dom() {
-    console.warn("scope.dom!");
-    return this.element;
   }
 
   // /**
