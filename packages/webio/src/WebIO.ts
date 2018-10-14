@@ -98,22 +98,27 @@ class WebIO {
   /**
    * Mount a WebIO node into the specified element.
    *
-   * This method replaces the existing element.
+   * This method overwrites the content of the element.
    *
    * @param element - The element to be replaced with the WebIO node.
-   * @param nodeData - The data associated with the WebIO node.
+   * @param nodeSchema - The data associated with the WebIO node.
    */
-  mount(element: WebIODomElement, nodeData: WebIONodeSchema) {
+  mount(element: WebIODomElement, nodeSchema: WebIONodeSchema) {
     if (!element) {
-      console.error("WebIO cannot mount node into element.", {element, nodeData});
+      console.error("WebIO cannot mount node into element.", {element, nodeData: nodeSchema});
       throw new Error(`WebIO cannot mount node into element.`);
     }
-    if (!element.parentElement) {
-      throw new Error("Cannot mount WebIO node into HTMLElement that isn't mounted in DOM.")
-    }
-    log("Mounting WebIO node.", {nodeData, element});
-    const node = createNode(nodeData, {webIO: this});
-    element.parentElement.replaceChild(node.element, element);
+    log("Mounting WebIO node.", {nodeData: nodeSchema, element});
+    const node = createNode(nodeSchema, {webIO: this});
+
+    // Reset the contents of the node we're mounting into.
+    element.innerHTML = "";
+    element.classList.add("webio-mountpoint");
+    // Temporary hack for @piever
+    // https://github.com/JuliaGizmos/WebIO.jl/pull/211#issuecomment-429672805
+    element.classList.add("interactbulma");
+
+    element.appendChild(node.element);
   }
 
 }
