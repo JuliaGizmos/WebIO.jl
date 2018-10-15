@@ -19,20 +19,20 @@ export const NODE_CLASSES: {[nodeType: string]: typeof WebIONode | undefined} = 
 
 /**
 * Create a new WebIO node (a scope or a DOM node).
-* @param nodeData
-* @param options
+* @param schema
+* @param context
 */
-const createNode = (nodeData: WebIONodeSchema, options: WebIONodeContext) => {
+const createNode = (schema: WebIONodeSchema, context: WebIONodeContext) => {
 
-  const NodeClass = NODE_CLASSES[nodeData.nodeType];
+  const NodeClass = NODE_CLASSES[schema.nodeType];
   if (NodeClass) {
     // We need any here to tell TypeScript that NodeClass isn't an abstract
     // class (because WebIONode **is** an abstract class but we will only have
     // subclasses in our NODE_CLASSES map).
-    return new (NodeClass as any)(nodeData, options);
+    return new (NodeClass as any)(schema, context);
   }
 
-  throw new Error(`Unknown WebIO node type: ${nodeData.nodeType}.`);
+  throw new Error(`Unknown WebIO node type: ${schema.nodeType}.`);
 };
 
 export default createNode;

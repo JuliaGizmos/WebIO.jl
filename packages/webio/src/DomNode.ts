@@ -6,7 +6,7 @@ import WebIONode, {
   WebIONodeSchema,
   WebIONodeContext,
 } from "./Node";
-import {createWebIOEventListener} from "./events";
+import {evalWithWebIOContext} from "./events";
 import createNode from "./createNode";
 
 export const DOM_NODE_TYPE = "DOM";
@@ -182,10 +182,10 @@ class WebIODomNode extends WebIONode {
     for (const eventName of Object.keys(events)) {
       const oldListener = this.eventListeners[eventName];
       const newListenerSource = events[eventName];
-      const newListener = newListenerSource && createWebIOEventListener(
+      const newListener = newListenerSource && evalWithWebIOContext(
         this.element,
         newListenerSource,
-        this.scope,
+        {scope: this.scope, webIO: this.webIO},
       );
 
       if (oldListener && !newListener) {

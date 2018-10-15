@@ -86,14 +86,6 @@ end
 
 ####### Rendering to HTML ########
 
-"""
-    noderepr = JSON.lower(node)
-
-Generate a Dict representation of a WebIO node (for JSON serialization).
-
-Inputs:
-* `node` is a WebIO node instance.
-"""
 function JSON.lower(n::Node)
     result = Dict{String, Any}(
         "type" => "node",
@@ -109,6 +101,7 @@ end
 
 """
 Escape characters for a "safe" representation of JSON.
+
 In particular, we escape '/' characters to avoid the presence of "</" (and
 especially "</script>") which cause the browser to break out of the current
 <script /> tag.
@@ -152,9 +145,6 @@ function Base.show(io::IO, m::MIME"text/html", x::Node)
         </div>
         """
     )
-    # # NOTE: do NOT add space between </div> and <unsafe-script>
-    # write(io, escapeHTML(sprint(s->jsexpr(s, x))))
-    # write(io, ")</unsafe-script>")
 end
 
 function Base.show(io::IO, m::WEBIO_NODE_MIME, node::Node)

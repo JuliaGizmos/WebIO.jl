@@ -12,10 +12,18 @@ export type WebIOSendCallback = (message: WebIOWireMessage) => void; // TODO: vo
 
 class WebIO {
 
+  /**
+   * A promise that is resolved when WebIO is connected to the Julia backend.
+   */
   readonly connected: Promise<void>;
+
   // We use ! to tell TypeScript that these will be set (see constructor for details).
   private resolveConnected!: () => void;
   private rejectConnected!: () => void;
+
+  /**
+   * A map from `scopeId` to the corresponding {@link WebIOScope} instance.
+   */
   private scopes: {[scopeId: string]: WebIOScope | undefined} = {};
   private sendCallback?: WebIOSendCallback;
 
@@ -60,6 +68,12 @@ class WebIO {
     }
   }
 
+  /**
+   * Set the send callback that WebIO will use.
+   *
+   * This method, when called for the first time, will also resolve the WebIO
+   * connected promise and send any messages that are waiting.
+   */
   setSendCallback(sendCallback: WebIOSendCallback) {
     log(`Setting WebIO sendCallback.`);
     this.sendCallback = sendCallback;
@@ -87,7 +101,7 @@ class WebIO {
   /**
    * Send a message to the WebIO Julia machinery.
    *
-   * Sets `type: "message" before passing to the send callback.
+   * Sets `type: "message"` before passing to the send callback.
    */
   async send(message: WebIOMessage) {
     await this.connected;

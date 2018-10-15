@@ -6,7 +6,7 @@ import WebIONode, {WebIONodeSchema, WebIONodeContext} from "./Node";
 import WebIOObservable, {ObservableData} from "./Observable";
 import {getObservableName, ObservableSpecifier, OptionalKeys} from "./utils";
 import {WebIOCommand, WebIOMessage} from "./message";
-import {createWebIOEventListener} from "./events";
+import {evalWithWebIOContext} from "./events";
 import WebIODomNode from "./DomNode";
 import createNode from "./createNode";
 import {BlockImport, importBlock} from "./imports";
@@ -23,9 +23,13 @@ export interface ScopeListeners {
   [handlerName: string]: Array<((value: any, scope?: WebIOScope) => void)> | undefined;
 }
 
-export interface ScopePromises {
+/**
+ * Promises associated with a scope.
+ */
+interface ScopePromises {
   importsLoaded: Promise<any[] | null>;
   connected: Promise<WebIOScope>;
+  [promiseName: string]: Promise<any> | undefined;
 }
 
 export const SCOPE_NODE_TYPE = "Scope";
@@ -33,7 +37,7 @@ export const SCOPE_NODE_TYPE = "Scope";
 /**
  * Data associated with a scope node.
  */
-export interface ScopeNodeData extends WebIONodeSchema {
+export interface ScopeSchema extends WebIONodeSchema {
   nodeType: typeof SCOPE_NODE_TYPE;
 
   instanceArgs: {
@@ -101,18 +105,18 @@ class WebIOScope extends WebIONode {
   get dom() { return this.element; }
 
   constructor(
-    scopeData: ScopeNodeData,
-    options: WebIONodeContext,
+    schema: ScopeSchema,
+    context: WebIONodeContext,
   ) {
-    super(scopeData, options);
+    super(schema, context);
 
-    debug("Creating new WebIOScope.", scopeData);
+    debug("Creating new WebIOScope.", schema);
 
     this.element = document.createElement("div");
     this.element.className = "webio-scope";
-    this.element.setAttribute("data-webio-scope-id",  scopeData.instanceArgs.id);
+    this.element.setAttribute("data-webio-scope-id",  schema.instanceArgs.id);
 
-    const {id, observables = {}, handlers = {}} = scopeData.instanceArgs;
+    const {id, observables = {}, handlers = {}} = schema.instanceArgs;
     this.id = id;
 
     // Create WebIOObservables.
@@ -126,13 +130,34 @@ class WebIOScope extends WebIONode {
     // TODO: refactor registerScope as described elsewhere
     this.webIO.registerScope(this);
 
-    // TODO: refactor way initialization/import promises are done
-    const initializationPromise = this.initialize(scopeData);
-
+    // TODO: this following is super messy and needs to be refactored.
+    /**
+     * The issue here is that we need to have this.promises hooked up before
+     * we create children... and we have to do the imports **after** we create
+     * the children. There's definitely a cleaner way to do this but my brain
+     * is a little bit fried right now.
+     *
+     * Currently, we just have a "dummy promise" that we create and then
+     * "manually" resolve **after** the imports are done, so that
+     * `this.promises` is set when we call `initialize` -- which we need since
+     * `initialize` creates children which might in turn (e.g. in the case of
+     * {@link ObservableNode}) rely on `this.promises`.
+     */
+    let resolveImportsLoaded: (...args: any[]) => void;
+    let rejectImportsLoaded: (...args: any[]) => void;
+    const importsLoadedPromise = new Promise<any[] | null>((resolve, reject) => {
+      resolveImportsLoaded = resolve;
+      rejectImportsLoaded = reject;
+    });
     this.promises = {
       connected: this.webIO.connected.then(() => this),
-      importsLoaded: initializationPromise,
+      importsLoaded: importsLoadedPromise,
     };
+
+    // This is super messy and should be refactored.
+    this.initialize(schema)
+      .then((...args) => resolveImportsLoaded(args))
+      .catch((...args) => rejectImportsLoaded(args));
 
     this.setupScope();
   }
@@ -140,13 +165,13 @@ class WebIOScope extends WebIONode {
   /**
    * Perform asynchronous initialization tasks.
    */
-  private async initialize(scopeData: ScopeNodeData) {
-    const {handlers = {}, imports} = scopeData.instanceArgs;
+  private async initialize(schema: ScopeSchema) {
+    const {handlers = {}, imports} = schema.instanceArgs;
 
     // (Asynchronously) perform dependency initialization
     const {preDependencies = [], _promises = {}, ...restHandlers} = handlers;
     preDependencies
-      .map((functionString) => createWebIOEventListener(this, functionString, this))
+      .map((functionString) => evalWithWebIOContext(this, functionString, {scope: this, webIO: this.webIO}))
       .forEach((handler) => handler.call(this))
     ;
 
@@ -154,12 +179,12 @@ class WebIOScope extends WebIONode {
     // element and which have access to the _webIOScope resources variable (via closure).
     Object.keys(restHandlers).forEach((observableName) => {
       this.handlers[observableName] = handlers[observableName].map((handlerString) => {
-        return createWebIOEventListener(this, handlerString, this);
+        return evalWithWebIOContext(this, handlerString, {scope: this, webIO: this.webIO});
       });
     });
 
     // Create children WebIONodes.
-    this.children = scopeData.children.map((nodeData) => {
+    this.children = schema.children.map((nodeData) => {
       if (typeof nodeData === "string") {
         return nodeData;
       }
@@ -179,15 +204,17 @@ class WebIOScope extends WebIONode {
     // TypeScript hackery to deal with how promiseHandlers is a very special case
     const {importsLoaded: importsLoadedHandler} = _promises as any as PromiseHandlers;
     if (resources && importsLoadedHandler) {
-      // `as any` necessary because createWebIOEventListener normally returns
-      // a function which is expected to be an event listener... but this is kind of a
-      // special case of that.
+      // `as any` is necessary because evalWithWebIOContext normally returns
+      // a function which is expected to be an event listener... but this is
+      // kind of a special case of that.
       debug("Invoking importsLoaded Scope handler.", {importsLoadedHandler, resources});
-      (createWebIOEventListener(this, importsLoadedHandler, this) as any)(...resources);
+      const handler = evalWithWebIOContext(this, importsLoadedHandler, {scope: this, webIO: this.webIO});
+      (handler as any)(...resources);
     }
 
     // This isn't super clean, but this function is used to create the
     // importsLoaded promise, so we need to return the promises.
+    // TODO: refactor this
     return resources;
   }
 
