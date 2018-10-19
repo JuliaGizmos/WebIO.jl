@@ -5,6 +5,7 @@
 // to externals in webpack.config.js.
 import * as Jupyter from "base/js/namespace";
 import {OutputArea} from "notebook/js/outputarea";
+import $ from "jquery";
 
 // This is included inside the bundle.
 import WebIO from "@webio/webio";
@@ -25,11 +26,6 @@ const WEBIO_METADATA_KEY = "@webio";
 let webIO = null;
 
 /**
- * Keep track of the id of the kernel to which WebIO is currently associated.
- */
-let kernelId = null;
-
-/**
  * Get WebIO metadata embedded within the notebook.
  * This contains information about the last kernel that was used with WebIO
  * and the id of the comm that was used (or null).
@@ -42,6 +38,24 @@ const getWebIOMetadata = () => {
 };
 
 /**
+ * Clear cell/output metadata associated with WebIO.
+ *
+ * This is useful if the kernel is changing so that we won't try to render
+ * WebIO nodes using the wrong kernel. It's not quite enough to just compare
+ * against the kernel's id because the kernel maintains its id across restarts
+ * (so we have to set all the stored kernel id's to null).
+ *
+ * @param cell
+ */
+const clearWebIOCellMetadata = (cell) => {
+  cell.output_area.outputs.forEach((output) => {
+    if (WEBIO_NODE_MIME in output.metadata) {
+      output.metadata[WEBIO_NODE_MIME].kernelId = null;
+    }
+  });
+};
+
+/**
  *
  * @param data - The data to set.
  * @param {string | null} data.lastKernelId - The id of the current kernel.
@@ -50,6 +64,10 @@ const getWebIOMetadata = () => {
 const setWebIOMetadata = (data = {lastKernelId: null, lastCommId: null}) => {
   debug("Setting WebIO notebook metadata.", data);
   Jupyter.notebook.metadata[WEBIO_METADATA_KEY] = data;
+  if (data.lastKernelId === null) {
+    debug("Clearing all WebIO cell/output metadata.");
+    Jupyter.notebook.get_cells().forEach(clearWebIOCellMetadata);
+  }
   Jupyter.notebook.set_dirty(true);
 };
 
@@ -62,7 +80,8 @@ const setWebIOMetadata = (data = {lastKernelId: null, lastCommId: null}) => {
  *    sometimes triggered more than once.
  */
 export const initializeWebIO = (force = false) => {
-  if (!force && webIO && Jupyter.notebook.kernel.id === kernelId) {
+  const {lastKernelId, lastCommId} = getWebIOMetadata();
+  if (!force && webIO && Jupyter.notebook.kernel.id === lastKernelId) {
     debug("Refusing to re-initialize WebIO when the kernel hasn't changed.");
     return;
   }
@@ -76,7 +95,6 @@ export const initializeWebIO = (force = false) => {
   // refreshes, there are four comms, three of which no longer exist, and so
   // the console is littered with error messages along the lines of
   // "Comm promise not found for comm id ..."
-  const {lastKernelId, lastCommId} = getWebIOMetadata();
   debug(`The last kernel id was ${lastKernelId} and the last comm id was ${lastCommId}. The current kernel id is ${Jupyter.notebook.kernel.id}.`);
   const shouldReuseCommId = (
     // To re-use the comm id, we need to be using the same kernel.
@@ -95,8 +113,6 @@ export const initializeWebIO = (force = false) => {
   console.warn("Setting new WebIO window global.");
   window.WebIO = webIO;
 
-  // Create supporting comm for WebIO to communicate.
-  kernelId = Jupyter.notebook.kernel.id;
   const commManager = Jupyter.notebook.kernel.comm_manager;
   commManager.register_target("webio_comm", () => {});
   const comm = commManager.new_comm(
@@ -134,6 +150,32 @@ export const initializeWebIO = (force = false) => {
  */
 const appendWebIONode = function (data, metadata, element) {
   debug("Rendering WebIO MIME type (called by Jupyter).", data);
+
+  // Set metadata attributes if not already set.
+  metadata[WEBIO_NODE_MIME] = metadata[WEBIO_NODE_MIME] || {};
+  metadata[WEBIO_NODE_MIME].kernelId = (
+    metadata[WEBIO_NODE_MIME].kernelId !== undefined
+    ? metadata[WEBIO_NODE_MIME].kernelId
+    : Jupyter.notebook.kernel.id
+  );
+
+  // Check if the widget was rendered against a different kernel.
+  // This avoids all the annoying messages about the client having an unknown
+  // scope, but has the drawback that nothing is rendered if the kernel that
+  // rendered this widget is gone.
+  if (metadata[WEBIO_NODE_MIME].kernelId !== Jupyter.notebook.kernel.id) {
+    const toInsert = this.create_output_subarea(metadata, "", WEBIO_NODE_MIME);
+    toInsert.append($(
+      "<div><p><strong>"
+      + "This WebIO widget was rendered for a Jupyter kernel that is no longer running. "
+      + "Re-run this cell to regenerate this widget."
+      + "</strong></p></div>"
+    ));
+    element.append(toInsert);
+    return;
+  }
+
+  // Otherwise, the widget belongs to the current kernel and we're okay.
   const toInsert = this.create_output_subarea(
     metadata,
     "output_webio rendered_html",
@@ -192,7 +234,19 @@ export const load_ipython_extension = () => {
     return setTimeout(load_ipython_extension, INITIALIZATION_DEBOUNCE);
   }
   initializeJupyterOutputType();
-  // initializeWebIO();
+
+  // Initialize WebIO and re-initialize every time the kernel is restarted/ready.
+  // This `comm_info` thing is an enormous hack around the fact that we can't
+  // figure out if the kernel is ready when the extension is loaded; it
+  // usually ISN'T if the notebook is cold (being opened for the first time) and
+  // usually IS if the notebook already has a kernel attached. We need it to be
+  // ready when we initialize WebIO so that the comm is in place appropriately
+  // ... or something? I don't exactly remember why.
+  // comm_info gets information (that we then ignore) about open comms of the
+  // specified target (here, it's "" because we don't care) then calls a
+  // callback function with the result; this ensures that the kernel is
+  // initialized and ready when we run initializeWebIO.
+  Jupyter.notebook.kernel.comm_info("", () => initializeWebIO());
   Jupyter.notebook.events.on(
     "kernel_ready.Kernel",
     () => initializeWebIO(),
@@ -204,7 +258,6 @@ export const load_ipython_extension = () => {
     "kernel_killed.Session kernel_restarting.Kernel",
     () => {
       setWebIOMetadata();
-      kernelId = null;
     },
   );
 };
