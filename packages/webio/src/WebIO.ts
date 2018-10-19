@@ -5,6 +5,7 @@ import {WebIOCommand, WebIOMessage, WebIOWireMessage} from "./message";
 import {WebIODomElement, WebIONodeSchema} from "./Node";
 import WebIOScope from "./Scope";
 import createNode, {NODE_CLASSES} from "./createNode";
+import {ObservableGlobalSpecifier} from "./utils";
 
 const log = debug("WebIO");
 
@@ -133,6 +134,50 @@ class WebIO {
     element.classList.add("interactbulma");
 
     element.appendChild(node.element);
+  }
+
+  getScope(scopeId: string): WebIOScope {
+    const scope = this.scopes[scopeId];
+    if (!scope) {
+      throw new Error(`WebIO has no scope (id: ${scopeId}).`);
+    }
+    return scope;
+  }
+
+  /**
+   * Get an {@link WebIOObservable} object.
+   *
+   * @throws Will throw an error if the scope does not exist or there is no
+   *    such observable within the scope.
+   */
+  getObservable({scope, name}: ObservableGlobalSpecifier) {
+    return this.getScope(scope).getLocalObservable(name);
+  }
+
+  /**
+   * Get the value of some observable.
+   *
+   * @deprecated This method is a shim for old WebIO functionally which relied
+   * on a global WebIO instance.
+   *
+   * @throws Will throw an error if the scope does not exist or there is no
+   *    such observable within the scope.
+   */
+  getval({scope, name}: ObservableGlobalSpecifier) {
+    return this.getScope(scope).getObservableValue(name);
+  }
+
+  /**
+   * Set the value of some observable.
+   *
+   * @deprecated This method is a shim for old WebIO functionally which relied
+   * on a global WebIO instance.
+   *
+   * @throws Will throw an error if the scope does not exist or there is no
+   *    such observable within the scope.
+   */
+  setval({scope, name}: ObservableGlobalSpecifier, value: any, sync: boolean = true) {
+    return this.getScope(scope).setObservableValue(name, value, sync);
   }
 
 }

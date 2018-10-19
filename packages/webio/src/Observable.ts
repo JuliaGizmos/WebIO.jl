@@ -15,6 +15,21 @@ export interface ObservableData<T = any> {
   sync: boolean;
 }
 
+/**
+ * A logical "observable" entity.
+ *
+ * An observable has a name (which is unique to a given scope), an id (which is
+ * unique to a given process), and a value, as well as a set of subscribers.
+ *
+ * Note that a single observable value might have more than one
+ * `WebIOObservable` instances (they will have the same id, and possibly even
+ * the same name, but exist in different scopes). If one of these observables
+ * changes, it is **not** the responsibility of the `WebIOObservable` to update
+ * any others. Typically, this update is done by syncing the value back to Julia
+ * and letting Julia issue updates for the other observables who live in other
+ * scopes.
+ *
+ */
 class WebIOObservable<T = any> {
   readonly name: string;
   readonly id: string;

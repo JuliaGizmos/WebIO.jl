@@ -218,12 +218,23 @@ class WebIOScope extends WebIONode {
     return resources;
   }
 
-  getObservable(observable: ObservableSpecifier) {
-    const observableName = getObservableName(observable);
-    if (!(observableName in this.observables)) {
+  getLocalObservable(observableName: string) {
+    // Only return a "local" observable
+    const obs = this.observables[observableName];
+    if (!obs) {
       throw new Error(`Scope(id=${this.id}) has no observable named "${observableName}".`)
     }
-    return this.observables[observableName];
+    return obs;
+  }
+
+  getObservable(observable: ObservableSpecifier) {
+    if (typeof observable === "string" || observable.scope === this.id) {
+      return this.getLocalObservable(getObservableName(observable));
+    }
+
+    // Otherwise, let the root WebIO instance find the correct scope and
+    // observable.
+    return this.webIO.getObservable(observable);
   }
 
   getObservableValue(observable: ObservableSpecifier) {
