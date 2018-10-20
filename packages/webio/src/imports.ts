@@ -1,4 +1,4 @@
-import SystemJS from "systemjs";
+import SystemJS, {Config as SystemJSConfig} from "systemjs";
 import createLogger from "debug";
 const debug = createLogger("WebIO:imports");
 
@@ -234,7 +234,10 @@ export const importResource = (importData: ConcreteImport): any | null => {
   }
 };
 
-export const importBlock = (importData: BlockImport) => {
+export const importBlock = (importData: BlockImport, config?: SystemJSConfig) => {
+  if (config) {
+    SystemJS.config(config);
+  }
   switch (importData.type) {
     case ImportType.SYNC_BLOCK:
       return importSyncBlock(importData);

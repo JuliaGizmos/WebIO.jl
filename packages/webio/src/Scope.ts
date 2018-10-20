@@ -1,5 +1,5 @@
+import {Config as SystemJSConfig} from "systemjs";
 import createLogger from "debug";
-import System from "systemjs";
 const debug = createLogger("WebIO:Scope");
 
 import WebIONode, {WebIONodeSchema, WebIONodeContext} from "./Node";
@@ -7,7 +7,6 @@ import WebIOObservable, {ObservableData} from "./Observable";
 import {getObservableName, ObservableSpecifier, OptionalKeys} from "./utils";
 import {WebIOCommand, WebIOMessage} from "./message";
 import {evalWithWebIOContext} from "./events";
-import WebIODomNode from "./DomNode";
 import createNode from "./createNode";
 import {BlockImport, importBlock} from "./imports";
 
@@ -80,6 +79,13 @@ export interface ScopeSchema extends WebIONodeSchema {
     };
 
     imports?: BlockImport;
+
+    /**
+     * Configuration to apply to SystemJS before importing the dependencies.
+     *
+     * See {@link https://github.com/systemjs/systemjs/blob/0.21/docs/config-api.md}.
+     */
+    systemjs_options: SystemJSConfig;
   }
 }
 
@@ -166,7 +172,7 @@ class WebIOScope extends WebIONode {
    * Perform asynchronous initialization tasks.
    */
   private async initialize(schema: ScopeSchema) {
-    const {handlers = {}, imports} = schema.instanceArgs;
+    const {handlers = {}, imports, systemjs_options: systemJSConfig} = schema.instanceArgs;
 
     // (Asynchronously) perform dependency initialization
     const {preDependencies = [], _promises = {}, ...restHandlers} = handlers;
@@ -199,7 +205,7 @@ class WebIOScope extends WebIONode {
       }
     }
 
-    const resources = imports ? await importBlock(imports) : null;
+    const resources = imports ? await importBlock(imports, systemJSConfig) : null;
 
     // TypeScript hackery to deal with how promiseHandlers is a very special case
     const {importsLoaded: importsLoadedHandler} = _promises as any as PromiseHandlers;
