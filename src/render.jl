@@ -100,6 +100,17 @@ function observable_to_scope(obs::Observable)
     # the onjs call below works (the js is attached to the scope, not the
     # observable itself).
 
+    if isa(obs[], Scope)
+        output = Observable(scope, "obs-scope", render_internal(obs[]))
+        map!(output, obs) do value
+            @info "Got a new value for scope within an observable. --travigd"
+            return render_internal(value)
+        end
+        ensure_sync(scope, "obs-scope")
+        scope.dom = node(ObservableNode(output.id, "obs-scope"))
+        return scope
+    end
+
     if isa(obs[], Node)
         #@info "Taking observable_to_scope Node route (scope.id=$(scope.id)). --travigd"
         output = Observable{Node}(

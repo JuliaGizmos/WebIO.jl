@@ -49,7 +49,7 @@ const getWebIOMetadata = () => {
  */
 const clearWebIOCellMetadata = (cell) => {
   cell.output_area.outputs.forEach((output) => {
-    if (WEBIO_NODE_MIME in output.metadata) {
+    if (output && output.metadata && WEBIO_NODE_MIME in output.metadata) {
       output.metadata[WEBIO_NODE_MIME].kernelId = null;
     }
   });
@@ -246,11 +246,23 @@ export const load_ipython_extension = () => {
   // specified target (here, it's "" because we don't care) then calls a
   // callback function with the result; this ensures that the kernel is
   // initialized and ready when we run initializeWebIO.
-  Jupyter.notebook.kernel.comm_info("", () => initializeWebIO());
-  Jupyter.notebook.events.on(
-    "kernel_ready.Kernel",
-    () => initializeWebIO(),
+  // TODO: rewrite the above now that we use send_shell_message
+  Jupyter.notebook.kernel.send_shell_message(
+    "kernel_info_request",
+    {},
+    {
+      shell: {
+        reply: () => {
+          debug("Initializing WebIO (got kernel_info_reply).");
+          initializeWebIO();
+        },
+      },
+    },
   );
+  Jupyter.notebook.events.on("kernel_ready.Kernel", () => {
+    debug("Initializing WebIO (got kernel_ready.Kernel event).");
+    initializeWebIO();
+  });
 
   // Mark the kernelId as null so that when we restart, we're forced to
   // re-create the WebIO instance.
