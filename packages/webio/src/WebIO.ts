@@ -6,6 +6,7 @@ import {WebIODomElement, WebIONodeSchema} from "./Node";
 import WebIOScope from "./Scope";
 import createNode, {NODE_CLASSES} from "./createNode";
 import {ObservableGlobalSpecifier} from "./utils";
+import WebIOObservable from "./Observable";
 
 const log = debug("WebIO");
 
@@ -26,9 +27,25 @@ class WebIO {
    * A map from `scopeId` to the corresponding {@link WebIOScope} instance.
    */
   private scopes: {[scopeId: string]: WebIOScope | undefined} = {};
+
+  /**
+   * A map from `observableId` to an array of corresponding
+   * {@link WebIOObservable} instances. We have an array of these instances
+   * since an observable may appear within several different scopes. Also note
+   * that we identify observables by id here, rather than by name, since the
+   * name may be different in different scopes; the ids are usually of the form
+   * `obs_123`.
+   */
+  private observables: {[observableId: string]: WebIOObservable[] | undefined} = {};
+
+  /**
+   * The function that WebIO uses to send data to the Julia backend.
+   */
   private sendCallback?: WebIOSendCallback;
 
-  // Add reference to NODE_CLASSES to allow for extension
+  /**
+   * A reference to {@link NODE_CLASSES} to allow for extension.
+   */
   static readonly NODE_CLASSES = NODE_CLASSES;
 
   constructor() {
@@ -41,7 +58,7 @@ class WebIO {
   }
 
   /**
-   * Dispatch a WebIO message.
+   * Dispatch a message into the WebIO JavaScript machinery.
    *
    * The message usually comes from the comm (e.g. WebSocket) that WebIO is
    * using to communicate.
@@ -98,6 +115,50 @@ class WebIO {
     log(`Registering WebIO scope (id: ${scope.id}).`);
     this.scopes[scope.id] = scope;
   }
+
+  /**
+   * A method called by observables to register themselves. This is used to
+   * ensure that observables are in a consistent state within the browser.
+   * @param observable
+   */
+  registerObservable(observable: WebIOObservable) {
+    const {id} = observable;
+    log(`Registering WebIO observable (id: ${observable.id}).`);
+    if (!this.observables[id]) {
+      this.observables[id] = [];
+    }
+    this.observables[observable.id]!.push(observable);
+  }
+
+  /**
+   * Ensure that all observable instances have the value off the
+   * `sourceObservable`.
+   *
+   * @param sourceObservable - The observable whose values are synchronized with
+   *    all other registered observables of the same id.
+   */
+  reconcileObservables(sourceObservable: WebIOObservable) {
+    const {id, name, value} = sourceObservable;
+    const observables = this.observables[id] || [];
+    log(`Reconciling ${observables.length} observables (id: ${id}).`);
+
+    if (observables.length < 1) {
+      console.warn(
+        `Tried to reconcile observables (id: ${id}, name: ${name}) but we don't know`
+        + `about any observables with that id.`
+      );
+      return;
+    }
+
+    for (const observable of observables) {
+      // Don't re-set the value of the observable that triggered the
+      // reconciliation.
+      if (observable === sourceObservable) continue;
+
+      log(`Reconciling observable "${observable.name}" in scope "${observable.scope.id}".`);
+      observable.setValue(value, false);
+    }
+  };
 
   /**
    * Send a message to the WebIO Julia machinery.

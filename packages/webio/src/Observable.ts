@@ -1,4 +1,7 @@
+import createLogger from "debug";
 import WebIOScope from "./Scope";
+
+const debug = createLogger("WebIO:Observable");
 
 export interface ObservableMap {
   [id: string]: WebIOObservable;
@@ -36,11 +39,15 @@ class WebIOObservable<T = any> {
   readonly sync: boolean;
   value: T;
 
+  get webIO() {
+    return this.scope.webIO;
+  }
+
   /**
    * An array of active subscriber/listener functions. These are evoked when
    * the value of the observable changes.
    */
-  private subscribers: Subscription<T>[] = [];
+  protected subscribers: Subscription<T>[] = [];
 
   constructor(
     name: string,
@@ -51,6 +58,7 @@ class WebIOObservable<T = any> {
     this.id = id;
     this.value = value;
     this.sync = sync;
+    this.webIO.registerObservable(this);
   }
 
   /**
@@ -62,6 +70,7 @@ class WebIOObservable<T = any> {
    *    always be `false` if the new value originated from Julia/WebIO itself.
    */
   setValue(newValue: T, sync: boolean = true) {
+    debug(`Setting value of observable (${this.name}/${this.id}).`, newValue);
     this.value = newValue;
     this.notifySubscribers();
     if (sync) {
@@ -76,13 +85,11 @@ class WebIOObservable<T = any> {
    * automatically when using `setValue` with `sync=true` (the default).
    */
   syncValue() {
+    this.webIO.reconcileObservables(this);
     return this.scope.send({
       command: this.name,
       data: this.value,
     });
-
-    // console.error(`WebIOObservable.syncValue not implemented.`);
-    // this.scope.send
   }
 
   /**
@@ -104,6 +111,7 @@ class WebIOObservable<T = any> {
    *    observable.
    */
   subscribe(subscriber: Subscription<T>) {
+    debug(`Attaching subscriber in Observable(${this.name}/${this.id}).`, this, subscriber);
     this.subscribers.push(subscriber);
   }
 
@@ -127,7 +135,10 @@ class WebIOObservable<T = any> {
    * observable.
    */
   protected notifySubscribers() {
-    this.subscribers.forEach((subscriber) => subscriber(this.value));
+    this.subscribers.forEach((subscriber) => {
+      debug(`Notifying subscriber in Observable(${this.name}/${this.id}).`);
+      subscriber(this.value);
+    });
   }
 }
 

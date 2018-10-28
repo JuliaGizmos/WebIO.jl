@@ -128,7 +128,9 @@ class WebIOScope extends WebIONode {
     // Create WebIOObservables.
     this.observables = {};
     Object.keys(observables).forEach((name) => {
-      this.observables[name] = new WebIOObservable(name, observables[name], this);
+      const observable = new WebIOObservable(name, observables[name], this);
+      this.observables[name] = observable;
+      observable.subscribe((value) => this.evokeObservableHandlers(name, value));
     });
 
     this.handlers = {};
@@ -147,7 +149,7 @@ class WebIOScope extends WebIONode {
      * "manually" resolve **after** the imports are done, so that
      * `this.promises` is set when we call `initialize` -- which we need since
      * `initialize` creates children which might in turn (e.g. in the case of
-     * {@link ObservableNode}) rely on `this.promises`.
+     * {@link WebIOObservableNode}) rely on `this.promises`.
      */
     let resolveImportsLoaded: (...args: any[]) => void;
     let rejectImportsLoaded: (...args: any[]) => void;
@@ -262,7 +264,15 @@ class WebIOScope extends WebIONode {
     }
     debug(`Setting Observable (name: ${observableName}) to "${value}" in WebIOScope (id: ${this.id}).`);
     this.observables[observableName].setValue(value, sync);
-    this.evokeListeners(observableName);
+  }
+
+  /**
+   * Send a message to the WebIO Julia machinery.
+   *
+   * Sets the scope id if not specified.
+   */
+  send({scope = this.id, ...rest}: OptionalKeys<WebIOMessage, "scope">) {
+    return this.webIO.send({scope, ...rest});
   }
 
   /**
@@ -270,26 +280,15 @@ class WebIOScope extends WebIONode {
    * that observable.
    *
    * @param name - The name of the observable whose listeners should be evoked.
+   * @param value - The current value of the observable.
    */
-  evokeListeners(name: string) {
-    const listeners = this.handlers[name];
-    if (!listeners) { return; }
+  protected evokeObservableHandlers(name: string, value: any) {
+    const listeners = this.handlers[name] || [];
+    debug(`Evoking ${listeners.length} observable handlers for observable "${name}".`);
     listeners.forEach((listener) => {
-      listener.call(this.element, this.getObservableValue(name), this);
+      listener.call(this, value, this);
     })
   }
-
-  // /**
-  //  * Connect to the WebIO Julia machinery.
-  //  */
-  // private async connect() {
-  //   await this.webIO.connected;
-  //   await this.send({
-  //     command: WebIOCommand.SETUP_SCOPE,
-  //     data: {},
-  //   });
-  //   return;
-  // }
 
   /**
    * Send the setup-scope message.
@@ -302,15 +301,6 @@ class WebIOScope extends WebIONode {
       command: WebIOCommand.SETUP_SCOPE,
       data: {},
     })
-  }
-
-  /**
-   * Send a message to the WebIO Julia machinery.
-   *
-   * Sets the scope id if not specified.
-   */
-  send({scope = this.id, ...rest}: OptionalKeys<WebIOMessage, "scope">) {
-    return this.webIO.send({scope, ...rest});
   }
 }
 

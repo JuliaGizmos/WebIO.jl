@@ -102,6 +102,9 @@ function observable_to_scope(obs::Observable)
 
     if isa(obs[], Scope)
         output = Observable(scope, "obs-scope", render_internal(obs[]))
+        @warn "Setting obs_scope global."
+        global obs_scope
+        obs_scope = output
         map!(output, obs) do value
             @info "Got a new value for scope within an observable. --travigd"
             return render_internal(value)
