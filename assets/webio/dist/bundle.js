@@ -2939,8 +2939,6 @@ function createScope(options, data) {
 
     scope.promises.connected = new Promise(function (accept, reject) {
         WebIO.onConnected(function () {
-            // internal message to notify julia
-            WebIO.send(scope, "_setup_scope", {});
             accept(scope);
         })
     })
@@ -2949,13 +2947,20 @@ function createScope(options, data) {
         appendChildren(scope, fragment, data.children);
     })
 
+    var callbackPromise = new Promise(function (acc, rej) {acc()}) // always accept
     if (handlers._promises !== undefined &&
         handlers._promises["importsLoaded"]){
         var onimportfns = handlers._promises["importsLoaded"]
-        depsPromise.then(function(alldeps){
+        callbackPromise = depsPromise.then(function(alldeps){
             onimportfns.map(function (f){ f.apply(scope, alldeps) })
         })
     }
+
+    Promise.all([scope.promises.connected, callbackPromise]).then(function () {
+        // internal message to notify julia that
+        // the scope can now receive messages
+        WebIO.send(scope, "_setup_scope", {})
+    })
 
     return fragment;
 }
