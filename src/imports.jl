@@ -10,7 +10,7 @@ end
 
 function path2url(path::AbstractString)
     if startswith(path, "/pkg/")
-        Base.warn_once("/pkg/ URLs are deprecated, load files with their absolute path in Scope")
+        @warn("/pkg/ URLs are deprecated, load files with their absolute path in Scope")
         return path
     elseif isfile(abspath(path))
         path = abspath(path)
