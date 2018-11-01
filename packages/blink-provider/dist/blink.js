@@ -15986,10 +15986,8 @@ function () {
       this.notifySubscribers();
 
       if (sync) {
-        return this.syncValue();
+        this.syncValue();
       }
-
-      return Promise.resolve();
     }
     /**
      * Synchronize the value stored within this observable with Julia/WebIO.
@@ -16358,6 +16356,7 @@ function (_WebIONode) {
       }),
       importsLoaded: importsLoadedPromise
     }; // This is super messy and should be refactored.
+    // We must do `setupScope` after imports are loaded (see pull #217).
 
     _this.initialize(schema).then(function () {
       for (var _len = arguments.length, args = new Array(_len), _key = 0; _key < _len; _key++) {
@@ -16365,6 +16364,8 @@ function (_WebIONode) {
       }
 
       return resolveImportsLoaded(args);
+    }).then(function () {
+      return _this.setupScope();
     }).catch(function () {
       for (var _len2 = arguments.length, args = new Array(_len2), _key2 = 0; _key2 < _len2; _key2++) {
         args[_key2] = arguments[_key2];
@@ -16372,8 +16373,6 @@ function (_WebIONode) {
 
       return rejectImportsLoaded(args);
     });
-
-    _this.setupScope();
 
     return _this;
   }

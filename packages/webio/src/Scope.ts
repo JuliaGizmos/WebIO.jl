@@ -163,11 +163,11 @@ class WebIOScope extends WebIONode {
     };
 
     // This is super messy and should be refactored.
+    // We must do `setupScope` after imports are loaded (see pull #217).
     this.initialize(schema)
       .then((...args) => resolveImportsLoaded(args))
+      .then(() => this.setupScope())
       .catch((...args) => rejectImportsLoaded(args));
-
-    this.setupScope();
   }
 
   /**

@@ -36,20 +36,8 @@ promote_instanceof(s::AbstractString) = promote_instanceof(Symbol(s))
 nodetype(n::Node) = typename(n.instanceof)
 typename(n::T) where {T} = string(T.name.name)
 
-# """
-# Any </script> tags in the js/html node representation can cause problems,
-# because if they are printed inside a <script> tag, even if they are in quotes in
-# a javascript string, the html parser will still read them as a closing script
-# tag, and thus end the script content prematurely, causing untold woe.
-# """
-# encode_scripts(htmlstr::String) =
-    # replace(htmlstr, "</script>" => "</_script>")
-
 function kwargs2props(propkwargs)
     props = Dict{Symbol,Any}(propkwargs)
-    # we no longer transform </script> into <_/script> -- travigd
-    # Symbol("setInnerHtml") in keys(props) &&
-    #     (props[:setInnerHtml] = encode_scripts(props[:setInnerHtml]))
     props # XXX IJulia/JSON bug? kernel seems to crash if this is a String not a Dict (which is obviously silly but still, it shouldn't crash the IJulia kernel)
 end
 
@@ -119,7 +107,7 @@ escape_json(x::Any) = escape_json(JSON.json(x))
 
 function Base.show(io::IO, m::MIME"text/html", x::Node)
     mountpoint_id = rand(UInt64)
-    # Is there any way to only include the require guard below for IJulia?
+    # Is there any way to only include the `require`-guard below for IJulia?
     # I think IJulia defines their own ::IO type.
     write(
         io,

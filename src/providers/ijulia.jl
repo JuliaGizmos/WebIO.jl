@@ -35,35 +35,49 @@ function main()
     if isdefined(IJulia, :register_jsonmime)
         IJulia.register_jsonmime(WEBIO_NODE_MIME())
     else
-        @warn "IJulia doesn't have register_mime. WebIO may not work as expected."
+        @warn "IJulia doesn't have register_mime; WebIO may not work as expected. Please upgrade to IJulia v1.13.0 or greater."
     end
 
-    # TODO: we need to render a MIME bundle that's a no-op if the frontend
-    # nbextension is installed, but renders this HTML if it's not.
-    # Currently, WebIO in Jupyter without the accompanying nbextension results in WebIO not working
-    # (possibly silently?).
+    key = AssetRegistry.register(joinpath(@__DIR__, "..", "..", "packages", "jupyter-notebook-provider", "dist"))
+    bundle = joinpath(key, "main.js")
 
-    # key = AssetRegistry.register(joinpath(@__DIR__, "..", "..", "assets"))
-    # display(HTML("<script class='js-collapse-script' src='$(baseurl[])$key/webio/dist/bundle.js'></script>"))
-    # display(HTML("<script class='js-collapse-script' src='$(baseurl[])$key/providers/ijulia_setup.js'></script>"))
-    # display(HTML("""<script class='js-collapse-script'>\$('.js-collapse-script').parent('.output_subarea').css('padding', '0');</script>"""))
-
-    # IJulia probably(?) shouldn't be adding tags to head in the notebook.
-    # display(HTML("""
-    #     <script class='js-collapse-script'>
-    #         var curMatch =
-    #             window.location.href
-    #             .match(/(.*?)\\/notebooks\\/.*\\.ipynb/);
-    #
-    #         curMatch = curMatch ||
-    #             window.location.href
-    #             .match(/(.*?)\\/apps\\/.*\\.ipynb/);
-    #
-    #         if ( curMatch ) {
-    #             \$('head').append('<base href="' + curMatch[1] + '/">');
-    #         }
-    #     </script>
-    # """))
+    script_id = "webio-setup-$(rand(UInt64))"
+    warning_div_id = "webio-warning-$(rand(UInt64))"
+    warning_text = "Loading WebIO Jupyter extension on an ad-hoc basis. Consider enabling the WebIO nbextension for a stabler experience (this should happen automatically when building WebIO)."
+    display(HTML("""
+        <script id="$(script_id)">
+        // Immediately-invoked-function-expression to avoid global variables.
+        (function() {
+            if (window.require && require.defined
+                    && !require.defined("nbextensions/webio/main")
+                    && !require.defined($(jsexpr(bundle)))) {
+                console.warn($(jsexpr(warning_text)));
+                require([$(jsexpr(bundle))], function (webIOModule) {
+                    webIOModule.load_ipython_extension();
+                });
+                // Remove `display: none` from warning div style.
+                var warning_div = document.getElementById("$(warning_div_id)");
+                warning_div.style.display = null;
+                warning_div.innerHTML = $(jsexpr("<strong>$(warning_text)</strong>"));
+            } else {
+                // Hide the output area this script is contained in since we're
+                // not displaying the warning (otherwise the output_area div
+                // will take up space due to padding).
+                var script = document.getElementById("$(script_id)");
+                var parent = script && script.parentElement;
+                var grandparent = parent && parent.parentElement;
+                if (grandparent) {
+                    grandparent.style.display = "none";
+                }
+            }
+        })();
+        </script>
+        <div
+            id="$(warning_div_id)"
+            class="output_text output_stderr"
+            style="display: none; padding: 1em; font-weight: bold;"
+        ></div>
+    """))
 end
 
 WebIO.setup_provider(::Val{:ijulia}) = main() # calling setup_provider(Val(:ijulia)) will display the setup javascript

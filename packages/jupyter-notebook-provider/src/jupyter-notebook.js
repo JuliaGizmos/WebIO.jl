@@ -48,7 +48,7 @@ const getWebIOMetadata = () => {
  * @param cell
  */
 const clearWebIOCellMetadata = (cell) => {
-  cell.output_area.outputs.forEach((output) => {
+  cell.output_area && cell.output_area.outputs.forEach((output) => {
     if (output && output.metadata && WEBIO_NODE_MIME in output.metadata) {
       output.metadata[WEBIO_NODE_MIME].kernelId = null;
     }
@@ -182,7 +182,9 @@ const appendWebIONode = function (data, metadata, element) {
     WEBIO_NODE_MIME,
   );
   element.append(toInsert);
+  Jupyter.notebook.keyboard_manager.register_events(toInsert);
   webIO.mount(toInsert.get(0), data);
+  return toInsert;
 };
 
 /**
@@ -190,19 +192,25 @@ const appendWebIONode = function (data, metadata, element) {
  * @param cell - The Jupyter cell to check.
  */
 const cellHasWebIOOutput = (cell) => {
-  return cell.output_area.outputs.some((output) => (
+  // Check for output_area first to check if it's a code cell.
+  return cell.output_area && cell.output_area.outputs.some((output) => (
     output.data && WEBIO_NODE_MIME in output.data
   ));
 };
 
 /**
- * Rerender all cells that contain WebIO outputs.
+ * Asynchronously re-rerender all cells that contain WebIO outputs.
  *
  * This method is required because, unfortunately, there's no way to hook up our
  * WebIO MIME renderer before the notebook is loaded.
  */
-const rerenderWebIOCells = async () => {
+export const rerenderWebIOCells = () => {
   debug("Rerendering all WebIO cells.");
+  if (!Jupyter.notebook._fully_loaded) {
+    debu("When rerendering WebIO cells, the notebook wasn't loaded; will try again in 250ms.");
+    setTimeout(rerenderWebIOCells, 250);
+    return;
+  }
   Jupyter.notebook.get_cells()
     .filter(cellHasWebIOOutput)
     .forEach((cell) => {

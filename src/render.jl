@@ -76,22 +76,20 @@ end
 
 htmlstring(val::AbstractString) = val
 
-# TODO: this is awkward
-function render_internal(child)
-    render(child)
-end
-function render_internal(child::Observable)
-    render_internal(observable_to_scope(child))
-end
-function render_internal(child::Node)
-    return JSON.lower(child)
-end
+render_internal(child) = render(child)
+render_internal(child::Observable) = render_internal(observable_to_scope(child))
+render_internal(child::Node) = JSON.lower(child)
 render_internal(child::Scope) = render_internal(node(child, child.dom))
+# Do we need a render_internal(::Widget)?
 
+"""
+Wrap an observable in a scope to enable "live updating."
+
+This method also contains distinct code paths for the cases where the observable
+contains "non-simple" data types (in particular, observables that contain
+Nodes, Scopes, or Widgets need specially handling).
+"""
 function observable_to_scope(obs::Observable)
-
-
-
     # Create scope that will contain our output observable for rendering.
     scope = Scope()
 
@@ -100,13 +98,10 @@ function observable_to_scope(obs::Observable)
     # the onjs call below works (the js is attached to the scope, not the
     # observable itself).
 
-    if isa(obs[], Scope)
+    # Do we need separate code paths for Scope/Widget and Node?
+    if isa(obs[], Scope) || isa(obs[], AbstractWidget)
         output = Observable(scope, "obs-scope", render_internal(obs[]))
-        @warn "Setting obs_scope global."
-        global obs_scope
-        obs_scope = output
         map!(output, obs) do value
-            @info "Got a new value for scope within an observable. --travigd"
             return render_internal(value)
         end
         ensure_sync(scope, "obs-scope")
@@ -115,19 +110,16 @@ function observable_to_scope(obs::Observable)
     end
 
     if isa(obs[], Node)
-        #@info "Taking observable_to_scope Node route (scope.id=$(scope.id)). --travigd"
-        output = Observable{Node}(
+        output = Observable(
             scope,
             "obs-node",
             obs[],
         )
-        # TODO: future values of obs might not be Nodes
         map!(output, obs) do value
             if !isa(value, Node)
                 @warn "A rendered observable (scope.id=$(scope.id), obs.id=$(obs.id)) changed from a WebIO node to $(typeof(value))."
                 return nothing
             end
-            # @info "New node (scope.id=$(scope.id), obs.id=$(obs.id))! --travigd"
             return value
         end
         ensure_sync(scope, "obs-node")

@@ -47,7 +47,7 @@ declare class WebIOObservable<T = any> {
      * @param sync - If `true`, send the new value to Julia/WebIO. This should
      *    always be `false` if the new value originated from Julia/WebIO itself.
      */
-    setValue(newValue: T, sync?: boolean): Promise<void>;
+    setValue(newValue: T, sync?: boolean): void;
     /**
      * Synchronize the value stored within this observable with Julia/WebIO.
      *

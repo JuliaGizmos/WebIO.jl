@@ -16078,10 +16078,8 @@ function () {
     this.notifySubscribers();
 
     if (sync) {
-      return this.syncValue();
+      this.syncValue();
     }
-
-    return Promise.resolve();
   };
   /**
    * Synchronize the value stored within this observable with Julia/WebIO.
@@ -16586,6 +16584,7 @@ function (_super) {
       }),
       importsLoaded: importsLoadedPromise
     }; // This is super messy and should be refactored.
+    // We must do `setupScope` after imports are loaded (see pull #217).
 
     _this.initialize(schema).then(function () {
       var args = [];
@@ -16595,6 +16594,8 @@ function (_super) {
       }
 
       return resolveImportsLoaded(args);
+    }).then(function () {
+      return _this.setupScope();
     }).catch(function () {
       var args = [];
 
@@ -16604,8 +16605,6 @@ function (_super) {
 
       return rejectImportsLoaded(args);
     });
-
-    _this.setupScope();
 
     return _this;
   }
@@ -17900,12 +17899,13 @@ exports.getObservableName = function (specifier) {
 /*!*****************************!*\
   !*** ./jupyter-notebook.js ***!
   \*****************************/
-/*! exports provided: initializeWebIO, load_ipython_extension */
+/*! exports provided: initializeWebIO, rerenderWebIOCells, load_ipython_extension */
 /***/ (function(module, __webpack_exports__, __webpack_require__) {
 
 "use strict";
 __webpack_require__.r(__webpack_exports__);
 /* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "initializeWebIO", function() { return initializeWebIO; });
+/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "rerenderWebIOCells", function() { return rerenderWebIOCells; });
 /* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "load_ipython_extension", function() { return load_ipython_extension; });
 /* harmony import */ var base_js_namespace__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! base/js/namespace */ "base/js/namespace");
 /* harmony import */ var base_js_namespace__WEBPACK_IMPORTED_MODULE_0___default = /*#__PURE__*/__webpack_require__.n(base_js_namespace__WEBPACK_IMPORTED_MODULE_0__);
@@ -17917,10 +17917,6 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony import */ var _webio_webio__WEBPACK_IMPORTED_MODULE_3___default = /*#__PURE__*/__webpack_require__.n(_webio_webio__WEBPACK_IMPORTED_MODULE_3__);
 /* harmony import */ var debug__WEBPACK_IMPORTED_MODULE_4__ = __webpack_require__(/*! debug */ "../../node_modules/debug/src/browser.js");
 /* harmony import */ var debug__WEBPACK_IMPORTED_MODULE_4___default = /*#__PURE__*/__webpack_require__.n(debug__WEBPACK_IMPORTED_MODULE_4__);
-function asyncGeneratorStep(gen, resolve, reject, _next, _throw, key, arg) { try { var info = gen[key](arg); var value = info.value; } catch (error) { reject(error); return; } if (info.done) { resolve(value); } else { Promise.resolve(value).then(_next, _throw); } }
-
-function _asyncToGenerator(fn) { return function () { var self = this, args = arguments; return new Promise(function (resolve, reject) { var gen = fn.apply(self, args); function _next(value) { asyncGeneratorStep(gen, resolve, reject, _next, _throw, "next", value); } function _throw(err) { asyncGeneratorStep(gen, resolve, reject, _next, _throw, "throw", err); } _next(undefined); }); }; }
-
 // Important note: this file is transpiled into an AMD-style module. These first
 // few imports are declared as external in webpack.config.js and thus are not
 // folded into the generated bundle, but rather, are resolved at runtime (via
@@ -17978,7 +17974,7 @@ var getWebIOMetadata = function getWebIOMetadata() {
 
 
 var clearWebIOCellMetadata = function clearWebIOCellMetadata(cell) {
-  cell.output_area.outputs.forEach(function (output) {
+  cell.output_area && cell.output_area.outputs.forEach(function (output) {
     if (output && output.metadata && WEBIO_NODE_MIME in output.metadata) {
       output.metadata[WEBIO_NODE_MIME].kernelId = null;
     }
@@ -18104,7 +18100,9 @@ var appendWebIONode = function appendWebIONode(data, metadata, element) {
 
   var toInsert = this.create_output_subarea(metadata, "output_webio rendered_html", WEBIO_NODE_MIME);
   element.append(toInsert);
+  base_js_namespace__WEBPACK_IMPORTED_MODULE_0__["notebook"].keyboard_manager.register_events(toInsert);
   webIO.mount(toInsert.get(0), data);
+  return toInsert;
 };
 /**
  * Return true if a cell has a WebIO output.
@@ -18113,46 +18111,33 @@ var appendWebIONode = function appendWebIONode(data, metadata, element) {
 
 
 var cellHasWebIOOutput = function cellHasWebIOOutput(cell) {
-  return cell.output_area.outputs.some(function (output) {
+  // Check for output_area first to check if it's a code cell.
+  return cell.output_area && cell.output_area.outputs.some(function (output) {
     return output.data && WEBIO_NODE_MIME in output.data;
   });
 };
 /**
- * Rerender all cells that contain WebIO outputs.
+ * Asynchronously re-rerender all cells that contain WebIO outputs.
  *
  * This method is required because, unfortunately, there's no way to hook up our
  * WebIO MIME renderer before the notebook is loaded.
  */
 
 
-var rerenderWebIOCells =
-/*#__PURE__*/
-function () {
-  var _ref2 = _asyncToGenerator(
-  /*#__PURE__*/
-  regeneratorRuntime.mark(function _callee() {
-    return regeneratorRuntime.wrap(function _callee$(_context) {
-      while (1) {
-        switch (_context.prev = _context.next) {
-          case 0:
-            debug("Rerendering all WebIO cells.");
-            base_js_namespace__WEBPACK_IMPORTED_MODULE_0__["notebook"].get_cells().filter(cellHasWebIOOutput).forEach(function (cell) {
-              debug("Rerendering cell:", cell);
-              base_js_namespace__WEBPACK_IMPORTED_MODULE_0__["notebook"].render_cell_output(cell);
-            });
+var rerenderWebIOCells = function rerenderWebIOCells() {
+  debug("Rerendering all WebIO cells.");
 
-          case 2:
-          case "end":
-            return _context.stop();
-        }
-      }
-    }, _callee, this);
-  }));
+  if (!base_js_namespace__WEBPACK_IMPORTED_MODULE_0__["notebook"]._fully_loaded) {
+    debu("When rerendering WebIO cells, the notebook wasn't loaded; will try again in 250ms.");
+    setTimeout(rerenderWebIOCells, 250);
+    return;
+  }
 
-  return function rerenderWebIOCells() {
-    return _ref2.apply(this, arguments);
-  };
-}();
+  base_js_namespace__WEBPACK_IMPORTED_MODULE_0__["notebook"].get_cells().filter(cellHasWebIOOutput).forEach(function (cell) {
+    debug("Rerendering cell:", cell);
+    base_js_namespace__WEBPACK_IMPORTED_MODULE_0__["notebook"].render_cell_output(cell);
+  });
+};
 
 var initializeJupyterOutputType = function initializeJupyterOutputType() {
   if (!notebook_js_outputarea__WEBPACK_IMPORTED_MODULE_1__["OutputArea"].output_types.includes(WEBIO_NODE_MIME)) {
