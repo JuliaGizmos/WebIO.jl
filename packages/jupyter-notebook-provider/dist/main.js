@@ -16622,7 +16622,7 @@ function (_super) {
 
   WebIOScope.prototype.initialize = function (schema) {
     return __awaiter(this, void 0, void 0, function () {
-      var _a, _b, handlers, imports, systemJSConfig, _c, preDependencies, _d, _promises, restHandlers, _i, _e, child, resources, _f, importsLoadedHandler, handler;
+      var _a, _b, handlers, imports, systemJSConfig, _c, preDependencies, _d, _promises, restHandlers, resources, _e, _i, _f, child, importsLoadedHandlers, handlers_1;
 
       var _this = this;
 
@@ -16648,8 +16648,28 @@ function (_super) {
                   webIO: _this.webIO
                 });
               });
-            }); // Create children WebIONodes.
+            });
+            if (!imports) return [3
+            /*break*/
+            , 2];
+            return [4
+            /*yield*/
+            , imports_1.importBlock(imports, systemJSConfig)];
 
+          case 1:
+            _e = _g.sent();
+            return [3
+            /*break*/
+            , 3];
+
+          case 2:
+            _e = null;
+            _g.label = 3;
+
+          case 3:
+            resources = _e; // Create children WebIONodes.
+
+            debug("Creating children for scope (id: " + this.id + ").");
             this.children = schema.children.map(function (nodeData) {
               if (typeof nodeData === "string") {
                 return nodeData;
@@ -16661,8 +16681,8 @@ function (_super) {
               });
             }); // Append children elements to our element.
 
-            for (_i = 0, _e = this.children; _i < _e.length; _i++) {
-              child = _e[_i];
+            for (_i = 0, _f = this.children; _i < _f.length; _i++) {
+              child = _f[_i];
 
               if (typeof child === "string") {
                 this.element.appendChild(document.createTextNode(child));
@@ -16671,40 +16691,26 @@ function (_super) {
               }
             }
 
-            if (!imports) return [3
-            /*break*/
-            , 2];
-            return [4
-            /*yield*/
-            , imports_1.importBlock(imports, systemJSConfig)];
+            importsLoadedHandlers = _promises.importsLoaded;
 
-          case 1:
-            _f = _g.sent();
-            return [3
-            /*break*/
-            , 3];
-
-          case 2:
-            _f = null;
-            _g.label = 3;
-
-          case 3:
-            resources = _f;
-            importsLoadedHandler = _promises.importsLoaded;
-
-            if (resources && importsLoadedHandler) {
-              // `as any` is necessary because evalWithWebIOContext normally returns
-              // a function which is expected to be an event listener... but this is
-              // kind of a special case of that.
-              debug("Invoking importsLoaded Scope handler.", {
-                importsLoadedHandler: importsLoadedHandler,
+            if (resources && importsLoadedHandlers) {
+              debug("Invoking importsLoaded handlers for scope (" + this.id + ").", {
+                scope: this,
+                importsLoadedHandlers: importsLoadedHandlers,
                 resources: resources
               });
-              handler = events_1.evalWithWebIOContext(this, importsLoadedHandler, {
-                scope: this,
-                webIO: this.webIO
+              handlers_1 = importsLoadedHandlers.map(function (handler) {
+                return events_1.evalWithWebIOContext(_this, handler, {
+                  scope: _this,
+                  webIO: _this.webIO
+                });
+              }); // `as any` is necessary because evalWithWebIOContext normally returns
+              // a function which is expected to be an event listener... but this is
+              // kind of a special case of that.
+
+              handlers_1.forEach(function (handler) {
+                return handler.apply(void 0, resources);
               });
-              handler.apply(void 0, resources);
             } // This isn't super clean, but this function is used to create the
             // importsLoaded promise, so we need to return the promises.
             // TODO: refactor this

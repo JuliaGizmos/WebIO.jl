@@ -48,35 +48,43 @@ function main()
         <script id="$(script_id)">
         // Immediately-invoked-function-expression to avoid global variables.
         (function() {
-            if (window.require && require.defined
-                    && !require.defined("nbextensions/webio/main")
-                    && !require.defined($(jsexpr(bundle)))) {
-                console.warn($(jsexpr(warning_text)));
-                require([$(jsexpr(bundle))], function (webIOModule) {
-                    webIOModule.load_ipython_extension();
-                });
-                // Remove `display: none` from warning div style.
-                var warning_div = document.getElementById("$(warning_div_id)");
-                warning_div.style.display = null;
-                warning_div.innerHTML = $(jsexpr("<strong>$(warning_text)</strong>"));
-            } else {
-                // Hide the output area this script is contained in since we're
-                // not displaying the warning (otherwise the output_area div
-                // will take up space due to padding).
+            var warning_div = document.getElementById("$(warning_div_id)");
+            var hide = function () {
                 var script = document.getElementById("$(script_id)");
                 var parent = script && script.parentElement;
                 var grandparent = parent && parent.parentElement;
                 if (grandparent) {
                     grandparent.style.display = "none";
                 }
+                warning_div.style.display = "none";
+            };
+            if (window.require && require.defined) {
+                // Jupyter notebook.
+                if (require.defined("nbextensions/webio/main")
+                        || require.defined($(jsexpr(bundle)))) {
+                    // Extension already loaded.
+                    hide();
+                    return;
+                }
+                console.warn($(jsexpr(warning_text)));
+                require([$(jsexpr(bundle))], function (webIOModule) {
+                    webIOModule.load_ipython_extension();
+                });
+                warning_div.innerHTML = $(jsexpr("<strong>$(warning_text)</strong>"));
+            } else if (window.location.pathname.includes("/lab")) {
+                // Guessing JupyterLab
+                warning_div.innerHTML = "WebIO does not support JupyterLab yet.";
             }
         })();
         </script>
         <div
             id="$(warning_div_id)"
             class="output_text output_stderr"
-            style="display: none; padding: 1em; font-weight: bold;"
-        ></div>
+            style="padding: 1em; font-weight: bold;"
+        >
+            Unable to load WebIO. Please make sure WebIO works for your Jupyter client.
+            <!-- TODO: link to installation docs. -->
+        </div>
     """))
 end
 

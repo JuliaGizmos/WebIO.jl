@@ -16385,7 +16385,7 @@ function (_WebIONode) {
       regeneratorRuntime.mark(function _callee() {
         var _this2 = this;
 
-        var _schema$instanceArgs2, _schema$instanceArgs3, handlers, imports, systemJSConfig, _handlers$preDependen, preDependencies, _handlers$_promises, _promises, restHandlers, _iteratorNormalCompletion, _didIteratorError, _iteratorError, _iterator, _step, child, resources, importsLoadedHandler, handler;
+        var _schema$instanceArgs2, _schema$instanceArgs3, handlers, imports, systemJSConfig, _handlers$preDependen, preDependencies, _handlers$_promises, _promises, restHandlers, resources, _iteratorNormalCompletion, _didIteratorError, _iteratorError, _iterator, _step, child, importsLoadedHandlers, _handlers;
 
         return regeneratorRuntime.wrap(function _callee$(_context) {
           while (1) {
@@ -16411,8 +16411,28 @@ function (_WebIONode) {
                       webIO: _this2.webIO
                     });
                   });
-                }); // Create children WebIONodes.
+                });
 
+                if (!imports) {
+                  _context.next = 10;
+                  break;
+                }
+
+                _context.next = 7;
+                return Object(_imports__WEBPACK_IMPORTED_MODULE_6__["importBlock"])(imports, systemJSConfig);
+
+              case 7:
+                _context.t0 = _context.sent;
+                _context.next = 11;
+                break;
+
+              case 10:
+                _context.t0 = null;
+
+              case 11:
+                resources = _context.t0;
+                // Create children WebIONodes.
+                debug("Creating children for scope (id: ".concat(this.id, ")."));
                 this.children = schema.children.map(function (nodeData) {
                   if (typeof nodeData === "string") {
                     return nodeData;
@@ -16427,7 +16447,7 @@ function (_WebIONode) {
                 _iteratorNormalCompletion = true;
                 _didIteratorError = false;
                 _iteratorError = undefined;
-                _context.prev = 8;
+                _context.prev = 17;
 
                 for (_iterator = this.children[Symbol.iterator](); !(_iteratorNormalCompletion = (_step = _iterator.next()).done); _iteratorNormalCompletion = true) {
                   child = _step.value;
@@ -16437,76 +16457,63 @@ function (_WebIONode) {
                   } else {
                     this.element.appendChild(child.element);
                   }
-                }
+                } // TypeScript hackery to deal with how promiseHandlers is a very special case
 
-                _context.next = 16;
+
+                _context.next = 25;
                 break;
 
-              case 12:
-                _context.prev = 12;
-                _context.t0 = _context["catch"](8);
+              case 21:
+                _context.prev = 21;
+                _context.t1 = _context["catch"](17);
                 _didIteratorError = true;
-                _iteratorError = _context.t0;
+                _iteratorError = _context.t1;
 
-              case 16:
-                _context.prev = 16;
-                _context.prev = 17;
+              case 25:
+                _context.prev = 25;
+                _context.prev = 26;
 
                 if (!_iteratorNormalCompletion && _iterator.return != null) {
                   _iterator.return();
                 }
 
-              case 19:
-                _context.prev = 19;
+              case 28:
+                _context.prev = 28;
 
                 if (!_didIteratorError) {
-                  _context.next = 22;
+                  _context.next = 31;
                   break;
                 }
 
                 throw _iteratorError;
 
-              case 22:
-                return _context.finish(19);
-
-              case 23:
-                return _context.finish(16);
-
-              case 24:
-                if (!imports) {
-                  _context.next = 30;
-                  break;
-                }
-
-                _context.next = 27;
-                return Object(_imports__WEBPACK_IMPORTED_MODULE_6__["importBlock"])(imports, systemJSConfig);
-
-              case 27:
-                _context.t1 = _context.sent;
-                _context.next = 31;
-                break;
-
-              case 30:
-                _context.t1 = null;
-
               case 31:
-                resources = _context.t1;
-                // TypeScript hackery to deal with how promiseHandlers is a very special case
-                importsLoadedHandler = _promises.importsLoaded;
+                return _context.finish(28);
 
-                if (resources && importsLoadedHandler) {
-                  // `as any` is necessary because evalWithWebIOContext normally returns
-                  // a function which is expected to be an event listener... but this is
-                  // kind of a special case of that.
-                  debug("Invoking importsLoaded Scope handler.", {
-                    importsLoadedHandler: importsLoadedHandler,
+              case 32:
+                return _context.finish(25);
+
+              case 33:
+                importsLoadedHandlers = _promises.importsLoaded;
+
+                if (resources && importsLoadedHandlers) {
+                  debug("Invoking importsLoaded handlers for scope (".concat(this.id, ")."), {
+                    scope: this,
+                    importsLoadedHandlers: importsLoadedHandlers,
                     resources: resources
                   });
-                  handler = Object(_events__WEBPACK_IMPORTED_MODULE_4__["evalWithWebIOContext"])(this, importsLoadedHandler, {
-                    scope: this,
-                    webIO: this.webIO
+                  _handlers = importsLoadedHandlers.map(function (handler) {
+                    return Object(_events__WEBPACK_IMPORTED_MODULE_4__["evalWithWebIOContext"])(_this2, handler, {
+                      scope: _this2,
+                      webIO: _this2.webIO
+                    });
+                  }); // `as any` is necessary because evalWithWebIOContext normally returns
+                  // a function which is expected to be an event listener... but this is
+                  // kind of a special case of that.
+
+                  _handlers.forEach(function (handler) {
+                    return handler.apply(void 0, _toConsumableArray(resources));
                   });
-                  handler.apply(void 0, _toConsumableArray(resources));
                 } // This isn't super clean, but this function is used to create the
                 // importsLoaded promise, so we need to return the promises.
                 // TODO: refactor this
@@ -16514,12 +16521,12 @@ function (_WebIONode) {
 
                 return _context.abrupt("return", resources);
 
-              case 35:
+              case 36:
               case "end":
                 return _context.stop();
             }
           }
-        }, _callee, this, [[8, 12, 16, 24], [17,, 19, 23]]);
+        }, _callee, this, [[17, 21, 25, 33], [26,, 28, 32]]);
       }));
     }
   }, {

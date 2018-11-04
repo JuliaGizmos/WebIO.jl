@@ -95,7 +95,7 @@ export interface ScopeSchema extends WebIONodeSchema {
  * @todo This needs to be refactored.
  */
 export interface PromiseHandlers {
-  importsLoaded?: string; // (imports: any[] | null) => void;
+  importsLoaded?: string[]; // (imports: any[] | null) => void;
   // TODO: other promise handlers?
 }
 
@@ -191,7 +191,10 @@ class WebIOScope extends WebIONode {
       });
     });
 
+    const resources = imports ? await importBlock(imports, systemJSConfig) : null;
+
     // Create children WebIONodes.
+    debug(`Creating children for scope (id: ${this.id}).`);
     this.children = schema.children.map((nodeData) => {
       if (typeof nodeData === "string") {
         return nodeData;
@@ -207,17 +210,17 @@ class WebIOScope extends WebIONode {
       }
     }
 
-    const resources = imports ? await importBlock(imports, systemJSConfig) : null;
-
     // TypeScript hackery to deal with how promiseHandlers is a very special case
-    const {importsLoaded: importsLoadedHandler} = _promises as any as PromiseHandlers;
-    if (resources && importsLoadedHandler) {
+    const {importsLoaded: importsLoadedHandlers} = _promises as any as PromiseHandlers;
+    if (resources && importsLoadedHandlers) {
+      debug(`Invoking importsLoaded handlers for scope (${this.id}).`, {scope: this, importsLoadedHandlers, resources});
+      const handlers = importsLoadedHandlers.map((handler) => {
+        return evalWithWebIOContext(this, handler, {scope: this, webIO: this.webIO})
+      });
       // `as any` is necessary because evalWithWebIOContext normally returns
       // a function which is expected to be an event listener... but this is
       // kind of a special case of that.
-      debug("Invoking importsLoaded Scope handler.", {importsLoadedHandler, resources});
-      const handler = evalWithWebIOContext(this, importsLoadedHandler, {scope: this, webIO: this.webIO});
-      (handler as any)(...resources);
+      handlers.forEach((handler) => (handler as any)(...resources));
     }
 
     // This isn't super clean, but this function is used to create the

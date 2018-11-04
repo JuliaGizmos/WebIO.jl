@@ -80,7 +80,7 @@ export interface ScopeSchema extends WebIONodeSchema {
  * @todo This needs to be refactored.
  */
 export interface PromiseHandlers {
-    importsLoaded?: string;
+    importsLoaded?: string[];
 }
 declare class WebIOScope extends WebIONode {
     readonly id: string;
