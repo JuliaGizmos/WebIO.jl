@@ -30,31 +30,61 @@ function main()
         # copy of WebIO and IJulia.
         return
     end
-    key = AssetRegistry.register(joinpath(@__DIR__, "..", "..", "assets"))
 
+    # https://github.com/JuliaLang/IJulia.jl/pull/755
+    if isdefined(IJulia, :register_jsonmime)
+        IJulia.register_jsonmime(WEBIO_NODE_MIME())
+    else
+        @warn "IJulia doesn't have register_mime; WebIO may not work as expected. Please upgrade to IJulia v1.13.0 or greater."
+    end
+
+    key = AssetRegistry.register(joinpath(@__DIR__, "..", "..", "packages", "jupyter-notebook-provider", "dist"))
+    bundle = joinpath(key, "main.js")
+
+    script_id = "webio-setup-$(rand(UInt64))"
+    warning_div_id = "webio-warning-$(rand(UInt64))"
+    warning_text = "Loading WebIO Jupyter extension on an ad-hoc basis. Consider enabling the WebIO nbextension for a stabler experience (this should happen automatically when building WebIO)."
     display(HTML("""
-        <script class='js-collapse-script'>
-            var curMatch =
-                window.location.href
-                .match(/(.*?)\\/notebooks\\/.*\\.ipynb/);
-
-            curMatch = curMatch ||
-                window.location.href
-                .match(/(.*?)\\/apps\\/.*\\.ipynb/);
-
-            if ( curMatch ) {
-                \$('head').append('<base href="' + curMatch[1] + '/">');
+        <script id="$(script_id)">
+        // Immediately-invoked-function-expression to avoid global variables.
+        (function() {
+            var warning_div = document.getElementById("$(warning_div_id)");
+            var hide = function () {
+                var script = document.getElementById("$(script_id)");
+                var parent = script && script.parentElement;
+                var grandparent = parent && parent.parentElement;
+                if (grandparent) {
+                    grandparent.style.display = "none";
+                }
+                warning_div.style.display = "none";
+            };
+            if (window.require && require.defined) {
+                // Jupyter notebook.
+                if (require.defined("nbextensions/webio/main")
+                        || require.defined($(jsexpr(bundle)))) {
+                    // Extension already loaded.
+                    hide();
+                    return;
+                }
+                console.warn($(jsexpr(warning_text)));
+                require([$(jsexpr(bundle))], function (webIOModule) {
+                    webIOModule.load_ipython_extension();
+                });
+                warning_div.innerHTML = $(jsexpr("<strong>$(warning_text)</strong>"));
+            } else if (window.location.pathname.includes("/lab")) {
+                // Guessing JupyterLab
+                warning_div.innerHTML = "WebIO does not support JupyterLab yet.";
             }
+        })();
         </script>
-    """))
-
-    display(HTML("<script class='js-collapse-script' src='$(baseurl[])$key/webio/dist/bundle.js'></script>"))
-    display(HTML("<script class='js-collapse-script' src='$(baseurl[])$key/providers/ijulia_setup.js'></script>"))
-
-    display(HTML("""
-      <script class='js-collapse-script'>
-        \$('.js-collapse-script').parent('.output_subarea').css('padding', '0');
-      </script>
+        <div
+            id="$(warning_div_id)"
+            class="output_text output_stderr"
+            style="padding: 1em; font-weight: bold;"
+        >
+            Unable to load WebIO. Please make sure WebIO works for your Jupyter client.
+            <!-- TODO: link to installation docs. -->
+        </div>
     """))
 end
 

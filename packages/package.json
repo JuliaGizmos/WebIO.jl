@@ -1,0 +1,26 @@
+{
+  "name": "root",
+  "private": true,
+  "scripts": {
+    "bootstrap": "lerna bootstrap",
+    "postinstall": "lerna bootstrap",
+    "build": "lerna run build",
+    "build-prod": "lerna run build-prod"
+  },
+  "devDependencies": {
+    "@babel/core": "^7.1.2",
+    "@babel/polyfill": "^7.0.0",
+    "@babel/preset-env": "^7.1.0",
+    "babel-loader": "^8.0.4",
+    "lerna": "^3.4.1",
+    "ts-loader": "^5.2.1",
+    "typescript": "^3.1.1",
+    "uglifyjs-webpack-plugin": "^2.0.1",
+    "webpack": "^4.20.2",
+    "webpack-merge": "^4.1.4"
+  },
+  "dependencies": {
+    "@types/debug": "0.0.31",
+    "debug": "^4.0.1"
+  }
+}

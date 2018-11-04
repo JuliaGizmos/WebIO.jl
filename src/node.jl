@@ -4,6 +4,12 @@ using JSON
 import FunctionalCollections: append
 export Node, node, instanceof, props
 
+const WEBIO_NODE_MIME = MIME"application/vnd.webio.node+json"
+Base.Multimedia.istextmime(::WEBIO_NODE_MIME) = true
+
+const WEBIO_APPLICATION_MIME = MIME"application/vnd.webio.application+html"
+Base.Multimedia.istextmime(::WEBIO_APPLICATION_MIME) = true
+
 struct Node{T}
     instanceof::T # if this changes the node must be *replaced*
 
@@ -30,20 +36,8 @@ promote_instanceof(s::AbstractString) = promote_instanceof(Symbol(s))
 nodetype(n::Node) = typename(n.instanceof)
 typename(n::T) where {T} = string(T.name.name)
 
-# """
-# Any </script> tags in the js/html node representation can cause problems,
-# because if they are printed inside a <script> tag, even if they are in quotes in
-# a javascript string, the html parser will still read them as a closing script
-# tag, and thus end the script content prematurely, causing untold woe.
-# """
-# encode_scripts(htmlstr::String) =
-    # replace(htmlstr, "</script>" => "</_script>")
-
 function kwargs2props(propkwargs)
     props = Dict{Symbol,Any}(propkwargs)
-    # we no longer transform </script> into <_/script> -- travigd
-    # Symbol("setInnerHtml") in keys(props) &&
-    #     (props[:setInnerHtml] = encode_scripts(props[:setInnerHtml]))
     props # XXX IJulia/JSON bug? kernel seems to crash if this is a String not a Dict (which is obviously silly but still, it shouldn't crash the IJulia kernel)
 end
 
@@ -80,14 +74,6 @@ end
 
 ####### Rendering to HTML ########
 
-"""
-    noderepr = JSON.lower(node)
-
-Generate a Dict representation of a WebIO node (for JSON serialization).
-
-Inputs:
-* `node` is a WebIO node instance.
-"""
 function JSON.lower(n::Node)
     result = Dict{String, Any}(
         "type" => "node",
@@ -103,6 +89,7 @@ end
 
 """
 Escape characters for a "safe" representation of JSON.
+
 In particular, we escape '/' characters to avoid the presence of "</" (and
 especially "</script>") which cause the browser to break out of the current
 <script /> tag.
@@ -120,6 +107,8 @@ escape_json(x::Any) = escape_json(JSON.json(x))
 
 function Base.show(io::IO, m::MIME"text/html", x::Node)
     mountpoint_id = rand(UInt64)
+    # Is there any way to only include the `require`-guard below for IJulia?
+    # I think IJulia defines their own ::IO type.
     write(
         io,
         """
@@ -128,41 +117,31 @@ function Base.show(io::IO, m::MIME"text/html", x::Node)
             data-webio-mountpoint="$(mountpoint_id)"
         >
             <script>
+            if (window.require && require.defined && require.defined("nbextensions/webio/main")) {
+                console.log("Jupyter WebIO extension detected, not mounting.");
+            } else if (window.WebIO) {
                 WebIO.mount(
                     document.querySelector('[data-webio-mountpoint="$(mountpoint_id)"]'),
                     $(escape_json(x)),
-                )
+                );
+            } else {
+                document
+                    .querySelector('[data-webio-mountpoint="$(mountpoint_id)"]')
+                    .innerHTML = '<strong>WebIO not detected.</strong>';
+            }
             </script>
         </div>
         """
     )
-    # # NOTE: do NOT add space between </div> and <unsafe-script>
-    # write(io, escapeHTML(sprint(s->jsexpr(s, x))))
-    # write(io, ")</unsafe-script>")
 end
 
-WEBIO_NODE_MIME = MIME"application/vnd.webio.node+json"
-Base.Multimedia.istextmime(::WEBIO_NODE_MIME) = true
-
 function Base.show(io::IO, m::WEBIO_NODE_MIME, node::Node)
-    write(io, JSON.json(Dict(
-        "type" => "node",
-        "node" => node,
-    )))
+    write(io, JSON.json(node))
 end
 
 Base.show(io::IO, m::MIME"text/html", x::Observable) = show(io, m, WebIO.render(x))
-Base.show(io::IO, m::WEBIO_NODE_MIME, x::Observable) = show(io, m, WebIO.render(x))
-
-function Base.show(io::IO, m::MIME"text/html", x::AbstractWidget)
-    if !Widgets.isijulia()
-        show(io, m, WebIO.render(x))
-    else
-        write(io, "<div class='tex2jax_ignore interactbulma'>\n")
-        show(io, m, WebIO.render(x))
-        write(io, "\n</div>")
-    end
-end
+Base.show(io::IO, m::WEBIO_NODE_MIME, x::Union{Observable, AbstractWidget}) = show(io, m, WebIO.render(x))
+Base.show(io::IO, m::MIME"text/html", x::AbstractWidget) = show(io, m, WebIO.render(x))
 
 ### Utility
 

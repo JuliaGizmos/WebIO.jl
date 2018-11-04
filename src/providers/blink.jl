@@ -1,9 +1,10 @@
 using AssetRegistry
 using Base64: stringmime
 
-const blinksetup = joinpath(dirname(@__FILE__), "..", "..",
-                            "packages", "webio", "dist",
-                            "blink.bundle.js")
+const blinksetup = joinpath(
+    dirname(@__FILE__), "..", "..",
+    "packages", "blink-provider", "dist", "blink.js"
+)
 
 using Sockets
 

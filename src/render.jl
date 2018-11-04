@@ -76,23 +76,20 @@ end
 
 htmlstring(val::AbstractString) = val
 
-# TODO: this is awkward
-function render_internal(child)
-    render(child)
-end
-function render_internal(child::Observable)
-    # show(STDOUT, "text/plain", stacktrace())
-    render_internal(observable_to_scope(child))
-end
-function render_internal(child::Node)
-    return JSON.lower(child)
-end
+render_internal(child) = render(child)
+render_internal(child::Observable) = render_internal(observable_to_scope(child))
+render_internal(child::Node) = JSON.lower(child)
 render_internal(child::Scope) = render_internal(node(child, child.dom))
+# Do we need a render_internal(::Widget)?
 
+"""
+Wrap an observable in a scope to enable "live updating."
+
+This method also contains distinct code paths for the cases where the observable
+contains "non-simple" data types (in particular, observables that contain
+Nodes, Scopes, or Widgets need specially handling).
+"""
 function observable_to_scope(obs::Observable)
-
-
-
     # Create scope that will contain our output observable for rendering.
     scope = Scope()
 
@@ -100,6 +97,36 @@ function observable_to_scope(obs::Observable)
     # We must create output via the Observable(scope, ...) constructor so that
     # the onjs call below works (the js is attached to the scope, not the
     # observable itself).
+
+    # Do we need separate code paths for Scope/Widget and Node?
+    if isa(obs[], Scope) || isa(obs[], AbstractWidget)
+        output = Observable(scope, "obs-scope", render_internal(obs[]))
+        map!(output, obs) do value
+            return render_internal(value)
+        end
+        ensure_sync(scope, "obs-scope")
+        scope.dom = node(ObservableNode(output.id, "obs-scope"))
+        return scope
+    end
+
+    if isa(obs[], Node)
+        output = Observable(
+            scope,
+            "obs-node",
+            obs[],
+        )
+        map!(output, obs) do value
+            if !isa(value, Node)
+                @warn "A rendered observable (scope.id=$(scope.id), obs.id=$(obs.id)) changed from a WebIO node to $(typeof(value))."
+                return nothing
+            end
+            return value
+        end
+        ensure_sync(scope, "obs-node")
+        scope.dom = node(ObservableNode(output.id, "obs-node"))
+        return scope
+    end
+
     output = Observable{AbstractString}(
         scope,
         "obs-output",
@@ -113,7 +140,6 @@ function observable_to_scope(obs::Observable)
         rich = richest_html(data)
         return rich
     end
-    scope["obs-output"] = output
 
     # Avoid not-executing <script> issues by initialising as an empty node and
     # updating later.

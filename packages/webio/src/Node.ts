@@ -1,11 +1,6 @@
-import debug from "debug";
-const log = debug("WebIO:Node");
-
 import WebIO from "./WebIO";
-import WebIOScope, {ScopeNodeData} from "./Scope";
-import WebIODomNode, {DomNodeData} from "./DomNode";
+import WebIOScope from "./Scope";
 import setInnerHTML from "./setInnerHTML";
-import {IFrameNodeData} from "./IFrame";
 
 /**
  * Union of all WebIO supported DOM elements.
@@ -20,29 +15,31 @@ import {IFrameNodeData} from "./IFrame";
  */
 export type WebIODomElement = HTMLElement | SVGElement | HTMLInputElement;
 
-// This was originally designed thinking that a Scope was a type of node,
-// but the thinking on that has changed.
-// And now, I'm thinking it has changed back.
-export type WebIONodeData = DomNodeData | ScopeNodeData | IFrameNodeData;
-export const enum WebIONodeType {
-  DOM = "DOM",
-  SCOPE = "Scope",
-  IFRAME = "IFrame",
+/**
+ * Abstract base interface for "node schema."
+ *
+ * "Node schema" is the data used to construct `WebIONode` instances and is the
+ * data that is passed over the comm from Julia to the browser.
+ *
+ * Sub-interfaces (corresponding to various node types) may have other members.
+ */
+export interface WebIONodeSchema {
+  type: "node";
+  nodeType: string;
+  children: Array<WebIONodeSchema | string>;
+  instanceArgs: {};
 }
 
 /**
- * Abstract base interface for "node data."
+ * The "context" where the node is being created.
  *
- * "Node data" is the data used to construct `WebIONode` instances and is the
- * data that is passed over the comm from Julia to the browser.
+ * `scope` refers to the closest-ancestor scope, or undefined if there is no
+ * ancestor scope. This is used to resolve observable references in a
+ * hierarchical fashion.
+ *
+ * `webIO` refers to the top-level WebIO instance.
  */
-export interface WebIONodeDataBase {
-  type: "node";
-  nodeType: WebIONodeType;
-  children: Array<WebIONodeData | string>;
-}
-
-export interface WebIONodeParams {
+export interface WebIONodeContext {
   scope?: WebIOScope;
   webIO: WebIO;
 }
@@ -76,8 +73,8 @@ abstract class WebIONode {
   readonly webIO: WebIO;
 
   protected constructor(
-    private readonly nodeData: WebIONodeData,
-    options: WebIONodeParams,
+    private readonly nodeData: WebIONodeSchema,
+    options: WebIONodeContext,
   ) {
     const {scope, webIO} = options;
     this.scope = scope;

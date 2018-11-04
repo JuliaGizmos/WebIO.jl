@@ -1,4 +1,4 @@
-import WebIO from "../WebIO";
+import WebIO from "@webio/webio";
 
 /**
  * Tell TypeScript that the `Blink` global exists.

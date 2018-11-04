@@ -1,27 +1,42 @@
 import createLogger from "debug";
 const debug = createLogger("WebIO:IFrame");
 
-import WebIONode, {WebIONodeDataBase, WebIONodeParams, WebIONodeType} from "./Node";
+import WebIONode, {WebIONodeSchema, WebIONodeContext} from "./Node";
 import setInnerHTML from "./setInnerHTML";
 
+export const IFRAME_NODE_TYPE = "IFrame";
+
 /**
- * Data associated with an IFrame node.
+ * Schema required to construct an IFrame node.
  */
-export interface IFrameNodeData extends WebIONodeDataBase {
-  nodeType: WebIONodeType.IFRAME;
+export interface IFrameNodeSchema extends WebIONodeSchema {
+  nodeType: typeof IFRAME_NODE_TYPE;
 
   instanceArgs: {
     innerHTML: string;
   }
 }
 
+/**
+ * A WebIO IFrame node.
+ *
+ * This renders WebIO content within a (mostly) isolate IFrame. Both the IFrame
+ * and the parent page share the same WebIO instance.
+ *
+ * IMPORANT: IFrames have **huge** overhead on a browser page because they
+ * require a whole new page context (it's pretty much the same as opening a
+ * new tab). Using many IFrames will result in huge memory usage.
+ *
+ * NOTE: We don't have a good way to style IFrames such that they're exactly the
+ * size of the content within them. RIP.
+ */
 class WebIOIFrame extends WebIONode {
   readonly element: HTMLIFrameElement;
   children: null = null;
 
   constructor(
-    iframeData: IFrameNodeData,
-    options: WebIONodeParams,
+    iframeData: IFrameNodeSchema,
+    options: WebIONodeContext,
   ) {
     super(iframeData, options);
 

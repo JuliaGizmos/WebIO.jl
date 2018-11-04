@@ -1,4 +1,4 @@
-import SystemJS from "systemjs";
+import SystemJS, {Config as SystemJSConfig} from "systemjs";
 import createLogger from "debug";
 const debug = createLogger("WebIO:imports");
 
@@ -155,6 +155,54 @@ export const importJS = (importData: JSImport): any => {
   }
 };
 
+/**
+ * Import some href/url in a `<link />` tag.
+ * @param url
+ */
+const importLink = (url: string, options: {rel?: string, type?: string, media?: string}) => {
+  if (document.querySelector(`link[data-webio-import="${url}"]`)) {
+    debug("CSS resource (${url}) is already imported.");
+    // This actually has a slight race condition where if the import actually
+    // is still loading, we'll resolve immediately. Probably(?) not a big deal.
+    return Promise.resolve();
+  }
+
+  return new Promise((resolve, reject) => {
+    const link = document.createElement("link");
+
+    // Apply options
+    const {rel, type, media} = options;
+    rel && (link.rel = rel);
+    type && (link.type = type);
+    media && (link.media = media);
+
+    link.href = url;
+    link.setAttribute("async", "");
+    link.onload = () => resolve();
+    link.onerror = () => {
+      link.remove();
+      reject();
+    };
+    document.head!.appendChild(link);
+  });
+};
+
+export const importCSS = (importData: CSSImport) => {
+  debug("Importing CSS resource.", importData);
+  const {url, blob} = importData;
+  if (url) {
+    return importLink(url, {
+      rel: "stylesheet",
+      type: "text/css",
+      media: "all"
+    });
+  } else if (blob) {
+    throw new Error(`Imports CSS blob is not yet implemented.`);
+  } else {
+    throw new Error(`One of blob or url must be specified in call to importCSS.`);
+  }
+};
+
 export const importSyncBlock = async (importData: SyncBlockImport): Promise<BlockImportResult> => {
   debug("Importing synchronous block.", importData);
   const results = [];
@@ -178,12 +226,18 @@ export const importResource = (importData: ConcreteImport): any | null => {
     case ImportType.JS:
       return importJS(importData);
 
+    case ImportType.CSS:
+      return importCSS(importData);
+
     default:
-      throw new Error(`not implemented`);
+      throw new Error(`Importing resource of type "${importData.type}" not supported.`);
   }
 };
 
-export const importBlock = (importData: BlockImport) => {
+export const importBlock = (importData: BlockImport, config?: SystemJSConfig) => {
+  if (config) {
+    SystemJS.config(config);
+  }
   switch (importData.type) {
     case ImportType.SYNC_BLOCK:
       return importSyncBlock(importData);

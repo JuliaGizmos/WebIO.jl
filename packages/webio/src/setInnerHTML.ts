@@ -22,7 +22,7 @@ const setInnerHTML = (element: WebIODomElement, html: string) => {
   // We do this weird array coercion because getElementsByTagName returns a
   // HTMLCollection object, which updates as the contents of element update
   // (creating an infinite loop).
-  const scripts = [...(element.getElementsByTagName("script") as any as HTMLScriptElement[])];
+  const scripts = Array.from(element.getElementsByTagName("script"));
   scripts.forEach((oldScript) => {
     const newScript = document.createElement("script");
 

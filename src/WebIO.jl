@@ -12,6 +12,7 @@ abstract type AbstractConnection end
 
 include("util.jl")
 include("node.jl")
+include("observable.jl")
 include("syntax.jl")
 include("scope.jl")
 include("render.jl")
@@ -30,8 +31,17 @@ setup_provider(s::Union{Symbol, AbstractString}) = setup_provider(Val(Symbol(s))
 export setup_provider
 
 const baseurl = Ref{String}("")
-const assetpath = joinpath(@__DIR__, "..", "assets")
-const bundlepath = joinpath(assetpath, "webio", "dist", "bundle.js")
+
+"""
+The filesystem path where the WebIO frontend packages lives.
+"""
+const packagepath = normpath(joinpath(@__DIR__, "..", "packages"))
+
+"""
+A union of all WebIO renderable types.
+"""
+const Application = Union{Scope, Node, AbstractWidget, Observable}
+export Application
 
 function setbaseurl!(str)
     baseurl[] = str

@@ -3,9 +3,10 @@ using WebSockets
 using Test
 
 @testset "HTTP provider" begin
-    output = sprint(io-> show(io, MIME"application/webio"(), node(:div, "hi")))
-    @test occursin("<script> var websocket_url = \"ws://127.0.0.1:8081/webio_websocket/\" </script>", output)
-    @test occursin("""{"props":{},"nodeType":"DOM","type":"node","instanceArgs":{"namespace":"html","tag":"div"},"children":["hi"]}""", output)
+    output = sprint(io-> show(io, WebIO.WEBIO_APPLICATION_MIME(), node(:div, "hello, world")))
+    @test occursin("_webIOWebSocketURL = ", output)
+    @test occursin("ws://127.0.0.1:8081/webio_websocket/", output)
+    @test occursin("""hello, world""", output)
     @test WebIO.webio_server_config[] == (url = "127.0.0.1", http_port = 8081, ws_url = "ws://127.0.0.1:8081/webio_websocket/")
     @test isassigned(WebIO.singleton_instance)
 end
@@ -17,26 +18,29 @@ app = Ref{Any}(node(:div, "hi"))
 function serve_app(req)
     if req.target == "/"
         return sprint() do io
-            print(io, """
+            print(io,
+                """
                 <!doctype html>
                 <html>
                 <head>
                 <meta charset="UTF-8">
                 </head>
                 <body>
-            """)
-            show(io, MIME"application/webio"(), app[])
-            print(io, "
+                """
+            )
+            show(io, WebIO.WEBIO_APPLICATION_MIME(), app[])
+            print(io,
+                """
                 </body>
                 </html>
-            ")
+                """
+            )
         end
     else
         return missing
     end
 end
 server = WebIO.WebIOServer(serve_app, logger = stdout, verbose = true)
-WebIO.wio_asseturl("/webio/dist/bundle.js")
 server.serve_task
 
 w = Scope()
