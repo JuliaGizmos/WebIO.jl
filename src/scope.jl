@@ -97,6 +97,12 @@ mutable struct Scope
     private_obs::Set{String}
     systemjs_options
     imports
+
+    # A collection of handler functions associated with various observables in
+    # this scope. Of the form
+    # "observable-name" => ["array", "of", "JS", "strings"]
+    # where each JS-string is a function that is evoked when the observable
+    # changes.
     jshandlers
     pool::ConnectionPool
 end

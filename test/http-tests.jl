@@ -1,6 +1,5 @@
 using WebIO
 using WebSockets
-using JSExpr
 using Test
 
 @testset "HTTP provider" begin
@@ -37,7 +36,6 @@ function serve_app(req)
     end
 end
 server = WebIO.WebIOServer(serve_app, logger = stdout, verbose = true)
-using JSExpr
 WebIO.wio_asseturl("/webio/dist/bundle.js")
 server.serve_task
 
@@ -52,6 +50,6 @@ end
 app[] = w(
  dom"button"(
    "generate random",
-   events=Dict("click"=>@js () -> $obs[] = Math.random()),
+   events=Dict("click" => js"""function() { _webIOScope.setObservableValue('rand-value', Math.random()); }"""),
  ),
 );
