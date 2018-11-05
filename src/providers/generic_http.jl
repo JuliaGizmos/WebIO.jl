@@ -1,7 +1,7 @@
 using Sockets
 import AssetRegistry, JSON
 using WebIO
-using .WebSockets: is_upgrade, upgrade
+using .WebSockets: is_upgrade, upgrade, writeguarded
 using .WebSockets: HTTP
 
 
@@ -116,7 +116,7 @@ function global_server_config()
 
         url = get(ENV, "WEBIO_SERVER_HOST_URL", "127.0.0.1")
         http_port = parse(Int, get(ENV, "WEBIO_HTTP_PORT", "8081"))
-        ws_default = string("ws://", url, ":", http_port, "/webio_websocket/")
+        ws_default = string("ws://", url, ":", http_port, "/webio-websocket")
         ws_url = get(ENV, "WEBIO_WEBSOCKT_URL", ws_default)
         webio_server_config[] = (url = url, http_port = http_port, ws_url = ws_url)
 
