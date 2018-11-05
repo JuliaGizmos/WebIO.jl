@@ -1,7 +1,7 @@
 using Sockets
 import AssetRegistry, JSON
 using WebIO
-using .WebSockets: is_upgrade, upgrade
+using .WebSockets: is_upgrade, upgrade, writeguarded
 using .WebSockets: HTTP
 
 
@@ -79,7 +79,7 @@ function WebIOServer(
         default_response::Function = (req)-> missing;
         baseurl::String = "127.0.0.1", http_port::Int = 8081,
         verbose = false, singleton = true,
-        websocket_route = "/webio-websocket",
+        websocket_route = "/webio_websocket/",
         logger = devnull,
         server_kw_args...
     )
