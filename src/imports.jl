@@ -8,6 +8,7 @@ function islocal(x)
     !any(startswith.(x, ("//", "https://", "http://", "ftp://")))
 end
 
+
 function path2url(path::AbstractString)
     if startswith(path, "/pkg/")
         @warn("/pkg/ URLs are deprecated, load files with their absolute path in Scope")
@@ -34,7 +35,7 @@ function path2url(path::AbstractString)
             cur_path = cur_path1
         end
     else
-        error("File $path not found")
+        return path # no local file must be an url already!
     end
 end
 
@@ -47,6 +48,7 @@ function dep2url(dep::AbstractString)
     url = path2url(file_path)
     return string(baseurl[], url, query_part)
 end
+
 
 function lowerdeps(name, imp)
     url = dep2url(imp)
