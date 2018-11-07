@@ -119,7 +119,7 @@ function global_server_config()
         ws_default = string("ws://", url, ":", http_port, "/webio_websocket/")
         ws_url = get(ENV, "WEBIO_WEBSOCKT_URL", ws_default)
         # make it possible, to e.g. host the bundle online
-        bundle_url = get(ENV, "WEBIO_BUNDLE_URL", "$(WebIO.baseurl[])/$(bundle_key)")
+        bundle_url = get(ENV, "WEBIO_BUNDLE_URL", string(WebIO.baseurl[], bundle_key))
         webio_server_config[] = (
             url = url, bundle_url = bundle_url,
             http_port = http_port, ws_url = ws_url
