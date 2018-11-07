@@ -102,7 +102,7 @@ function WebIOServer(
     return singleton_instance[]
 end
 
-const webio_server_config = Ref{typeof((url = "", http_port = 0, ws_url = ""))}()
+const webio_server_config = Ref{typeof((url = "", bundle_url = "", http_port = 0, ws_url = ""))}()
 
 """
 Fetches the global configuration for our http + websocket server from environment
@@ -118,8 +118,12 @@ function global_server_config()
         http_port = parse(Int, get(ENV, "WEBIO_HTTP_PORT", "8081"))
         ws_default = string("ws://", url, ":", http_port, "/webio_websocket/")
         ws_url = get(ENV, "WEBIO_WEBSOCKT_URL", ws_default)
-        webio_server_config[] = (url = url, http_port = http_port, ws_url = ws_url)
-
+        # make it possible, to e.g. host the bundle online
+        bundle_url = get(ENV, "WEBIO_BUNDLE_URL", "$(WebIO.baseurl[])/$(bundle_key)")
+        webio_server_config[] = (
+            url = url, bundle_url = bundle_url,
+            http_port = http_port, ws_url = ws_url
+        )
     end
     webio_server_config[]
 end
@@ -142,9 +146,8 @@ end
 function Base.show(io::IO, m::WEBIO_APPLICATION_MIME, app::Application)
     c = global_server_config()
     WebIOServer(routing_callback[], baseurl = c.url, http_port = c.http_port)
-    bundle_url = normpath("$(WebIO.baseurl[])/$(bundle_key)")
     println(io, "<script>window._webIOWebSocketURL = $(repr(c.ws_url));</script>")
-    println(io, "<script src=$(repr(bundle_url))></script>")
+    println(io, "<script src=$(repr(c.bundle_url))></script>")
     show(io, "text/html", app)
     return
 end
