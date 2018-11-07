@@ -13,6 +13,8 @@ function path2url(path::AbstractString)
     if startswith(path, "/pkg/")
         @warn("/pkg/ URLs are deprecated, load files with their absolute path in Scope")
         return path
+    elseif startswith(path, "/assetserver/") && haskey(AssetRegistry.registry, path)
+        return path
     elseif isfile(abspath(path))
         path = abspath(path)
         # first lookup to see if any of the file itself or any of the parent
@@ -35,7 +37,7 @@ function path2url(path::AbstractString)
             cur_path = cur_path1
         end
     else
-        return path # no local file must be an url already!
+        error("Dependency is neither a url, nor a file, nor registered with AssetRegistry: $path")
     end
 end
 
