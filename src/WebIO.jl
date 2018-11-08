@@ -60,9 +60,9 @@ function __init__()
     @require Juno="e5e0dc1b-0480-54bc-9374-aad01c23163d" begin
         include(joinpath("providers", "atom.jl"))
     end
-    @require Blink="ad839575-38b3-5650-b840-f874b8c74a25" begin
+    #=@require Blink="ad839575-38b3-5650-b840-f874b8c74a25" begin
         include(joinpath("providers", "blink.jl"))
-    end
+    end=#
     @require IJulia="7073ff75-c697-5162-941a-fcdaad2a7d2a" begin
         include(joinpath("providers", "ijulia.jl"))
     end
