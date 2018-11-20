@@ -15,6 +15,7 @@ const enum DomNamespace {
   // "html" should actually be "http://www.w3.org/1999/xhtml" but it's okay
   HTML = "html",
   SVG = "http://www.w3.org/2000/svg",
+  SVG_SHORTHAND = "svg",
 }
 
 /**
@@ -96,10 +97,11 @@ class WebIODomNode extends WebIONode {
 
   private static createElement(data: DomNodeData) {
     const {namespace, tag} = data.instanceArgs;
-    switch (namespace) {
+    switch (namespace.toLocaleLowerCase()) {
       case DomNamespace.HTML:
         return document.createElement(tag);
       case DomNamespace.SVG:
+      case DomNamespace.SVG_SHORTHAND:
         return document.createElementNS(DomNamespace.SVG, tag);
       default:
         throw new Error(`Unknown DOM namespace: ${namespace}.`);

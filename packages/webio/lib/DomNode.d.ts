@@ -2,7 +2,8 @@ import WebIONode, { WebIODomElement, WebIONodeSchema, WebIONodeContext } from ".
 export declare const DOM_NODE_TYPE = "DOM";
 declare const enum DomNamespace {
     HTML = "html",
-    SVG = "http://www.w3.org/2000/svg"
+    SVG = "http://www.w3.org/2000/svg",
+    SVG_SHORTHAND = "svg"
 }
 /**
  * Props associated with a WebIO DOM node serialization.
