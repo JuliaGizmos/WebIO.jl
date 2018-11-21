@@ -15665,7 +15665,7 @@ function (_WebIONode) {
           namespace = _data$instanceArgs.namespace,
           tag = _data$instanceArgs.tag;
 
-      switch (namespace) {
+      switch (namespace.toLocaleLowerCase()) {
         case "html"
         /* HTML */
         :
@@ -15673,6 +15673,9 @@ function (_WebIONode) {
 
         case "http://www.w3.org/2000/svg"
         /* SVG */
+        :
+        case "svg"
+        /* SVG_SHORTHAND */
         :
           return document.createElementNS("http://www.w3.org/2000/svg"
           /* SVG */

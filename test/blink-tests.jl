@@ -106,6 +106,26 @@ end
     end
 end
 
+@testset "SVG/Namespaces" begin
+    window = Window(Dict(:show => false))
+
+    n = 10
+    color = "yellow"
+    h, w = 100, 100
+    attributes = Dict(
+        "fill" => color,
+        "points" => join(["$(w/2*(1+sin(θ))),$(h/2*(1+cos(θ)))" for θ in 0:2π/n:2π], ' '),
+    )
+    my_svg = dom"svg:svg[width=$w, height=$h]"(
+        dom"svg:polygon"(attributes=attributes),
+        attributes=Dict("data-test-key" => "1234"),
+    )
+    body!(window, dom"div"(my_svg))
+    sleep(5) # wait for it to render.
+    child_count = @js window document.querySelector("svg[data-test-key=\"1234\"]").childElementCount
+    @test child_count == 1
+end
+
 
 example_renderable_was_rendered = false
 

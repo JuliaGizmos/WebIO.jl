@@ -15492,7 +15492,7 @@ function (_super) {
         namespace = _a.namespace,
         tag = _a.tag;
 
-    switch (namespace) {
+    switch (namespace.toLocaleLowerCase()) {
       case "html"
       /* HTML */
       :
@@ -15500,6 +15500,9 @@ function (_super) {
 
       case "http://www.w3.org/2000/svg"
       /* SVG */
+      :
+      case "svg"
+      /* SVG_SHORTHAND */
       :
         return document.createElementNS("http://www.w3.org/2000/svg"
         /* SVG */
