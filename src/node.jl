@@ -1,7 +1,14 @@
 using FunctionalCollections
+using JSON
 
 import FunctionalCollections: append
 export Node, node, instanceof, props
+
+const WEBIO_NODE_MIME = MIME"application/vnd.webio.node+json"
+Base.Multimedia.istextmime(::WEBIO_NODE_MIME) = true
+
+const WEBIO_APPLICATION_MIME = MIME"application/vnd.webio.application+html"
+Base.Multimedia.istextmime(::WEBIO_APPLICATION_MIME) = true
 
 struct Node{T}
     instanceof::T # if this changes the node must be *replaced*
@@ -29,19 +36,8 @@ promote_instanceof(s::AbstractString) = promote_instanceof(Symbol(s))
 nodetype(n::Node) = typename(n.instanceof)
 typename(n::T) where {T} = string(T.name.name)
 
-"""
-Any </script> tags in the js/html node representation can cause problems,
-because if they are printed inside a <script> tag, even if they are in quotes in
-a javascript string, the html parser will still read them as a closing script
-tag, and thus end the script content prematurely, causing untold woe.
-"""
-encode_scripts(htmlstr::String) =
-    replace(htmlstr, "</script>" => "</_script>")
-
 function kwargs2props(propkwargs)
     props = Dict{Symbol,Any}(propkwargs)
-    Symbol("setInnerHtml") in keys(props) &&
-        (props[:setInnerHtml] = encode_scripts(props[:setInnerHtml]))
     props # XXX IJulia/JSON bug? kernel seems to crash if this is a String not a Dict (which is obviously silly but still, it shouldn't crash the IJulia kernel)
 end
 
@@ -76,53 +72,76 @@ function mergeprops(n::Node, p, ps...)
     setprops(n, out)
 end
 
-using JSON
-
 ####### Rendering to HTML ########
 
 function JSON.lower(n::Node)
-    Dict{String, Any}(
+    result = Dict{String, Any}(
         "type" => "node",
         "nodeType" => nodetype(n),
         "instanceArgs" => JSON.lower(n.instanceof),
-        "children" => map!(render,
+        "children" => map!(render_internal,
                            Vector{Any}(undef, length(children(n))),
                            children(n)),
         "props" => props(n),
     )
+    return result
 end
 
-## TODO -- optimize
-function escapeHTML(i::String)
-    # Refer to http://stackoverflow.com/a/7382028/3822752 for spec. links
-    o = replace(i, "&" => "&amp;")
-    o = replace(o, "\"" => "&quot;")
-    o = replace(o, "'" => "&#39;")
-    o = replace(o, "<" => "&lt;")
-    o = replace(o, ">" => "&gt;")
-    return o
+"""
+Escape characters for a "safe" representation of JSON.
+
+In particular, we escape '/' characters to avoid the presence of "</" (and
+especially "</script>") which cause the browser to break out of the current
+<script /> tag.
+"""
+function escape_json(s::String)
+    # Replace all "/" with "\/"'s.
+    # This prevents the browser from interpreting "</" as a close tag; since
+    # everything within the string is JSON, any appearances of "/" should be
+    # within strings and when the JSON is parsed, the "\/"'s will be interpreted
+    # as just normal "/"'s.
+    return replace(s, "/" => "\\/")
 end
+
+escape_json(x::Any) = escape_json(JSON.json(x))
 
 function Base.show(io::IO, m::MIME"text/html", x::Node)
-    write(io, "<div class='display:none'></div>" *
-          """<unsafe-script style='display:none'>
-          WebIO.mount(this.previousSibling,""")
-    # NOTE: do NOT add space between </div> and <unsafe-script>
-    write(io, escapeHTML(sprint(s->jsexpr(s, x))))
-    write(io, ")</unsafe-script>")
+    mountpoint_id = rand(UInt64)
+    # Is there any way to only include the `require`-guard below for IJulia?
+    # I think IJulia defines their own ::IO type.
+    write(
+        io,
+        """
+        <div
+            class="webio-mountpoint"
+            data-webio-mountpoint="$(mountpoint_id)"
+        >
+            <script>
+            if (window.require && require.defined && require.defined("nbextensions/webio/main")) {
+                console.log("Jupyter WebIO extension detected, not mounting.");
+            } else if (window.WebIO) {
+                WebIO.mount(
+                    document.querySelector('[data-webio-mountpoint="$(mountpoint_id)"]'),
+                    $(escape_json(x)),
+                );
+            } else {
+                document
+                    .querySelector('[data-webio-mountpoint="$(mountpoint_id)"]')
+                    .innerHTML = '<strong>WebIO not detected.</strong>';
+            }
+            </script>
+        </div>
+        """
+    )
+end
+
+function Base.show(io::IO, m::WEBIO_NODE_MIME, node::Node)
+    write(io, JSON.json(node))
 end
 
 Base.show(io::IO, m::MIME"text/html", x::Observable) = show(io, m, WebIO.render(x))
-
-function Base.show(io::IO, m::MIME"text/html", x::AbstractWidget)
-    if !Widgets.isijulia()
-        show(io, m, WebIO.render(x))
-    else
-        write(io, "<div class='tex2jax_ignore interactbulma'>\n")
-        show(io, m, WebIO.render(x))
-        write(io, "\n</div>")
-    end
-end
+Base.show(io::IO, m::WEBIO_NODE_MIME, x::Union{Observable, AbstractWidget}) = show(io, m, WebIO.render(x))
+Base.show(io::IO, m::MIME"text/html", x::AbstractWidget) = show(io, m, WebIO.render(x))
 
 ### Utility
 

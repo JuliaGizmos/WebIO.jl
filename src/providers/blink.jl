@@ -1,9 +1,10 @@
 using AssetRegistry
 using Base64: stringmime
 
-const blinksetup = joinpath(dirname(@__FILE__), "..", "..",
-                            "assets", "providers",
-                            "blink_setup.js")
+const blinksetup = joinpath(
+    dirname(@__FILE__), "..", "..",
+    "packages", "blink-provider", "dist", "blink.js"
+)
 
 using Sockets
 
@@ -14,10 +15,7 @@ end
 function Blink.body!(p::Blink.Page, x::Union{Node, Scope, AbstractWidget})
     wait(p)
 
-    bp = AssetRegistry.register(WebIO.bundlepath)
     bs = AssetRegistry.register(blinksetup)
-
-    Blink.loadjs!(p, bp)
     Blink.loadjs!(p, bs)
 
     conn = BlinkConnection(p)

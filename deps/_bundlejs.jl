@@ -1,6 +1,6 @@
 using NodeJS
 
-cd(joinpath(dirname(@__FILE__), "..", "assets", "webio")) do
+cd(joinpath(dirname(@__FILE__), "..", "packages")) do
     node = NodeJS.nodejs_cmd()
     npm = NodeJS.npm_cmd()
 

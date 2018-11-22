@@ -75,9 +75,34 @@ function str_interpolate(s, i0 = firstindex(s))
     strs
 end
 
+"""
+Generate a js_str representation for an object.
+
+The value returned from this function should be a valid, JavaScript-parseable
+representation of the input. For example,
+js_str_repr(io, "foo") -> "foo"
+js_str_repr(io, Dict("a" => "b")) -> {"a": "b"}
+
+Any JSString's are passed through as-is to allow for interpolation of JSStrings
+as expected.
+"""
+function js_str_repr end
+js_str_repr(io, x::Any) = jsexpr(io, x)
+js_str_repr(io, x::AbstractString) = write(io, JSON.json(x))
+js_str_repr(io, x::JSString) = print(io, x.s)
+
 macro js_str(s)
-    writes = [x isa String ? :(print(io, $(esc(x)))) : :(jsexpr(io, $(esc(x))))
-              for x in str_interpolate(s)]
+    # This is ugly and for that, I apologize.
+    writes = [(
+        # For every string or interpolated expression x...
+        isa(x, AbstractString)
+        # If x is a string, it was specified in the js"..." literal so let it
+        # through as-is.
+        ? :(write(io, $(esc(x))))
+        # Otherwise, it's some kind of interpolation so we need to generate a
+        # JavaScript representation of whatever it is/whatever it evaluates to.
+        : :(js_str_repr(io, $(esc(x))))
+    ) for x in str_interpolate(s)]
 
     :(JSString(sprint() do io
                    $(writes...)
@@ -87,7 +112,7 @@ end
 Base.string(s::JSString) = s.s
 Base.:(==)(x::JSString, y::JSString) = x.s==y.s
 
-JSON.lower(x::JSString) = x.s
+JSON.lower(x::JSString) = JSON.lower(x.s)
 
 const JSONContext = JSON.Writer.StructuralContext
 const JSONSerialization = JSON.Serializations.CommonSerialization
@@ -111,4 +136,10 @@ function JSON.show_json(io::JSONContext, ::JSEvalSerialization, x::JSString)
 end
 
 # note: this function is different from JSExpr.jsexpr
+# jsexpr(io, x) = JSON.show_json(io, JSEvalSerialization(), x)
+
+# TRAVIGD: We actually want the JS expr's to be passed as normal JSON strings
+# because that makes escaping millions of times easier.
 jsexpr(io, x) = JSON.show_json(io, JSEvalSerialization(), x)
+jsexpr(x) = sprint(jsexpr, x)
+jsexpr(x::JSString) = x.s

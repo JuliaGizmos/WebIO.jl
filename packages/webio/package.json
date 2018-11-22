@@ -1,0 +1,17 @@
+{
+  "name": "@webio/webio",
+  "description": "Core implementation of the WebIO frontend.",
+  "repository": "https://github.com/JuliaGizmos/WebIO.jl",
+  "author": "Travis DePrato",
+  "license": "MIT",
+  "version": "1.0.0",
+  "main": "src/",
+  "dependencies": {
+    "@types/systemjs": "^0.20.6",
+    "systemjs": "^0.20.19"
+  },
+  "devDependencies": {
+    "webpack-cli": "^3.1.2"
+  },
+  "scripts": {}
+}

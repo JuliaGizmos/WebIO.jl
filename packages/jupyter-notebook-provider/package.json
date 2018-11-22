@@ -1,0 +1,17 @@
+{
+  "name": "@webio/jupyter-notebook-provider",
+  "description": "Core frontend implementation of WebIO.",
+  "repository": "https://github.com/JuliaGizmos/WebIO.jl",
+  "author": "Travis DePrato",
+  "license": "MIT",
+  "dependencies": {
+    "@webio/webio": "1.0.0"
+  },
+  "scripts": {
+    "build": "webpack-cli",
+    "build-prod": "webpack-cli -p"
+  },
+  "devDependencies": {
+    "webpack-cli": "^3.1.2"
+  }
+}

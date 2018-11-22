@@ -1,7 +1,6 @@
 using WebIO
 using Blink
 using Observables
-using JSExpr
 using Test
 
 notinstalled = !AtomShell.isinstalled()
@@ -26,15 +25,15 @@ end
 
 @testset "Blink mocks" begin
     # open window and wait for it to initialize
+    # w = Window(Dict(:show => true))
+    # Blink.opentools(w)
     w = Window(Dict(:show => false))
 
     body!(w, dom"div"("hello, blink"))
     sleep(5) # wait for it to render.
 
-    substrings = ["<div>hello, blink</div>", r"\<unsafe-script.+", "WebIO.mount(",
-    """{"props":{},"nodeType":"DOM","type":"node","instanceArgs":{"namespace":"html","tag":"div"},"children":["hello, blink"]}"""]
     content = Blink.@js(w, document.body.innerHTML)
-    @test all(x->occursin(x, content), substrings)
+    @test occursin("<div>hello, blink</div>", content)
 
     @testset "round-trip communication" begin
         scope = Scope()
@@ -46,9 +45,11 @@ end
         end
 
         julia_to_js = Observable(scope, "outbox", "")
-        onjs(julia_to_js, @JSExpr.js function (val)
-            $js_to_julia[] = val
-        end)
+        onjs(julia_to_js, js"""
+        function (val) {
+            _webIOScope.setObservableValue("inbox", val);
+        }
+        """)
 
         # Render the scope into the Blink window
         body!(w, scope)
@@ -68,9 +69,13 @@ end
             # Put the result in a channel so we can watch for it
             put!(output, x)
         end
-        onimport(scope, @JSExpr.js function (mod)
-            $js_to_julia[] = mod.x
-        end)
+        onimport(
+            scope,
+            js"""
+            function (mod) {
+                _webIOScope.setObservableValue("inbox", mod.x);
+            }
+            """)
         if use_iframe
             body!(w, iframe(scope))
         else
@@ -83,7 +88,7 @@ end
     @testset "scope imports" begin
         for use_iframe in (false, true)
             @testset "local package, AssetRegistry" begin
-                @test scope_import(w, joinpath(@__DIR__, "..", "assets", "webio", "test", "trivial_import.js"), use_iframe) == "ok"
+                @test scope_import(w, joinpath(@__DIR__, "assets", "trivial_import.js"), use_iframe) == "ok"
             end
 
             @testset "global URL, no http:" begin
@@ -99,6 +104,26 @@ end
             end
         end
     end
+end
+
+@testset "SVG/Namespaces" begin
+    window = Window(Dict(:show => false))
+
+    n = 10
+    color = "yellow"
+    h, w = 100, 100
+    attributes = Dict(
+        "fill" => color,
+        "points" => join(["$(w/2*(1+sin(θ))),$(h/2*(1+cos(θ)))" for θ in 0:2π/n:2π], ' '),
+    )
+    my_svg = dom"svg:svg[width=$w, height=$h]"(
+        dom"svg:polygon"(attributes=attributes),
+        attributes=Dict("data-test-key" => "1234"),
+    )
+    body!(window, dom"div"(my_svg))
+    sleep(5) # wait for it to render.
+    child_count = @js window document.querySelector("svg[data-test-key=\"1234\"]").childElementCount
+    @test child_count == 1
 end
 
 

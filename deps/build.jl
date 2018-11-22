@@ -49,4 +49,40 @@ function install_ijulia_config()
     @label jsondone
 end
 
+"""
+Install the Jupyter WebIO notebook extension.
+"""
+function install_webio_nbextension()
+    extension_dir = joinpath(homedir() , ".local", "share", "jupyter", "nbextensions")
+    mkpath(extension_dir)
+    config_dir = joinpath(homedir(), ".jupyter", "nbconfig")
+    mkpath(config_dir)
+    config_file_json = joinpath(config_dir, "notebook.json")
+
+    # Copy the nbextension files.
+    cp(
+        joinpath(@__DIR__, "../packages/jupyter-notebook-provider/dist"),
+        joinpath(extension_dir, "webio"),
+        ; force=true
+    )
+
+    # Enable the notebook extension.
+    config_data = Dict()
+    if isfile(config_file_json)
+        config_data = try
+            JSON.parse(read(config_file_json, String))
+        catch err
+            println(stderr, "Error parsing Jupyter config file $config_file_json - fix it and build again or delete it to enable WebIO")
+            return
+        end
+    end
+    config_data["load_extensions"] = get(config_data, "load_extensions", Dict())
+    config_data["load_extensions"]["webio/main"] = true
+    open(config_file_json, "w") do io
+        prettyio = JSON.Writer.PrettyContext(io, 4)
+        JSON.print(prettyio, config_data)
+    end
+end
+
 install_ijulia_config()
+install_webio_nbextension()

@@ -97,6 +97,12 @@ mutable struct Scope
     private_obs::Set{String}
     systemjs_options
     imports
+
+    # A collection of handler functions associated with various observables in
+    # this scope. Of the form
+    # "observable-name" => ["array", "of", "JS", "strings"]
+    # where each JS-string is a function that is evoked when the observable
+    # changes.
     jshandlers
     pool::ConnectionPool
 end
@@ -176,12 +182,12 @@ end
 function setup_comm(f, ob::AbstractObservable)
     if haskey(observ_id_dict, ob)
         scope, key = observ_id_dict[ob]
-        if !(key in scope.value.private_obs)
-            evaljs(scope.value, js"""
-                   console.log(this)
-                   this.observables[$key].sync = true
-            """)
-        end
+        # if !(key in scope.value.private_obs)
+        #     evaljs(scope.value, js"""
+        #            console.log(this)
+        #            this.observables[$key].sync = true
+        #     """)
+        # end
     end
 end
 
@@ -353,6 +359,9 @@ function onjs(ob::AbstractObservable, f)
     end
 end
 
+function Base.show(io::IO, ::WEBIO_NODE_MIME, x::Scope)
+    write(io, JSON.json(render_internal(x)))
+end
 function Base.show(io::IO, m::MIME"text/html", x::Scope)
     show(io, m, render(x))
 end
