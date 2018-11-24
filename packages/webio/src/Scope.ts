@@ -179,7 +179,7 @@ class WebIOScope extends WebIONode {
     // (Asynchronously) perform dependency initialization
     const {preDependencies = [], _promises = {}, ...restHandlers} = handlers;
     preDependencies
-      .map((functionString) => evalWithWebIOContext(this, functionString, {scope: this, webIO: this.webIO}))
+      .map((functionString) => evalWithWebIOContext(this, functionString, {scope: this, webIO: this.webIO}) as (() => void))
       .forEach((handler) => handler.call(this))
     ;
 

@@ -5,7 +5,9 @@
   "author": "Travis DePrato",
   "license": "MIT",
   "version": "1.0.0",
-  "main": "src/",
+  "main": "dist/index.js",
+  "browser": "dist/index.js",
+  "types": "dist/index.d.ts",
   "dependencies": {
     "@types/systemjs": "^0.20.6",
     "systemjs": "^0.20.19"
@@ -13,5 +15,8 @@
   "devDependencies": {
     "webpack-cli": "^3.1.2"
   },
-  "scripts": {}
+  "scripts": {
+    "build": "tsc -p .",
+    "prepare": "npm run build"
+  }
 }
