@@ -13461,6 +13461,2575 @@ module.exports = function (module) {
 
 /***/ }),
 
+/***/ "../../webio/dist/DomNode.js":
+/*!*********************************************************************!*\
+  !*** /home/travigd/.julia/dev/WebIO/packages/webio/dist/DomNode.js ***!
+  \*********************************************************************/
+/*! no static exports found */
+/***/ (function(module, exports, __webpack_require__) {
+
+"use strict";
+
+
+var __extends = this && this.__extends || function () {
+  var _extendStatics = function extendStatics(d, b) {
+    _extendStatics = Object.setPrototypeOf || {
+      __proto__: []
+    } instanceof Array && function (d, b) {
+      d.__proto__ = b;
+    } || function (d, b) {
+      for (var p in b) {
+        if (b.hasOwnProperty(p)) d[p] = b[p];
+      }
+    };
+
+    return _extendStatics(d, b);
+  };
+
+  return function (d, b) {
+    _extendStatics(d, b);
+
+    function __() {
+      this.constructor = d;
+    }
+
+    d.prototype = b === null ? Object.create(b) : (__.prototype = b.prototype, new __());
+  };
+}();
+
+var __rest = this && this.__rest || function (s, e) {
+  var t = {};
+
+  for (var p in s) {
+    if (Object.prototype.hasOwnProperty.call(s, p) && e.indexOf(p) < 0) t[p] = s[p];
+  }
+
+  if (s != null && typeof Object.getOwnPropertySymbols === "function") for (var i = 0, p = Object.getOwnPropertySymbols(s); i < p.length; i++) {
+    if (e.indexOf(p[i]) < 0) t[p[i]] = s[p[i]];
+  }
+  return t;
+};
+
+var __importDefault = this && this.__importDefault || function (mod) {
+  return mod && mod.__esModule ? mod : {
+    "default": mod
+  };
+};
+
+Object.defineProperty(exports, "__esModule", {
+  value: true
+});
+
+var debug_1 = __importDefault(__webpack_require__(/*! debug */ "../../node_modules/debug/src/browser.js"));
+
+var debug = debug_1.default("WebIO:DomNode");
+
+var Node_1 = __importDefault(__webpack_require__(/*! ./Node */ "../../webio/dist/Node.js"));
+
+var events_1 = __webpack_require__(/*! ./events */ "../../webio/dist/events.js");
+
+var createNode_1 = __importDefault(__webpack_require__(/*! ./createNode */ "../../webio/dist/createNode.js"));
+
+exports.DOM_NODE_TYPE = "DOM";
+
+var WebIODomNode =
+/** @class */
+function (_super) {
+  __extends(WebIODomNode, _super);
+
+  function WebIODomNode(nodeData, options) {
+    var _this = _super.call(this, nodeData, options) || this;
+
+    _this.eventListeners = {};
+    debug("Creating WebIODomNode", {
+      nodeData: nodeData,
+      options: options
+    });
+    _this.element = WebIODomNode.createElement(nodeData);
+
+    _this.applyProps(nodeData.props); // Recursively construct children.
+
+
+    _this.children = nodeData.children.map(function (nodeData) {
+      if (typeof nodeData === "string") {
+        return nodeData;
+      }
+
+      return createNode_1.default(nodeData, {
+        webIO: _this.webIO,
+        scope: _this.scope
+      });
+    }); // Append childrens' elements to this node's element.
+
+    for (var _i = 0, _a = _this.children; _i < _a.length; _i++) {
+      var child = _a[_i];
+
+      if (typeof child === "string") {
+        _this.element.appendChild(document.createTextNode(child));
+      } else {
+        _this.element.appendChild(child.element);
+      }
+    }
+
+    return _this;
+  }
+
+  WebIODomNode.createElement = function (data) {
+    var _a = data.instanceArgs,
+        namespace = _a.namespace,
+        tag = _a.tag;
+
+    switch (namespace.toLocaleLowerCase()) {
+      case "html"
+      /* HTML */
+      :
+        return document.createElement(tag);
+
+      case "http://www.w3.org/2000/svg"
+      /* SVG */
+      :
+      case "svg"
+      /* SVG_SHORTHAND */
+      :
+        return document.createElementNS("http://www.w3.org/2000/svg"
+        /* SVG */
+        , tag);
+
+      default:
+        throw new Error("Unknown DOM namespace: " + namespace + ".");
+    }
+  };
+  /**
+   * Apply "props" to the underlying DOM element.
+   *
+   * @param props - The props to apply.
+   */
+
+
+  WebIODomNode.prototype.applyProps = function (props) {
+    debug("applyProps", props);
+
+    var style = props.style,
+        events = props.events,
+        attributes = props.attributes,
+        attributesNS = props.attributesNS,
+        setInnerHtml = props.setInnerHtml,
+        rest = __rest(props, ["style", "events", "attributes", "attributesNS", "setInnerHtml"]);
+
+    style && this.applyStyles(style);
+    events && this.applyEvents(events);
+    attributes && this.applyAttributes(attributes);
+    attributesNS && this.applyAttributesNS(attributesNS);
+    setInnerHtml && this.setInnerHTML(setInnerHtml);
+    this.applyMiscellaneousProps(rest);
+  };
+  /**
+   * Apply all props that don't have special meaning.
+   *
+   * This should really be refactored so that all these "miscellaneous" props
+   * are delivered in a separate object (e.g. have props.miscProps on the same
+   * level as props.style and props.events et al.).
+   * @param props - The object of miscellaneous props and their values.
+   */
+
+
+  WebIODomNode.prototype.applyMiscellaneousProps = function (props) {
+    debug("applyMiscellaneousProps", props);
+
+    for (var _i = 0, _a = Object.keys(props); _i < _a.length; _i++) {
+      var propName = _a[_i];
+      this.element[propName] = props[propName];
+    }
+  };
+
+  WebIODomNode.prototype.applyStyles = function (styles) {
+    if (!styles) {
+      return;
+    }
+
+    for (var _i = 0, _a = Object.keys(styles); _i < _a.length; _i++) {
+      var attributeName = _a[_i];
+      this.element.style[attributeName] = styles[attributeName];
+    }
+  };
+  /**
+   * Apply (add/remove) event listeners to the underlying DOM element.
+   *
+   * @param events - A map object from event names to event listeners. If an
+   *    event name is specified (e.g. `click`) that didn't exist before, the
+   *    associated handler (e.g. `events["click"]`) is added as a listener; if
+   *    the event name has already been specified (even if the listener function
+   *    changed!), then nothing happens; if the event name is absent (or null) in
+   *    the map, then any previously setup listeners (if any) are removed.
+   */
+
+
+  WebIODomNode.prototype.applyEvents = function (events) {
+    for (var _i = 0, _a = Object.keys(events); _i < _a.length; _i++) {
+      var eventName = _a[_i];
+      var oldListener = this.eventListeners[eventName];
+      var newListenerSource = events[eventName];
+      var newListener = newListenerSource && events_1.evalWithWebIOContext(this.element, newListenerSource, {
+        scope: this.scope,
+        webIO: this.webIO
+      });
+
+      if (oldListener && !newListener) {
+        // We want to just remove the old listener.
+        this.element.removeEventListener(eventName, oldListener);
+        delete this.eventListeners[eventName];
+      } else if (!oldListener && newListener) {
+        this.element.addEventListener(eventName, newListener);
+        this.eventListeners[eventName] = newListener;
+      } // If the listener is just changed, we don't really handle that.
+
+    }
+  };
+  /**
+   * Apply DOM attributes to the underlying DOM element.
+   *
+   * @param attributes - The map of attributes to apply.
+   */
+
+
+  WebIODomNode.prototype.applyAttributes = function (attributes) {
+    for (var _i = 0, _a = Object.keys(attributes); _i < _a.length; _i++) {
+      var key = _a[_i];
+      var value = attributes[key];
+
+      if (value === null) {
+        this.element.removeAttribute(key);
+      } else {
+        this.element.setAttribute(key, value);
+      }
+    }
+  };
+  /**
+   * Apply namespaced DOM attributes to the underlying DOM element.
+   *
+   * @param attributes - The `{attributeName: {namespace, value}}` map to apply.
+   */
+
+
+  WebIODomNode.prototype.applyAttributesNS = function (attributes) {
+    for (var _i = 0, _a = Object.keys(attributes); _i < _a.length; _i++) {
+      var key = _a[_i];
+      var _b = attributes[key],
+          namespace = _b.namespace,
+          value = _b.value;
+
+      if (value === null) {
+        this.element.removeAttributeNS(namespace, key);
+      } else {
+        this.element.setAttributeNS(namespace, key, value);
+      }
+    }
+  };
+  /**
+   * Set the value associated with the node's element.
+   *
+   * This generally only works with `<input />` elements.
+   *
+   * @param value
+   * @throws Will throw an error if the element doesn't have a `value` attribute.
+   */
+
+
+  WebIODomNode.prototype.setValue = function (value) {
+    if ("value" in this.element) {
+      // If the value hasn't changed, don't re-set it.
+      if (this.element.value !== value) {
+        this.element.value = value;
+      }
+    } else {
+      throw new Error("Cannot set value on an HTMLElement that doesn't support it.");
+    }
+  };
+
+  return WebIODomNode;
+}(Node_1.default);
+
+exports.default = WebIODomNode;
+
+/***/ }),
+
+/***/ "../../webio/dist/IFrame.js":
+/*!********************************************************************!*\
+  !*** /home/travigd/.julia/dev/WebIO/packages/webio/dist/IFrame.js ***!
+  \********************************************************************/
+/*! no static exports found */
+/***/ (function(module, exports, __webpack_require__) {
+
+"use strict";
+
+
+var __extends = this && this.__extends || function () {
+  var _extendStatics = function extendStatics(d, b) {
+    _extendStatics = Object.setPrototypeOf || {
+      __proto__: []
+    } instanceof Array && function (d, b) {
+      d.__proto__ = b;
+    } || function (d, b) {
+      for (var p in b) {
+        if (b.hasOwnProperty(p)) d[p] = b[p];
+      }
+    };
+
+    return _extendStatics(d, b);
+  };
+
+  return function (d, b) {
+    _extendStatics(d, b);
+
+    function __() {
+      this.constructor = d;
+    }
+
+    d.prototype = b === null ? Object.create(b) : (__.prototype = b.prototype, new __());
+  };
+}();
+
+var __awaiter = this && this.__awaiter || function (thisArg, _arguments, P, generator) {
+  return new (P || (P = Promise))(function (resolve, reject) {
+    function fulfilled(value) {
+      try {
+        step(generator.next(value));
+      } catch (e) {
+        reject(e);
+      }
+    }
+
+    function rejected(value) {
+      try {
+        step(generator["throw"](value));
+      } catch (e) {
+        reject(e);
+      }
+    }
+
+    function step(result) {
+      result.done ? resolve(result.value) : new P(function (resolve) {
+        resolve(result.value);
+      }).then(fulfilled, rejected);
+    }
+
+    step((generator = generator.apply(thisArg, _arguments || [])).next());
+  });
+};
+
+var __generator = this && this.__generator || function (thisArg, body) {
+  var _ = {
+    label: 0,
+    sent: function sent() {
+      if (t[0] & 1) throw t[1];
+      return t[1];
+    },
+    trys: [],
+    ops: []
+  },
+      f,
+      y,
+      t,
+      g;
+  return g = {
+    next: verb(0),
+    "throw": verb(1),
+    "return": verb(2)
+  }, typeof Symbol === "function" && (g[Symbol.iterator] = function () {
+    return this;
+  }), g;
+
+  function verb(n) {
+    return function (v) {
+      return step([n, v]);
+    };
+  }
+
+  function step(op) {
+    if (f) throw new TypeError("Generator is already executing.");
+
+    while (_) {
+      try {
+        if (f = 1, y && (t = op[0] & 2 ? y["return"] : op[0] ? y["throw"] || ((t = y["return"]) && t.call(y), 0) : y.next) && !(t = t.call(y, op[1])).done) return t;
+        if (y = 0, t) op = [op[0] & 2, t.value];
+
+        switch (op[0]) {
+          case 0:
+          case 1:
+            t = op;
+            break;
+
+          case 4:
+            _.label++;
+            return {
+              value: op[1],
+              done: false
+            };
+
+          case 5:
+            _.label++;
+            y = op[1];
+            op = [0];
+            continue;
+
+          case 7:
+            op = _.ops.pop();
+
+            _.trys.pop();
+
+            continue;
+
+          default:
+            if (!(t = _.trys, t = t.length > 0 && t[t.length - 1]) && (op[0] === 6 || op[0] === 2)) {
+              _ = 0;
+              continue;
+            }
+
+            if (op[0] === 3 && (!t || op[1] > t[0] && op[1] < t[3])) {
+              _.label = op[1];
+              break;
+            }
+
+            if (op[0] === 6 && _.label < t[1]) {
+              _.label = t[1];
+              t = op;
+              break;
+            }
+
+            if (t && _.label < t[2]) {
+              _.label = t[2];
+
+              _.ops.push(op);
+
+              break;
+            }
+
+            if (t[2]) _.ops.pop();
+
+            _.trys.pop();
+
+            continue;
+        }
+
+        op = body.call(thisArg, _);
+      } catch (e) {
+        op = [6, e];
+        y = 0;
+      } finally {
+        f = t = 0;
+      }
+    }
+
+    if (op[0] & 5) throw op[1];
+    return {
+      value: op[0] ? op[1] : void 0,
+      done: true
+    };
+  }
+};
+
+var __importDefault = this && this.__importDefault || function (mod) {
+  return mod && mod.__esModule ? mod : {
+    "default": mod
+  };
+};
+
+Object.defineProperty(exports, "__esModule", {
+  value: true
+});
+
+var debug_1 = __importDefault(__webpack_require__(/*! debug */ "../../node_modules/debug/src/browser.js"));
+
+var debug = debug_1.default("WebIO:IFrame");
+
+var Node_1 = __importDefault(__webpack_require__(/*! ./Node */ "../../webio/dist/Node.js"));
+
+var setInnerHTML_1 = __importDefault(__webpack_require__(/*! ./setInnerHTML */ "../../webio/dist/setInnerHTML.js"));
+
+exports.IFRAME_NODE_TYPE = "IFrame";
+/**
+ * A WebIO IFrame node.
+ *
+ * This renders WebIO content within a (mostly) isolate IFrame. Both the IFrame
+ * and the parent page share the same WebIO instance.
+ *
+ * IMPORANT: IFrames have **huge** overhead on a browser page because they
+ * require a whole new page context (it's pretty much the same as opening a
+ * new tab). Using many IFrames will result in huge memory usage.
+ *
+ * NOTE: We don't have a good way to style IFrames such that they're exactly the
+ * size of the content within them. RIP.
+ */
+
+var WebIOIFrame =
+/** @class */
+function (_super) {
+  __extends(WebIOIFrame, _super);
+
+  function WebIOIFrame(iframeData, options) {
+    var _this = _super.call(this, iframeData, options) || this;
+
+    _this.children = null;
+    debug("Creating new WebIOIFrame.", iframeData);
+    var iframe = _this.element = document.createElement("iframe");
+    iframe.className = "webio-iframe";
+    iframe.src = "about:blank";
+    iframe.frameBorder = "0";
+    iframe.scrolling = "no";
+    iframe.height = "100%";
+    iframe.width = "100%";
+    iframe.style.display = "block";
+    var innerHTML = iframeData.instanceArgs.innerHTML;
+
+    iframe.onload = function () {
+      return _this.initializeIFrame(innerHTML);
+    };
+
+    return _this;
+  }
+  /**
+   * Initialize the IFrame after the onload event has been fired.
+   * @param innerHTML
+   */
+
+
+  WebIOIFrame.prototype.initializeIFrame = function (innerHTML) {
+    return __awaiter(this, void 0, void 0, function () {
+      var iframe, iframeWindow, iframeDocument, baseTag;
+      return __generator(this, function (_a) {
+        iframe = this.element;
+        iframeWindow = iframe.contentWindow;
+        iframeDocument = iframe.contentDocument; // Set WebIO window global.
+
+        iframeWindow.WebIO = this.webIO;
+        baseTag = document.createElement("base");
+        baseTag.href = document.baseURI;
+        iframeDocument.head.appendChild(baseTag); // Apply some styling.
+        // It seems that there's not an easy way to get the iframe to have the
+        // "correct" size (i.e. exactly the size of its contents, as if it were
+        // just a normal <div> element). This currently doesn't really work.
+
+        iframeDocument.body.style.cssText = "\n      margin: 0;\n      padding: 0;\n      height: 100%;\n    "; // Set inner html of body.
+
+        setInnerHTML_1.default(iframeDocument.body, innerHTML);
+        return [2
+        /*return*/
+        ];
+      });
+    });
+  };
+
+  return WebIOIFrame;
+}(Node_1.default);
+
+exports.default = WebIOIFrame;
+
+/***/ }),
+
+/***/ "../../webio/dist/Node.js":
+/*!******************************************************************!*\
+  !*** /home/travigd/.julia/dev/WebIO/packages/webio/dist/Node.js ***!
+  \******************************************************************/
+/*! no static exports found */
+/***/ (function(module, exports, __webpack_require__) {
+
+"use strict";
+
+
+var __importDefault = this && this.__importDefault || function (mod) {
+  return mod && mod.__esModule ? mod : {
+    "default": mod
+  };
+};
+
+Object.defineProperty(exports, "__esModule", {
+  value: true
+});
+
+var setInnerHTML_1 = __importDefault(__webpack_require__(/*! ./setInnerHTML */ "../../webio/dist/setInnerHTML.js"));
+/**
+ * A high-level "point-of-entry" under which WebIO "things" are rendered.
+ *
+ * A `WebIONode` has a root DOM element and some functionality for managing the
+ * attributes (DOM attributes, CSS styles, event listeners, etc.) that are
+ * applied to it.
+ */
+
+
+var WebIONode =
+/** @class */
+function () {
+  function WebIONode(nodeData, options) {
+    this.nodeData = nodeData;
+    var scope = options.scope,
+        webIO = options.webIO;
+    this.scope = scope;
+    this.webIO = webIO;
+  }
+  /**
+   * Set the innerHTML of the node's DOM element.
+   */
+
+
+  WebIONode.prototype.setInnerHTML = function (html) {
+    setInnerHTML_1.default(this.element, html);
+  };
+
+  return WebIONode;
+}();
+
+exports.default = WebIONode;
+
+/***/ }),
+
+/***/ "../../webio/dist/Observable.js":
+/*!************************************************************************!*\
+  !*** /home/travigd/.julia/dev/WebIO/packages/webio/dist/Observable.js ***!
+  \************************************************************************/
+/*! no static exports found */
+/***/ (function(module, exports, __webpack_require__) {
+
+"use strict";
+
+
+var __importDefault = this && this.__importDefault || function (mod) {
+  return mod && mod.__esModule ? mod : {
+    "default": mod
+  };
+};
+
+Object.defineProperty(exports, "__esModule", {
+  value: true
+});
+
+var debug_1 = __importDefault(__webpack_require__(/*! debug */ "../../node_modules/debug/src/browser.js"));
+
+var debug = debug_1.default("WebIO:Observable");
+/**
+ * A logical "observable" entity.
+ *
+ * An observable has a name (which is unique to a given scope), an id (which is
+ * unique to a given process), and a value, as well as a set of subscribers.
+ *
+ * Note that a single observable value might have more than one
+ * `WebIOObservable` instances (they will have the same id, and possibly even
+ * the same name, but exist in different scopes). If one of these observables
+ * changes, it is **not** the responsibility of the `WebIOObservable` to update
+ * any others. Typically, this update is done by syncing the value back to Julia
+ * and letting Julia issue updates for the other observables who live in other
+ * scopes.
+ *
+ */
+
+var WebIOObservable =
+/** @class */
+function () {
+  function WebIOObservable(name, _a, scope) {
+    var id = _a.id,
+        value = _a.value,
+        sync = _a.sync;
+    this.scope = scope;
+    /**
+     * An array of active subscriber/listener functions. These are evoked when
+     * the value of the observable changes.
+     */
+
+    this.subscribers = [];
+    this.name = name;
+    this.id = id;
+    this.value = value;
+    this.sync = sync;
+    this.webIO.registerObservable(this);
+  }
+
+  Object.defineProperty(WebIOObservable.prototype, "webIO", {
+    get: function get() {
+      return this.scope.webIO;
+    },
+    enumerable: true,
+    configurable: true
+  });
+  /**
+   * Set the value of the observable, optionally synchronizing it with
+   * Julia/WebIO.
+   *
+   * @param newValue - The value to be stored within the observable.
+   * @param sync - If `true`, send the new value to Julia/WebIO. This should
+   *    always be `false` if the new value originated from Julia/WebIO itself.
+   */
+
+  WebIOObservable.prototype.setValue = function (newValue, sync) {
+    if (sync === void 0) {
+      sync = true;
+    }
+
+    debug("Setting value of observable (" + this.name + "/" + this.id + ").", newValue);
+    this.value = newValue;
+    this.notifySubscribers();
+
+    if (sync) {
+      this.syncValue();
+    }
+  };
+  /**
+   * Synchronize the value stored within this observable with Julia/WebIO.
+   *
+   * This overwrites the value stored in Julia/WebIO. This method is called
+   * automatically when using `setValue` with `sync=true` (the default).
+   */
+
+
+  WebIOObservable.prototype.syncValue = function () {
+    this.webIO.reconcileObservables(this);
+    return this.scope.send({
+      command: this.name,
+      data: this.value
+    });
+  };
+  /**
+   * Register a new subscriber.
+   *
+   * @example
+   *    declare const obs: Observable<number>;
+   *    // We store a reference to listener so that we may give pass it to
+   *    // unsubscribe later.
+   *    const listener = (value: number) => {
+   *      console.log(`obs got ${value}!`);
+   *    };
+   *    obs.subscribe(listener);
+   *    // Later...
+   *    obs.unsubscribe(listener);
+   *
+   * @param subscriber - A function that is called every time the value of the
+   *    observable is called; the function is given the current value of the
+   *    observable.
+   */
+
+
+  WebIOObservable.prototype.subscribe = function (subscriber) {
+    debug("Attaching subscriber in Observable(" + this.name + "/" + this.id + ").", this, subscriber);
+    this.subscribers.push(subscriber);
+  };
+  /**
+   * Deregister an existing subscriber.
+   *
+   * Note: this method requires that the reference to the original subscriber
+   *    function is retained (so that it can be used here).
+   *
+   * @param subscriber
+   */
+
+
+  WebIOObservable.prototype.unsubscribe = function (subscriber) {
+    var index = this.subscribers.indexOf(subscriber);
+
+    if (index != -1) {
+      this.subscribers.splice(index, 1);
+    }
+  };
+  /**
+   * Call each of the registered subscribers with the current value of the
+   * observable.
+   */
+
+
+  WebIOObservable.prototype.notifySubscribers = function () {
+    var _this = this;
+
+    this.subscribers.forEach(function (subscriber) {
+      debug("Notifying subscriber in Observable(" + _this.name + "/" + _this.id + ").");
+      subscriber(_this.value);
+    });
+  };
+
+  return WebIOObservable;
+}();
+
+exports.default = WebIOObservable;
+
+/***/ }),
+
+/***/ "../../webio/dist/ObservableNode.js":
+/*!****************************************************************************!*\
+  !*** /home/travigd/.julia/dev/WebIO/packages/webio/dist/ObservableNode.js ***!
+  \****************************************************************************/
+/*! no static exports found */
+/***/ (function(module, exports, __webpack_require__) {
+
+"use strict";
+
+
+var __extends = this && this.__extends || function () {
+  var _extendStatics = function extendStatics(d, b) {
+    _extendStatics = Object.setPrototypeOf || {
+      __proto__: []
+    } instanceof Array && function (d, b) {
+      d.__proto__ = b;
+    } || function (d, b) {
+      for (var p in b) {
+        if (b.hasOwnProperty(p)) d[p] = b[p];
+      }
+    };
+
+    return _extendStatics(d, b);
+  };
+
+  return function (d, b) {
+    _extendStatics(d, b);
+
+    function __() {
+      this.constructor = d;
+    }
+
+    d.prototype = b === null ? Object.create(b) : (__.prototype = b.prototype, new __());
+  };
+}();
+
+var __importDefault = this && this.__importDefault || function (mod) {
+  return mod && mod.__esModule ? mod : {
+    "default": mod
+  };
+};
+
+Object.defineProperty(exports, "__esModule", {
+  value: true
+});
+
+var debug_1 = __importDefault(__webpack_require__(/*! debug */ "../../node_modules/debug/src/browser.js"));
+
+var debug = debug_1.default("WebIO:ObservableNode");
+
+var Node_1 = __importDefault(__webpack_require__(/*! ./Node */ "../../webio/dist/Node.js"));
+
+var createNode_1 = __importDefault(__webpack_require__(/*! ./createNode */ "../../webio/dist/createNode.js"));
+
+exports.OBSERVABLE_NODE_TYPE = "ObservableNode";
+/**
+ * A special type of node/observable that contains a node.
+ */
+
+var WebIOObservableNode =
+/** @class */
+function (_super) {
+  __extends(WebIOObservableNode, _super);
+
+  function WebIOObservableNode(schema, context) {
+    var _this = _super.call(this, schema, context) || this;
+
+    _this.observable = null;
+    _this.children = null;
+
+    _this.onObservableUpdate = function () {
+      _this.mountObservable();
+    };
+
+    debug("Creating WebIODomNode", {
+      schema: schema,
+      context: context
+    });
+    _this.element = document.createElement("div");
+    _this.element.className = "webio-observable-node";
+
+    _this.element.setAttribute("data-webio-observable-name", schema.instanceArgs.name);
+
+    try {
+      if (!context.scope) {
+        throw new Error("Cannot render ObservableNode that has no parent scope.");
+      }
+
+      _this.observable = _this.scope.getObservable(schema.instanceArgs.name);
+
+      _this.mountObservable();
+
+      _this.scope.promises.connected.then(function () {
+        return _this.observable.subscribe(_this.onObservableUpdate);
+      });
+    } catch (e) {
+      _this.node = null;
+      _this.element.innerHTML = "<strong>Caught exception while trying to render ObservableNode: " + e.message + "</strong>";
+    }
+
+    return _this;
+  }
+
+  WebIOObservableNode.prototype.mountObservable = function () {
+    if (!this.observable) {
+      throw new Error("Cannot mount null observable.");
+    }
+
+    debug("Mounting node within WebIOObservableNode.", {
+      nodeSchema: this.observable.value
+    });
+    var newNode = createNode_1.default(this.observable.value, {
+      webIO: this.webIO,
+      scope: this.scope
+    });
+
+    if (this.node) {
+      this.element.replaceChild(newNode.element, this.node.element);
+    } else {
+      this.element.appendChild(newNode.element);
+    }
+
+    this.node = newNode;
+  };
+
+  return WebIOObservableNode;
+}(Node_1.default);
+
+exports.default = WebIOObservableNode;
+
+/***/ }),
+
+/***/ "../../webio/dist/Scope.js":
+/*!*******************************************************************!*\
+  !*** /home/travigd/.julia/dev/WebIO/packages/webio/dist/Scope.js ***!
+  \*******************************************************************/
+/*! no static exports found */
+/***/ (function(module, exports, __webpack_require__) {
+
+"use strict";
+
+
+var __extends = this && this.__extends || function () {
+  var _extendStatics = function extendStatics(d, b) {
+    _extendStatics = Object.setPrototypeOf || {
+      __proto__: []
+    } instanceof Array && function (d, b) {
+      d.__proto__ = b;
+    } || function (d, b) {
+      for (var p in b) {
+        if (b.hasOwnProperty(p)) d[p] = b[p];
+      }
+    };
+
+    return _extendStatics(d, b);
+  };
+
+  return function (d, b) {
+    _extendStatics(d, b);
+
+    function __() {
+      this.constructor = d;
+    }
+
+    d.prototype = b === null ? Object.create(b) : (__.prototype = b.prototype, new __());
+  };
+}();
+
+var __assign = this && this.__assign || function () {
+  __assign = Object.assign || function (t) {
+    for (var s, i = 1, n = arguments.length; i < n; i++) {
+      s = arguments[i];
+
+      for (var p in s) {
+        if (Object.prototype.hasOwnProperty.call(s, p)) t[p] = s[p];
+      }
+    }
+
+    return t;
+  };
+
+  return __assign.apply(this, arguments);
+};
+
+var __awaiter = this && this.__awaiter || function (thisArg, _arguments, P, generator) {
+  return new (P || (P = Promise))(function (resolve, reject) {
+    function fulfilled(value) {
+      try {
+        step(generator.next(value));
+      } catch (e) {
+        reject(e);
+      }
+    }
+
+    function rejected(value) {
+      try {
+        step(generator["throw"](value));
+      } catch (e) {
+        reject(e);
+      }
+    }
+
+    function step(result) {
+      result.done ? resolve(result.value) : new P(function (resolve) {
+        resolve(result.value);
+      }).then(fulfilled, rejected);
+    }
+
+    step((generator = generator.apply(thisArg, _arguments || [])).next());
+  });
+};
+
+var __generator = this && this.__generator || function (thisArg, body) {
+  var _ = {
+    label: 0,
+    sent: function sent() {
+      if (t[0] & 1) throw t[1];
+      return t[1];
+    },
+    trys: [],
+    ops: []
+  },
+      f,
+      y,
+      t,
+      g;
+  return g = {
+    next: verb(0),
+    "throw": verb(1),
+    "return": verb(2)
+  }, typeof Symbol === "function" && (g[Symbol.iterator] = function () {
+    return this;
+  }), g;
+
+  function verb(n) {
+    return function (v) {
+      return step([n, v]);
+    };
+  }
+
+  function step(op) {
+    if (f) throw new TypeError("Generator is already executing.");
+
+    while (_) {
+      try {
+        if (f = 1, y && (t = op[0] & 2 ? y["return"] : op[0] ? y["throw"] || ((t = y["return"]) && t.call(y), 0) : y.next) && !(t = t.call(y, op[1])).done) return t;
+        if (y = 0, t) op = [op[0] & 2, t.value];
+
+        switch (op[0]) {
+          case 0:
+          case 1:
+            t = op;
+            break;
+
+          case 4:
+            _.label++;
+            return {
+              value: op[1],
+              done: false
+            };
+
+          case 5:
+            _.label++;
+            y = op[1];
+            op = [0];
+            continue;
+
+          case 7:
+            op = _.ops.pop();
+
+            _.trys.pop();
+
+            continue;
+
+          default:
+            if (!(t = _.trys, t = t.length > 0 && t[t.length - 1]) && (op[0] === 6 || op[0] === 2)) {
+              _ = 0;
+              continue;
+            }
+
+            if (op[0] === 3 && (!t || op[1] > t[0] && op[1] < t[3])) {
+              _.label = op[1];
+              break;
+            }
+
+            if (op[0] === 6 && _.label < t[1]) {
+              _.label = t[1];
+              t = op;
+              break;
+            }
+
+            if (t && _.label < t[2]) {
+              _.label = t[2];
+
+              _.ops.push(op);
+
+              break;
+            }
+
+            if (t[2]) _.ops.pop();
+
+            _.trys.pop();
+
+            continue;
+        }
+
+        op = body.call(thisArg, _);
+      } catch (e) {
+        op = [6, e];
+        y = 0;
+      } finally {
+        f = t = 0;
+      }
+    }
+
+    if (op[0] & 5) throw op[1];
+    return {
+      value: op[0] ? op[1] : void 0,
+      done: true
+    };
+  }
+};
+
+var __rest = this && this.__rest || function (s, e) {
+  var t = {};
+
+  for (var p in s) {
+    if (Object.prototype.hasOwnProperty.call(s, p) && e.indexOf(p) < 0) t[p] = s[p];
+  }
+
+  if (s != null && typeof Object.getOwnPropertySymbols === "function") for (var i = 0, p = Object.getOwnPropertySymbols(s); i < p.length; i++) {
+    if (e.indexOf(p[i]) < 0) t[p[i]] = s[p[i]];
+  }
+  return t;
+};
+
+var __importDefault = this && this.__importDefault || function (mod) {
+  return mod && mod.__esModule ? mod : {
+    "default": mod
+  };
+};
+
+Object.defineProperty(exports, "__esModule", {
+  value: true
+});
+
+var debug_1 = __importDefault(__webpack_require__(/*! debug */ "../../node_modules/debug/src/browser.js"));
+
+var debug = debug_1.default("WebIO:Scope");
+
+var Node_1 = __importDefault(__webpack_require__(/*! ./Node */ "../../webio/dist/Node.js"));
+
+var Observable_1 = __importDefault(__webpack_require__(/*! ./Observable */ "../../webio/dist/Observable.js"));
+
+var utils_1 = __webpack_require__(/*! ./utils */ "../../webio/dist/utils.js");
+
+var events_1 = __webpack_require__(/*! ./events */ "../../webio/dist/events.js");
+
+var createNode_1 = __importDefault(__webpack_require__(/*! ./createNode */ "../../webio/dist/createNode.js"));
+
+var imports_1 = __webpack_require__(/*! ./imports */ "../../webio/dist/imports.js");
+
+exports.SCOPE_NODE_TYPE = "Scope";
+
+var WebIOScope =
+/** @class */
+function (_super) {
+  __extends(WebIOScope, _super);
+
+  function WebIOScope(schema, context) {
+    var _this = _super.call(this, schema, context) || this;
+
+    _this.children = null;
+    debug("Creating new WebIOScope.", schema);
+    _this.element = document.createElement("div");
+    _this.element.className = "webio-scope";
+
+    _this.element.setAttribute("data-webio-scope-id", schema.instanceArgs.id);
+
+    var _a = schema.instanceArgs,
+        id = _a.id,
+        _b = _a.observables,
+        observables = _b === void 0 ? {} : _b,
+        _c = _a.handlers,
+        handlers = _c === void 0 ? {} : _c;
+    _this.id = id; // Create WebIOObservables.
+
+    _this.observables = {};
+    Object.keys(observables).forEach(function (name) {
+      var observable = new Observable_1.default(name, observables[name], _this);
+      _this.observables[name] = observable;
+      observable.subscribe(function (value) {
+        return _this.evokeObservableHandlers(name, value);
+      });
+    });
+    _this.handlers = {}; // TODO: refactor registerScope as described elsewhere
+
+    _this.webIO.registerScope(_this); // TODO: this following is super messy and needs to be refactored.
+
+    /**
+     * The issue here is that we need to have this.promises hooked up before
+     * we create children... and we have to do the imports **after** we create
+     * the children. There's definitely a cleaner way to do this but my brain
+     * is a little bit fried right now.
+     *
+     * Currently, we just have a "dummy promise" that we create and then
+     * "manually" resolve **after** the imports are done, so that
+     * `this.promises` is set when we call `initialize` -- which we need since
+     * `initialize` creates children which might in turn (e.g. in the case of
+     * {@link WebIOObservableNode}) rely on `this.promises`.
+     */
+
+
+    var resolveImportsLoaded;
+    var rejectImportsLoaded;
+    var importsLoadedPromise = new Promise(function (resolve, reject) {
+      resolveImportsLoaded = resolve;
+      rejectImportsLoaded = reject;
+    });
+    _this.promises = {
+      connected: _this.webIO.connected.then(function () {
+        return _this;
+      }),
+      importsLoaded: importsLoadedPromise
+    }; // This is super messy and should be refactored.
+    // We must do `setupScope` after imports are loaded (see pull #217).
+
+    _this.initialize(schema).then(function () {
+      var args = [];
+
+      for (var _i = 0; _i < arguments.length; _i++) {
+        args[_i] = arguments[_i];
+      }
+
+      return resolveImportsLoaded(args);
+    }).then(function () {
+      return _this.setupScope();
+    }).catch(function () {
+      var args = [];
+
+      for (var _i = 0; _i < arguments.length; _i++) {
+        args[_i] = arguments[_i];
+      }
+
+      return rejectImportsLoaded(args);
+    });
+
+    return _this;
+  }
+
+  Object.defineProperty(WebIOScope.prototype, "dom", {
+    get: function get() {
+      return this.element;
+    },
+    enumerable: true,
+    configurable: true
+  });
+  /**
+   * Perform asynchronous initialization tasks.
+   */
+
+  WebIOScope.prototype.initialize = function (schema) {
+    return __awaiter(this, void 0, void 0, function () {
+      var _a, _b, handlers, imports, systemJSConfig, _c, preDependencies, _d, _promises, restHandlers, resources, _e, _i, _f, child, importsLoadedHandlers, handlers_1;
+
+      var _this = this;
+
+      return __generator(this, function (_g) {
+        switch (_g.label) {
+          case 0:
+            _a = schema.instanceArgs, _b = _a.handlers, handlers = _b === void 0 ? {} : _b, imports = _a.imports, systemJSConfig = _a.systemjs_options;
+            _c = handlers.preDependencies, preDependencies = _c === void 0 ? [] : _c, _d = handlers._promises, _promises = _d === void 0 ? {} : _d, restHandlers = __rest(handlers, ["preDependencies", "_promises"]);
+            preDependencies.map(function (functionString) {
+              return events_1.evalWithWebIOContext(_this, functionString, {
+                scope: _this,
+                webIO: _this.webIO
+              });
+            }).forEach(function (handler) {
+              return handler.call(_this);
+            }); // Map the function strings into handlers which have `this` bound to the scope's
+            // element and which have access to the _webIOScope resources variable (via closure).
+
+            Object.keys(restHandlers).forEach(function (observableName) {
+              _this.handlers[observableName] = handlers[observableName].map(function (handlerString) {
+                return events_1.evalWithWebIOContext(_this, handlerString, {
+                  scope: _this,
+                  webIO: _this.webIO
+                });
+              });
+            });
+            if (!imports) return [3
+            /*break*/
+            , 2];
+            return [4
+            /*yield*/
+            , imports_1.importBlock(imports, systemJSConfig)];
+
+          case 1:
+            _e = _g.sent();
+            return [3
+            /*break*/
+            , 3];
+
+          case 2:
+            _e = null;
+            _g.label = 3;
+
+          case 3:
+            resources = _e; // Create children WebIONodes.
+
+            debug("Creating children for scope (id: " + this.id + ").");
+            this.children = schema.children.map(function (nodeData) {
+              if (typeof nodeData === "string") {
+                return nodeData;
+              }
+
+              return createNode_1.default(nodeData, {
+                webIO: _this.webIO,
+                scope: _this
+              });
+            }); // Append children elements to our element.
+
+            for (_i = 0, _f = this.children; _i < _f.length; _i++) {
+              child = _f[_i];
+
+              if (typeof child === "string") {
+                this.element.appendChild(document.createTextNode(child));
+              } else {
+                this.element.appendChild(child.element);
+              }
+            }
+
+            importsLoadedHandlers = _promises.importsLoaded;
+
+            if (resources && importsLoadedHandlers) {
+              debug("Invoking importsLoaded handlers for scope (" + this.id + ").", {
+                scope: this,
+                importsLoadedHandlers: importsLoadedHandlers,
+                resources: resources
+              });
+              handlers_1 = importsLoadedHandlers.map(function (handler) {
+                return events_1.evalWithWebIOContext(_this, handler, {
+                  scope: _this,
+                  webIO: _this.webIO
+                });
+              }); // `as any` is necessary because evalWithWebIOContext normally returns
+              // a function which is expected to be an event listener... but this is
+              // kind of a special case of that.
+
+              handlers_1.forEach(function (handler) {
+                return handler.apply(void 0, resources);
+              });
+            } // This isn't super clean, but this function is used to create the
+            // importsLoaded promise, so we need to return the promises.
+            // TODO: refactor this
+
+
+            return [2
+            /*return*/
+            , resources];
+        }
+      });
+    });
+  };
+
+  WebIOScope.prototype.getLocalObservable = function (observableName) {
+    // Only return a "local" observable
+    var obs = this.observables[observableName];
+
+    if (!obs) {
+      throw new Error("Scope(id=" + this.id + ") has no observable named \"" + observableName + "\".");
+    }
+
+    return obs;
+  };
+
+  WebIOScope.prototype.getObservable = function (observable) {
+    if (typeof observable === "string" || observable.scope === this.id) {
+      return this.getLocalObservable(utils_1.getObservableName(observable));
+    } // Otherwise, let the root WebIO instance find the correct scope and
+    // observable.
+
+
+    return this.webIO.getObservable(observable);
+  };
+
+  WebIOScope.prototype.getObservableValue = function (observable) {
+    return this.getObservable(observable).value;
+  };
+  /**
+   * Update an observable within the scope.
+   * @param observable - The name (or specifier) of the observable to modify.
+   * @param value - The value to set the observable to.
+   * @param sync - Whether or not to sync the value to Julia. This should always be
+   *    false if the update originated from Julia and is just being propogated into
+   *    the browser.
+   */
+
+
+  WebIOScope.prototype.setObservableValue = function (observable, value, sync) {
+    if (sync === void 0) {
+      sync = true;
+    }
+
+    var observableName = utils_1.getObservableName(observable);
+
+    if (!(observableName in this.observables)) {
+      throw new Error("Scope(id=" + this.id + ") has no observable named \"" + observableName + "\".");
+    }
+
+    debug("Setting Observable (name: " + observableName + ") to \"" + value + "\" in WebIOScope (id: " + this.id + ").");
+    this.observables[observableName].setValue(value, sync);
+  };
+  /**
+   * Send a message to the WebIO Julia machinery.
+   *
+   * Sets the scope id if not specified.
+   */
+
+
+  WebIOScope.prototype.send = function (_a) {
+    var _b = _a.scope,
+        scope = _b === void 0 ? this.id : _b,
+        rest = __rest(_a, ["scope"]);
+
+    return this.webIO.send(__assign({
+      scope: scope
+    }, rest));
+  };
+  /**
+   * Evoke the listeners for an observable with the current value of
+   * that observable.
+   *
+   * @param name - The name of the observable whose listeners should be evoked.
+   * @param value - The current value of the observable.
+   */
+
+
+  WebIOScope.prototype.evokeObservableHandlers = function (name, value) {
+    var _this = this;
+
+    var listeners = this.handlers[name] || [];
+    debug("Evoking " + listeners.length + " observable handlers for observable \"" + name + "\".");
+    listeners.forEach(function (listener) {
+      listener.call(_this, value, _this);
+    });
+  };
+  /**
+   * Send the setup-scope message.
+   *
+   * This informs Julia/WebIO that we want to listen to changes associated
+   * with this scope.
+   */
+
+
+  WebIOScope.prototype.setupScope = function () {
+    return this.send({
+      command: "_setup_scope"
+      /* SETUP_SCOPE */
+      ,
+      data: {}
+    });
+  };
+
+  return WebIOScope;
+}(Node_1.default);
+
+exports.default = WebIOScope;
+
+/***/ }),
+
+/***/ "../../webio/dist/WebIO.js":
+/*!*******************************************************************!*\
+  !*** /home/travigd/.julia/dev/WebIO/packages/webio/dist/WebIO.js ***!
+  \*******************************************************************/
+/*! no static exports found */
+/***/ (function(module, exports, __webpack_require__) {
+
+"use strict";
+
+
+var __assign = this && this.__assign || function () {
+  __assign = Object.assign || function (t) {
+    for (var s, i = 1, n = arguments.length; i < n; i++) {
+      s = arguments[i];
+
+      for (var p in s) {
+        if (Object.prototype.hasOwnProperty.call(s, p)) t[p] = s[p];
+      }
+    }
+
+    return t;
+  };
+
+  return __assign.apply(this, arguments);
+};
+
+var __awaiter = this && this.__awaiter || function (thisArg, _arguments, P, generator) {
+  return new (P || (P = Promise))(function (resolve, reject) {
+    function fulfilled(value) {
+      try {
+        step(generator.next(value));
+      } catch (e) {
+        reject(e);
+      }
+    }
+
+    function rejected(value) {
+      try {
+        step(generator["throw"](value));
+      } catch (e) {
+        reject(e);
+      }
+    }
+
+    function step(result) {
+      result.done ? resolve(result.value) : new P(function (resolve) {
+        resolve(result.value);
+      }).then(fulfilled, rejected);
+    }
+
+    step((generator = generator.apply(thisArg, _arguments || [])).next());
+  });
+};
+
+var __generator = this && this.__generator || function (thisArg, body) {
+  var _ = {
+    label: 0,
+    sent: function sent() {
+      if (t[0] & 1) throw t[1];
+      return t[1];
+    },
+    trys: [],
+    ops: []
+  },
+      f,
+      y,
+      t,
+      g;
+  return g = {
+    next: verb(0),
+    "throw": verb(1),
+    "return": verb(2)
+  }, typeof Symbol === "function" && (g[Symbol.iterator] = function () {
+    return this;
+  }), g;
+
+  function verb(n) {
+    return function (v) {
+      return step([n, v]);
+    };
+  }
+
+  function step(op) {
+    if (f) throw new TypeError("Generator is already executing.");
+
+    while (_) {
+      try {
+        if (f = 1, y && (t = op[0] & 2 ? y["return"] : op[0] ? y["throw"] || ((t = y["return"]) && t.call(y), 0) : y.next) && !(t = t.call(y, op[1])).done) return t;
+        if (y = 0, t) op = [op[0] & 2, t.value];
+
+        switch (op[0]) {
+          case 0:
+          case 1:
+            t = op;
+            break;
+
+          case 4:
+            _.label++;
+            return {
+              value: op[1],
+              done: false
+            };
+
+          case 5:
+            _.label++;
+            y = op[1];
+            op = [0];
+            continue;
+
+          case 7:
+            op = _.ops.pop();
+
+            _.trys.pop();
+
+            continue;
+
+          default:
+            if (!(t = _.trys, t = t.length > 0 && t[t.length - 1]) && (op[0] === 6 || op[0] === 2)) {
+              _ = 0;
+              continue;
+            }
+
+            if (op[0] === 3 && (!t || op[1] > t[0] && op[1] < t[3])) {
+              _.label = op[1];
+              break;
+            }
+
+            if (op[0] === 6 && _.label < t[1]) {
+              _.label = t[1];
+              t = op;
+              break;
+            }
+
+            if (t && _.label < t[2]) {
+              _.label = t[2];
+
+              _.ops.push(op);
+
+              break;
+            }
+
+            if (t[2]) _.ops.pop();
+
+            _.trys.pop();
+
+            continue;
+        }
+
+        op = body.call(thisArg, _);
+      } catch (e) {
+        op = [6, e];
+        y = 0;
+      } finally {
+        f = t = 0;
+      }
+    }
+
+    if (op[0] & 5) throw op[1];
+    return {
+      value: op[0] ? op[1] : void 0,
+      done: true
+    };
+  }
+};
+
+var __importDefault = this && this.__importDefault || function (mod) {
+  return mod && mod.__esModule ? mod : {
+    "default": mod
+  };
+};
+
+var __importStar = this && this.__importStar || function (mod) {
+  if (mod && mod.__esModule) return mod;
+  var result = {};
+  if (mod != null) for (var k in mod) {
+    if (Object.hasOwnProperty.call(mod, k)) result[k] = mod[k];
+  }
+  result["default"] = mod;
+  return result;
+};
+
+Object.defineProperty(exports, "__esModule", {
+  value: true
+}); // import isArray from "is-array";
+// import arrayEqual from "array-equal";
+
+var debug_1 = __importDefault(__webpack_require__(/*! debug */ "../../node_modules/debug/src/browser.js"));
+
+var createNode_1 = __importStar(__webpack_require__(/*! ./createNode */ "../../webio/dist/createNode.js"));
+
+var log = debug_1.default("WebIO");
+
+var WebIO =
+/** @class */
+function () {
+  function WebIO() {
+    var _this = this;
+    /**
+     * A map from `scopeId` to the corresponding {@link WebIOScope} instance.
+     */
+
+
+    this.scopes = {};
+    /**
+     * A map from `observableId` to an array of corresponding
+     * {@link WebIOObservable} instances. We have an array of these instances
+     * since an observable may appear within several different scopes. Also note
+     * that we identify observables by id here, rather than by name, since the
+     * name may be different in different scopes; the ids are usually of the form
+     * `obs_123`.
+     */
+
+    this.observables = {}; // We have to use the !-postfix on {resolve,reject}Connected because TypeScript
+    // thinks that the body of the promise below isn't immediately executed (it is).
+
+    this.connected = new Promise(function (resolve, reject) {
+      _this.resolveConnected = resolve;
+      _this.rejectConnected = reject;
+    });
+  }
+  /**
+   * Dispatch a message into the WebIO JavaScript machinery.
+   *
+   * The message usually comes from the comm (e.g. WebSocket) that WebIO is
+   * using to communicate.
+   *
+   * @param message - The message to dispatch.
+   */
+
+
+  WebIO.prototype.dispatch = function (message) {
+    log("Dispatching message (command: " + message.command + ").", message);
+
+    switch (message.command) {
+      case "Basics.eval"
+      /* EVAL */
+      :
+        {
+          console.error("Dispatching command \"" + message.command + "\" not implemented.");
+          return;
+        }
+
+      default:
+        {
+          // TODO: see notes in interface definition of WebIOMessage
+          var scopeId = message.scope,
+              observableName = message.command,
+              data = message.data;
+          var scope = this.scopes[scopeId];
+
+          if (!scope) {
+            throw new Error("WebIO has no such scope (id: " + scopeId + ").");
+          } // Set (but don't sync) the value..
+
+
+          scope.setObservableValue(observableName, data, false);
+        }
+    }
+  };
+  /**
+   * Set the send callback that WebIO will use.
+   *
+   * This method, when called for the first time, will also resolve the WebIO
+   * connected promise and send any messages that are waiting.
+   */
+
+
+  WebIO.prototype.setSendCallback = function (sendCallback) {
+    log("Setting WebIO sendCallback.");
+    this.sendCallback = sendCallback;
+    this.resolveConnected();
+  };
+  /**
+   * A method called by scopes to register themselves so that messages
+   * can be routed appropriately.
+   *
+   * @todo This should probably be changed so that this method is used to
+   *    create a new `WebIOScope` and have it registered then instead of
+   *    asking the scope to register itself.
+   *    tl;dr; change
+   *    `scope = new WebIOScope(...); webIO.registerScope(scope)`
+   *    to `scope = webio.createScope(...);`.
+   *
+   * @param scope
+   */
+
+
+  WebIO.prototype.registerScope = function (scope) {
+    log("Registering WebIO scope (id: " + scope.id + ").");
+    this.scopes[scope.id] = scope;
+  };
+  /**
+   * A method called by observables to register themselves. This is used to
+   * ensure that observables are in a consistent state within the browser.
+   * @param observable
+   */
+
+
+  WebIO.prototype.registerObservable = function (observable) {
+    var id = observable.id;
+    log("Registering WebIO observable (id: " + observable.id + ").");
+
+    if (!this.observables[id]) {
+      this.observables[id] = [];
+    }
+
+    this.observables[observable.id].push(observable);
+  };
+  /**
+   * Ensure that all observable instances have the value off the
+   * `sourceObservable`.
+   *
+   * @param sourceObservable - The observable whose values are synchronized with
+   *    all other registered observables of the same id.
+   */
+
+
+  WebIO.prototype.reconcileObservables = function (sourceObservable) {
+    var id = sourceObservable.id,
+        name = sourceObservable.name,
+        value = sourceObservable.value;
+    var observables = this.observables[id] || [];
+    log("Reconciling " + observables.length + " observables (id: " + id + ").");
+
+    if (observables.length < 1) {
+      console.warn("Tried to reconcile observables (id: " + id + ", name: " + name + ") but we don't know" + "about any observables with that id.");
+      return;
+    }
+
+    for (var _i = 0, observables_1 = observables; _i < observables_1.length; _i++) {
+      var observable = observables_1[_i]; // Don't re-set the value of the observable that triggered the
+      // reconciliation.
+
+      if (observable === sourceObservable) continue;
+      log("Reconciling observable \"" + observable.name + "\" in scope \"" + observable.scope.id + "\".");
+      observable.setValue(value, false);
+    }
+  };
+
+  ;
+  /**
+   * Send a message to the WebIO Julia machinery.
+   *
+   * Sets `type: "message"` before passing to the send callback.
+   */
+
+  WebIO.prototype.send = function (message) {
+    return __awaiter(this, void 0, void 0, function () {
+      return __generator(this, function (_a) {
+        switch (_a.label) {
+          case 0:
+            return [4
+            /*yield*/
+            , this.connected];
+
+          case 1:
+            _a.sent();
+
+            log("Sending WebIO message (command: " + message.command + ").", message);
+            return [2
+            /*return*/
+            , this.sendCallback(__assign({
+              type: "message"
+            }, message))];
+        }
+      });
+    });
+  };
+  /**
+   * Mount a WebIO node into the specified element.
+   *
+   * This method overwrites the content of the element.
+   *
+   * @param element - The element to be replaced with the WebIO node.
+   * @param nodeSchema - The data associated with the WebIO node.
+   */
+
+
+  WebIO.prototype.mount = function (element, nodeSchema) {
+    if (!element) {
+      console.error("WebIO cannot mount node into element.", {
+        element: element,
+        nodeData: nodeSchema
+      });
+      throw new Error("WebIO cannot mount node into element.");
+    }
+
+    log("Mounting WebIO node.", {
+      nodeData: nodeSchema,
+      element: element
+    });
+    var node = createNode_1.default(nodeSchema, {
+      webIO: this
+    }); // Reset the contents of the node we're mounting into.
+
+    element.innerHTML = "";
+    element.classList.add("webio-mountpoint"); // Temporary hack for @piever
+    // https://github.com/JuliaGizmos/WebIO.jl/pull/211#issuecomment-429672805
+
+    element.classList.add("interactbulma");
+    element.appendChild(node.element);
+  };
+
+  WebIO.prototype.getScope = function (scopeId) {
+    var scope = this.scopes[scopeId];
+
+    if (!scope) {
+      throw new Error("WebIO has no scope (id: " + scopeId + ").");
+    }
+
+    return scope;
+  };
+  /**
+   * Get an {@link WebIOObservable} object.
+   *
+   * @throws Will throw an error if the scope does not exist or there is no
+   *    such observable within the scope.
+   */
+
+
+  WebIO.prototype.getObservable = function (_a) {
+    var scope = _a.scope,
+        name = _a.name;
+    return this.getScope(scope).getLocalObservable(name);
+  };
+  /**
+   * Get the value of some observable.
+   *
+   * @deprecated This method is a shim for old WebIO functionally which relied
+   * on a global WebIO instance.
+   *
+   * @throws Will throw an error if the scope does not exist or there is no
+   *    such observable within the scope.
+   */
+
+
+  WebIO.prototype.getval = function (_a) {
+    var scope = _a.scope,
+        name = _a.name;
+    return this.getScope(scope).getObservableValue(name);
+  };
+  /**
+   * Set the value of some observable.
+   *
+   * @deprecated This method is a shim for old WebIO functionally which relied
+   * on a global WebIO instance.
+   *
+   * @throws Will throw an error if the scope does not exist or there is no
+   *    such observable within the scope.
+   */
+
+
+  WebIO.prototype.setval = function (_a, value, sync) {
+    var scope = _a.scope,
+        name = _a.name;
+
+    if (sync === void 0) {
+      sync = true;
+    }
+
+    return this.getScope(scope).setObservableValue(name, value, sync);
+  };
+  /**
+   * A reference to {@link NODE_CLASSES} to allow for extension.
+   */
+
+
+  WebIO.NODE_CLASSES = createNode_1.NODE_CLASSES;
+  return WebIO;
+}();
+
+exports.default = WebIO;
+
+/***/ }),
+
+/***/ "../../webio/dist/createNode.js":
+/*!************************************************************************!*\
+  !*** /home/travigd/.julia/dev/WebIO/packages/webio/dist/createNode.js ***!
+  \************************************************************************/
+/*! no static exports found */
+/***/ (function(module, exports, __webpack_require__) {
+
+"use strict";
+
+
+var __importStar = this && this.__importStar || function (mod) {
+  if (mod && mod.__esModule) return mod;
+  var result = {};
+  if (mod != null) for (var k in mod) {
+    if (Object.hasOwnProperty.call(mod, k)) result[k] = mod[k];
+  }
+  result["default"] = mod;
+  return result;
+};
+
+Object.defineProperty(exports, "__esModule", {
+  value: true
+});
+
+var _a;
+
+var DomNode_1 = __importStar(__webpack_require__(/*! ./DomNode */ "../../webio/dist/DomNode.js"));
+
+var Scope_1 = __importStar(__webpack_require__(/*! ./Scope */ "../../webio/dist/Scope.js"));
+
+var IFrame_1 = __importStar(__webpack_require__(/*! ./IFrame */ "../../webio/dist/IFrame.js"));
+
+var ObservableNode_1 = __importStar(__webpack_require__(/*! ./ObservableNode */ "../../webio/dist/ObservableNode.js"));
+/**
+ * Map from node type to node class.
+ *
+ * The node class should extends WebIONode and take the same arguments in its
+ * constructor.
+ */
+
+
+exports.NODE_CLASSES = (_a = {}, _a[DomNode_1.DOM_NODE_TYPE] = DomNode_1.default, _a[Scope_1.SCOPE_NODE_TYPE] = Scope_1.default, _a[IFrame_1.IFRAME_NODE_TYPE] = IFrame_1.default, _a[ObservableNode_1.OBSERVABLE_NODE_TYPE] = ObservableNode_1.default, _a);
+/**
+* Create a new WebIO node (a scope or a DOM node).
+* @param schema
+* @param context
+*/
+
+var createNode = function createNode(schema, context) {
+  var NodeClass = exports.NODE_CLASSES[schema.nodeType];
+
+  if (NodeClass) {
+    // We need any here to tell TypeScript that NodeClass isn't an abstract
+    // class (because WebIONode **is** an abstract class but we will only have
+    // subclasses in our NODE_CLASSES map).
+    return new NodeClass(schema, context);
+  }
+
+  throw new Error("Unknown WebIO node type: " + schema.nodeType + ".");
+};
+
+exports.default = createNode;
+
+/***/ }),
+
+/***/ "../../webio/dist/events.js":
+/*!********************************************************************!*\
+  !*** /home/travigd/.julia/dev/WebIO/packages/webio/dist/events.js ***!
+  \********************************************************************/
+/*! no static exports found */
+/***/ (function(module, exports, __webpack_require__) {
+
+"use strict";
+
+
+var __importDefault = this && this.__importDefault || function (mod) {
+  return mod && mod.__esModule ? mod : {
+    "default": mod
+  };
+};
+
+Object.defineProperty(exports, "__esModule", {
+  value: true
+});
+
+var debug_1 = __importDefault(__webpack_require__(/*! debug */ "../../node_modules/debug/src/browser.js"));
+
+var log = debug_1.default("WebIO:events");
+/**
+ * Create a WebIO event listener.
+ *
+ * This function returns an event listener function that will operate in the
+ * correct WebIO scope (i.e. WebIO will refer to the right instance and `this`
+ * will be bound to the DOM node specified).
+ *
+ * Note that we use _webIO-prefixed variable names to avoid any possible clashes
+ * with user-code.
+ *
+ * @param _webIOThis - the DOM node that `this` should be bound to.
+ * @param _webIOListenerSource - the source (preferably as a string) of the listener
+ *    function; if not a string, the function will be converted to a string and
+ *    then re-eval'd to ensure that WebIO and this refer to the correct objects.
+ * @param context - the context handler should be evaluated in.
+ */
+
+exports.evalWithWebIOContext = function (_webIOThis, _webIOListenerSource, _webIOContext) {
+  var WebIO = _webIOContext.webIO,
+      _webIOScope = _webIOContext.scope;
+  log("Creating event listener.", {
+    context: _webIOThis,
+    scope: _webIOScope,
+    source: _webIOListenerSource
+  }); // Wrap the source in parens so that eval returns the function instance
+  // (so that eval treats it as an expression rather than a top-level function
+  // declaration).
+
+  return eval("(" + _webIOListenerSource + ")").bind(_webIOThis);
+};
+
+/***/ }),
+
+/***/ "../../webio/dist/imports.js":
+/*!*********************************************************************!*\
+  !*** /home/travigd/.julia/dev/WebIO/packages/webio/dist/imports.js ***!
+  \*********************************************************************/
+/*! no static exports found */
+/***/ (function(module, exports, __webpack_require__) {
+
+"use strict";
+
+
+var __awaiter = this && this.__awaiter || function (thisArg, _arguments, P, generator) {
+  return new (P || (P = Promise))(function (resolve, reject) {
+    function fulfilled(value) {
+      try {
+        step(generator.next(value));
+      } catch (e) {
+        reject(e);
+      }
+    }
+
+    function rejected(value) {
+      try {
+        step(generator["throw"](value));
+      } catch (e) {
+        reject(e);
+      }
+    }
+
+    function step(result) {
+      result.done ? resolve(result.value) : new P(function (resolve) {
+        resolve(result.value);
+      }).then(fulfilled, rejected);
+    }
+
+    step((generator = generator.apply(thisArg, _arguments || [])).next());
+  });
+};
+
+var __generator = this && this.__generator || function (thisArg, body) {
+  var _ = {
+    label: 0,
+    sent: function sent() {
+      if (t[0] & 1) throw t[1];
+      return t[1];
+    },
+    trys: [],
+    ops: []
+  },
+      f,
+      y,
+      t,
+      g;
+  return g = {
+    next: verb(0),
+    "throw": verb(1),
+    "return": verb(2)
+  }, typeof Symbol === "function" && (g[Symbol.iterator] = function () {
+    return this;
+  }), g;
+
+  function verb(n) {
+    return function (v) {
+      return step([n, v]);
+    };
+  }
+
+  function step(op) {
+    if (f) throw new TypeError("Generator is already executing.");
+
+    while (_) {
+      try {
+        if (f = 1, y && (t = op[0] & 2 ? y["return"] : op[0] ? y["throw"] || ((t = y["return"]) && t.call(y), 0) : y.next) && !(t = t.call(y, op[1])).done) return t;
+        if (y = 0, t) op = [op[0] & 2, t.value];
+
+        switch (op[0]) {
+          case 0:
+          case 1:
+            t = op;
+            break;
+
+          case 4:
+            _.label++;
+            return {
+              value: op[1],
+              done: false
+            };
+
+          case 5:
+            _.label++;
+            y = op[1];
+            op = [0];
+            continue;
+
+          case 7:
+            op = _.ops.pop();
+
+            _.trys.pop();
+
+            continue;
+
+          default:
+            if (!(t = _.trys, t = t.length > 0 && t[t.length - 1]) && (op[0] === 6 || op[0] === 2)) {
+              _ = 0;
+              continue;
+            }
+
+            if (op[0] === 3 && (!t || op[1] > t[0] && op[1] < t[3])) {
+              _.label = op[1];
+              break;
+            }
+
+            if (op[0] === 6 && _.label < t[1]) {
+              _.label = t[1];
+              t = op;
+              break;
+            }
+
+            if (t && _.label < t[2]) {
+              _.label = t[2];
+
+              _.ops.push(op);
+
+              break;
+            }
+
+            if (t[2]) _.ops.pop();
+
+            _.trys.pop();
+
+            continue;
+        }
+
+        op = body.call(thisArg, _);
+      } catch (e) {
+        op = [6, e];
+        y = 0;
+      } finally {
+        f = t = 0;
+      }
+    }
+
+    if (op[0] & 5) throw op[1];
+    return {
+      value: op[0] ? op[1] : void 0,
+      done: true
+    };
+  }
+};
+
+var __importDefault = this && this.__importDefault || function (mod) {
+  return mod && mod.__esModule ? mod : {
+    "default": mod
+  };
+};
+
+var _this = this;
+
+Object.defineProperty(exports, "__esModule", {
+  value: true
+});
+
+var systemjs_1 = __importDefault(__webpack_require__(/*! systemjs */ "../../webio/node_modules/systemjs/dist/system.js"));
+
+var debug_1 = __importDefault(__webpack_require__(/*! debug */ "../../node_modules/debug/src/browser.js"));
+
+var debug = debug_1.default("WebIO:imports");
+var URL_PROTOCOL_REGEX = /[A-Za-z]+:\/\//;
+
+var isRelativeUrl = function isRelativeUrl(url) {
+  return !(URL_PROTOCOL_REGEX.test(url) || url.startsWith("//"));
+};
+
+var _lastImportNumber = 0;
+
+var uniqueImportName = function uniqueImportName() {
+  return "import_" + (_lastImportNumber += 1);
+};
+
+var importJSUrl = function importJSUrl(name, url) {
+  var _a, _b;
+
+  debug("Importing JavaScript resource (" + name + ") from url (" + url + ").");
+  systemjs_1.default.config({
+    paths: (_a = {}, _a[name] = url, _a),
+    meta: (_b = {}, _b[name] = {
+      authorization: isRelativeUrl(url)
+    }, _b)
+  });
+  return systemjs_1.default.import(url);
+};
+
+exports.importJS = function (importData) {
+  debug("Importing JavaScript resource.", importData);
+  var url = importData.url,
+      blob = importData.blob;
+  var name = importData.name || uniqueImportName();
+
+  if (blob) {
+    throw new Error("Importing JS blob is not yet implemented.");
+  } else if (url) {
+    return importJSUrl(name, url);
+  } else {
+    throw new Error("One of blob or url must be specified in call to importJS.");
+  }
+};
+/**
+ * Import some href/url in a `<link />` tag.
+ * @param url
+ */
+
+
+var importLink = function importLink(url, options) {
+  if (document.querySelector("link[data-webio-import=\"" + url + "\"]")) {
+    debug("CSS resource (${url}) is already imported."); // This actually has a slight race condition where if the import actually
+    // is still loading, we'll resolve immediately. Probably(?) not a big deal.
+
+    return Promise.resolve();
+  }
+
+  return new Promise(function (resolve, reject) {
+    var link = document.createElement("link"); // Apply options
+
+    var rel = options.rel,
+        type = options.type,
+        media = options.media;
+    rel && (link.rel = rel);
+    type && (link.type = type);
+    media && (link.media = media);
+    link.href = url;
+    link.setAttribute("async", "");
+
+    link.onload = function () {
+      return resolve();
+    };
+
+    link.onerror = function () {
+      link.remove();
+      reject();
+    };
+
+    document.head.appendChild(link);
+  });
+};
+
+exports.importCSS = function (importData) {
+  debug("Importing CSS resource.", importData);
+  var url = importData.url,
+      blob = importData.blob;
+
+  if (url) {
+    return importLink(url, {
+      rel: "stylesheet",
+      type: "text/css",
+      media: "all"
+    });
+  } else if (blob) {
+    throw new Error("Imports CSS blob is not yet implemented.");
+  } else {
+    throw new Error("One of blob or url must be specified in call to importCSS.");
+  }
+};
+
+exports.importSyncBlock = function (importData) {
+  return __awaiter(_this, void 0, void 0, function () {
+    var results, _i, _a, importItem, _b, _c;
+
+    return __generator(this, function (_d) {
+      switch (_d.label) {
+        case 0:
+          debug("Importing synchronous block.", importData);
+          results = [];
+          _i = 0, _a = importData.data;
+          _d.label = 1;
+
+        case 1:
+          if (!(_i < _a.length)) return [3
+          /*break*/
+          , 4];
+          importItem = _a[_i];
+          _c = (_b = results).push;
+          return [4
+          /*yield*/
+          , exports.importResource(importItem)];
+
+        case 2:
+          _c.apply(_b, [_d.sent()]);
+
+          _d.label = 3;
+
+        case 3:
+          _i++;
+          return [3
+          /*break*/
+          , 1];
+
+        case 4:
+          return [2
+          /*return*/
+          , results];
+      }
+    });
+  });
+};
+
+exports.importAsyncBlock = function (importData) {
+  return __awaiter(_this, void 0, void 0, function () {
+    return __generator(this, function (_a) {
+      debug("Importing asynchronous block.", importData);
+      return [2
+      /*return*/
+      , Promise.all(importData.data.map(exports.importResource))];
+    });
+  });
+};
+/**
+ * Import a _thing_.
+ * @param importData
+ */
+
+
+exports.importResource = function (importData) {
+  switch (importData.type) {
+    case "js"
+    /* JS */
+    :
+      return exports.importJS(importData);
+
+    case "css"
+    /* CSS */
+    :
+      return exports.importCSS(importData);
+
+    default:
+      throw new Error("Importing resource of type \"" + importData.type + "\" not supported.");
+  }
+};
+
+exports.importBlock = function (importData, config) {
+  if (config) {
+    systemjs_1.default.config(config);
+  }
+
+  switch (importData.type) {
+    case "sync_block"
+    /* SYNC_BLOCK */
+    :
+      return exports.importSyncBlock(importData);
+
+    case "async_block"
+    /* ASYNC_BLOCK */
+    :
+      return exports.importAsyncBlock(importData);
+
+    default:
+      throw new Error("Cannot import unknown block type: " + importData.type + ".");
+  }
+};
+
+console.warn("WebIO is registering SystemJS window global.");
+window.SystemJS = systemjs_1.default;
+
+/***/ }),
+
+/***/ "../../webio/dist/index.js":
+/*!*******************************************************************!*\
+  !*** /home/travigd/.julia/dev/WebIO/packages/webio/dist/index.js ***!
+  \*******************************************************************/
+/*! no static exports found */
+/***/ (function(module, exports, __webpack_require__) {
+
+"use strict";
+
+
+function __export(m) {
+  for (var p in m) {
+    if (!exports.hasOwnProperty(p)) exports[p] = m[p];
+  }
+}
+
+Object.defineProperty(exports, "__esModule", {
+  value: true
+});
+
+var WebIO_1 = __webpack_require__(/*! ./WebIO */ "../../webio/dist/WebIO.js");
+
+exports.default = WebIO_1.default;
+
+__export(__webpack_require__(/*! ./DomNode */ "../../webio/dist/DomNode.js"));
+
+__export(__webpack_require__(/*! ./IFrame */ "../../webio/dist/IFrame.js"));
+
+__export(__webpack_require__(/*! ./Node */ "../../webio/dist/Node.js"));
+
+__export(__webpack_require__(/*! ./Observable */ "../../webio/dist/Observable.js"));
+
+__export(__webpack_require__(/*! ./ObservableNode */ "../../webio/dist/ObservableNode.js"));
+
+__export(__webpack_require__(/*! ./Scope */ "../../webio/dist/Scope.js"));
+
+__export(__webpack_require__(/*! ./WebIO */ "../../webio/dist/WebIO.js"));
+
+__export(__webpack_require__(/*! ./createNode */ "../../webio/dist/createNode.js"));
+
+__export(__webpack_require__(/*! ./events */ "../../webio/dist/events.js"));
+
+__export(__webpack_require__(/*! ./imports */ "../../webio/dist/imports.js"));
+
+__export(__webpack_require__(/*! ./message */ "../../webio/dist/message.js"));
+
+__export(__webpack_require__(/*! ./setInnerHTML */ "../../webio/dist/setInnerHTML.js"));
+
+__export(__webpack_require__(/*! ./utils */ "../../webio/dist/utils.js"));
+
+/***/ }),
+
+/***/ "../../webio/dist/message.js":
+/*!*********************************************************************!*\
+  !*** /home/travigd/.julia/dev/WebIO/packages/webio/dist/message.js ***!
+  \*********************************************************************/
+/*! no static exports found */
+/***/ (function(module, exports, __webpack_require__) {
+
+"use strict";
+
+
+Object.defineProperty(exports, "__esModule", {
+  value: true
+});
+
+/***/ }),
+
+/***/ "../../webio/dist/setInnerHTML.js":
+/*!**************************************************************************!*\
+  !*** /home/travigd/.julia/dev/WebIO/packages/webio/dist/setInnerHTML.js ***!
+  \**************************************************************************/
+/*! no static exports found */
+/***/ (function(module, exports, __webpack_require__) {
+
+"use strict";
+
+
+Object.defineProperty(exports, "__esModule", {
+  value: true
+});
+/**
+ * Set the `innerHTML` attribute of a DOM element.
+ *
+ * This method will guarantee the execution of `<script />`s which is not done
+ * by simply setting `element.innerHTML = ...`.
+ *
+ * @param element - The DOM element whose `innerHTML` will be set.
+ * @param html - The HTML string to use; any special HTML characters (`<`, `>`, `&`, etc.)
+ *    should be &-escaped as appropriate (e.g. to set the displayed text to "foo&bar",
+ *    `html` should be `foo&amp;bar`).
+ */
+
+var setInnerHTML = function setInnerHTML(element, html) {
+  // In the original WebIO, we like to replace </script> with </_script> because the whole shebang
+  // is executed inside a <script></script> block (and we don't want to close it too early).
+  html = html.replace(/<\/_script>/g, "</script>");
+  element.innerHTML = html; // If the HTML contained any <script> tags, these are NOT executed when we assign the DOM
+  // innerHTML attribute, so we have to find-and-replace them to force them to execute.
+  // We do this weird array coercion because getElementsByTagName returns a
+  // HTMLCollection object, which updates as the contents of element update
+  // (creating an infinite loop).
+
+  var scripts = Array.from(element.getElementsByTagName("script"));
+  scripts.forEach(function (oldScript) {
+    var newScript = document.createElement("script"); // Copy all attributes.
+    // Unfortunately, attributes is a NamedNodeMap which doesn't have very
+    // ES6-like methods of manipulation
+
+    for (var i = 0; i < oldScript.attributes.length; ++i) {
+      var _a = oldScript.attributes[i],
+          name_1 = _a.name,
+          value = _a.value;
+      newScript.setAttribute(name_1, value);
+    } // Copy script content
+
+
+    newScript.appendChild(document.createTextNode(oldScript.innerHTML)); // Replace inside DOM
+
+    oldScript.parentNode.replaceChild(newScript, oldScript);
+  });
+};
+
+exports.default = setInnerHTML;
+
+/***/ }),
+
+/***/ "../../webio/dist/utils.js":
+/*!*******************************************************************!*\
+  !*** /home/travigd/.julia/dev/WebIO/packages/webio/dist/utils.js ***!
+  \*******************************************************************/
+/*! no static exports found */
+/***/ (function(module, exports, __webpack_require__) {
+
+"use strict";
+
+
+Object.defineProperty(exports, "__esModule", {
+  value: true
+});
+
+exports.getObservableName = function (specifier) {
+  if (typeof specifier === "string") {
+    return specifier;
+  }
+
+  return specifier.name;
+};
+
+/***/ }),
+
 /***/ "../../webio/node_modules/systemjs/dist/system.js":
 /*!******************************************************************************************!*\
   !*** /home/travigd/.julia/dev/WebIO/packages/webio/node_modules/systemjs/dist/system.js ***!
@@ -15374,2135 +17943,6 @@ module.exports = function (module) {
 
 /***/ }),
 
-/***/ "../../webio/src/DomNode.ts":
-/*!********************************************************************!*\
-  !*** /home/travigd/.julia/dev/WebIO/packages/webio/src/DomNode.ts ***!
-  \********************************************************************/
-/*! exports provided: DOM_NODE_TYPE, default */
-/***/ (function(module, __webpack_exports__, __webpack_require__) {
-
-"use strict";
-__webpack_require__.r(__webpack_exports__);
-/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "DOM_NODE_TYPE", function() { return DOM_NODE_TYPE; });
-/* harmony import */ var debug__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! debug */ "../../node_modules/debug/src/browser.js");
-/* harmony import */ var debug__WEBPACK_IMPORTED_MODULE_0___default = /*#__PURE__*/__webpack_require__.n(debug__WEBPACK_IMPORTED_MODULE_0__);
-/* harmony import */ var _Node__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! ./Node */ "../../webio/src/Node.ts");
-/* harmony import */ var _events__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! ./events */ "../../webio/src/events.ts");
-/* harmony import */ var _createNode__WEBPACK_IMPORTED_MODULE_3__ = __webpack_require__(/*! ./createNode */ "../../webio/src/createNode.ts");
-function _typeof(obj) { if (typeof Symbol === "function" && typeof Symbol.iterator === "symbol") { _typeof = function _typeof(obj) { return typeof obj; }; } else { _typeof = function _typeof(obj) { return obj && typeof Symbol === "function" && obj.constructor === Symbol && obj !== Symbol.prototype ? "symbol" : typeof obj; }; } return _typeof(obj); }
-
-function _classCallCheck(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError("Cannot call a class as a function"); } }
-
-function _defineProperties(target, props) { for (var i = 0; i < props.length; i++) { var descriptor = props[i]; descriptor.enumerable = descriptor.enumerable || false; descriptor.configurable = true; if ("value" in descriptor) descriptor.writable = true; Object.defineProperty(target, descriptor.key, descriptor); } }
-
-function _createClass(Constructor, protoProps, staticProps) { if (protoProps) _defineProperties(Constructor.prototype, protoProps); if (staticProps) _defineProperties(Constructor, staticProps); return Constructor; }
-
-function _possibleConstructorReturn(self, call) { if (call && (_typeof(call) === "object" || typeof call === "function")) { return call; } return _assertThisInitialized(self); }
-
-function _assertThisInitialized(self) { if (self === void 0) { throw new ReferenceError("this hasn't been initialised - super() hasn't been called"); } return self; }
-
-function _getPrototypeOf(o) { _getPrototypeOf = Object.setPrototypeOf ? Object.getPrototypeOf : function _getPrototypeOf(o) { return o.__proto__ || Object.getPrototypeOf(o); }; return _getPrototypeOf(o); }
-
-function _inherits(subClass, superClass) { if (typeof superClass !== "function" && superClass !== null) { throw new TypeError("Super expression must either be null or a function"); } subClass.prototype = Object.create(superClass && superClass.prototype, { constructor: { value: subClass, writable: true, configurable: true } }); if (superClass) _setPrototypeOf(subClass, superClass); }
-
-function _setPrototypeOf(o, p) { _setPrototypeOf = Object.setPrototypeOf || function _setPrototypeOf(o, p) { o.__proto__ = p; return o; }; return _setPrototypeOf(o, p); }
-
-var __rest = undefined && undefined.__rest || function (s, e) {
-  var t = {};
-
-  for (var p in s) {
-    if (Object.prototype.hasOwnProperty.call(s, p) && e.indexOf(p) < 0) t[p] = s[p];
-  }
-
-  if (s != null && typeof Object.getOwnPropertySymbols === "function") for (var i = 0, p = Object.getOwnPropertySymbols(s); i < p.length; i++) {
-    if (e.indexOf(p[i]) < 0) t[p[i]] = s[p[i]];
-  }
-  return t;
-};
-
-
-var debug = debug__WEBPACK_IMPORTED_MODULE_0___default()("WebIO:DomNode");
-
-
-
-var DOM_NODE_TYPE = "DOM";
-
-var WebIODomNode =
-/*#__PURE__*/
-function (_WebIONode) {
-  _inherits(WebIODomNode, _WebIONode);
-
-  function WebIODomNode(nodeData, options) {
-    var _this;
-
-    _classCallCheck(this, WebIODomNode);
-
-    _this = _possibleConstructorReturn(this, _getPrototypeOf(WebIODomNode).call(this, nodeData, options));
-    _this.eventListeners = {};
-    debug("Creating WebIODomNode", {
-      nodeData: nodeData,
-      options: options
-    });
-    _this.element = WebIODomNode.createElement(nodeData);
-
-    _this.applyProps(nodeData.props); // Recursively construct children.
-
-
-    _this.children = nodeData.children.map(function (nodeData) {
-      if (typeof nodeData === "string") {
-        return nodeData;
-      }
-
-      return Object(_createNode__WEBPACK_IMPORTED_MODULE_3__["default"])(nodeData, {
-        webIO: _this.webIO,
-        scope: _this.scope
-      });
-    }); // Append childrens' elements to this node's element.
-
-    var _iteratorNormalCompletion = true;
-    var _didIteratorError = false;
-    var _iteratorError = undefined;
-
-    try {
-      for (var _iterator = _this.children[Symbol.iterator](), _step; !(_iteratorNormalCompletion = (_step = _iterator.next()).done); _iteratorNormalCompletion = true) {
-        var child = _step.value;
-
-        if (typeof child === "string") {
-          _this.element.appendChild(document.createTextNode(child));
-        } else {
-          _this.element.appendChild(child.element);
-        }
-      }
-    } catch (err) {
-      _didIteratorError = true;
-      _iteratorError = err;
-    } finally {
-      try {
-        if (!_iteratorNormalCompletion && _iterator.return != null) {
-          _iterator.return();
-        }
-      } finally {
-        if (_didIteratorError) {
-          throw _iteratorError;
-        }
-      }
-    }
-
-    return _this;
-  }
-
-  _createClass(WebIODomNode, [{
-    key: "applyProps",
-
-    /**
-     * Apply "props" to the underlying DOM element.
-     *
-     * @param props - The props to apply.
-     */
-    value: function applyProps(props) {
-      debug("applyProps", props);
-
-      var style = props.style,
-          events = props.events,
-          attributes = props.attributes,
-          attributesNS = props.attributesNS,
-          setInnerHtml = props.setInnerHtml,
-          rest = __rest(props, ["style", "events", "attributes", "attributesNS", "setInnerHtml"]);
-
-      style && this.applyStyles(style);
-      events && this.applyEvents(events);
-      attributes && this.applyAttributes(attributes);
-      attributesNS && this.applyAttributesNS(attributesNS);
-      setInnerHtml && this.setInnerHTML(setInnerHtml);
-      this.applyMiscellaneousProps(rest);
-    }
-    /**
-     * Apply all props that don't have special meaning.
-     *
-     * This should really be refactored so that all these "miscellaneous" props
-     * are delivered in a separate object (e.g. have props.miscProps on the same
-     * level as props.style and props.events et al.).
-     * @param props - The object of miscellaneous props and their values.
-     */
-
-  }, {
-    key: "applyMiscellaneousProps",
-    value: function applyMiscellaneousProps(props) {
-      debug("applyMiscellaneousProps", props);
-
-      var _arr = Object.keys(props);
-
-      for (var _i = 0; _i < _arr.length; _i++) {
-        var propName = _arr[_i];
-        this.element[propName] = props[propName];
-      }
-    }
-  }, {
-    key: "applyStyles",
-    value: function applyStyles(styles) {
-      if (!styles) {
-        return;
-      }
-
-      var _arr2 = Object.keys(styles);
-
-      for (var _i2 = 0; _i2 < _arr2.length; _i2++) {
-        var attributeName = _arr2[_i2];
-        this.element.style[attributeName] = styles[attributeName];
-      }
-    }
-    /**
-     * Apply (add/remove) event listeners to the underlying DOM element.
-     *
-     * @param events - A map object from event names to event listeners. If an
-     *    event name is specified (e.g. `click`) that didn't exist before, the
-     *    associated handler (e.g. `events["click"]`) is added as a listener; if
-     *    the event name has already been specified (even if the listener function
-     *    changed!), then nothing happens; if the event name is absent (or null) in
-     *    the map, then any previously setup listeners (if any) are removed.
-     */
-
-  }, {
-    key: "applyEvents",
-    value: function applyEvents(events) {
-      var _arr3 = Object.keys(events);
-
-      for (var _i3 = 0; _i3 < _arr3.length; _i3++) {
-        var eventName = _arr3[_i3];
-        var oldListener = this.eventListeners[eventName];
-        var newListenerSource = events[eventName];
-        var newListener = newListenerSource && Object(_events__WEBPACK_IMPORTED_MODULE_2__["evalWithWebIOContext"])(this.element, newListenerSource, {
-          scope: this.scope,
-          webIO: this.webIO
-        });
-
-        if (oldListener && !newListener) {
-          // We want to just remove the old listener.
-          this.element.removeEventListener(eventName, oldListener);
-          delete this.eventListeners[eventName];
-        } else if (!oldListener && newListener) {
-          this.element.addEventListener(eventName, newListener);
-          this.eventListeners[eventName] = newListener;
-        } // If the listener is just changed, we don't really handle that.
-
-      }
-    }
-    /**
-     * Apply DOM attributes to the underlying DOM element.
-     *
-     * @param attributes - The map of attributes to apply.
-     */
-
-  }, {
-    key: "applyAttributes",
-    value: function applyAttributes(attributes) {
-      var _arr4 = Object.keys(attributes);
-
-      for (var _i4 = 0; _i4 < _arr4.length; _i4++) {
-        var key = _arr4[_i4];
-        var value = attributes[key];
-
-        if (value === null) {
-          this.element.removeAttribute(key);
-        } else {
-          this.element.setAttribute(key, value);
-        }
-      }
-    }
-    /**
-     * Apply namespaced DOM attributes to the underlying DOM element.
-     *
-     * @param attributes - The `{attributeName: {namespace, value}}` map to apply.
-     */
-
-  }, {
-    key: "applyAttributesNS",
-    value: function applyAttributesNS(attributes) {
-      var _arr5 = Object.keys(attributes);
-
-      for (var _i5 = 0; _i5 < _arr5.length; _i5++) {
-        var key = _arr5[_i5];
-        var _attributes$key = attributes[key],
-            namespace = _attributes$key.namespace,
-            value = _attributes$key.value;
-
-        if (value === null) {
-          this.element.removeAttributeNS(namespace, key);
-        } else {
-          this.element.setAttributeNS(namespace, key, value);
-        }
-      }
-    }
-    /**
-     * Set the value associated with the node's element.
-     *
-     * This generally only works with `<input />` elements.
-     *
-     * @param value
-     * @throws Will throw an error if the element doesn't have a `value` attribute.
-     */
-
-  }, {
-    key: "setValue",
-    value: function setValue(value) {
-      if ("value" in this.element) {
-        // If the value hasn't changed, don't re-set it.
-        if (this.element.value !== value) {
-          this.element.value = value;
-        }
-      } else {
-        throw new Error("Cannot set value on an HTMLElement that doesn't support it.");
-      }
-    }
-  }], [{
-    key: "createElement",
-    value: function createElement(data) {
-      var _data$instanceArgs = data.instanceArgs,
-          namespace = _data$instanceArgs.namespace,
-          tag = _data$instanceArgs.tag;
-
-      switch (namespace.toLocaleLowerCase()) {
-        case "html"
-        /* HTML */
-        :
-          return document.createElement(tag);
-
-        case "http://www.w3.org/2000/svg"
-        /* SVG */
-        :
-        case "svg"
-        /* SVG_SHORTHAND */
-        :
-          return document.createElementNS("http://www.w3.org/2000/svg"
-          /* SVG */
-          , tag);
-
-        default:
-          throw new Error("Unknown DOM namespace: ".concat(namespace, "."));
-      }
-    }
-  }]);
-
-  return WebIODomNode;
-}(_Node__WEBPACK_IMPORTED_MODULE_1__["default"]);
-
-/* harmony default export */ __webpack_exports__["default"] = (WebIODomNode);
-
-/***/ }),
-
-/***/ "../../webio/src/IFrame.ts":
-/*!*******************************************************************!*\
-  !*** /home/travigd/.julia/dev/WebIO/packages/webio/src/IFrame.ts ***!
-  \*******************************************************************/
-/*! exports provided: IFRAME_NODE_TYPE, default */
-/***/ (function(module, __webpack_exports__, __webpack_require__) {
-
-"use strict";
-__webpack_require__.r(__webpack_exports__);
-/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "IFRAME_NODE_TYPE", function() { return IFRAME_NODE_TYPE; });
-/* harmony import */ var debug__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! debug */ "../../node_modules/debug/src/browser.js");
-/* harmony import */ var debug__WEBPACK_IMPORTED_MODULE_0___default = /*#__PURE__*/__webpack_require__.n(debug__WEBPACK_IMPORTED_MODULE_0__);
-/* harmony import */ var _Node__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! ./Node */ "../../webio/src/Node.ts");
-/* harmony import */ var _setInnerHTML__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! ./setInnerHTML */ "../../webio/src/setInnerHTML.ts");
-function _typeof(obj) { if (typeof Symbol === "function" && typeof Symbol.iterator === "symbol") { _typeof = function _typeof(obj) { return typeof obj; }; } else { _typeof = function _typeof(obj) { return obj && typeof Symbol === "function" && obj.constructor === Symbol && obj !== Symbol.prototype ? "symbol" : typeof obj; }; } return _typeof(obj); }
-
-function _classCallCheck(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError("Cannot call a class as a function"); } }
-
-function _defineProperties(target, props) { for (var i = 0; i < props.length; i++) { var descriptor = props[i]; descriptor.enumerable = descriptor.enumerable || false; descriptor.configurable = true; if ("value" in descriptor) descriptor.writable = true; Object.defineProperty(target, descriptor.key, descriptor); } }
-
-function _createClass(Constructor, protoProps, staticProps) { if (protoProps) _defineProperties(Constructor.prototype, protoProps); if (staticProps) _defineProperties(Constructor, staticProps); return Constructor; }
-
-function _possibleConstructorReturn(self, call) { if (call && (_typeof(call) === "object" || typeof call === "function")) { return call; } return _assertThisInitialized(self); }
-
-function _assertThisInitialized(self) { if (self === void 0) { throw new ReferenceError("this hasn't been initialised - super() hasn't been called"); } return self; }
-
-function _getPrototypeOf(o) { _getPrototypeOf = Object.setPrototypeOf ? Object.getPrototypeOf : function _getPrototypeOf(o) { return o.__proto__ || Object.getPrototypeOf(o); }; return _getPrototypeOf(o); }
-
-function _inherits(subClass, superClass) { if (typeof superClass !== "function" && superClass !== null) { throw new TypeError("Super expression must either be null or a function"); } subClass.prototype = Object.create(superClass && superClass.prototype, { constructor: { value: subClass, writable: true, configurable: true } }); if (superClass) _setPrototypeOf(subClass, superClass); }
-
-function _setPrototypeOf(o, p) { _setPrototypeOf = Object.setPrototypeOf || function _setPrototypeOf(o, p) { o.__proto__ = p; return o; }; return _setPrototypeOf(o, p); }
-
-var __awaiter = undefined && undefined.__awaiter || function (thisArg, _arguments, P, generator) {
-  return new (P || (P = Promise))(function (resolve, reject) {
-    function fulfilled(value) {
-      try {
-        step(generator.next(value));
-      } catch (e) {
-        reject(e);
-      }
-    }
-
-    function rejected(value) {
-      try {
-        step(generator["throw"](value));
-      } catch (e) {
-        reject(e);
-      }
-    }
-
-    function step(result) {
-      result.done ? resolve(result.value) : new P(function (resolve) {
-        resolve(result.value);
-      }).then(fulfilled, rejected);
-    }
-
-    step((generator = generator.apply(thisArg, _arguments || [])).next());
-  });
-};
-
-
-var debug = debug__WEBPACK_IMPORTED_MODULE_0___default()("WebIO:IFrame");
-
-
-var IFRAME_NODE_TYPE = "IFrame";
-/**
- * A WebIO IFrame node.
- *
- * This renders WebIO content within a (mostly) isolate IFrame. Both the IFrame
- * and the parent page share the same WebIO instance.
- *
- * IMPORANT: IFrames have **huge** overhead on a browser page because they
- * require a whole new page context (it's pretty much the same as opening a
- * new tab). Using many IFrames will result in huge memory usage.
- *
- * NOTE: We don't have a good way to style IFrames such that they're exactly the
- * size of the content within them. RIP.
- */
-
-var WebIOIFrame =
-/*#__PURE__*/
-function (_WebIONode) {
-  _inherits(WebIOIFrame, _WebIONode);
-
-  function WebIOIFrame(iframeData, options) {
-    var _this;
-
-    _classCallCheck(this, WebIOIFrame);
-
-    _this = _possibleConstructorReturn(this, _getPrototypeOf(WebIOIFrame).call(this, iframeData, options));
-    _this.children = null;
-    debug("Creating new WebIOIFrame.", iframeData);
-    var iframe = _this.element = document.createElement("iframe");
-    iframe.className = "webio-iframe";
-    iframe.src = "about:blank";
-    iframe.frameBorder = "0";
-    iframe.scrolling = "no";
-    iframe.height = "100%";
-    iframe.width = "100%";
-    iframe.style.display = "block";
-    var innerHTML = iframeData.instanceArgs.innerHTML;
-
-    iframe.onload = function () {
-      return _this.initializeIFrame(innerHTML);
-    };
-
-    return _this;
-  }
-  /**
-   * Initialize the IFrame after the onload event has been fired.
-   * @param innerHTML
-   */
-
-
-  _createClass(WebIOIFrame, [{
-    key: "initializeIFrame",
-    value: function initializeIFrame(innerHTML) {
-      return __awaiter(this, void 0, void 0,
-      /*#__PURE__*/
-      regeneratorRuntime.mark(function _callee() {
-        var iframe, iframeWindow, iframeDocument, baseTag;
-        return regeneratorRuntime.wrap(function _callee$(_context) {
-          while (1) {
-            switch (_context.prev = _context.next) {
-              case 0:
-                iframe = this.element; // This method requires that onload has been fired which means that window
-                // and document are defined (hence the `!` operator).
-
-                iframeWindow = iframe.contentWindow;
-                iframeDocument = iframe.contentDocument; // Set WebIO window global.
-
-                iframeWindow.WebIO = this.webIO; // Add <base> tag to tell IFrame to load relative resources from the same
-                // place that the current page is.
-
-                baseTag = document.createElement("base");
-                baseTag.href = document.baseURI;
-                iframeDocument.head.appendChild(baseTag); // Apply some styling.
-                // It seems that there's not an easy way to get the iframe to have the
-                // "correct" size (i.e. exactly the size of its contents, as if it were
-                // just a normal <div> element). This currently doesn't really work.
-
-                iframeDocument.body.style.cssText = "\n      margin: 0;\n      padding: 0;\n      height: 100%;\n    "; // Set inner html of body.
-
-                Object(_setInnerHTML__WEBPACK_IMPORTED_MODULE_2__["default"])(iframeDocument.body, innerHTML);
-
-              case 9:
-              case "end":
-                return _context.stop();
-            }
-          }
-        }, _callee, this);
-      }));
-    }
-  }]);
-
-  return WebIOIFrame;
-}(_Node__WEBPACK_IMPORTED_MODULE_1__["default"]);
-
-/* harmony default export */ __webpack_exports__["default"] = (WebIOIFrame);
-
-/***/ }),
-
-/***/ "../../webio/src/Node.ts":
-/*!*****************************************************************!*\
-  !*** /home/travigd/.julia/dev/WebIO/packages/webio/src/Node.ts ***!
-  \*****************************************************************/
-/*! exports provided: default */
-/***/ (function(module, __webpack_exports__, __webpack_require__) {
-
-"use strict";
-__webpack_require__.r(__webpack_exports__);
-/* harmony import */ var _setInnerHTML__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! ./setInnerHTML */ "../../webio/src/setInnerHTML.ts");
-function _classCallCheck(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError("Cannot call a class as a function"); } }
-
-function _defineProperties(target, props) { for (var i = 0; i < props.length; i++) { var descriptor = props[i]; descriptor.enumerable = descriptor.enumerable || false; descriptor.configurable = true; if ("value" in descriptor) descriptor.writable = true; Object.defineProperty(target, descriptor.key, descriptor); } }
-
-function _createClass(Constructor, protoProps, staticProps) { if (protoProps) _defineProperties(Constructor.prototype, protoProps); if (staticProps) _defineProperties(Constructor, staticProps); return Constructor; }
-
-
-/**
- * A high-level "point-of-entry" under which WebIO "things" are rendered.
- *
- * A `WebIONode` has a root DOM element and some functionality for managing the
- * attributes (DOM attributes, CSS styles, event listeners, etc.) that are
- * applied to it.
- */
-
-var WebIONode =
-/*#__PURE__*/
-function () {
-  function WebIONode(nodeData, options) {
-    _classCallCheck(this, WebIONode);
-
-    this.nodeData = nodeData;
-    var scope = options.scope,
-        webIO = options.webIO;
-    this.scope = scope;
-    this.webIO = webIO;
-  }
-  /**
-   * Set the innerHTML of the node's DOM element.
-   */
-
-
-  _createClass(WebIONode, [{
-    key: "setInnerHTML",
-    value: function setInnerHTML(html) {
-      Object(_setInnerHTML__WEBPACK_IMPORTED_MODULE_0__["default"])(this.element, html);
-    }
-  }]);
-
-  return WebIONode;
-}();
-
-/* harmony default export */ __webpack_exports__["default"] = (WebIONode);
-
-/***/ }),
-
-/***/ "../../webio/src/Observable.ts":
-/*!***********************************************************************!*\
-  !*** /home/travigd/.julia/dev/WebIO/packages/webio/src/Observable.ts ***!
-  \***********************************************************************/
-/*! exports provided: default */
-/***/ (function(module, __webpack_exports__, __webpack_require__) {
-
-"use strict";
-__webpack_require__.r(__webpack_exports__);
-/* harmony import */ var debug__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! debug */ "../../node_modules/debug/src/browser.js");
-/* harmony import */ var debug__WEBPACK_IMPORTED_MODULE_0___default = /*#__PURE__*/__webpack_require__.n(debug__WEBPACK_IMPORTED_MODULE_0__);
-function _classCallCheck(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError("Cannot call a class as a function"); } }
-
-function _defineProperties(target, props) { for (var i = 0; i < props.length; i++) { var descriptor = props[i]; descriptor.enumerable = descriptor.enumerable || false; descriptor.configurable = true; if ("value" in descriptor) descriptor.writable = true; Object.defineProperty(target, descriptor.key, descriptor); } }
-
-function _createClass(Constructor, protoProps, staticProps) { if (protoProps) _defineProperties(Constructor.prototype, protoProps); if (staticProps) _defineProperties(Constructor, staticProps); return Constructor; }
-
-
-var debug = debug__WEBPACK_IMPORTED_MODULE_0___default()("WebIO:Observable");
-/**
- * A logical "observable" entity.
- *
- * An observable has a name (which is unique to a given scope), an id (which is
- * unique to a given process), and a value, as well as a set of subscribers.
- *
- * Note that a single observable value might have more than one
- * `WebIOObservable` instances (they will have the same id, and possibly even
- * the same name, but exist in different scopes). If one of these observables
- * changes, it is **not** the responsibility of the `WebIOObservable` to update
- * any others. Typically, this update is done by syncing the value back to Julia
- * and letting Julia issue updates for the other observables who live in other
- * scopes.
- *
- */
-
-var WebIOObservable =
-/*#__PURE__*/
-function () {
-  function WebIOObservable(name, _ref, scope) {
-    var id = _ref.id,
-        value = _ref.value,
-        sync = _ref.sync;
-
-    _classCallCheck(this, WebIOObservable);
-
-    this.scope = scope;
-    /**
-     * An array of active subscriber/listener functions. These are evoked when
-     * the value of the observable changes.
-     */
-
-    this.subscribers = [];
-    this.name = name;
-    this.id = id;
-    this.value = value;
-    this.sync = sync;
-    this.webIO.registerObservable(this);
-  }
-
-  _createClass(WebIOObservable, [{
-    key: "setValue",
-
-    /**
-     * Set the value of the observable, optionally synchronizing it with
-     * Julia/WebIO.
-     *
-     * @param newValue - The value to be stored within the observable.
-     * @param sync - If `true`, send the new value to Julia/WebIO. This should
-     *    always be `false` if the new value originated from Julia/WebIO itself.
-     */
-    value: function setValue(newValue) {
-      var sync = arguments.length > 1 && arguments[1] !== undefined ? arguments[1] : true;
-      debug("Setting value of observable (".concat(this.name, "/").concat(this.id, ")."), newValue);
-      this.value = newValue;
-      this.notifySubscribers();
-
-      if (sync) {
-        this.syncValue();
-      }
-    }
-    /**
-     * Synchronize the value stored within this observable with Julia/WebIO.
-     *
-     * This overwrites the value stored in Julia/WebIO. This method is called
-     * automatically when using `setValue` with `sync=true` (the default).
-     */
-
-  }, {
-    key: "syncValue",
-    value: function syncValue() {
-      this.webIO.reconcileObservables(this);
-      return this.scope.send({
-        command: this.name,
-        data: this.value
-      });
-    }
-    /**
-     * Register a new subscriber.
-     *
-     * @example
-     *    declare const obs: Observable<number>;
-     *    // We store a reference to listener so that we may give pass it to
-     *    // unsubscribe later.
-     *    const listener = (value: number) => {
-     *      console.log(`obs got ${value}!`);
-     *    };
-     *    obs.subscribe(listener);
-     *    // Later...
-     *    obs.unsubscribe(listener);
-     *
-     * @param subscriber - A function that is called every time the value of the
-     *    observable is called; the function is given the current value of the
-     *    observable.
-     */
-
-  }, {
-    key: "subscribe",
-    value: function subscribe(subscriber) {
-      debug("Attaching subscriber in Observable(".concat(this.name, "/").concat(this.id, ")."), this, subscriber);
-      this.subscribers.push(subscriber);
-    }
-    /**
-     * Deregister an existing subscriber.
-     *
-     * Note: this method requires that the reference to the original subscriber
-     *    function is retained (so that it can be used here).
-     *
-     * @param subscriber
-     */
-
-  }, {
-    key: "unsubscribe",
-    value: function unsubscribe(subscriber) {
-      var index = this.subscribers.indexOf(subscriber);
-
-      if (index != -1) {
-        this.subscribers.splice(index, 1);
-      }
-    }
-    /**
-     * Call each of the registered subscribers with the current value of the
-     * observable.
-     */
-
-  }, {
-    key: "notifySubscribers",
-    value: function notifySubscribers() {
-      var _this = this;
-
-      this.subscribers.forEach(function (subscriber) {
-        debug("Notifying subscriber in Observable(".concat(_this.name, "/").concat(_this.id, ")."));
-        subscriber(_this.value);
-      });
-    }
-  }, {
-    key: "webIO",
-    get: function get() {
-      return this.scope.webIO;
-    }
-  }]);
-
-  return WebIOObservable;
-}();
-
-/* harmony default export */ __webpack_exports__["default"] = (WebIOObservable);
-
-/***/ }),
-
-/***/ "../../webio/src/ObservableNode.ts":
-/*!***************************************************************************!*\
-  !*** /home/travigd/.julia/dev/WebIO/packages/webio/src/ObservableNode.ts ***!
-  \***************************************************************************/
-/*! exports provided: OBSERVABLE_NODE_TYPE, default */
-/***/ (function(module, __webpack_exports__, __webpack_require__) {
-
-"use strict";
-__webpack_require__.r(__webpack_exports__);
-/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "OBSERVABLE_NODE_TYPE", function() { return OBSERVABLE_NODE_TYPE; });
-/* harmony import */ var debug__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! debug */ "../../node_modules/debug/src/browser.js");
-/* harmony import */ var debug__WEBPACK_IMPORTED_MODULE_0___default = /*#__PURE__*/__webpack_require__.n(debug__WEBPACK_IMPORTED_MODULE_0__);
-/* harmony import */ var _Node__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! ./Node */ "../../webio/src/Node.ts");
-/* harmony import */ var _createNode__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! ./createNode */ "../../webio/src/createNode.ts");
-function _typeof(obj) { if (typeof Symbol === "function" && typeof Symbol.iterator === "symbol") { _typeof = function _typeof(obj) { return typeof obj; }; } else { _typeof = function _typeof(obj) { return obj && typeof Symbol === "function" && obj.constructor === Symbol && obj !== Symbol.prototype ? "symbol" : typeof obj; }; } return _typeof(obj); }
-
-function _classCallCheck(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError("Cannot call a class as a function"); } }
-
-function _defineProperties(target, props) { for (var i = 0; i < props.length; i++) { var descriptor = props[i]; descriptor.enumerable = descriptor.enumerable || false; descriptor.configurable = true; if ("value" in descriptor) descriptor.writable = true; Object.defineProperty(target, descriptor.key, descriptor); } }
-
-function _createClass(Constructor, protoProps, staticProps) { if (protoProps) _defineProperties(Constructor.prototype, protoProps); if (staticProps) _defineProperties(Constructor, staticProps); return Constructor; }
-
-function _possibleConstructorReturn(self, call) { if (call && (_typeof(call) === "object" || typeof call === "function")) { return call; } return _assertThisInitialized(self); }
-
-function _assertThisInitialized(self) { if (self === void 0) { throw new ReferenceError("this hasn't been initialised - super() hasn't been called"); } return self; }
-
-function _getPrototypeOf(o) { _getPrototypeOf = Object.setPrototypeOf ? Object.getPrototypeOf : function _getPrototypeOf(o) { return o.__proto__ || Object.getPrototypeOf(o); }; return _getPrototypeOf(o); }
-
-function _inherits(subClass, superClass) { if (typeof superClass !== "function" && superClass !== null) { throw new TypeError("Super expression must either be null or a function"); } subClass.prototype = Object.create(superClass && superClass.prototype, { constructor: { value: subClass, writable: true, configurable: true } }); if (superClass) _setPrototypeOf(subClass, superClass); }
-
-function _setPrototypeOf(o, p) { _setPrototypeOf = Object.setPrototypeOf || function _setPrototypeOf(o, p) { o.__proto__ = p; return o; }; return _setPrototypeOf(o, p); }
-
-
-var debug = debug__WEBPACK_IMPORTED_MODULE_0___default()("WebIO:ObservableNode");
-
-
-var OBSERVABLE_NODE_TYPE = "ObservableNode";
-/**
- * A special type of node/observable that contains a node.
- */
-
-var WebIOObservableNode =
-/*#__PURE__*/
-function (_WebIONode) {
-  _inherits(WebIOObservableNode, _WebIONode);
-
-  function WebIOObservableNode(schema, context) {
-    var _this;
-
-    _classCallCheck(this, WebIOObservableNode);
-
-    _this = _possibleConstructorReturn(this, _getPrototypeOf(WebIOObservableNode).call(this, schema, context));
-    _this.observable = null;
-    _this.children = null;
-
-    _this.onObservableUpdate = function () {
-      _this.mountObservable();
-    };
-
-    debug("Creating WebIODomNode", {
-      schema: schema,
-      context: context
-    });
-    _this.element = document.createElement("div");
-    _this.element.className = "webio-observable-node";
-
-    _this.element.setAttribute("data-webio-observable-name", schema.instanceArgs.name);
-
-    try {
-      if (!context.scope) {
-        throw new Error("Cannot render ObservableNode that has no parent scope.");
-      }
-
-      _this.observable = _this.scope.getObservable(schema.instanceArgs.name);
-
-      _this.mountObservable();
-
-      _this.scope.promises.connected.then(function () {
-        return _this.observable.subscribe(_this.onObservableUpdate);
-      });
-    } catch (e) {
-      _this.node = null;
-      _this.element.innerHTML = "<strong>Caught exception while trying to render ObservableNode: ".concat(e.message, "</strong>");
-    }
-
-    return _this;
-  }
-
-  _createClass(WebIOObservableNode, [{
-    key: "mountObservable",
-    value: function mountObservable() {
-      if (!this.observable) {
-        throw new Error("Cannot mount null observable.");
-      }
-
-      debug("Mounting node within WebIOObservableNode.", {
-        nodeSchema: this.observable.value
-      });
-      var newNode = Object(_createNode__WEBPACK_IMPORTED_MODULE_2__["default"])(this.observable.value, {
-        webIO: this.webIO,
-        scope: this.scope
-      });
-
-      if (this.node) {
-        this.element.replaceChild(newNode.element, this.node.element);
-      } else {
-        this.element.appendChild(newNode.element);
-      }
-
-      this.node = newNode;
-    }
-  }]);
-
-  return WebIOObservableNode;
-}(_Node__WEBPACK_IMPORTED_MODULE_1__["default"]);
-
-/* harmony default export */ __webpack_exports__["default"] = (WebIOObservableNode);
-
-/***/ }),
-
-/***/ "../../webio/src/Scope.ts":
-/*!******************************************************************!*\
-  !*** /home/travigd/.julia/dev/WebIO/packages/webio/src/Scope.ts ***!
-  \******************************************************************/
-/*! exports provided: SCOPE_NODE_TYPE, default */
-/***/ (function(module, __webpack_exports__, __webpack_require__) {
-
-"use strict";
-__webpack_require__.r(__webpack_exports__);
-/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "SCOPE_NODE_TYPE", function() { return SCOPE_NODE_TYPE; });
-/* harmony import */ var debug__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! debug */ "../../node_modules/debug/src/browser.js");
-/* harmony import */ var debug__WEBPACK_IMPORTED_MODULE_0___default = /*#__PURE__*/__webpack_require__.n(debug__WEBPACK_IMPORTED_MODULE_0__);
-/* harmony import */ var _Node__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! ./Node */ "../../webio/src/Node.ts");
-/* harmony import */ var _Observable__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! ./Observable */ "../../webio/src/Observable.ts");
-/* harmony import */ var _utils__WEBPACK_IMPORTED_MODULE_3__ = __webpack_require__(/*! ./utils */ "../../webio/src/utils.ts");
-/* harmony import */ var _events__WEBPACK_IMPORTED_MODULE_4__ = __webpack_require__(/*! ./events */ "../../webio/src/events.ts");
-/* harmony import */ var _createNode__WEBPACK_IMPORTED_MODULE_5__ = __webpack_require__(/*! ./createNode */ "../../webio/src/createNode.ts");
-/* harmony import */ var _imports__WEBPACK_IMPORTED_MODULE_6__ = __webpack_require__(/*! ./imports */ "../../webio/src/imports.ts");
-function _typeof(obj) { if (typeof Symbol === "function" && typeof Symbol.iterator === "symbol") { _typeof = function _typeof(obj) { return typeof obj; }; } else { _typeof = function _typeof(obj) { return obj && typeof Symbol === "function" && obj.constructor === Symbol && obj !== Symbol.prototype ? "symbol" : typeof obj; }; } return _typeof(obj); }
-
-function _toConsumableArray(arr) { return _arrayWithoutHoles(arr) || _iterableToArray(arr) || _nonIterableSpread(); }
-
-function _nonIterableSpread() { throw new TypeError("Invalid attempt to spread non-iterable instance"); }
-
-function _iterableToArray(iter) { if (Symbol.iterator in Object(iter) || Object.prototype.toString.call(iter) === "[object Arguments]") return Array.from(iter); }
-
-function _arrayWithoutHoles(arr) { if (Array.isArray(arr)) { for (var i = 0, arr2 = new Array(arr.length); i < arr.length; i++) { arr2[i] = arr[i]; } return arr2; } }
-
-function _classCallCheck(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError("Cannot call a class as a function"); } }
-
-function _defineProperties(target, props) { for (var i = 0; i < props.length; i++) { var descriptor = props[i]; descriptor.enumerable = descriptor.enumerable || false; descriptor.configurable = true; if ("value" in descriptor) descriptor.writable = true; Object.defineProperty(target, descriptor.key, descriptor); } }
-
-function _createClass(Constructor, protoProps, staticProps) { if (protoProps) _defineProperties(Constructor.prototype, protoProps); if (staticProps) _defineProperties(Constructor, staticProps); return Constructor; }
-
-function _possibleConstructorReturn(self, call) { if (call && (_typeof(call) === "object" || typeof call === "function")) { return call; } return _assertThisInitialized(self); }
-
-function _getPrototypeOf(o) { _getPrototypeOf = Object.setPrototypeOf ? Object.getPrototypeOf : function _getPrototypeOf(o) { return o.__proto__ || Object.getPrototypeOf(o); }; return _getPrototypeOf(o); }
-
-function _inherits(subClass, superClass) { if (typeof superClass !== "function" && superClass !== null) { throw new TypeError("Super expression must either be null or a function"); } subClass.prototype = Object.create(superClass && superClass.prototype, { constructor: { value: subClass, writable: true, configurable: true } }); if (superClass) _setPrototypeOf(subClass, superClass); }
-
-function _setPrototypeOf(o, p) { _setPrototypeOf = Object.setPrototypeOf || function _setPrototypeOf(o, p) { o.__proto__ = p; return o; }; return _setPrototypeOf(o, p); }
-
-function _assertThisInitialized(self) { if (self === void 0) { throw new ReferenceError("this hasn't been initialised - super() hasn't been called"); } return self; }
-
-var __awaiter = undefined && undefined.__awaiter || function (thisArg, _arguments, P, generator) {
-  return new (P || (P = Promise))(function (resolve, reject) {
-    function fulfilled(value) {
-      try {
-        step(generator.next(value));
-      } catch (e) {
-        reject(e);
-      }
-    }
-
-    function rejected(value) {
-      try {
-        step(generator["throw"](value));
-      } catch (e) {
-        reject(e);
-      }
-    }
-
-    function step(result) {
-      result.done ? resolve(result.value) : new P(function (resolve) {
-        resolve(result.value);
-      }).then(fulfilled, rejected);
-    }
-
-    step((generator = generator.apply(thisArg, _arguments || [])).next());
-  });
-};
-
-var __rest = undefined && undefined.__rest || function (s, e) {
-  var t = {};
-
-  for (var p in s) {
-    if (Object.prototype.hasOwnProperty.call(s, p) && e.indexOf(p) < 0) t[p] = s[p];
-  }
-
-  if (s != null && typeof Object.getOwnPropertySymbols === "function") for (var i = 0, p = Object.getOwnPropertySymbols(s); i < p.length; i++) {
-    if (e.indexOf(p[i]) < 0) t[p[i]] = s[p[i]];
-  }
-  return t;
-};
-
-
-var debug = debug__WEBPACK_IMPORTED_MODULE_0___default()("WebIO:Scope");
-
-
-
-
-
-
-var SCOPE_NODE_TYPE = "Scope";
-
-var WebIOScope =
-/*#__PURE__*/
-function (_WebIONode) {
-  _inherits(WebIOScope, _WebIONode);
-
-  function WebIOScope(schema, context) {
-    var _this;
-
-    _classCallCheck(this, WebIOScope);
-
-    _this = _possibleConstructorReturn(this, _getPrototypeOf(WebIOScope).call(this, schema, context));
-    _this.children = null;
-    debug("Creating new WebIOScope.", schema);
-    _this.element = document.createElement("div");
-    _this.element.className = "webio-scope";
-
-    _this.element.setAttribute("data-webio-scope-id", schema.instanceArgs.id);
-
-    var _schema$instanceArgs = schema.instanceArgs,
-        id = _schema$instanceArgs.id,
-        _schema$instanceArgs$ = _schema$instanceArgs.observables,
-        observables = _schema$instanceArgs$ === void 0 ? {} : _schema$instanceArgs$,
-        _schema$instanceArgs$2 = _schema$instanceArgs.handlers,
-        handlers = _schema$instanceArgs$2 === void 0 ? {} : _schema$instanceArgs$2;
-    _this.id = id; // Create WebIOObservables.
-
-    _this.observables = {};
-    Object.keys(observables).forEach(function (name) {
-      var observable = new _Observable__WEBPACK_IMPORTED_MODULE_2__["default"](name, observables[name], _assertThisInitialized(_assertThisInitialized(_this)));
-      _this.observables[name] = observable;
-      observable.subscribe(function (value) {
-        return _this.evokeObservableHandlers(name, value);
-      });
-    });
-    _this.handlers = {}; // TODO: refactor registerScope as described elsewhere
-
-    _this.webIO.registerScope(_assertThisInitialized(_assertThisInitialized(_this))); // TODO: this following is super messy and needs to be refactored.
-
-    /**
-     * The issue here is that we need to have this.promises hooked up before
-     * we create children... and we have to do the imports **after** we create
-     * the children. There's definitely a cleaner way to do this but my brain
-     * is a little bit fried right now.
-     *
-     * Currently, we just have a "dummy promise" that we create and then
-     * "manually" resolve **after** the imports are done, so that
-     * `this.promises` is set when we call `initialize` -- which we need since
-     * `initialize` creates children which might in turn (e.g. in the case of
-     * {@link WebIOObservableNode}) rely on `this.promises`.
-     */
-
-
-    var resolveImportsLoaded;
-    var rejectImportsLoaded;
-    var importsLoadedPromise = new Promise(function (resolve, reject) {
-      resolveImportsLoaded = resolve;
-      rejectImportsLoaded = reject;
-    });
-    _this.promises = {
-      connected: _this.webIO.connected.then(function () {
-        return _assertThisInitialized(_assertThisInitialized(_this));
-      }),
-      importsLoaded: importsLoadedPromise
-    }; // This is super messy and should be refactored.
-    // We must do `setupScope` after imports are loaded (see pull #217).
-
-    _this.initialize(schema).then(function () {
-      for (var _len = arguments.length, args = new Array(_len), _key = 0; _key < _len; _key++) {
-        args[_key] = arguments[_key];
-      }
-
-      return resolveImportsLoaded(args);
-    }).then(function () {
-      return _this.setupScope();
-    }).catch(function () {
-      for (var _len2 = arguments.length, args = new Array(_len2), _key2 = 0; _key2 < _len2; _key2++) {
-        args[_key2] = arguments[_key2];
-      }
-
-      return rejectImportsLoaded(args);
-    });
-
-    return _this;
-  }
-
-  _createClass(WebIOScope, [{
-    key: "initialize",
-
-    /**
-     * Perform asynchronous initialization tasks.
-     */
-    value: function initialize(schema) {
-      return __awaiter(this, void 0, void 0,
-      /*#__PURE__*/
-      regeneratorRuntime.mark(function _callee() {
-        var _this2 = this;
-
-        var _schema$instanceArgs2, _schema$instanceArgs3, handlers, imports, systemJSConfig, _handlers$preDependen, preDependencies, _handlers$_promises, _promises, restHandlers, resources, _iteratorNormalCompletion, _didIteratorError, _iteratorError, _iterator, _step, child, importsLoadedHandlers, _handlers;
-
-        return regeneratorRuntime.wrap(function _callee$(_context) {
-          while (1) {
-            switch (_context.prev = _context.next) {
-              case 0:
-                _schema$instanceArgs2 = schema.instanceArgs, _schema$instanceArgs3 = _schema$instanceArgs2.handlers, handlers = _schema$instanceArgs3 === void 0 ? {} : _schema$instanceArgs3, imports = _schema$instanceArgs2.imports, systemJSConfig = _schema$instanceArgs2.systemjs_options; // (Asynchronously) perform dependency initialization
-
-                _handlers$preDependen = handlers.preDependencies, preDependencies = _handlers$preDependen === void 0 ? [] : _handlers$preDependen, _handlers$_promises = handlers._promises, _promises = _handlers$_promises === void 0 ? {} : _handlers$_promises, restHandlers = __rest(handlers, ["preDependencies", "_promises"]);
-                preDependencies.map(function (functionString) {
-                  return Object(_events__WEBPACK_IMPORTED_MODULE_4__["evalWithWebIOContext"])(_this2, functionString, {
-                    scope: _this2,
-                    webIO: _this2.webIO
-                  });
-                }).forEach(function (handler) {
-                  return handler.call(_this2);
-                }); // Map the function strings into handlers which have `this` bound to the scope's
-                // element and which have access to the _webIOScope resources variable (via closure).
-
-                Object.keys(restHandlers).forEach(function (observableName) {
-                  _this2.handlers[observableName] = handlers[observableName].map(function (handlerString) {
-                    return Object(_events__WEBPACK_IMPORTED_MODULE_4__["evalWithWebIOContext"])(_this2, handlerString, {
-                      scope: _this2,
-                      webIO: _this2.webIO
-                    });
-                  });
-                });
-
-                if (!imports) {
-                  _context.next = 10;
-                  break;
-                }
-
-                _context.next = 7;
-                return Object(_imports__WEBPACK_IMPORTED_MODULE_6__["importBlock"])(imports, systemJSConfig);
-
-              case 7:
-                _context.t0 = _context.sent;
-                _context.next = 11;
-                break;
-
-              case 10:
-                _context.t0 = null;
-
-              case 11:
-                resources = _context.t0;
-                // Create children WebIONodes.
-                debug("Creating children for scope (id: ".concat(this.id, ")."));
-                this.children = schema.children.map(function (nodeData) {
-                  if (typeof nodeData === "string") {
-                    return nodeData;
-                  }
-
-                  return Object(_createNode__WEBPACK_IMPORTED_MODULE_5__["default"])(nodeData, {
-                    webIO: _this2.webIO,
-                    scope: _this2
-                  });
-                }); // Append children elements to our element.
-
-                _iteratorNormalCompletion = true;
-                _didIteratorError = false;
-                _iteratorError = undefined;
-                _context.prev = 17;
-
-                for (_iterator = this.children[Symbol.iterator](); !(_iteratorNormalCompletion = (_step = _iterator.next()).done); _iteratorNormalCompletion = true) {
-                  child = _step.value;
-
-                  if (typeof child === "string") {
-                    this.element.appendChild(document.createTextNode(child));
-                  } else {
-                    this.element.appendChild(child.element);
-                  }
-                } // TypeScript hackery to deal with how promiseHandlers is a very special case
-
-
-                _context.next = 25;
-                break;
-
-              case 21:
-                _context.prev = 21;
-                _context.t1 = _context["catch"](17);
-                _didIteratorError = true;
-                _iteratorError = _context.t1;
-
-              case 25:
-                _context.prev = 25;
-                _context.prev = 26;
-
-                if (!_iteratorNormalCompletion && _iterator.return != null) {
-                  _iterator.return();
-                }
-
-              case 28:
-                _context.prev = 28;
-
-                if (!_didIteratorError) {
-                  _context.next = 31;
-                  break;
-                }
-
-                throw _iteratorError;
-
-              case 31:
-                return _context.finish(28);
-
-              case 32:
-                return _context.finish(25);
-
-              case 33:
-                importsLoadedHandlers = _promises.importsLoaded;
-
-                if (resources && importsLoadedHandlers) {
-                  debug("Invoking importsLoaded handlers for scope (".concat(this.id, ")."), {
-                    scope: this,
-                    importsLoadedHandlers: importsLoadedHandlers,
-                    resources: resources
-                  });
-                  _handlers = importsLoadedHandlers.map(function (handler) {
-                    return Object(_events__WEBPACK_IMPORTED_MODULE_4__["evalWithWebIOContext"])(_this2, handler, {
-                      scope: _this2,
-                      webIO: _this2.webIO
-                    });
-                  }); // `as any` is necessary because evalWithWebIOContext normally returns
-                  // a function which is expected to be an event listener... but this is
-                  // kind of a special case of that.
-
-                  _handlers.forEach(function (handler) {
-                    return handler.apply(void 0, _toConsumableArray(resources));
-                  });
-                } // This isn't super clean, but this function is used to create the
-                // importsLoaded promise, so we need to return the promises.
-                // TODO: refactor this
-
-
-                return _context.abrupt("return", resources);
-
-              case 36:
-              case "end":
-                return _context.stop();
-            }
-          }
-        }, _callee, this, [[17, 21, 25, 33], [26,, 28, 32]]);
-      }));
-    }
-  }, {
-    key: "getLocalObservable",
-    value: function getLocalObservable(observableName) {
-      // Only return a "local" observable
-      var obs = this.observables[observableName];
-
-      if (!obs) {
-        throw new Error("Scope(id=".concat(this.id, ") has no observable named \"").concat(observableName, "\"."));
-      }
-
-      return obs;
-    }
-  }, {
-    key: "getObservable",
-    value: function getObservable(observable) {
-      if (typeof observable === "string" || observable.scope === this.id) {
-        return this.getLocalObservable(Object(_utils__WEBPACK_IMPORTED_MODULE_3__["getObservableName"])(observable));
-      } // Otherwise, let the root WebIO instance find the correct scope and
-      // observable.
-
-
-      return this.webIO.getObservable(observable);
-    }
-  }, {
-    key: "getObservableValue",
-    value: function getObservableValue(observable) {
-      return this.getObservable(observable).value;
-    }
-    /**
-     * Update an observable within the scope.
-     * @param observable - The name (or specifier) of the observable to modify.
-     * @param value - The value to set the observable to.
-     * @param sync - Whether or not to sync the value to Julia. This should always be
-     *    false if the update originated from Julia and is just being propogated into
-     *    the browser.
-     */
-
-  }, {
-    key: "setObservableValue",
-    value: function setObservableValue(observable, value) {
-      var sync = arguments.length > 2 && arguments[2] !== undefined ? arguments[2] : true;
-      var observableName = Object(_utils__WEBPACK_IMPORTED_MODULE_3__["getObservableName"])(observable);
-
-      if (!(observableName in this.observables)) {
-        throw new Error("Scope(id=".concat(this.id, ") has no observable named \"").concat(observableName, "\"."));
-      }
-
-      debug("Setting Observable (name: ".concat(observableName, ") to \"").concat(value, "\" in WebIOScope (id: ").concat(this.id, ")."));
-      this.observables[observableName].setValue(value, sync);
-    }
-    /**
-     * Send a message to the WebIO Julia machinery.
-     *
-     * Sets the scope id if not specified.
-     */
-
-  }, {
-    key: "send",
-    value: function send(_a) {
-      var _a$scope = _a.scope,
-          scope = _a$scope === void 0 ? this.id : _a$scope,
-          rest = __rest(_a, ["scope"]);
-
-      return this.webIO.send(Object.assign({
-        scope: scope
-      }, rest));
-    }
-    /**
-     * Evoke the listeners for an observable with the current value of
-     * that observable.
-     *
-     * @param name - The name of the observable whose listeners should be evoked.
-     * @param value - The current value of the observable.
-     */
-
-  }, {
-    key: "evokeObservableHandlers",
-    value: function evokeObservableHandlers(name, value) {
-      var _this3 = this;
-
-      var listeners = this.handlers[name] || [];
-      debug("Evoking ".concat(listeners.length, " observable handlers for observable \"").concat(name, "\"."));
-      listeners.forEach(function (listener) {
-        listener.call(_this3, value, _this3);
-      });
-    }
-    /**
-     * Send the setup-scope message.
-     *
-     * This informs Julia/WebIO that we want to listen to changes associated
-     * with this scope.
-     */
-
-  }, {
-    key: "setupScope",
-    value: function setupScope() {
-      return this.send({
-        command: "_setup_scope"
-        /* SETUP_SCOPE */
-        ,
-        data: {}
-      });
-    }
-  }, {
-    key: "dom",
-    get: function get() {
-      return this.element;
-    }
-  }]);
-
-  return WebIOScope;
-}(_Node__WEBPACK_IMPORTED_MODULE_1__["default"]);
-
-/* harmony default export */ __webpack_exports__["default"] = (WebIOScope);
-
-/***/ }),
-
-/***/ "../../webio/src/WebIO.ts":
-/*!******************************************************************!*\
-  !*** /home/travigd/.julia/dev/WebIO/packages/webio/src/WebIO.ts ***!
-  \******************************************************************/
-/*! exports provided: default */
-/***/ (function(module, __webpack_exports__, __webpack_require__) {
-
-"use strict";
-__webpack_require__.r(__webpack_exports__);
-/* harmony import */ var debug__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! debug */ "../../node_modules/debug/src/browser.js");
-/* harmony import */ var debug__WEBPACK_IMPORTED_MODULE_0___default = /*#__PURE__*/__webpack_require__.n(debug__WEBPACK_IMPORTED_MODULE_0__);
-/* harmony import */ var _createNode__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! ./createNode */ "../../webio/src/createNode.ts");
-function _classCallCheck(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError("Cannot call a class as a function"); } }
-
-function _defineProperties(target, props) { for (var i = 0; i < props.length; i++) { var descriptor = props[i]; descriptor.enumerable = descriptor.enumerable || false; descriptor.configurable = true; if ("value" in descriptor) descriptor.writable = true; Object.defineProperty(target, descriptor.key, descriptor); } }
-
-function _createClass(Constructor, protoProps, staticProps) { if (protoProps) _defineProperties(Constructor.prototype, protoProps); if (staticProps) _defineProperties(Constructor, staticProps); return Constructor; }
-
-var __awaiter = undefined && undefined.__awaiter || function (thisArg, _arguments, P, generator) {
-  return new (P || (P = Promise))(function (resolve, reject) {
-    function fulfilled(value) {
-      try {
-        step(generator.next(value));
-      } catch (e) {
-        reject(e);
-      }
-    }
-
-    function rejected(value) {
-      try {
-        step(generator["throw"](value));
-      } catch (e) {
-        reject(e);
-      }
-    }
-
-    function step(result) {
-      result.done ? resolve(result.value) : new P(function (resolve) {
-        resolve(result.value);
-      }).then(fulfilled, rejected);
-    }
-
-    step((generator = generator.apply(thisArg, _arguments || [])).next());
-  });
-}; // import isArray from "is-array";
-// import arrayEqual from "array-equal";
-
-
-
-
-var log = debug__WEBPACK_IMPORTED_MODULE_0___default()("WebIO");
-
-var WebIO =
-/*#__PURE__*/
-function () {
-  function WebIO() {
-    var _this = this;
-
-    _classCallCheck(this, WebIO);
-
-    /**
-     * A map from `scopeId` to the corresponding {@link WebIOScope} instance.
-     */
-    this.scopes = {};
-    /**
-     * A map from `observableId` to an array of corresponding
-     * {@link WebIOObservable} instances. We have an array of these instances
-     * since an observable may appear within several different scopes. Also note
-     * that we identify observables by id here, rather than by name, since the
-     * name may be different in different scopes; the ids are usually of the form
-     * `obs_123`.
-     */
-
-    this.observables = {}; // We have to use the !-postfix on {resolve,reject}Connected because TypeScript
-    // thinks that the body of the promise below isn't immediately executed (it is).
-
-    this.connected = new Promise(function (resolve, reject) {
-      _this.resolveConnected = resolve;
-      _this.rejectConnected = reject;
-    });
-  }
-  /**
-   * Dispatch a message into the WebIO JavaScript machinery.
-   *
-   * The message usually comes from the comm (e.g. WebSocket) that WebIO is
-   * using to communicate.
-   *
-   * @param message - The message to dispatch.
-   */
-
-
-  _createClass(WebIO, [{
-    key: "dispatch",
-    value: function dispatch(message) {
-      log("Dispatching message (command: ".concat(message.command, ")."), message);
-
-      switch (message.command) {
-        case "Basics.eval"
-        /* EVAL */
-        :
-          {
-            console.error("Dispatching command \"".concat(message.command, "\" not implemented."));
-            return;
-          }
-
-        default:
-          {
-            // TODO: see notes in interface definition of WebIOMessage
-            var scopeId = message.scope,
-                observableName = message.command,
-                data = message.data;
-            var scope = this.scopes[scopeId];
-
-            if (!scope) {
-              throw new Error("WebIO has no such scope (id: ".concat(scopeId, ")."));
-            } // Set (but don't sync) the value..
-
-
-            scope.setObservableValue(observableName, data, false);
-          }
-      }
-    }
-    /**
-     * Set the send callback that WebIO will use.
-     *
-     * This method, when called for the first time, will also resolve the WebIO
-     * connected promise and send any messages that are waiting.
-     */
-
-  }, {
-    key: "setSendCallback",
-    value: function setSendCallback(sendCallback) {
-      log("Setting WebIO sendCallback.");
-      this.sendCallback = sendCallback;
-      this.resolveConnected();
-    }
-    /**
-     * A method called by scopes to register themselves so that messages
-     * can be routed appropriately.
-     *
-     * @todo This should probably be changed so that this method is used to
-     *    create a new `WebIOScope` and have it registered then instead of
-     *    asking the scope to register itself.
-     *    tl;dr; change
-     *    `scope = new WebIOScope(...); webIO.registerScope(scope)`
-     *    to `scope = webio.createScope(...);`.
-     *
-     * @param scope
-     */
-
-  }, {
-    key: "registerScope",
-    value: function registerScope(scope) {
-      log("Registering WebIO scope (id: ".concat(scope.id, ")."));
-      this.scopes[scope.id] = scope;
-    }
-    /**
-     * A method called by observables to register themselves. This is used to
-     * ensure that observables are in a consistent state within the browser.
-     * @param observable
-     */
-
-  }, {
-    key: "registerObservable",
-    value: function registerObservable(observable) {
-      var id = observable.id;
-      log("Registering WebIO observable (id: ".concat(observable.id, ")."));
-
-      if (!this.observables[id]) {
-        this.observables[id] = [];
-      }
-
-      this.observables[observable.id].push(observable);
-    }
-    /**
-     * Ensure that all observable instances have the value off the
-     * `sourceObservable`.
-     *
-     * @param sourceObservable - The observable whose values are synchronized with
-     *    all other registered observables of the same id.
-     */
-
-  }, {
-    key: "reconcileObservables",
-    value: function reconcileObservables(sourceObservable) {
-      var id = sourceObservable.id,
-          name = sourceObservable.name,
-          value = sourceObservable.value;
-      var observables = this.observables[id] || [];
-      log("Reconciling ".concat(observables.length, " observables (id: ").concat(id, ")."));
-
-      if (observables.length < 1) {
-        console.warn("Tried to reconcile observables (id: ".concat(id, ", name: ").concat(name, ") but we don't know") + "about any observables with that id.");
-        return;
-      }
-
-      var _iteratorNormalCompletion = true;
-      var _didIteratorError = false;
-      var _iteratorError = undefined;
-
-      try {
-        for (var _iterator = observables[Symbol.iterator](), _step; !(_iteratorNormalCompletion = (_step = _iterator.next()).done); _iteratorNormalCompletion = true) {
-          var observable = _step.value;
-          // Don't re-set the value of the observable that triggered the
-          // reconciliation.
-          if (observable === sourceObservable) continue;
-          log("Reconciling observable \"".concat(observable.name, "\" in scope \"").concat(observable.scope.id, "\"."));
-          observable.setValue(value, false);
-        }
-      } catch (err) {
-        _didIteratorError = true;
-        _iteratorError = err;
-      } finally {
-        try {
-          if (!_iteratorNormalCompletion && _iterator.return != null) {
-            _iterator.return();
-          }
-        } finally {
-          if (_didIteratorError) {
-            throw _iteratorError;
-          }
-        }
-      }
-    }
-  }, {
-    key: "send",
-
-    /**
-     * Send a message to the WebIO Julia machinery.
-     *
-     * Sets `type: "message"` before passing to the send callback.
-     */
-    value: function send(message) {
-      return __awaiter(this, void 0, void 0,
-      /*#__PURE__*/
-      regeneratorRuntime.mark(function _callee() {
-        return regeneratorRuntime.wrap(function _callee$(_context) {
-          while (1) {
-            switch (_context.prev = _context.next) {
-              case 0:
-                _context.next = 2;
-                return this.connected;
-
-              case 2:
-                log("Sending WebIO message (command: ".concat(message.command, ")."), message);
-                return _context.abrupt("return", this.sendCallback(Object.assign({
-                  type: "message"
-                }, message)));
-
-              case 4:
-              case "end":
-                return _context.stop();
-            }
-          }
-        }, _callee, this);
-      }));
-    }
-    /**
-     * Mount a WebIO node into the specified element.
-     *
-     * This method overwrites the content of the element.
-     *
-     * @param element - The element to be replaced with the WebIO node.
-     * @param nodeSchema - The data associated with the WebIO node.
-     */
-
-  }, {
-    key: "mount",
-    value: function mount(element, nodeSchema) {
-      if (!element) {
-        console.error("WebIO cannot mount node into element.", {
-          element: element,
-          nodeData: nodeSchema
-        });
-        throw new Error("WebIO cannot mount node into element.");
-      }
-
-      log("Mounting WebIO node.", {
-        nodeData: nodeSchema,
-        element: element
-      });
-      var node = Object(_createNode__WEBPACK_IMPORTED_MODULE_1__["default"])(nodeSchema, {
-        webIO: this
-      }); // Reset the contents of the node we're mounting into.
-
-      element.innerHTML = "";
-      element.classList.add("webio-mountpoint"); // Temporary hack for @piever
-      // https://github.com/JuliaGizmos/WebIO.jl/pull/211#issuecomment-429672805
-
-      element.classList.add("interactbulma");
-      element.appendChild(node.element);
-    }
-  }, {
-    key: "getScope",
-    value: function getScope(scopeId) {
-      var scope = this.scopes[scopeId];
-
-      if (!scope) {
-        throw new Error("WebIO has no scope (id: ".concat(scopeId, ")."));
-      }
-
-      return scope;
-    }
-    /**
-     * Get an {@link WebIOObservable} object.
-     *
-     * @throws Will throw an error if the scope does not exist or there is no
-     *    such observable within the scope.
-     */
-
-  }, {
-    key: "getObservable",
-    value: function getObservable(_ref) {
-      var scope = _ref.scope,
-          name = _ref.name;
-      return this.getScope(scope).getLocalObservable(name);
-    }
-    /**
-     * Get the value of some observable.
-     *
-     * @deprecated This method is a shim for old WebIO functionally which relied
-     * on a global WebIO instance.
-     *
-     * @throws Will throw an error if the scope does not exist or there is no
-     *    such observable within the scope.
-     */
-
-  }, {
-    key: "getval",
-    value: function getval(_ref2) {
-      var scope = _ref2.scope,
-          name = _ref2.name;
-      return this.getScope(scope).getObservableValue(name);
-    }
-    /**
-     * Set the value of some observable.
-     *
-     * @deprecated This method is a shim for old WebIO functionally which relied
-     * on a global WebIO instance.
-     *
-     * @throws Will throw an error if the scope does not exist or there is no
-     *    such observable within the scope.
-     */
-
-  }, {
-    key: "setval",
-    value: function setval(_ref3, value) {
-      var scope = _ref3.scope,
-          name = _ref3.name;
-      var sync = arguments.length > 2 && arguments[2] !== undefined ? arguments[2] : true;
-      return this.getScope(scope).setObservableValue(name, value, sync);
-    }
-  }]);
-
-  return WebIO;
-}();
-/**
- * A reference to {@link NODE_CLASSES} to allow for extension.
- */
-
-
-WebIO.NODE_CLASSES = _createNode__WEBPACK_IMPORTED_MODULE_1__["NODE_CLASSES"];
-/* harmony default export */ __webpack_exports__["default"] = (WebIO);
-
-/***/ }),
-
-/***/ "../../webio/src/createNode.ts":
-/*!***********************************************************************!*\
-  !*** /home/travigd/.julia/dev/WebIO/packages/webio/src/createNode.ts ***!
-  \***********************************************************************/
-/*! exports provided: NODE_CLASSES, default */
-/***/ (function(module, __webpack_exports__, __webpack_require__) {
-
-"use strict";
-__webpack_require__.r(__webpack_exports__);
-/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "NODE_CLASSES", function() { return NODE_CLASSES; });
-/* harmony import */ var _DomNode__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! ./DomNode */ "../../webio/src/DomNode.ts");
-/* harmony import */ var _Scope__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! ./Scope */ "../../webio/src/Scope.ts");
-/* harmony import */ var _IFrame__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! ./IFrame */ "../../webio/src/IFrame.ts");
-/* harmony import */ var _ObservableNode__WEBPACK_IMPORTED_MODULE_3__ = __webpack_require__(/*! ./ObservableNode */ "../../webio/src/ObservableNode.ts");
-var _NODE_CLASSES;
-
-function _defineProperty(obj, key, value) { if (key in obj) { Object.defineProperty(obj, key, { value: value, enumerable: true, configurable: true, writable: true }); } else { obj[key] = value; } return obj; }
-
-
-
-
-
-/**
- * Map from node type to node class.
- *
- * The node class should extends WebIONode and take the same arguments in its
- * constructor.
- */
-
-var NODE_CLASSES = (_NODE_CLASSES = {}, _defineProperty(_NODE_CLASSES, _DomNode__WEBPACK_IMPORTED_MODULE_0__["DOM_NODE_TYPE"], _DomNode__WEBPACK_IMPORTED_MODULE_0__["default"]), _defineProperty(_NODE_CLASSES, _Scope__WEBPACK_IMPORTED_MODULE_1__["SCOPE_NODE_TYPE"], _Scope__WEBPACK_IMPORTED_MODULE_1__["default"]), _defineProperty(_NODE_CLASSES, _IFrame__WEBPACK_IMPORTED_MODULE_2__["IFRAME_NODE_TYPE"], _IFrame__WEBPACK_IMPORTED_MODULE_2__["default"]), _defineProperty(_NODE_CLASSES, _ObservableNode__WEBPACK_IMPORTED_MODULE_3__["OBSERVABLE_NODE_TYPE"], _ObservableNode__WEBPACK_IMPORTED_MODULE_3__["default"]), _NODE_CLASSES);
-/**
-* Create a new WebIO node (a scope or a DOM node).
-* @param schema
-* @param context
-*/
-
-var createNode = function createNode(schema, context) {
-  var NodeClass = NODE_CLASSES[schema.nodeType];
-
-  if (NodeClass) {
-    // We need any here to tell TypeScript that NodeClass isn't an abstract
-    // class (because WebIONode **is** an abstract class but we will only have
-    // subclasses in our NODE_CLASSES map).
-    return new NodeClass(schema, context);
-  }
-
-  throw new Error("Unknown WebIO node type: ".concat(schema.nodeType, "."));
-};
-
-/* harmony default export */ __webpack_exports__["default"] = (createNode);
-
-/***/ }),
-
-/***/ "../../webio/src/events.ts":
-/*!*******************************************************************!*\
-  !*** /home/travigd/.julia/dev/WebIO/packages/webio/src/events.ts ***!
-  \*******************************************************************/
-/*! exports provided: evalWithWebIOContext */
-/***/ (function(module, __webpack_exports__, __webpack_require__) {
-
-"use strict";
-__webpack_require__.r(__webpack_exports__);
-/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "evalWithWebIOContext", function() { return evalWithWebIOContext; });
-/* harmony import */ var debug__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! debug */ "../../node_modules/debug/src/browser.js");
-/* harmony import */ var debug__WEBPACK_IMPORTED_MODULE_0___default = /*#__PURE__*/__webpack_require__.n(debug__WEBPACK_IMPORTED_MODULE_0__);
-
-var log = debug__WEBPACK_IMPORTED_MODULE_0___default()("WebIO:events");
-/**
- * Create a WebIO event listener.
- *
- * This function returns an event listener function that will operate in the
- * correct WebIO scope (i.e. WebIO will refer to the right instance and `this`
- * will be bound to the DOM node specified).
- *
- * Note that we use _webIO-prefixed variable names to avoid any possible clashes
- * with user-code.
- *
- * @param _webIOThis - the DOM node that `this` should be bound to.
- * @param _webIOListenerSource - the source (preferably as a string) of the listener
- *    function; if not a string, the function will be converted to a string and
- *    then re-eval'd to ensure that WebIO and this refer to the correct objects.
- * @param context - the context handler should be evaluated in.
- */
-
-var evalWithWebIOContext = function evalWithWebIOContext(_webIOThis, _webIOListenerSource, _webIOContext) {
-  var WebIO = _webIOContext.webIO,
-      _webIOScope = _webIOContext.scope;
-  log("Creating event listener.", {
-    context: _webIOThis,
-    scope: _webIOScope,
-    source: _webIOListenerSource
-  }); // Wrap the source in parens so that eval returns the function instance
-  // (so that eval treats it as an expression rather than a top-level function
-  // declaration).
-
-  return eval("(".concat(_webIOListenerSource, ")")).bind(_webIOThis);
-};
-
-/***/ }),
-
-/***/ "../../webio/src/imports.ts":
-/*!********************************************************************!*\
-  !*** /home/travigd/.julia/dev/WebIO/packages/webio/src/imports.ts ***!
-  \********************************************************************/
-/*! exports provided: importJS, importCSS, importSyncBlock, importAsyncBlock, importResource, importBlock */
-/***/ (function(module, __webpack_exports__, __webpack_require__) {
-
-"use strict";
-__webpack_require__.r(__webpack_exports__);
-/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "importJS", function() { return importJS; });
-/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "importCSS", function() { return importCSS; });
-/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "importSyncBlock", function() { return importSyncBlock; });
-/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "importAsyncBlock", function() { return importAsyncBlock; });
-/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "importResource", function() { return importResource; });
-/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "importBlock", function() { return importBlock; });
-/* harmony import */ var systemjs__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! systemjs */ "../../webio/node_modules/systemjs/dist/system.js");
-/* harmony import */ var systemjs__WEBPACK_IMPORTED_MODULE_0___default = /*#__PURE__*/__webpack_require__.n(systemjs__WEBPACK_IMPORTED_MODULE_0__);
-/* harmony import */ var debug__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! debug */ "../../node_modules/debug/src/browser.js");
-/* harmony import */ var debug__WEBPACK_IMPORTED_MODULE_1___default = /*#__PURE__*/__webpack_require__.n(debug__WEBPACK_IMPORTED_MODULE_1__);
-var _this = undefined;
-
-function _defineProperty(obj, key, value) { if (key in obj) { Object.defineProperty(obj, key, { value: value, enumerable: true, configurable: true, writable: true }); } else { obj[key] = value; } return obj; }
-
-var __awaiter = undefined && undefined.__awaiter || function (thisArg, _arguments, P, generator) {
-  return new (P || (P = Promise))(function (resolve, reject) {
-    function fulfilled(value) {
-      try {
-        step(generator.next(value));
-      } catch (e) {
-        reject(e);
-      }
-    }
-
-    function rejected(value) {
-      try {
-        step(generator["throw"](value));
-      } catch (e) {
-        reject(e);
-      }
-    }
-
-    function step(result) {
-      result.done ? resolve(result.value) : new P(function (resolve) {
-        resolve(result.value);
-      }).then(fulfilled, rejected);
-    }
-
-    step((generator = generator.apply(thisArg, _arguments || [])).next());
-  });
-};
-
-
-
-var debug = debug__WEBPACK_IMPORTED_MODULE_1___default()("WebIO:imports");
-var URL_PROTOCOL_REGEX = /[A-Za-z]+:\/\//;
-
-var isRelativeUrl = function isRelativeUrl(url) {
-  return !(URL_PROTOCOL_REGEX.test(url) || url.startsWith("//"));
-};
-
-var _lastImportNumber = 0;
-
-var uniqueImportName = function uniqueImportName() {
-  return "import_".concat(_lastImportNumber += 1);
-};
-
-var importJSUrl = function importJSUrl(name, url) {
-  debug("Importing JavaScript resource (".concat(name, ") from url (").concat(url, ")."));
-  systemjs__WEBPACK_IMPORTED_MODULE_0___default.a.config({
-    paths: _defineProperty({}, name, url),
-    meta: _defineProperty({}, name, {
-      authorization: isRelativeUrl(url)
-    })
-  });
-  return systemjs__WEBPACK_IMPORTED_MODULE_0___default.a.import(url);
-};
-
-var importJS = function importJS(importData) {
-  debug("Importing JavaScript resource.", importData);
-  var url = importData.url,
-      blob = importData.blob;
-  var name = importData.name || uniqueImportName();
-
-  if (blob) {
-    throw new Error("Importing JS blob is not yet implemented.");
-  } else if (url) {
-    return importJSUrl(name, url);
-  } else {
-    throw new Error("One of blob or url must be specified in call to importJS.");
-  }
-};
-/**
- * Import some href/url in a `<link />` tag.
- * @param url
- */
-
-var importLink = function importLink(url, options) {
-  if (document.querySelector("link[data-webio-import=\"".concat(url, "\"]"))) {
-    debug("CSS resource (${url}) is already imported."); // This actually has a slight race condition where if the import actually
-    // is still loading, we'll resolve immediately. Probably(?) not a big deal.
-
-    return Promise.resolve();
-  }
-
-  return new Promise(function (resolve, reject) {
-    var link = document.createElement("link"); // Apply options
-
-    var rel = options.rel,
-        type = options.type,
-        media = options.media;
-    rel && (link.rel = rel);
-    type && (link.type = type);
-    media && (link.media = media);
-    link.href = url;
-    link.setAttribute("async", "");
-
-    link.onload = function () {
-      return resolve();
-    };
-
-    link.onerror = function () {
-      link.remove();
-      reject();
-    };
-
-    document.head.appendChild(link);
-  });
-};
-
-var importCSS = function importCSS(importData) {
-  debug("Importing CSS resource.", importData);
-  var url = importData.url,
-      blob = importData.blob;
-
-  if (url) {
-    return importLink(url, {
-      rel: "stylesheet",
-      type: "text/css",
-      media: "all"
-    });
-  } else if (blob) {
-    throw new Error("Imports CSS blob is not yet implemented.");
-  } else {
-    throw new Error("One of blob or url must be specified in call to importCSS.");
-  }
-};
-var importSyncBlock = function importSyncBlock(importData) {
-  return __awaiter(_this, void 0, void 0,
-  /*#__PURE__*/
-  regeneratorRuntime.mark(function _callee() {
-    var results, _iteratorNormalCompletion, _didIteratorError, _iteratorError, _iterator, _step, importItem;
-
-    return regeneratorRuntime.wrap(function _callee$(_context) {
-      while (1) {
-        switch (_context.prev = _context.next) {
-          case 0:
-            debug("Importing synchronous block.", importData);
-            results = [];
-            _iteratorNormalCompletion = true;
-            _didIteratorError = false;
-            _iteratorError = undefined;
-            _context.prev = 5;
-            _iterator = importData.data[Symbol.iterator]();
-
-          case 7:
-            if (_iteratorNormalCompletion = (_step = _iterator.next()).done) {
-              _context.next = 17;
-              break;
-            }
-
-            importItem = _step.value;
-            _context.t0 = results;
-            _context.next = 12;
-            return importResource(importItem);
-
-          case 12:
-            _context.t1 = _context.sent;
-
-            _context.t0.push.call(_context.t0, _context.t1);
-
-          case 14:
-            _iteratorNormalCompletion = true;
-            _context.next = 7;
-            break;
-
-          case 17:
-            _context.next = 23;
-            break;
-
-          case 19:
-            _context.prev = 19;
-            _context.t2 = _context["catch"](5);
-            _didIteratorError = true;
-            _iteratorError = _context.t2;
-
-          case 23:
-            _context.prev = 23;
-            _context.prev = 24;
-
-            if (!_iteratorNormalCompletion && _iterator.return != null) {
-              _iterator.return();
-            }
-
-          case 26:
-            _context.prev = 26;
-
-            if (!_didIteratorError) {
-              _context.next = 29;
-              break;
-            }
-
-            throw _iteratorError;
-
-          case 29:
-            return _context.finish(26);
-
-          case 30:
-            return _context.finish(23);
-
-          case 31:
-            return _context.abrupt("return", results);
-
-          case 32:
-          case "end":
-            return _context.stop();
-        }
-      }
-    }, _callee, this, [[5, 19, 23, 31], [24,, 26, 30]]);
-  }));
-};
-var importAsyncBlock = function importAsyncBlock(importData) {
-  return __awaiter(_this, void 0, void 0,
-  /*#__PURE__*/
-  regeneratorRuntime.mark(function _callee2() {
-    return regeneratorRuntime.wrap(function _callee2$(_context2) {
-      while (1) {
-        switch (_context2.prev = _context2.next) {
-          case 0:
-            debug("Importing asynchronous block.", importData);
-            return _context2.abrupt("return", Promise.all(importData.data.map(importResource)));
-
-          case 2:
-          case "end":
-            return _context2.stop();
-        }
-      }
-    }, _callee2, this);
-  }));
-};
-/**
- * Import a _thing_.
- * @param importData
- */
-
-var importResource = function importResource(importData) {
-  switch (importData.type) {
-    case "js"
-    /* JS */
-    :
-      return importJS(importData);
-
-    case "css"
-    /* CSS */
-    :
-      return importCSS(importData);
-
-    default:
-      throw new Error("Importing resource of type \"".concat(importData.type, "\" not supported."));
-  }
-};
-var importBlock = function importBlock(importData, config) {
-  if (config) {
-    systemjs__WEBPACK_IMPORTED_MODULE_0___default.a.config(config);
-  }
-
-  switch (importData.type) {
-    case "sync_block"
-    /* SYNC_BLOCK */
-    :
-      return importSyncBlock(importData);
-
-    case "async_block"
-    /* ASYNC_BLOCK */
-    :
-      return importAsyncBlock(importData);
-
-    default:
-      throw new Error("Cannot import unknown block type: ".concat(importData.type, "."));
-  }
-};
-console.warn("WebIO is registering SystemJS window global.");
-window.SystemJS = systemjs__WEBPACK_IMPORTED_MODULE_0___default.a;
-
-/***/ }),
-
-/***/ "../../webio/src/index.ts":
-/*!******************************************************************!*\
-  !*** /home/travigd/.julia/dev/WebIO/packages/webio/src/index.ts ***!
-  \******************************************************************/
-/*! exports provided: NODE_CLASSES, default */
-/***/ (function(module, __webpack_exports__, __webpack_require__) {
-
-"use strict";
-__webpack_require__.r(__webpack_exports__);
-/* harmony import */ var _WebIO__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! ./WebIO */ "../../webio/src/WebIO.ts");
-/* harmony import */ var _createNode__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! ./createNode */ "../../webio/src/createNode.ts");
-/* harmony reexport (safe) */ __webpack_require__.d(__webpack_exports__, "NODE_CLASSES", function() { return _createNode__WEBPACK_IMPORTED_MODULE_1__["NODE_CLASSES"]; });
-
-
-
-/* harmony default export */ __webpack_exports__["default"] = (_WebIO__WEBPACK_IMPORTED_MODULE_0__["default"]);
-
-/***/ }),
-
-/***/ "../../webio/src/setInnerHTML.ts":
-/*!*************************************************************************!*\
-  !*** /home/travigd/.julia/dev/WebIO/packages/webio/src/setInnerHTML.ts ***!
-  \*************************************************************************/
-/*! exports provided: default */
-/***/ (function(module, __webpack_exports__, __webpack_require__) {
-
-"use strict";
-__webpack_require__.r(__webpack_exports__);
-/**
- * Set the `innerHTML` attribute of a DOM element.
- *
- * This method will guarantee the execution of `<script />`s which is not done
- * by simply setting `element.innerHTML = ...`.
- *
- * @param element - The DOM element whose `innerHTML` will be set.
- * @param html - The HTML string to use; any special HTML characters (`<`, `>`, `&`, etc.)
- *    should be &-escaped as appropriate (e.g. to set the displayed text to "foo&bar",
- *    `html` should be `foo&amp;bar`).
- */
-var setInnerHTML = function setInnerHTML(element, html) {
-  // In the original WebIO, we like to replace </script> with </_script> because the whole shebang
-  // is executed inside a <script></script> block (and we don't want to close it too early).
-  html = html.replace(/<\/_script>/g, "</script>");
-  element.innerHTML = html; // If the HTML contained any <script> tags, these are NOT executed when we assign the DOM
-  // innerHTML attribute, so we have to find-and-replace them to force them to execute.
-  // We do this weird array coercion because getElementsByTagName returns a
-  // HTMLCollection object, which updates as the contents of element update
-  // (creating an infinite loop).
-
-  var scripts = Array.from(element.getElementsByTagName("script"));
-  scripts.forEach(function (oldScript) {
-    var newScript = document.createElement("script"); // Copy all attributes.
-    // Unfortunately, attributes is a NamedNodeMap which doesn't have very
-    // ES6-like methods of manipulation
-
-    for (var i = 0; i < oldScript.attributes.length; ++i) {
-      var _oldScript$attributes = oldScript.attributes[i],
-          name = _oldScript$attributes.name,
-          value = _oldScript$attributes.value;
-      newScript.setAttribute(name, value);
-    } // Copy script content
-
-
-    newScript.appendChild(document.createTextNode(oldScript.innerHTML)); // Replace inside DOM
-
-    oldScript.parentNode.replaceChild(newScript, oldScript);
-  });
-};
-
-/* harmony default export */ __webpack_exports__["default"] = (setInnerHTML);
-
-/***/ }),
-
-/***/ "../../webio/src/utils.ts":
-/*!******************************************************************!*\
-  !*** /home/travigd/.julia/dev/WebIO/packages/webio/src/utils.ts ***!
-  \******************************************************************/
-/*! exports provided: getObservableName */
-/***/ (function(module, __webpack_exports__, __webpack_require__) {
-
-"use strict";
-__webpack_require__.r(__webpack_exports__);
-/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "getObservableName", function() { return getObservableName; });
-var getObservableName = function getObservableName(specifier) {
-  if (typeof specifier === "string") {
-    return specifier;
-  }
-
-  return specifier.name;
-};
-
-/***/ }),
-
 /***/ "./generic-http.ts":
 /*!*************************!*\
   !*** ./generic-http.ts ***!
@@ -17516,7 +17956,8 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "connectWebIOToWebSocket", function() { return connectWebIOToWebSocket; });
 /* harmony import */ var debug__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! debug */ "../../node_modules/debug/src/browser.js");
 /* harmony import */ var debug__WEBPACK_IMPORTED_MODULE_0___default = /*#__PURE__*/__webpack_require__.n(debug__WEBPACK_IMPORTED_MODULE_0__);
-/* harmony import */ var _webio_webio__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! @webio/webio */ "../../webio/src/index.ts");
+/* harmony import */ var _webio_webio__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! @webio/webio */ "../../webio/dist/index.js");
+/* harmony import */ var _webio_webio__WEBPACK_IMPORTED_MODULE_1___default = /*#__PURE__*/__webpack_require__.n(_webio_webio__WEBPACK_IMPORTED_MODULE_1__);
 var _this = undefined;
 
 var __awaiter = undefined && undefined.__awaiter || function (thisArg, _arguments, P, generator) {
@@ -17613,7 +18054,7 @@ var genericHTTPEntrypoint = function genericHTTPEntrypoint() {
       while (1) {
         switch (_context.prev = _context.next) {
           case 0:
-            webIO = new _webio_webio__WEBPACK_IMPORTED_MODULE_1__["default"](); // We do window as any to allow defining new members.
+            webIO = new _webio_webio__WEBPACK_IMPORTED_MODULE_1___default.a(); // We do window as any to allow defining new members.
 
             window.WebIO = webIO;
             _context.next = 4;
