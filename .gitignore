@@ -6,3 +6,5 @@ node_modules
 deps/build.log
 *.ipynb_checkpoints
 *.js.map
+
+/packages/webio/dist/

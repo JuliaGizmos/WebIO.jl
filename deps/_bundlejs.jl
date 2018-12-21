@@ -10,5 +10,5 @@ cd(joinpath(dirname(@__FILE__), "..", "packages")) do
     else
         args =[]
     end
-    run(`$npm run build --scripts-prepend-node-path -- $args`)
+    run(`$npm run build-prod --scripts-prepend-node-path -- $args`)
 end
