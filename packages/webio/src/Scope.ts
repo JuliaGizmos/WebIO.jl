@@ -78,7 +78,9 @@ export interface ScopeSchema extends WebIONodeSchema {
       [observableName: string]: string[];
     };
 
-    imports?: BlockImport;
+    imports?: undefined;
+
+    mount_callbacks?: string[];
 
     /**
      * Configuration to apply to SystemJS before importing the dependencies.
@@ -225,6 +227,13 @@ class WebIOScope extends WebIONode {
       // a function which is expected to be an event listener... but this is
       // kind of a special case of that.
       handlers.forEach((handler) => (handler as any)(...resources));
+    }
+
+    if (schema.instanceArgs.mount_callbacks) {
+      const callbacks = schema.instanceArgs.mount_callbacks.map(
+        (src) => evalWithWebIOContext(this, src, {scope: this, webIO: this.webIO}) as any
+      );
+      callbacks.forEach((callback) => callback());
     }
 
     // This isn't super clean, but this function is used to create the

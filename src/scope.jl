@@ -9,6 +9,7 @@ export Scope,
        setobservable!,
        on, onjs,
        evaljs,
+       onmount,
        onimport,
        ondependencies,
        adddeps!,
@@ -96,8 +97,7 @@ mutable struct Scope
     observs::Dict{String, Tuple{AbstractObservable, Union{Nothing,Bool}}} # bool marks if it is synced
     private_obs::Set{String}
     systemjs_options
-    imports
-
+    imports::Vector{WebAsset}
     # A collection of handler functions associated with various observables in
     # this scope. Of the form
     # "observable-name" => ["array", "of", "JS", "strings"]
@@ -105,6 +105,8 @@ mutable struct Scope
     # changes.
     jshandlers
     pool::ConnectionPool
+
+    mount_callbacks::Vector{JSString}
 end
 
 const scopes = Dict{String, Scope}()
@@ -116,13 +118,23 @@ function Scope(id::String=newid("scope");
         private_obs::Set{String}=Set{String}(),
         dependencies=nothing,
         systemjs_options=nothing,
-        imports=[],
-        jshandlers::Dict=Dict()
+        imports=nothing,
+        jshandlers::Dict=Dict(),
+        mount_callbacks::Vector{JSString}=Vector{JSString}(),
     )
 
+    if imports !== nothing
+        @warn "imports keyword argument is deprecated, use WebAsset instead."
+        imports = map(import_to_webasset, imports)
+    end
+
     if dependencies !== nothing
-        @warn("dependencies key word argument is deprecated, use imports instead")
-        imports = dependencies
+        @warn("dependencies keyword argument is deprecated, use WebAsset instead.")
+        imports = map(import_to_webasset, imports)
+    end
+
+    if imports === nothing
+        imports = Vector{WebAsset}()
     end
 
     if haskey(scopes, id)
@@ -131,7 +143,7 @@ function Scope(id::String=newid("scope");
 
     pool = ConnectionPool(outbox)
 
-    scopes[id] = Scope(id, dom, observs, private_obs, systemjs_options, imports, jshandlers, pool)
+    scopes[id] = Scope(id, dom, observs, private_obs, systemjs_options, imports, jshandlers, pool, mount_callbacks)
 end
 Base.@deprecate Scope(id::AbstractString; kwargs...) Scope(; id=id, kwargs...)
 
@@ -237,8 +249,9 @@ function JSON.lower(x::Scope)
     Dict(
         "id" => x.id,
         "systemjs_options" => x.systemjs_options,
-        "imports" => lowerdeps(x.imports),
+        # "imports" => lowerdeps(x.imports),
         "handlers" => x.jshandlers,
+        "mount_callbacks" => x.mount_callbacks,
         "observables" => obs_dict)
 end
 
@@ -266,17 +279,23 @@ function evaljs(ctx, expr)
     send(ctx, "Basics.eval", expr)
 end
 
-function onimport(scope::Scope, f)
-    promise_name = "importsLoaded"
-    jshandlers = scope.jshandlers
-    if !haskey(jshandlers, "_promises")
-        jshandlers["_promises"] = Dict()
-    end
-    if !haskey(jshandlers["_promises"], promise_name)
-        jshandlers["_promises"][promise_name] = []
-    end
-    push!(jshandlers["_promises"][promise_name], f)
+function onmount(scope::Scope, f::JSString)
+    push!(scope.mount_callbacks, f)
+    return scope
 end
+
+function onimport(scope::Scope, f::JSString)
+    @warn "onimport is deprecated; use WebAsset and onmount instead."
+    onmount(scope, js"""
+        function () {
+            var handler = ($(f));
+            Promise.all($(scope.imports)).then((imports) => handler.apply(this, imports));
+        }
+        """)
+end
+
+onmount(scope::Scope, f) = onmount(scope, JSString(f))
+onimport(scope::Scope, f) = onimport(scope, JSString(f))
 
 Base.@deprecate ondependencies(ctx, jsf) onimport(ctx, jsf)
 

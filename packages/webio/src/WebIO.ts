@@ -7,6 +7,7 @@ import WebIOScope from "./Scope";
 import createNode, {NODE_CLASSES} from "./createNode";
 import {ObservableGlobalSpecifier} from "./utils";
 import WebIOObservable from "./Observable";
+import {importJS, importJSUrl, importLink} from "./imports";
 
 const log = debug("WebIO");
 
@@ -241,6 +242,27 @@ class WebIO {
     return this.getScope(scope).setObservableValue(name, value, sync);
   }
 
+  async loadJS(dependency: JSDependency) {
+    return await importJSUrl(dependency.name, dependency.url);
+  }
+
+  async loadCSS(dependency: CSSDependency) {
+    return await importLink(dependency.url, {
+      rel: "stylesheet",
+      type: "text/css",
+      media: "all",
+    })
+  }
 }
 
 export default WebIO;
+
+interface JSDependency {
+  name: string;
+  url: string;
+}
+
+interface CSSDependency {
+  name: string;
+  url: string;
+}

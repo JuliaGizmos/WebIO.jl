@@ -126,7 +126,7 @@ const isRelativeUrl = (url: string) => {
 let _lastImportNumber = 0;
 const uniqueImportName = () => `import_${_lastImportNumber += 1}`;
 
-const importJSUrl = (name: string, url: string) => {
+export const importJSUrl = (name: string, url: string) => {
   debug(`Importing JavaScript resource (${name}) from url (${url}).`);
   SystemJS.config({
     paths: {
@@ -159,7 +159,7 @@ export const importJS = (importData: JSImport): any => {
  * Import some href/url in a `<link />` tag.
  * @param url
  */
-const importLink = (url: string, options: {rel?: string, type?: string, media?: string}) => {
+export const importLink = (url: string, options: {rel?: string, type?: string, media?: string}) => {
   if (document.querySelector(`link[data-webio-import="${url}"]`)) {
     debug("CSS resource (${url}) is already imported.");
     // This actually has a slight race condition where if the import actually
