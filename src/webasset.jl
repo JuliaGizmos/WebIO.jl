@@ -13,18 +13,18 @@ struct CSSAsset <: WebAsset
     url::String
 end
 
+path_to_url(path) = islocal(path) ? AssetRegistry.register(path) : path
+
 function JSAsset(file_path::String)
-    asset_url = islocal(file_path) ? AssetRegistry.register(file_path) : file_path
-    return JSAsset(file_path, asset_url)
+    return JSAsset(file_path, path_to_url(file_path))
 end
 
 function CSSAsset(file_path::String)
-    asset_url = islocal(file_path) ? AssetRegistry.register(file_path) : file_path
-    return CSSAsset(file_path, asset_url)
+    return CSSAsset(file_path, path_to_url(file_path))
 end
 
 function islocal(asset)
-    !any(startswith.(x, ("//", "https://", "http://", "ftp://")))
+    !any(startswith.(asset, ("//", "https://", "http://", "ftp://")))
 end
 
 function jsexpr(asset::JSAsset)
@@ -43,6 +43,9 @@ function jsexpr(asset::CSSAsset)
     return js"WebIO.loadCSS($args)"
 end
 
+"""
+Convert an (old style) import string into a WebAsset.
+"""
 function import_to_webasset(name::String)
     extension = lowercase(split(name, '.')[end])
     if extension == "css"
@@ -51,6 +54,22 @@ function import_to_webasset(name::String)
         return JSAsset(name)
     end
     error("Unknown import extension: $(extension).")
+end
+
+function import_to_webasset(asset::Pair)
+    name, path = asset
+    extension = lowercase(split(path, '.')[end])
+    if extension == "css"
+        return CSSAsset(name, path_to_url(path))
+    elseif extension == "js"
+        return JSAsset(name, path_to_url(path))
+    end
+    error("Unknown import extension: $(extension).")
+end
+
+function import!(scope, x)
+    @warn "import! is deprecated; use onmount and WebAsset instead."
+    push!(scope.imports, import_to_webasset(x))
 end
 
 jsexpr(io, assets::Vector{WebAsset}) = jsexpr(io, map(jsexpr, assets))

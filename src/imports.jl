@@ -4,9 +4,9 @@ struct Sync
     xs::AbstractArray
 end
 
-function islocal(x)
-    !any(startswith.(x, ("//", "https://", "http://", "ftp://")))
-end
+# function islocal(x)
+#     !any(startswith.(x, ("//", "https://", "http://", "ftp://")))
+# end
 
 
 function path2url(path::AbstractString)
@@ -91,8 +91,8 @@ lowerdeps(xs::AbstractArray) = Dict(
 lowerdeps(x::Sync) = Dict("type"=>"sync_block",
                           "data" => map(lowerdeps, x.xs))
 
-function import!(scope, x)
-    push!(scope.imports, x)
-end
+# function import!(scope, x)
+#     push!(scope.imports, x)
+# end
 
 Base.@deprecate adddeps!(scope, x) import!(scope, x)
