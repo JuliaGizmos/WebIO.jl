@@ -1,17 +1,18 @@
 // import isArray from "is-array";
 // import arrayEqual from "array-equal";
 import debug from "debug";
-import {WebIOCommand, WebIOMessage, WebIOWireMessage} from "./message";
+import {WebIOCommand, WebIOCommandType, WebIOMessage, WebIORequest, WebIORequestType} from "./message";
 import {WebIODomElement, WebIONodeSchema} from "./Node";
 import WebIOScope from "./Scope";
 import createNode, {NODE_CLASSES} from "./createNode";
 import {ObservableGlobalSpecifier} from "./utils";
 import WebIOObservable from "./Observable";
-import {importJS, importJSUrl, importLink} from "./imports";
+import {importJSUrl, importLink} from "./imports";
+import {evalWithWebIOContext} from "./events";
 
 const log = debug("WebIO");
 
-export type WebIOSendCallback = (message: WebIOWireMessage) => void; // TODO: void?
+export type WebIOSendCallback = (message: WebIOMessage) => void; // TODO: void?
 
 class WebIO {
 
@@ -67,24 +68,63 @@ class WebIO {
    * @param message - The message to dispatch.
    */
   dispatch(message: WebIOMessage) {
+    switch (message.type) {
+      case "request":
+        return this.dispatchRequest(message);
+      case "command":
+        return this.dispatchCommand(message);
+      case "response":
+        throw new Error(`Dispatching responses in the frontend is not implemented.`);
+    }
+
+    throw new Error(`Unknown message type: ${(message as any).type}.`);
+  }
+
+  dispatchCommand(message: WebIOCommand) {
     log(`Dispatching message (command: ${message.command}).`, message);
     switch (message.command) {
-      case WebIOCommand.EVAL: {
-        console.error(`Dispatching command "${message.command}" not implemented.`);
+      case WebIOCommandType.UPDATE_OBSERVABLE: {
+        const scope = this.scopes[message.scope];
+        if (!scope) {
+          throw new Error(`WebIO has no such scope: (id ${message.scope}).`)
+        }
+        scope.setObservableValue(message.name, message.value, false);
         return;
       }
 
       default: {
         // TODO: see notes in interface definition of WebIOMessage
-        const {scope: scopeId, command: observableName, data} = message;
-        const scope = this.scopes[scopeId];
-        if (!scope) {
-          throw new Error(`WebIO has no such scope (id: ${scopeId}).`);
-        }
-        // Set (but don't sync) the value..
-        scope.setObservableValue(observableName, data, false);
+        throw new Error(`Unknown command: ${message.command}`);
+        // const {scope: scopeId, command} = message;
+        // const scope = this.scopes[scopeId];
+        // if (!scope) {
+        //   throw new Error(`WebIO has no such scope (id: ${scopeId}).`);
+        // }
       }
     }
+  }
+
+  async dispatchRequest(message: WebIORequest) {
+    log(`dispatchRequest: ${message.request}`);
+    switch (message.request) {
+      case WebIORequestType.EVAL: {
+        const scope = this.getScope(message.scope);
+        let result = evalWithWebIOContext(scope, message.expression, {webIO: this, scope});
+        if (result instanceof Promise) {
+          log(`Eval expression returned a promise, awaiting promise.`);
+          result = await result;
+        }
+
+        return await this.send({
+          type: "response",
+          request: message.request,
+          requestId: message.requestId,
+          result,
+        });
+      }
+    }
+
+    throw new Error(`Unknown request type: ${message.request}.`);
   }
 
   /**
@@ -168,7 +208,8 @@ class WebIO {
    */
   async send(message: WebIOMessage) {
     await this.connected;
-    log(`Sending WebIO message (command: ${message.command}).`, message);
+    log(`Sending WebIO message:`, message);
+    log(`sendCallback:`, this.sendCallback);
     return this.sendCallback!({type: "message", ...message});
   }
 

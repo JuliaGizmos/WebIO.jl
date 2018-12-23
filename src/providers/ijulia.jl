@@ -16,6 +16,7 @@ WebIO.register_renderable(T::Type, ::Val{:ijulia}) = nothing
 function IJulia.CommManager.register_comm(comm::IJulia.CommManager.Comm{:webio_comm}, x)
     conn = IJuliaConnection(comm)
     comm.on_msg = function (msg)
+        @info "IJulia comm on_msg"
         data = msg.content["data"]
         WebIO.dispatch(conn, data)
     end

@@ -17,9 +17,9 @@ import {WebIODomElement, WebIONodeContext} from "./Node";
  * @param _webIOListenerSource - the source (preferably as a string) of the listener
  *    function; if not a string, the function will be converted to a string and
  *    then re-eval'd to ensure that WebIO and this refer to the correct objects.
- * @param context - the context handler should be evaluated in.
+ * @param _webIOContext - the context handler should be evaluated in.
  */
-export const evalWithWebIOContext = (
+export const createWebIOEventListener = (
     _webIOThis: WebIODomElement | WebIOScope,
     _webIOListenerSource: string | EventListener,
     _webIOContext: WebIONodeContext,
@@ -30,4 +30,16 @@ export const evalWithWebIOContext = (
   // (so that eval treats it as an expression rather than a top-level function
   // declaration).
   return (eval(`(${_webIOListenerSource})`) as EventListener).bind(_webIOThis);
+};
+
+export const evalWithWebIOContext = (
+  _webIOThis: WebIODomElement | WebIOScope,
+  _webIOListenerSource: string | EventListener,
+  _webIOContext: WebIONodeContext,
+): unknown => {
+  const {webIO: WebIO, scope: _webIOScope}= _webIOContext;
+  const _wrappedFunction = () => {
+    return eval(`${_webIOListenerSource}`);
+  };
+  return _wrappedFunction.apply(_webIOThis);
 };

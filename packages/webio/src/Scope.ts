@@ -5,8 +5,8 @@ const debug = createLogger("WebIO:Scope");
 import WebIONode, {WebIONodeSchema, WebIONodeContext} from "./Node";
 import WebIOObservable, {ObservableData} from "./Observable";
 import {getObservableName, ObservableSpecifier, OptionalKeys} from "./utils";
-import {WebIOCommand, WebIOMessage} from "./message";
-import {evalWithWebIOContext} from "./events";
+import {WebIOCommandType, WebIOMessage} from "./message";
+import {createWebIOEventListener} from "./events";
 import createNode from "./createNode";
 import {BlockImport, importBlock} from "./imports";
 
@@ -181,7 +181,7 @@ class WebIOScope extends WebIONode {
     // (Asynchronously) perform dependency initialization
     const {preDependencies = [], _promises = {}, ...restHandlers} = handlers;
     preDependencies
-      .map((functionString) => evalWithWebIOContext(
+      .map((functionString) => createWebIOEventListener(
         this,
         functionString,
         {scope: this, webIO: this.webIO},
@@ -193,7 +193,7 @@ class WebIOScope extends WebIONode {
     // element and which have access to the _webIOScope resources variable (via closure).
     Object.keys(restHandlers).forEach((observableName) => {
       this.handlers[observableName] = handlers[observableName].map((handlerString) => {
-        return evalWithWebIOContext(this, handlerString, {scope: this, webIO: this.webIO});
+        return createWebIOEventListener(this, handlerString, {scope: this, webIO: this.webIO});
       });
     });
 
@@ -221,9 +221,9 @@ class WebIOScope extends WebIONode {
     if (resources && importsLoadedHandlers) {
       debug(`Invoking importsLoaded handlers for scope (${this.id}).`, {scope: this, importsLoadedHandlers, resources});
       const handlers = importsLoadedHandlers.map((handler) => {
-        return evalWithWebIOContext(this, handler, {scope: this, webIO: this.webIO})
+        return createWebIOEventListener(this, handler, {scope: this, webIO: this.webIO})
       });
-      // `as any` is necessary because evalWithWebIOContext normally returns
+      // `as any` is necessary because createWebIOEventListener normally returns
       // a function which is expected to be an event listener... but this is
       // kind of a special case of that.
       handlers.forEach((handler) => (handler as any)(...resources));
@@ -231,7 +231,7 @@ class WebIOScope extends WebIONode {
 
     if (schema.instanceArgs.mount_callbacks) {
       const callbacks = schema.instanceArgs.mount_callbacks.map(
-        (src) => evalWithWebIOContext(this, src, {scope: this, webIO: this.webIO}) as any
+        (src) => createWebIOEventListener(this, src, {scope: this, webIO: this.webIO}) as any
       );
       callbacks.forEach((callback) => callback());
     }
@@ -287,8 +287,8 @@ class WebIOScope extends WebIONode {
    *
    * Sets the scope id if not specified.
    */
-  send({scope = this.id, ...rest}: OptionalKeys<WebIOMessage, "scope">) {
-    return this.webIO.send({scope, ...rest});
+  send(message: WebIOMessage) {
+    return this.webIO.send(message);
   }
 
   /**
@@ -314,8 +314,9 @@ class WebIOScope extends WebIONode {
    */
   protected setupScope() {
     return this.send({
-      command: WebIOCommand.SETUP_SCOPE,
-      data: {},
+      type: "command",
+      command: WebIOCommandType.SETUP_SCOPE,
+      scope: this.id,
     })
   }
 }
