@@ -33,26 +33,30 @@ function main()
         # copy of WebIO and IJulia. 
         return
     end
-    key = AssetRegistry.register(joinpath(@__DIR__, "..", "..", "assets"))
+    key = AssetRegistry.register(joinpath(@__DIR__, "..", "..", "assets"))[2:end]
 
     display(HTML("""
         <script class='js-collapse-script'>
-            var curMatch =
-                window.location.href
-                .match(/(.*?)\\/notebooks\\/.*\\.ipynb/);
+            if ( "$(baseurl[])" === "" ) {
+                var curMatch =
+                    window.location.href
+                    .match(/(.*?)\\/notebooks\\/.*\\.ipynb/);
 
-            curMatch = curMatch ||
-                window.location.href
-                .match(/(.*?)\\/apps\\/.*\\.ipynb/);
+                curMatch = curMatch ||
+                    window.location.href
+                    .match(/(.*?)\\/apps\\/.*\\.ipynb/);
 
-            if ( curMatch ) {
-                \$('head').append('<base href="' + curMatch[1] + '/">');
+                if ( curMatch ) {
+                    \$('head').append('<base href="' + curMatch[1] + '/">');
+                }
+            } else {
+                \$('head').append('<base href="' + "$(baseurl[])" + '/">');
             }
         </script>
     """))
 
-    display(HTML("<script class='js-collapse-script' src='$(baseurl[])$key/webio/dist/bundle.js'></script>"))
-    display(HTML("<script class='js-collapse-script' src='$(baseurl[])$key/providers/ijulia_setup.js'></script>"))
+    display(HTML("<script class='js-collapse-script' src='$key/webio/dist/bundle.js'></script>"))
+    display(HTML("<script class='js-collapse-script' src='$key/providers/ijulia_setup.js'></script>"))
 
     display(HTML("""
       <script class='js-collapse-script'>
