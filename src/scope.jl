@@ -125,7 +125,7 @@ function Scope(id::String=newid("scope");
     )
 
     if imports !== nothing
-        @warn("imports keyword argument is deprecated, use WebAsset instead." maxlog=1)
+        @warn("imports keyword argument is deprecated, use WebAsset instead.", maxlog=1)
         imports = map(import_to_webasset, imports)
     end
 
