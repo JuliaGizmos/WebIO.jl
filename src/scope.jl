@@ -125,12 +125,12 @@ function Scope(id::String=newid("scope");
     )
 
     if imports !== nothing
-        @warn "imports keyword argument is deprecated, use WebAsset instead."
+        @warn("imports keyword argument is deprecated, use WebAsset instead." maxlog=1)
         imports = map(import_to_webasset, imports)
     end
 
     if dependencies !== nothing
-        @warn("dependencies keyword argument is deprecated, use WebAsset instead.")
+        @warn("dependencies keyword argument is deprecated, use WebAsset instead.", maxlog=1)
         imports = map(import_to_webasset, imports)
     end
 
@@ -323,7 +323,7 @@ function onmount(scope::Scope, f::JSString)
 end
 
 function onimport(scope::Scope, f::JSString)
-    @warn "onimport is deprecated; use WebAsset and onmount instead."
+    @warn("onimport is deprecated; use WebAsset and onmount instead.", maxlog=1)
     onmount(scope, js"""
         function () {
             var handler = ($(f));

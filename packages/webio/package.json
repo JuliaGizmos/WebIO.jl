@@ -4,13 +4,13 @@
   "repository": "https://github.com/JuliaGizmos/WebIO.jl",
   "author": "Travis DePrato",
   "license": "MIT",
-  "version": "1.0.0",
+  "version": "1.0.1",
   "main": "dist/index.js",
   "browser": "dist/index.js",
   "types": "dist/index.d.ts",
   "dependencies": {
     "@types/systemjs": "^0.20.6",
-    "systemjs": "^0.20.19"
+    "systemjs": "0.21.0"
   },
   "devDependencies": {
     "webpack-cli": "^3.1.2"

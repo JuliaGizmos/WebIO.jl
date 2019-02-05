@@ -21,6 +21,7 @@
   },
   "dependencies": {
     "@types/debug": "0.0.31",
+    "@webio/webio": "file:webio",
     "debug": "^4.0.1"
   }
 }

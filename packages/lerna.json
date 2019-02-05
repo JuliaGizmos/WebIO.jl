@@ -1,6 +1,7 @@
 {
   "packages": [
     "webio",
+    "jupyter-lab-provider",
     "jupyter-notebook-provider",
     "blink-provider",
     "mux-provider",
