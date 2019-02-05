@@ -8,3 +8,4 @@ deps/build.log
 *.js.map
 
 /packages/webio/dist/
+/packages/jupyter-lab-provider/dist/

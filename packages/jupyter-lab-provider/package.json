@@ -22,7 +22,7 @@
     "build-prod": "tsc -p ."
   },
   "devDependencies": {
-    "webpack-cli": "^3.1.2"
+    "typescript": "^3.3.1"
   },
   "jupyterlab": {
     "extension": true

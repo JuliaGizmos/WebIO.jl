@@ -12,6 +12,17 @@ import WebIO from "@webio/webio";
 const log = debug("WebIO:jupyter-lab");
 const MIME_TYPE = "application/vnd.webio.node+json";
 const COMM_TARGET = "webio_comm";
+const WEBIO_METADATA_KEY = "@webio";
+
+/**
+ * In order to know when (and how) to resume connections (after a refresh, for
+ * example), we store information about the last-used kernel and the last-used
+ * comm. This data is stored in the notebook's metadata.
+ */
+interface WebIONotebookMetadata {
+  lastKernelId?: string;
+  lastCommId?: string;
+}
 
 /*
  * The rank of a renderer determines the order in which renderers are invoked.
@@ -36,12 +47,18 @@ log("@webio/jupyter-lab-provider");
  * connected to the Julia kernel yet).
  */
 class WebIORenderer extends Panel implements IRenderMime.IRenderer, IDisposable {
+
+  private lastModel?: IRenderMime.IMimeModel;
+
   constructor(private options: IRenderMime.IRendererOptions, private webIO: WebIO) {
     super();
     log(`WebIORenderer¬constructor`, options, webIO);
   }
 
   renderModel(model: IRenderMime.IMimeModel): Promise<void> {
+    console.warn("Setting window.lastWebIORenderer");
+    (window as any).lastWebIORenderer = this;
+    this.lastModel = model;
     log(`WebIORenderer¬renderModel`, model.data[MIME_TYPE]);
     this.webIO.mount(this.node, model.data[MIME_TYPE] as any);
     return Promise.resolve();
@@ -70,6 +87,7 @@ class WebIONotebookManager {
     private notebook: NotebookPanel,
     private context: DocumentRegistry.IContext<INotebookModel>
   ) {
+    (window as any).webIONotebookManager = this;
     log(`WebIONotebookManager¬constructor`);
   }
 
@@ -99,13 +117,38 @@ class WebIONotebookManager {
       throw new Error(`Kernel is not available!`);
     }
 
-    this.comm = kernel.connectToComm(COMM_TARGET);
+    const {lastKernelId, lastCommId} = this.getWebIOMetadata();
+    const shouldReuseCommId = (
+      // To re-use the comm id, we need to be using the same kernel.
+      lastKernelId === kernel.id
+      // We need to know what the last comm id *was*
+      && !!lastCommId
+    );
+    log(`WebIONotebookManager¬connect: Last WebIO connection was for kernelId="${lastKernelId}", commId="${lastCommId}".`);
+    log(`WebIONotebookManager¬connect: We're ${shouldReuseCommId ? "definitely" : "not"} re-using the old commId.`);
+
+    this.comm = kernel.connectToComm(COMM_TARGET, shouldReuseCommId ? lastCommId : undefined);
     this.comm.open();
     this.webIO.setSendCallback((msg) => this.comm!.send(msg as any));
     this.comm.onMsg = (msg: any) => {
       log("Received WebIO comm message:", msg);
       this.webIO.dispatch(msg.content.data);
-    }
+    };
+
+    this.setWebIOMetadata(kernel.id, this.comm.commId);
+  }
+
+  private getWebIOMetadata(): WebIONotebookMetadata {
+    return (this.notebook.model.metadata.get(WEBIO_METADATA_KEY) || {}) as any;
+  }
+
+  private setWebIOMetadata(kernelId: string, commId: string) {
+    const metadata: WebIONotebookMetadata = {
+      lastKernelId: kernelId,
+      lastCommId: commId,
+    };
+    log("Setting WebIO notebook metadata.", metadata);
+    this.notebook.model.metadata.set(WEBIO_METADATA_KEY, metadata as any);
   }
 }
 
