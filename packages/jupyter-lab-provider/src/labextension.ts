@@ -1,5 +1,5 @@
 import debug from "debug";
-import {Panel} from "@phosphor/widgets";
+import {Panel, Widget} from "@phosphor/widgets";
 import {JupyterLabPlugin} from "@jupyterlab/application";
 import {DisposableDelegate, IDisposable} from "@phosphor/disposable";
 import {DocumentRegistry} from "@jupyterlab/docregistry";
@@ -8,11 +8,18 @@ import {IRenderMime} from "@jupyterlab/rendermime";
 import {Kernel} from "@jupyterlab/services";
 
 import WebIO from "@webio/webio";
+import {CodeCell} from "@jupyterlab/cells";
+import {JSONObject} from "@phosphor/coreutils";
 
 const log = debug("WebIO:jupyter-lab");
 const MIME_TYPE = "application/vnd.webio.node+json";
 const COMM_TARGET = "webio_comm";
 const WEBIO_METADATA_KEY = "@webio";
+
+const WEBIO_OLD_KERNEL_MESSAGE = (
+  "This WebIO widget was rendered for a Jupyter kernel that is no longer running. "
+  + "Re-run this cell to regenerate this widget."
+);
 
 /**
  * In order to know when (and how) to resume connections (after a refresh, for
@@ -22,6 +29,10 @@ const WEBIO_METADATA_KEY = "@webio";
 interface WebIONotebookMetadata {
   lastKernelId?: string;
   lastCommId?: string;
+}
+
+interface WebIOOutputMetadata {
+  kernelId?: string;
 }
 
 /*
@@ -50,18 +61,61 @@ class WebIORenderer extends Panel implements IRenderMime.IRenderer, IDisposable 
 
   private lastModel?: IRenderMime.IMimeModel;
 
-  constructor(private options: IRenderMime.IRendererOptions, private webIO: WebIO) {
-    super();
-    log(`WebIORenderer¬constructor`, options, webIO);
+  private get webIO() {
+    return this.webIOManager.webIO;
   }
 
-  renderModel(model: IRenderMime.IMimeModel): Promise<void> {
+  constructor(private options: IRenderMime.IRendererOptions, private webIOManager: WebIONotebookManager) {
+    super();
+    log(`WebIORenderer¬constructor`, options, webIOManager);
+  }
+
+  async renderModel(model: IRenderMime.IMimeModel): Promise<void> {
     console.warn("Setting window.lastWebIORenderer");
+    // const metadata = model.metadata as WebIOOutputMetadata;
+    // if (!metadata.kernelId) {
+    //   // Do nothing; we set the model metadata which triggers a re-render.
+    //   return this.setModelMetadata(model);
+    // }
+    const {kernelId} = this.getModelMetadata(model);
+    if (!kernelId) {
+      return this.setModelMetadata(model);
+    }
+    const currentKernelId = (await this.webIOManager.getKernel()).id;
+    if (kernelId !== currentKernelId) {
+      log(
+        `WebIORenderer¬renderModel: output was generate for kernelId "${kernelId}", `
+        + `but we're currently running using kernel "${currentKernelId}".`
+      );
+      const div = document.createElement("div");
+      const p = document.createElement("p");
+      const strong = document.createElement("strong");
+      strong.innerText = WEBIO_OLD_KERNEL_MESSAGE;
+      p.appendChild(strong);
+      div.appendChild(p);
+      this.node.appendChild(div);
+      return;
+    }
     (window as any).lastWebIORenderer = this;
     this.lastModel = model;
     log(`WebIORenderer¬renderModel`, model.data[MIME_TYPE]);
     this.webIO.mount(this.node, model.data[MIME_TYPE] as any);
-    return Promise.resolve();
+    return;
+  }
+
+  private getModelMetadata(model: IRenderMime.IMimeModel) {
+    return (model.metadata[WEBIO_METADATA_KEY] || {}) as WebIOOutputMetadata;
+  }
+
+  private async setModelMetadata(model: IRenderMime.IMimeModel) {
+    model.setData({
+      metadata: {
+        ...model.metadata,
+        [WEBIO_METADATA_KEY]: {
+          kernelId: (await this.webIOManager.getKernel()).id,
+        } as WebIOOutputMetadata,
+      } as any,
+    })
   }
 }
 
@@ -80,8 +134,23 @@ class WebIORenderer extends Panel implements IRenderMime.IRenderer, IDisposable 
  */
 class WebIONotebookManager {
 
-  readonly webIO = new WebIO();
+  private readonly _webIO = new WebIO();
   private comm?: Kernel.IComm;
+
+  /**
+   * We lazy-connect WebIO. This ensures that we don't try to connect to WebIO
+   * before the kernel is ready.
+   *
+   * IMPORTANT: This also depends upon how the WebIORenderer won't try to render
+   * WebIO nodes that were created for a different kernel; because we know that
+   * the node was generated using the current kernel, we're sure that it's ready
+   * for comm connections (since it's already been answering code execution
+   * requests).
+   */
+  get webIO() {
+    this.connect();
+    return this._webIO;
+  }
 
   constructor(
     private notebook: NotebookPanel,
@@ -89,6 +158,18 @@ class WebIONotebookManager {
   ) {
     (window as any).webIONotebookManager = this;
     log(`WebIONotebookManager¬constructor`);
+  }
+
+  async getKernel() {
+    // Make sure the kernel is ready before we try to connect to it.
+    await this.context.session.ready;
+    const {kernel} = this.context.session;
+    if (!kernel) {
+      throw new Error("Session is ready but kernel isn't available!");
+    }
+    await this.context.session.kernel!.ready;
+    log(`WebIONotebookManager¬connect: Notebook kernel is ready; status is ${kernel.status}.`);
+    return kernel;
   }
 
   /**
@@ -100,21 +181,12 @@ class WebIONotebookManager {
   async connect() {
     log("WebIONotebookManager¬connect");
 
-    // Make sure the kernel is ready before we try to connect to it.
-    await this.context.session.ready;
-    log("WebIONotebookManager¬connect: Notebook session is ready.");
-
+    const kernel = await this.getKernel();
     // It's important that everything below this is synchronous to avoid race
     // conditions.
     if (this.comm) {
-      log("WebIONotebookManager¬connect: WebIO is already connected.")
+      log("WebIONotebookManager¬connect: WebIO is already connected.");
       return;
-    }
-
-    const {kernel} = this.context.session;
-    if (!kernel) {
-      // Shouldn't happen, but TypeScript complains if we don't do this check.
-      throw new Error(`Kernel is not available!`);
     }
 
     const {lastKernelId, lastCommId} = this.getWebIOMetadata();
@@ -129,10 +201,10 @@ class WebIONotebookManager {
 
     this.comm = kernel.connectToComm(COMM_TARGET, shouldReuseCommId ? lastCommId : undefined);
     this.comm.open();
-    this.webIO.setSendCallback((msg) => this.comm!.send(msg as any));
+    this._webIO.setSendCallback((msg) => this.comm!.send(msg as any));
     this.comm.onMsg = (msg: any) => {
       log("Received WebIO comm message:", msg);
-      this.webIO.dispatch(msg.content.data);
+      this._webIO.dispatch(msg.content.data);
     };
 
     this.setWebIOMetadata(kernel.id, this.comm.commId);
@@ -172,7 +244,7 @@ class WebIONotebookExtension implements DocumentRegistry.IWidgetExtension<Notebo
       mimeTypes: [MIME_TYPE],
       createRenderer: (options) => {
         webIONotebookManager.connect();
-        return new WebIORenderer(options, webIONotebookManager.webIO);
+        return new WebIORenderer(options, webIONotebookManager);
       },
     }, RENDERER_RANK);
 

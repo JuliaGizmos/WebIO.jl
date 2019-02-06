@@ -79,8 +79,10 @@ function main()
                 });
                 warning_div.innerHTML = $(jsexpr("<strong>$(warning_text)</strong>"));
             } else if (window.location.pathname.includes("/lab")) {
-                // Guessing JupyterLab
-                warning_div.innerHTML = "WebIO does not support JupyterLab yet.";
+                // Guessing JupyterLa
+                console.log("Jupyter Lab detected; make sure the @webio/jupyter-lab-provider labextension is installed.");
+                hide();
+                return;
             }
         })();
         </script>
