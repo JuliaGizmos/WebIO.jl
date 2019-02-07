@@ -287,26 +287,7 @@ send_update_observable(scope::Scope, name::AbstractString, value) = send_command
     "value" => value,
 )
 
-"""
-    send_request(scope, request[, "key" => "value", ...])
-
-Send a request message for a scope and wait for the response.
-
-Each request has a unique id. This is generated automatically. The client should
-(eventually) return a response message with the same id.
-"""
-function send_request(scope::Scope, request, data::Pair...)
-    request_id = string(rand(UInt64))
-    message = Dict(
-      "type" => "request",
-      "request" => request,
-      "requestId" => request_id,
-      "scope" => scope.id,
-      data...
-    )
-    send(scope.pool, message)
-    return await_response(request_id)
-end
+send_request(scope::Scope, request, data::Pair...) = send_request(scope.pool, request, "scope" => scope.id, data...)
 
 macro evaljs(ctx, expr)
     @warn("@evaljs is deprecated, use evaljs function instead")

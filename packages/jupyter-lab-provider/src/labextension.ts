@@ -167,7 +167,7 @@ class WebIONotebookManager {
     if (!kernel) {
       throw new Error("Session is ready but kernel isn't available!");
     }
-    await this.context.session.kernel!.ready;
+    await kernel.ready;
     log(`WebIONotebookManager¬connect: Notebook kernel is ready; status is ${kernel.status}.`);
     return kernel;
   }

@@ -81,7 +81,7 @@ class WebIO {
   }
 
   dispatchCommand(message: WebIOCommand) {
-    log(`Dispatching message (command: ${message.command}).`, message);
+    log(`Dispatching command (command: ${message.command}).`, message);
     switch (message.command) {
       case WebIOCommandType.UPDATE_OBSERVABLE: {
         const scope = this.scopes[message.scope];

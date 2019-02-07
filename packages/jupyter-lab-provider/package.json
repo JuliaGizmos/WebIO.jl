@@ -5,7 +5,7 @@
   "author": "Travis DePrato",
   "license": "MIT",
   "main": "dist/labextension.js",
-  "version": "0.0.1",
+  "version": "0.0.2",
   "dependencies": {
     "@jupyterlab/application": "^0.19.1",
     "@jupyterlab/docmanager": "^0.19.1",

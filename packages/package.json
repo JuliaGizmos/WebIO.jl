@@ -3,7 +3,6 @@
   "private": true,
   "scripts": {
     "bootstrap": "lerna bootstrap",
-    "postinstall": "lerna bootstrap",
     "build": "lerna run build",
     "build-prod": "lerna run build-prod"
   },

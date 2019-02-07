@@ -1,22 +1,51 @@
 """
 A map from request_id's to pending conditions.
 """
-pending_requests = Dict{String, Channel}()
 
-function await_response(request_id::String)
-    @info "await_response"
+using Distributed: Future
+
+pending_requests = Dict{String, Future}()
+
+"""
+    send_request(scope, request[, "key" => "value", ...])
+
+Send a request message for a scope and wait for the response.
+
+Each request has a unique id. This is generated automatically. The client should
+(eventually) return a response message with the same id.
+
+**IMPORTANT:** Julia code **CANNOT** synchronously `fetch` (or `wait`, etc.) a
+    request that was sent while using IJulia (e.g. Jupyter Notebook/Lab); if you
+    exclusively use another provider, it's (probably) fine. The reason for this
+    is that the `fetch` makes the current task block, but IJulia will wait for
+    the current task to finish before executing the next task. The response will
+    be handled in a subsequent task (via a comm message), but since this task
+    can never be processed (as the event loop is blocked), this creates a
+    deadlock which will freeze the kernel indefinitely.
+"""
+function send_request(conn, request, data::Pair...)
+    request_id = string(rand(UInt64))
     if haskey(pending_requests, request_id)
         error("Cannot register duplicate request id: $(request_id).")
     end
-    channel = Channel(1)
-    pending_requests[request_id] = channel
-    @warn "await_request returning channel instead of response (fix me! --travis)"
-    return channel
-    @info "await_response: waiting for response..."
-    result = fetch(channel)
-    @info "await_response: got response"
-    delete!(pending_requests, request_id)
-    return result
+    future = Future()
+    pending_requests[request_id] = future
+    message = Dict(
+      "type" => "request",
+      "request" => request,
+      "requestId" => request_id,
+      data...
+    )
+    send(conn, message)
+
+    # Run in separate async task to ensure that we delete the pending request
+    # future when we get a response (this avoids orphaning responses that we
+    # don't actually need).
+    return @async begin
+        result = fetch(future)
+        delete!(pending_requests, request_id)
+        result
+    end
 end
 
 function send(c::AbstractConnection, msg)
@@ -56,7 +85,10 @@ function dispatch_command(conn::AbstractConnection, data)
     # first, check if the message is one of the administrative ones
     cmd = data["command"]
     scopeid = data["scope"]
-    if cmd == "setup_scope"
+    if cmd == "setup_scope" || cmd == "_setup_scope"
+        if cmd == "_setup_scope"
+            @warn("Client used deprecated command: _setup_scope.", maxlog=1)
+        end
         if haskey(scopes, scopeid)
             scope = scopes[scopeid]
             addconnection!(scope.pool, conn)
@@ -102,12 +134,12 @@ function dispatch_response(conn::AbstractConnection, data)
         return
     end
 
-    channel = get(pending_requests, request_id, nothing)
-    if channel === nothing
-        @error "Received response message for unknown request: $(request_id)."
+    future = get(pending_requests, request_id, nothing)
+    if future === nothing
+        @error "Received response message for unknown requestId: $(request_id)."
         return
     end
 
     @info "Resolving request: $(request_id)."
-    put!(channel, data)
+    put!(future, data)
 end

@@ -274,6 +274,7 @@ class WebIOScope extends WebIONode {
    *    the browser.
    */
   setObservableValue(observable: ObservableSpecifier, value: any, sync: boolean = true) {
+    debug("WebIOScope¬setObservableValue", {scope: this, observable, value, sync});
     const observableName = getObservableName(observable);
     if (!(observableName in this.observables)) {
       throw new Error(`Scope(id=${this.id}) has no observable named "${observableName}".`)
