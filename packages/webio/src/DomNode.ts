@@ -6,7 +6,7 @@ import WebIONode, {
   WebIONodeSchema,
   WebIONodeContext,
 } from "./Node";
-import {evalWithWebIOContext} from "./events";
+import {createWebIOEventListener} from "./events";
 import createNode from "./createNode";
 
 export const DOM_NODE_TYPE = "DOM";
@@ -110,7 +110,7 @@ class WebIODomNode extends WebIONode {
 
   constructor(nodeData: DomNodeData, options: WebIONodeContext) {
     super(nodeData, options);
-    debug("Creating WebIODomNode", {nodeData, options});
+    debug("Creating WebIODomNode", {nodeData, options, node: this});
     this.element = WebIODomNode.createElement(nodeData);
     this.applyProps(nodeData.props);
 
@@ -181,10 +181,11 @@ class WebIODomNode extends WebIONode {
    *    the map, then any previously setup listeners (if any) are removed.
    */
   applyEvents(events: Props["events"]) {
+    debug(`applyEvents`, events);
     for (const eventName of Object.keys(events)) {
       const oldListener = this.eventListeners[eventName];
       const newListenerSource = events[eventName];
-      const newListener = newListenerSource && evalWithWebIOContext(
+      const newListener = newListenerSource && createWebIOEventListener(
         this.element,
         newListenerSource,
         {scope: this.scope, webIO: this.webIO},
@@ -195,6 +196,7 @@ class WebIODomNode extends WebIONode {
         this.element.removeEventListener(eventName, oldListener);
         delete this.eventListeners[eventName];
       } else if (!oldListener && newListener) {
+        debug(`addEventListener(${eventName}, ...)`);
         this.element.addEventListener(eventName, newListener);
         this.eventListeners[eventName] = newListener;
       }

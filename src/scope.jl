@@ -65,6 +65,7 @@ function process_messages(pool::ConnectionPool)
             for connection in pool.connections
                 @async begin
                     if isopen(connection)
+                        @info "Sending message from scope outbox..."
                         send(connection, msg)
                         msg_sent = true
                     else
@@ -124,12 +125,12 @@ function Scope(id::String=newid("scope");
     )
 
     if imports !== nothing
-        @warn "imports keyword argument is deprecated, use WebAsset instead."
+        @warn("imports keyword argument is deprecated, use WebAsset instead.", maxlog=1)
         imports = map(import_to_webasset, imports)
     end
 
     if dependencies !== nothing
-        @warn("dependencies keyword argument is deprecated, use WebAsset instead.")
+        @warn("dependencies keyword argument is deprecated, use WebAsset instead.", maxlog=1)
         imports = map(import_to_webasset, imports)
     end
 
@@ -259,24 +260,42 @@ function render(s::Scope)
     node(s, s.dom)
 end
 
-function send(ctx::Scope, key, data)
-    command_data = Dict(
+"""
+    send_command(scope, command[, "key" => "value", ...])
+
+Send a command message for a scope. A command is essentially a fire-and-forget
+style message; no response or acknowledgement is expected.
+"""
+function send_command(scope::Scope, command, data::Pair...)
+    message = Dict(
       "type" => "command",
-      "scope" => ctx.id,
-      "command" => key,
-      "data" => data,
+      "command" => command,
+      "scope" => scope.id,
+      data...
     )
-    send(ctx.pool, command_data)
+    send(scope.pool, message)
     nothing
 end
 
+"""
+Send a command to update the frontend's value for an observable.
+"""
+send_update_observable(scope::Scope, name::AbstractString, value) = send_command(
+    scope,
+    "update_observable",
+    "name" => name,
+    "value" => value,
+)
+
+send_request(scope::Scope, request, data::Pair...) = send_request(scope.pool, request, "scope" => scope.id, data...)
+
 macro evaljs(ctx, expr)
     @warn("@evaljs is deprecated, use evaljs function instead")
-    :(send($(esc(ctx)), "Basics.eval", $(esc(expr))))
+    :(send_request($(esc(ctx)), "eval", "expression" => $(esc(expr))))
 end
 
 function evaljs(ctx, expr)
-    send(ctx, "Basics.eval", expr)
+    send_request(ctx, "eval", "expression" => expr)
 end
 
 function onmount(scope::Scope, f::JSString)
@@ -285,7 +304,7 @@ function onmount(scope::Scope, f::JSString)
 end
 
 function onimport(scope::Scope, f::JSString)
-    @warn "onimport is deprecated; use WebAsset and onmount instead."
+    @warn("onimport is deprecated; use WebAsset and onmount instead.", maxlog=1)
     onmount(scope, js"""
         function () {
             var handler = ($(f));
@@ -298,24 +317,6 @@ onmount(scope::Scope, f) = onmount(scope, JSString(f))
 onimport(scope::Scope, f) = onimport(scope, JSString(f))
 
 Base.@deprecate ondependencies(ctx, jsf) onimport(ctx, jsf)
-
-const waiting_messages = Dict{String, Condition}()
-
-function send_sync(ctx::Scope, key, data)
-    msgid = string(rand(UInt128))
-    command_data = Dict(
-      "type" => "command",
-      "scope" => ctx.id,
-      "messageId" => msgid,
-      "command" => key,
-      "data" => data,
-      "sync" => true,
-    )
-    cond = Condition()
-    waiting_messages[msgid] = cond
-    send(ctx.outbox, command_data)
-    wait(cond)
-end
 
 """
 A callable which updates the frontend
@@ -361,7 +362,7 @@ function ensure_sync(ctx, key)
     ob = ctx.observs[key][1]
     # have at most one synchronizing handler per observable
     if !any(x->isa(x, SyncCallback) && x.ctx==ctx, listeners(ob))
-        f = SyncCallback(ctx, (msg) -> send(ctx, key, msg))
+        f = SyncCallback(ctx, (msg) -> send_update_observable(ctx, key, msg))
         on(SyncCallback(ctx, f), ob)
     end
 end

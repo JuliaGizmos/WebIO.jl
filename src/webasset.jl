@@ -68,7 +68,7 @@ function import_to_webasset(asset::Pair)
 end
 
 function import!(scope, x)
-    @warn "import! is deprecated; use onmount and WebAsset instead."
+    @warn("import! is deprecated; use onmount and WebAsset instead.", maxlog=1)
     push!(scope.imports, import_to_webasset(x))
 end
 

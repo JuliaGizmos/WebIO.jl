@@ -3,7 +3,6 @@
   "private": true,
   "scripts": {
     "bootstrap": "lerna bootstrap",
-    "postinstall": "lerna bootstrap",
     "build": "lerna run build",
     "build-prod": "lerna run build-prod"
   },
@@ -21,6 +20,7 @@
   },
   "dependencies": {
     "@types/debug": "0.0.31",
+    "@webio/webio": "file:webio",
     "debug": "^4.0.1"
   }
 }

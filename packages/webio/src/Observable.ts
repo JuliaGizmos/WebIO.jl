@@ -1,5 +1,6 @@
 import createLogger from "debug";
 import WebIOScope from "./Scope";
+import {WebIOCommandType} from "./message";
 
 const debug = createLogger("WebIO:Observable");
 
@@ -87,8 +88,12 @@ class WebIOObservable<T = any> {
   syncValue() {
     this.webIO.reconcileObservables(this);
     return this.scope.send({
-      command: this.name,
-      data: this.value,
+      type: "command",
+      command: WebIOCommandType.UPDATE_OBSERVABLE,
+      scope: this.scope.id,
+      id: this.id,
+      name: this.name,
+      value: this.value,
     });
   }
 
