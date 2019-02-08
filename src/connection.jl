@@ -121,8 +121,45 @@ function dispatch_command(conn::AbstractConnection, data)
     end
 end
 
+ResponseDict = Dict{String, Any}
+request_handlers = Dict{String, Function}()
+function register_request_handler(request_type::String, handler::Function)
+    if haskey(request_handlers, request_type)
+        error("Duplicate request type: $(request_type).")
+    end
+    request_handlers[request_type] = handler
+end
+
 function dispatch_request(conn::AbstractConnection, data)
-    @error "Not implemented."
+    @info "dispatch_request"
+    request_id = get(data, "requestId", nothing)
+    if request_id === nothing
+        @error("Request message (request=$(repr(request_type))) is missing requestId.")
+        return
+    end
+    try
+        request_type = get(data, "request", nothing)
+        handler = get(request_handlers, request_type, nothing)
+        if handler === nothing
+            error("Unknown request type (request=$(repr(request_type))).")
+        end
+        # Julia sometimes narrows the type of the returned dict
+        # (for example, the handler might return Dict{String, Int64}).
+        response = convert(ResponseDict, handler(data))
+        response["type"] = "response"
+        response["request"] = request_type
+        response["requestId"] = request_id
+        send(conn, response)
+        return
+    catch (e)
+        send(conn, Dict(
+            "type" => "response",
+            "request" => get(data, "request", nothing),
+            "requestId" => request_id,
+            "error" => sprint(showerror, e),
+        ))
+        return
+    end
 end
 
 function dispatch_response(conn::AbstractConnection, data)
