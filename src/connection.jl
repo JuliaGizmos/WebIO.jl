@@ -1,9 +1,8 @@
+using Distributed: Future
+
 """
 A map from request_id's to pending conditions.
 """
-
-using Distributed: Future
-
 pending_requests = Dict{String, Future}()
 
 """
