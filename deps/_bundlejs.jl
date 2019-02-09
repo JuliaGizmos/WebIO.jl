@@ -15,6 +15,16 @@ cd(joinpath(dirname(@__FILE__), "..", "packages")) do
         run(`$npm install --scripts-prepend-node-path=auto --unsafe-perm .`)
     catch (e)
         @error "`npm install` failed!"
+        try
+            logsdir = joinpath(homedir(), ".npm", "_logs")
+            logfiles = readdir(logsdir)
+            for logfile in logfiles
+                @info "NPM log file: $logfile"
+                run(`cat $(joinpath(logsdir, logfile))`)
+            end
+        catch (e)
+            @warn "Unable to read error logs."
+        end
         rethrow()
     end
 

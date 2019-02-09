@@ -71,11 +71,11 @@ end
     @test js"x=$y" == js"x={}"
 end
 
-include("communication.jl")
-include("node.jl")
-include("http-tests.jl")
-include("mux-tests.jl")
-include("blink-tests.jl")
-include("util-tests.jl")
+#include("communication.jl")
+#include("node.jl")
+#include("http-tests.jl")
+#include("mux-tests.jl")
+#include("blink-tests.jl")
+#include("util-tests.jl")
 # include("ijulia-tests.jl")
 include("bundling.jl")
