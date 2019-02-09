@@ -19,6 +19,5 @@
   "scripts": {
     "build": "tsc -p .",
     "build-prod": "npm run build",
-    "prepack": "npm run build"
   }
 }
