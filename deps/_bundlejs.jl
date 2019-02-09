@@ -4,8 +4,20 @@ cd(joinpath(dirname(@__FILE__), "..", "packages")) do
     node = NodeJS.nodejs_cmd()
     npm = NodeJS.npm_cmd()
 
+    @info "NPM version information:"
+    run(`$npm version`)
+
+    @info "Current directory:"
+    run(`sh -c 'echo $(pwd) && ls'`)
+
     @info "Running `npm install`..."
-    run(`$npm install --scripts-prepend-node-path=auto --unsafe-perm`)
+    try
+        run(`$npm install --scripts-prepend-node-path=auto --unsafe-perm .`)
+    catch (e)
+        @error "`npm install` failed!"
+        rethrow()
+    end
+
     @info "Completed `npm install`."
     run(`ls node_modules`)
     run(`ls webio/node_modules`)
