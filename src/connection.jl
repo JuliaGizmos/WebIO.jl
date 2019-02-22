@@ -66,7 +66,6 @@ function log(c::AbstractConnection, msg, level="info", data=nothing)
 end
 
 function dispatch(conn::AbstractConnection, data)
-    @info "dispatch"
     message_type = data["type"]
     if message_type == "request"
         return dispatch_request(conn, data)
@@ -80,7 +79,6 @@ end
 
 # function dispatch_command(conn::AbstractConnection, data)
 function dispatch_command(conn::AbstractConnection, data)
-    @info "dispatch_command"
     # first, check if the message is one of the administrative ones
     cmd = data["command"]
     scopeid = data["scope"]
@@ -95,8 +93,6 @@ function dispatch_command(conn::AbstractConnection, data)
             log(conn, "Client says it has unknown scope $scopeid", "warn")
         end
     elseif cmd == "update_observable"
-        # log(conn, "update_observable!")
-        @info "update_observable!"
         if !haskey(data, "name")
             @error "update_observable message missing \"name\" key."
             return
@@ -112,8 +108,7 @@ function dispatch_command(conn::AbstractConnection, data)
     else
         @warn "Implicit observable update command is deprecated."
         if !haskey(scopes, scopeid)
-            # log(conn, "Message $data received for unknown scope $scopeid", "warn")
-            @warn "oops"
+            @warn("Message $data received for unknown scope $scopeid")
             return
         end
         scope = scopes[scopeid]
@@ -131,7 +126,6 @@ function register_request_handler(request_type::String, handler::Function)
 end
 
 function dispatch_request(conn::AbstractConnection, data)
-    @info "dispatch_request"
     request_id = get(data, "requestId", nothing)
     if request_id === nothing
         @error("Request message (request=$(repr(request_type))) is missing requestId.")
@@ -163,7 +157,6 @@ function dispatch_request(conn::AbstractConnection, data)
 end
 
 function dispatch_response(conn::AbstractConnection, data)
-    @info "dispatch_response"
     request_id = get(data, "requestId", nothing)
     if request_id === nothing
         @error "Response message is missing `requestId` key."
@@ -175,7 +168,5 @@ function dispatch_response(conn::AbstractConnection, data)
         @error "Received response message for unknown requestId: $(request_id)."
         return
     end
-
-    @info "Resolving request: $(request_id)."
     put!(future, data)
 end

@@ -65,7 +65,6 @@ function process_messages(pool::ConnectionPool)
             for connection in pool.connections
                 @async begin
                     if isopen(connection)
-                        @info "Sending message from scope outbox..."
                         send(connection, msg)
                         msg_sent = true
                     else
