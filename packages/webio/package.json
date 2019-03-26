@@ -9,12 +9,13 @@
   "browser": "dist/index.js",
   "types": "dist/index.d.ts",
   "dependencies": {
+    "@types/debug": "^4.1.2",
     "@types/systemjs": "^0.20.6",
+    "debug": "^4.1.1",
     "systemjs": "0.21.0"
   },
   "devDependencies": {
-    "typescript": "^3.3.1",
-    "webpack-cli": "^3.1.2"
+    "typescript": "^3.3.4000"
   },
   "scripts": {
     "build": "tsc -p .",

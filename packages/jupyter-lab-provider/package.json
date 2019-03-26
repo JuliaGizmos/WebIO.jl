@@ -15,14 +15,13 @@
     "@jupyterlab/services": "^3.2.1",
     "@phosphor/messaging": "^1.2.2",
     "@phosphor/widgets": "^1.6.0",
-    "@webio/webio": "^1.0.0"
+    "@types/debug": "^4.1.2",
+    "@webio/webio": "^1.0.0",
+    "debug": "^4.1.1"
   },
   "scripts": {
     "build": "tsc -p .",
     "build-prod": "tsc -p ."
-  },
-  "devDependencies": {
-    "typescript": "^3.3.1"
   },
   "jupyterlab": {
     "extension": true
