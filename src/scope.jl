@@ -97,11 +97,11 @@ mutable struct Scope
     observs::Dict{String, Tuple{AbstractObservable, Union{Nothing,Bool}}} # bool marks if it is synced
     private_obs::Set{String}
     systemjs_options
-    imports::Vector{WebAsset}
+    imports::AbstractArray
     # A collection of handler functions associated with various observables in
     # this scope. Of the form
     # "observable-name" => ["array", "of", "JS", "strings"]
-    # where each JS-string is a function that is evoked when the observable
+    # where each JS-string is a function that is invoked when the observable
     # changes.
     jshandlers
     pool::ConnectionPool
@@ -123,18 +123,17 @@ function Scope(id::String=newid("scope");
         mount_callbacks::Vector{JSString}=Vector{JSString}(),
     )
 
-    if imports !== nothing
-        @warn("imports keyword argument is deprecated, use WebAsset instead.", maxlog=1)
-        imports = map(import_to_webasset, imports)
-    end
-
     if dependencies !== nothing
         @warn("dependencies keyword argument is deprecated, use WebAsset instead.", maxlog=1)
-        imports = map(import_to_webasset, imports)
+        imports = dependencies
+    end
+
+    if imports !== nothing
+        imports = map(Asset, imports)
     end
 
     if imports === nothing
-        imports = Vector{WebAsset}()
+        imports = []
     end
 
     if haskey(scopes, id)
@@ -249,7 +248,7 @@ function JSON.lower(x::Scope)
     Dict(
         "id" => x.id,
         "systemjs_options" => x.systemjs_options,
-        # "imports" => lowerdeps(x.imports),
+        "imports" => lowerassets(x.imports),
         "handlers" => x.jshandlers,
         "mount_callbacks" => x.mount_callbacks,
         "observables" => obs_dict)
@@ -303,11 +302,10 @@ function onmount(scope::Scope, f::JSString)
 end
 
 function onimport(scope::Scope, f::JSString)
-    @warn("onimport is deprecated; use WebAsset and onmount instead.", maxlog=1)
     onmount(scope, js"""
         function () {
             var handler = ($(f));
-            Promise.all($(scope.imports)).then((imports) => handler.apply(this, imports));
+            ($(Async(scope.imports))).then((imports) => handler.apply(this, imports));
         }
         """)
 end
