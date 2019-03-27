@@ -87,9 +87,9 @@
 /******/ ({
 
 /***/ "../../node_modules/@babel/polyfill/lib/noConflict.js":
-/*!***************************************************************************************************!*\
-  !*** /home/travigd/Trash/WebIO-throwaway/packages/node_modules/@babel/polyfill/lib/noConflict.js ***!
-  \***************************************************************************************************/
+/*!*****************************************************************************************************!*\
+  !*** /home/travigd/Trash/WebIO-throwaway-2/packages/node_modules/@babel/polyfill/lib/noConflict.js ***!
+  \*****************************************************************************************************/
 /*! no static exports found */
 /***/ (function(module, exports, __webpack_require__) {
 
@@ -121,9 +121,9 @@ __webpack_require__(/*! regenerator-runtime/runtime */ "../../node_modules/regen
 /***/ }),
 
 /***/ "../../node_modules/@babel/polyfill/noConflict.js":
-/*!***********************************************************************************************!*\
-  !*** /home/travigd/Trash/WebIO-throwaway/packages/node_modules/@babel/polyfill/noConflict.js ***!
-  \***********************************************************************************************/
+/*!*************************************************************************************************!*\
+  !*** /home/travigd/Trash/WebIO-throwaway-2/packages/node_modules/@babel/polyfill/noConflict.js ***!
+  \*************************************************************************************************/
 /*! no static exports found */
 /***/ (function(module, exports, __webpack_require__) {
 
@@ -132,9 +132,9 @@ __webpack_require__(/*! ./lib/noConflict */ "../../node_modules/@babel/polyfill/
 /***/ }),
 
 /***/ "../../node_modules/@babel/polyfill/node_modules/core-js/es6/index.js":
-/*!*******************************************************************************************************************!*\
-  !*** /home/travigd/Trash/WebIO-throwaway/packages/node_modules/@babel/polyfill/node_modules/core-js/es6/index.js ***!
-  \*******************************************************************************************************************/
+/*!*********************************************************************************************************************!*\
+  !*** /home/travigd/Trash/WebIO-throwaway-2/packages/node_modules/@babel/polyfill/node_modules/core-js/es6/index.js ***!
+  \*********************************************************************************************************************/
 /*! no static exports found */
 /***/ (function(module, exports, __webpack_require__) {
 
@@ -419,9 +419,9 @@ module.exports = __webpack_require__(/*! ../modules/_core */ "../../node_modules
 /***/ }),
 
 /***/ "../../node_modules/@babel/polyfill/node_modules/core-js/fn/array/includes.js":
-/*!***************************************************************************************************************************!*\
-  !*** /home/travigd/Trash/WebIO-throwaway/packages/node_modules/@babel/polyfill/node_modules/core-js/fn/array/includes.js ***!
-  \***************************************************************************************************************************/
+/*!*****************************************************************************************************************************!*\
+  !*** /home/travigd/Trash/WebIO-throwaway-2/packages/node_modules/@babel/polyfill/node_modules/core-js/fn/array/includes.js ***!
+  \*****************************************************************************************************************************/
 /*! no static exports found */
 /***/ (function(module, exports, __webpack_require__) {
 
@@ -432,9 +432,9 @@ module.exports = __webpack_require__(/*! ../../modules/_core */ "../../node_modu
 /***/ }),
 
 /***/ "../../node_modules/@babel/polyfill/node_modules/core-js/fn/object/entries.js":
-/*!***************************************************************************************************************************!*\
-  !*** /home/travigd/Trash/WebIO-throwaway/packages/node_modules/@babel/polyfill/node_modules/core-js/fn/object/entries.js ***!
-  \***************************************************************************************************************************/
+/*!*****************************************************************************************************************************!*\
+  !*** /home/travigd/Trash/WebIO-throwaway-2/packages/node_modules/@babel/polyfill/node_modules/core-js/fn/object/entries.js ***!
+  \*****************************************************************************************************************************/
 /*! no static exports found */
 /***/ (function(module, exports, __webpack_require__) {
 
@@ -445,9 +445,9 @@ module.exports = __webpack_require__(/*! ../../modules/_core */ "../../node_modu
 /***/ }),
 
 /***/ "../../node_modules/@babel/polyfill/node_modules/core-js/fn/object/get-own-property-descriptors.js":
-/*!************************************************************************************************************************************************!*\
-  !*** /home/travigd/Trash/WebIO-throwaway/packages/node_modules/@babel/polyfill/node_modules/core-js/fn/object/get-own-property-descriptors.js ***!
-  \************************************************************************************************************************************************/
+/*!**************************************************************************************************************************************************!*\
+  !*** /home/travigd/Trash/WebIO-throwaway-2/packages/node_modules/@babel/polyfill/node_modules/core-js/fn/object/get-own-property-descriptors.js ***!
+  \**************************************************************************************************************************************************/
 /*! no static exports found */
 /***/ (function(module, exports, __webpack_require__) {
 
@@ -458,9 +458,9 @@ module.exports = __webpack_require__(/*! ../../modules/_core */ "../../node_modu
 /***/ }),
 
 /***/ "../../node_modules/@babel/polyfill/node_modules/core-js/fn/object/values.js":
-/*!**************************************************************************************************************************!*\
-  !*** /home/travigd/Trash/WebIO-throwaway/packages/node_modules/@babel/polyfill/node_modules/core-js/fn/object/values.js ***!
-  \**************************************************************************************************************************/
+/*!****************************************************************************************************************************!*\
+  !*** /home/travigd/Trash/WebIO-throwaway-2/packages/node_modules/@babel/polyfill/node_modules/core-js/fn/object/values.js ***!
+  \****************************************************************************************************************************/
 /*! no static exports found */
 /***/ (function(module, exports, __webpack_require__) {
 
@@ -471,9 +471,9 @@ module.exports = __webpack_require__(/*! ../../modules/_core */ "../../node_modu
 /***/ }),
 
 /***/ "../../node_modules/@babel/polyfill/node_modules/core-js/fn/promise/finally.js":
-/*!****************************************************************************************************************************!*\
-  !*** /home/travigd/Trash/WebIO-throwaway/packages/node_modules/@babel/polyfill/node_modules/core-js/fn/promise/finally.js ***!
-  \****************************************************************************************************************************/
+/*!******************************************************************************************************************************!*\
+  !*** /home/travigd/Trash/WebIO-throwaway-2/packages/node_modules/@babel/polyfill/node_modules/core-js/fn/promise/finally.js ***!
+  \******************************************************************************************************************************/
 /*! no static exports found */
 /***/ (function(module, exports, __webpack_require__) {
 
@@ -489,9 +489,9 @@ module.exports = __webpack_require__(/*! ../../modules/_core */ "../../node_modu
 /***/ }),
 
 /***/ "../../node_modules/@babel/polyfill/node_modules/core-js/fn/string/pad-end.js":
-/*!***************************************************************************************************************************!*\
-  !*** /home/travigd/Trash/WebIO-throwaway/packages/node_modules/@babel/polyfill/node_modules/core-js/fn/string/pad-end.js ***!
-  \***************************************************************************************************************************/
+/*!*****************************************************************************************************************************!*\
+  !*** /home/travigd/Trash/WebIO-throwaway-2/packages/node_modules/@babel/polyfill/node_modules/core-js/fn/string/pad-end.js ***!
+  \*****************************************************************************************************************************/
 /*! no static exports found */
 /***/ (function(module, exports, __webpack_require__) {
 
@@ -502,9 +502,9 @@ module.exports = __webpack_require__(/*! ../../modules/_core */ "../../node_modu
 /***/ }),
 
 /***/ "../../node_modules/@babel/polyfill/node_modules/core-js/fn/string/pad-start.js":
-/*!*****************************************************************************************************************************!*\
-  !*** /home/travigd/Trash/WebIO-throwaway/packages/node_modules/@babel/polyfill/node_modules/core-js/fn/string/pad-start.js ***!
-  \*****************************************************************************************************************************/
+/*!*******************************************************************************************************************************!*\
+  !*** /home/travigd/Trash/WebIO-throwaway-2/packages/node_modules/@babel/polyfill/node_modules/core-js/fn/string/pad-start.js ***!
+  \*******************************************************************************************************************************/
 /*! no static exports found */
 /***/ (function(module, exports, __webpack_require__) {
 
@@ -515,9 +515,9 @@ module.exports = __webpack_require__(/*! ../../modules/_core */ "../../node_modu
 /***/ }),
 
 /***/ "../../node_modules/@babel/polyfill/node_modules/core-js/fn/symbol/async-iterator.js":
-/*!**********************************************************************************************************************************!*\
-  !*** /home/travigd/Trash/WebIO-throwaway/packages/node_modules/@babel/polyfill/node_modules/core-js/fn/symbol/async-iterator.js ***!
-  \**********************************************************************************************************************************/
+/*!************************************************************************************************************************************!*\
+  !*** /home/travigd/Trash/WebIO-throwaway-2/packages/node_modules/@babel/polyfill/node_modules/core-js/fn/symbol/async-iterator.js ***!
+  \************************************************************************************************************************************/
 /*! no static exports found */
 /***/ (function(module, exports, __webpack_require__) {
 
@@ -528,9 +528,9 @@ module.exports = __webpack_require__(/*! ../../modules/_wks-ext */ "../../node_m
 /***/ }),
 
 /***/ "../../node_modules/@babel/polyfill/node_modules/core-js/modules/_a-function.js":
-/*!*****************************************************************************************************************************!*\
-  !*** /home/travigd/Trash/WebIO-throwaway/packages/node_modules/@babel/polyfill/node_modules/core-js/modules/_a-function.js ***!
-  \*****************************************************************************************************************************/
+/*!*******************************************************************************************************************************!*\
+  !*** /home/travigd/Trash/WebIO-throwaway-2/packages/node_modules/@babel/polyfill/node_modules/core-js/modules/_a-function.js ***!
+  \*******************************************************************************************************************************/
 /*! no static exports found */
 /***/ (function(module, exports) {
 
@@ -542,9 +542,9 @@ module.exports = function (it) {
 /***/ }),
 
 /***/ "../../node_modules/@babel/polyfill/node_modules/core-js/modules/_a-number-value.js":
-/*!*********************************************************************************************************************************!*\
-  !*** /home/travigd/Trash/WebIO-throwaway/packages/node_modules/@babel/polyfill/node_modules/core-js/modules/_a-number-value.js ***!
-  \*********************************************************************************************************************************/
+/*!***********************************************************************************************************************************!*\
+  !*** /home/travigd/Trash/WebIO-throwaway-2/packages/node_modules/@babel/polyfill/node_modules/core-js/modules/_a-number-value.js ***!
+  \***********************************************************************************************************************************/
 /*! no static exports found */
 /***/ (function(module, exports, __webpack_require__) {
 
@@ -558,9 +558,9 @@ module.exports = function (it, msg) {
 /***/ }),
 
 /***/ "../../node_modules/@babel/polyfill/node_modules/core-js/modules/_add-to-unscopables.js":
-/*!*************************************************************************************************************************************!*\
-  !*** /home/travigd/Trash/WebIO-throwaway/packages/node_modules/@babel/polyfill/node_modules/core-js/modules/_add-to-unscopables.js ***!
-  \*************************************************************************************************************************************/
+/*!***************************************************************************************************************************************!*\
+  !*** /home/travigd/Trash/WebIO-throwaway-2/packages/node_modules/@babel/polyfill/node_modules/core-js/modules/_add-to-unscopables.js ***!
+  \***************************************************************************************************************************************/
 /*! no static exports found */
 /***/ (function(module, exports, __webpack_require__) {
 
@@ -577,9 +577,9 @@ module.exports = function (key) {
 /***/ }),
 
 /***/ "../../node_modules/@babel/polyfill/node_modules/core-js/modules/_advance-string-index.js":
-/*!***************************************************************************************************************************************!*\
-  !*** /home/travigd/Trash/WebIO-throwaway/packages/node_modules/@babel/polyfill/node_modules/core-js/modules/_advance-string-index.js ***!
-  \***************************************************************************************************************************************/
+/*!*****************************************************************************************************************************************!*\
+  !*** /home/travigd/Trash/WebIO-throwaway-2/packages/node_modules/@babel/polyfill/node_modules/core-js/modules/_advance-string-index.js ***!
+  \*****************************************************************************************************************************************/
 /*! no static exports found */
 /***/ (function(module, exports, __webpack_require__) {
 
@@ -597,9 +597,9 @@ module.exports = function (S, index, unicode) {
 /***/ }),
 
 /***/ "../../node_modules/@babel/polyfill/node_modules/core-js/modules/_an-instance.js":
-/*!******************************************************************************************************************************!*\
-  !*** /home/travigd/Trash/WebIO-throwaway/packages/node_modules/@babel/polyfill/node_modules/core-js/modules/_an-instance.js ***!
-  \******************************************************************************************************************************/
+/*!********************************************************************************************************************************!*\
+  !*** /home/travigd/Trash/WebIO-throwaway-2/packages/node_modules/@babel/polyfill/node_modules/core-js/modules/_an-instance.js ***!
+  \********************************************************************************************************************************/
 /*! no static exports found */
 /***/ (function(module, exports) {
 
@@ -614,9 +614,9 @@ module.exports = function (it, Constructor, name, forbiddenField) {
 /***/ }),
 
 /***/ "../../node_modules/@babel/polyfill/node_modules/core-js/modules/_an-object.js":
-/*!****************************************************************************************************************************!*\
-  !*** /home/travigd/Trash/WebIO-throwaway/packages/node_modules/@babel/polyfill/node_modules/core-js/modules/_an-object.js ***!
-  \****************************************************************************************************************************/
+/*!******************************************************************************************************************************!*\
+  !*** /home/travigd/Trash/WebIO-throwaway-2/packages/node_modules/@babel/polyfill/node_modules/core-js/modules/_an-object.js ***!
+  \******************************************************************************************************************************/
 /*! no static exports found */
 /***/ (function(module, exports, __webpack_require__) {
 
@@ -630,9 +630,9 @@ module.exports = function (it) {
 /***/ }),
 
 /***/ "../../node_modules/@babel/polyfill/node_modules/core-js/modules/_array-copy-within.js":
-/*!************************************************************************************************************************************!*\
-  !*** /home/travigd/Trash/WebIO-throwaway/packages/node_modules/@babel/polyfill/node_modules/core-js/modules/_array-copy-within.js ***!
-  \************************************************************************************************************************************/
+/*!**************************************************************************************************************************************!*\
+  !*** /home/travigd/Trash/WebIO-throwaway-2/packages/node_modules/@babel/polyfill/node_modules/core-js/modules/_array-copy-within.js ***!
+  \**************************************************************************************************************************************/
 /*! no static exports found */
 /***/ (function(module, exports, __webpack_require__) {
 
@@ -677,9 +677,9 @@ module.exports = [].copyWithin || function copyWithin(target
 /***/ }),
 
 /***/ "../../node_modules/@babel/polyfill/node_modules/core-js/modules/_array-fill.js":
-/*!*****************************************************************************************************************************!*\
-  !*** /home/travigd/Trash/WebIO-throwaway/packages/node_modules/@babel/polyfill/node_modules/core-js/modules/_array-fill.js ***!
-  \*****************************************************************************************************************************/
+/*!*******************************************************************************************************************************!*\
+  !*** /home/travigd/Trash/WebIO-throwaway-2/packages/node_modules/@babel/polyfill/node_modules/core-js/modules/_array-fill.js ***!
+  \*******************************************************************************************************************************/
 /*! no static exports found */
 /***/ (function(module, exports, __webpack_require__) {
 
@@ -713,9 +713,9 @@ module.exports = function fill(value
 /***/ }),
 
 /***/ "../../node_modules/@babel/polyfill/node_modules/core-js/modules/_array-includes.js":
-/*!*********************************************************************************************************************************!*\
-  !*** /home/travigd/Trash/WebIO-throwaway/packages/node_modules/@babel/polyfill/node_modules/core-js/modules/_array-includes.js ***!
-  \*********************************************************************************************************************************/
+/*!***********************************************************************************************************************************!*\
+  !*** /home/travigd/Trash/WebIO-throwaway-2/packages/node_modules/@babel/polyfill/node_modules/core-js/modules/_array-includes.js ***!
+  \***********************************************************************************************************************************/
 /*! no static exports found */
 /***/ (function(module, exports, __webpack_require__) {
 
@@ -751,9 +751,9 @@ module.exports = function (IS_INCLUDES) {
 /***/ }),
 
 /***/ "../../node_modules/@babel/polyfill/node_modules/core-js/modules/_array-methods.js":
-/*!********************************************************************************************************************************!*\
-  !*** /home/travigd/Trash/WebIO-throwaway/packages/node_modules/@babel/polyfill/node_modules/core-js/modules/_array-methods.js ***!
-  \********************************************************************************************************************************/
+/*!**********************************************************************************************************************************!*\
+  !*** /home/travigd/Trash/WebIO-throwaway-2/packages/node_modules/@babel/polyfill/node_modules/core-js/modules/_array-methods.js ***!
+  \**********************************************************************************************************************************/
 /*! no static exports found */
 /***/ (function(module, exports, __webpack_require__) {
 
@@ -826,9 +826,9 @@ module.exports = function (TYPE, $create) {
 /***/ }),
 
 /***/ "../../node_modules/@babel/polyfill/node_modules/core-js/modules/_array-reduce.js":
-/*!*******************************************************************************************************************************!*\
-  !*** /home/travigd/Trash/WebIO-throwaway/packages/node_modules/@babel/polyfill/node_modules/core-js/modules/_array-reduce.js ***!
-  \*******************************************************************************************************************************/
+/*!*********************************************************************************************************************************!*\
+  !*** /home/travigd/Trash/WebIO-throwaway-2/packages/node_modules/@babel/polyfill/node_modules/core-js/modules/_array-reduce.js ***!
+  \*********************************************************************************************************************************/
 /*! no static exports found */
 /***/ (function(module, exports, __webpack_require__) {
 
@@ -873,9 +873,9 @@ module.exports = function (that, callbackfn, aLen, memo, isRight) {
 /***/ }),
 
 /***/ "../../node_modules/@babel/polyfill/node_modules/core-js/modules/_array-species-constructor.js":
-/*!********************************************************************************************************************************************!*\
-  !*** /home/travigd/Trash/WebIO-throwaway/packages/node_modules/@babel/polyfill/node_modules/core-js/modules/_array-species-constructor.js ***!
-  \********************************************************************************************************************************************/
+/*!**********************************************************************************************************************************************!*\
+  !*** /home/travigd/Trash/WebIO-throwaway-2/packages/node_modules/@babel/polyfill/node_modules/core-js/modules/_array-species-constructor.js ***!
+  \**********************************************************************************************************************************************/
 /*! no static exports found */
 /***/ (function(module, exports, __webpack_require__) {
 
@@ -905,9 +905,9 @@ module.exports = function (original) {
 /***/ }),
 
 /***/ "../../node_modules/@babel/polyfill/node_modules/core-js/modules/_array-species-create.js":
-/*!***************************************************************************************************************************************!*\
-  !*** /home/travigd/Trash/WebIO-throwaway/packages/node_modules/@babel/polyfill/node_modules/core-js/modules/_array-species-create.js ***!
-  \***************************************************************************************************************************************/
+/*!*****************************************************************************************************************************************!*\
+  !*** /home/travigd/Trash/WebIO-throwaway-2/packages/node_modules/@babel/polyfill/node_modules/core-js/modules/_array-species-create.js ***!
+  \*****************************************************************************************************************************************/
 /*! no static exports found */
 /***/ (function(module, exports, __webpack_require__) {
 
@@ -921,9 +921,9 @@ module.exports = function (original, length) {
 /***/ }),
 
 /***/ "../../node_modules/@babel/polyfill/node_modules/core-js/modules/_bind.js":
-/*!***********************************************************************************************************************!*\
-  !*** /home/travigd/Trash/WebIO-throwaway/packages/node_modules/@babel/polyfill/node_modules/core-js/modules/_bind.js ***!
-  \***********************************************************************************************************************/
+/*!*************************************************************************************************************************!*\
+  !*** /home/travigd/Trash/WebIO-throwaway-2/packages/node_modules/@babel/polyfill/node_modules/core-js/modules/_bind.js ***!
+  \*************************************************************************************************************************/
 /*! no static exports found */
 /***/ (function(module, exports, __webpack_require__) {
 
@@ -972,9 +972,9 @@ module.exports = Function.bind || function bind(that
 /***/ }),
 
 /***/ "../../node_modules/@babel/polyfill/node_modules/core-js/modules/_classof.js":
-/*!**************************************************************************************************************************!*\
-  !*** /home/travigd/Trash/WebIO-throwaway/packages/node_modules/@babel/polyfill/node_modules/core-js/modules/_classof.js ***!
-  \**************************************************************************************************************************/
+/*!****************************************************************************************************************************!*\
+  !*** /home/travigd/Trash/WebIO-throwaway-2/packages/node_modules/@babel/polyfill/node_modules/core-js/modules/_classof.js ***!
+  \****************************************************************************************************************************/
 /*! no static exports found */
 /***/ (function(module, exports, __webpack_require__) {
 
@@ -1007,9 +1007,9 @@ module.exports = function (it) {
 /***/ }),
 
 /***/ "../../node_modules/@babel/polyfill/node_modules/core-js/modules/_cof.js":
-/*!**********************************************************************************************************************!*\
-  !*** /home/travigd/Trash/WebIO-throwaway/packages/node_modules/@babel/polyfill/node_modules/core-js/modules/_cof.js ***!
-  \**********************************************************************************************************************/
+/*!************************************************************************************************************************!*\
+  !*** /home/travigd/Trash/WebIO-throwaway-2/packages/node_modules/@babel/polyfill/node_modules/core-js/modules/_cof.js ***!
+  \************************************************************************************************************************/
 /*! no static exports found */
 /***/ (function(module, exports) {
 
@@ -1022,9 +1022,9 @@ module.exports = function (it) {
 /***/ }),
 
 /***/ "../../node_modules/@babel/polyfill/node_modules/core-js/modules/_collection-strong.js":
-/*!************************************************************************************************************************************!*\
-  !*** /home/travigd/Trash/WebIO-throwaway/packages/node_modules/@babel/polyfill/node_modules/core-js/modules/_collection-strong.js ***!
-  \************************************************************************************************************************************/
+/*!**************************************************************************************************************************************!*\
+  !*** /home/travigd/Trash/WebIO-throwaway-2/packages/node_modules/@babel/polyfill/node_modules/core-js/modules/_collection-strong.js ***!
+  \**************************************************************************************************************************************/
 /*! no static exports found */
 /***/ (function(module, exports, __webpack_require__) {
 
@@ -1216,9 +1216,9 @@ module.exports = {
 /***/ }),
 
 /***/ "../../node_modules/@babel/polyfill/node_modules/core-js/modules/_collection-weak.js":
-/*!**********************************************************************************************************************************!*\
-  !*** /home/travigd/Trash/WebIO-throwaway/packages/node_modules/@babel/polyfill/node_modules/core-js/modules/_collection-weak.js ***!
-  \**********************************************************************************************************************************/
+/*!************************************************************************************************************************************!*\
+  !*** /home/travigd/Trash/WebIO-throwaway-2/packages/node_modules/@babel/polyfill/node_modules/core-js/modules/_collection-weak.js ***!
+  \************************************************************************************************************************************/
 /*! no static exports found */
 /***/ (function(module, exports, __webpack_require__) {
 
@@ -1324,9 +1324,9 @@ module.exports = {
 /***/ }),
 
 /***/ "../../node_modules/@babel/polyfill/node_modules/core-js/modules/_collection.js":
-/*!*****************************************************************************************************************************!*\
-  !*** /home/travigd/Trash/WebIO-throwaway/packages/node_modules/@babel/polyfill/node_modules/core-js/modules/_collection.js ***!
-  \*****************************************************************************************************************************/
+/*!*******************************************************************************************************************************!*\
+  !*** /home/travigd/Trash/WebIO-throwaway-2/packages/node_modules/@babel/polyfill/node_modules/core-js/modules/_collection.js ***!
+  \*******************************************************************************************************************************/
 /*! no static exports found */
 /***/ (function(module, exports, __webpack_require__) {
 
@@ -1446,9 +1446,9 @@ module.exports = function (NAME, wrapper, methods, common, IS_MAP, IS_WEAK) {
 /***/ }),
 
 /***/ "../../node_modules/@babel/polyfill/node_modules/core-js/modules/_core.js":
-/*!***********************************************************************************************************************!*\
-  !*** /home/travigd/Trash/WebIO-throwaway/packages/node_modules/@babel/polyfill/node_modules/core-js/modules/_core.js ***!
-  \***********************************************************************************************************************/
+/*!*************************************************************************************************************************!*\
+  !*** /home/travigd/Trash/WebIO-throwaway-2/packages/node_modules/@babel/polyfill/node_modules/core-js/modules/_core.js ***!
+  \*************************************************************************************************************************/
 /*! no static exports found */
 /***/ (function(module, exports) {
 
@@ -1460,9 +1460,9 @@ if (typeof __e == 'number') __e = core; // eslint-disable-line no-undef
 /***/ }),
 
 /***/ "../../node_modules/@babel/polyfill/node_modules/core-js/modules/_create-property.js":
-/*!**********************************************************************************************************************************!*\
-  !*** /home/travigd/Trash/WebIO-throwaway/packages/node_modules/@babel/polyfill/node_modules/core-js/modules/_create-property.js ***!
-  \**********************************************************************************************************************************/
+/*!************************************************************************************************************************************!*\
+  !*** /home/travigd/Trash/WebIO-throwaway-2/packages/node_modules/@babel/polyfill/node_modules/core-js/modules/_create-property.js ***!
+  \************************************************************************************************************************************/
 /*! no static exports found */
 /***/ (function(module, exports, __webpack_require__) {
 
@@ -1480,9 +1480,9 @@ module.exports = function (object, index, value) {
 /***/ }),
 
 /***/ "../../node_modules/@babel/polyfill/node_modules/core-js/modules/_ctx.js":
-/*!**********************************************************************************************************************!*\
-  !*** /home/travigd/Trash/WebIO-throwaway/packages/node_modules/@babel/polyfill/node_modules/core-js/modules/_ctx.js ***!
-  \**********************************************************************************************************************/
+/*!************************************************************************************************************************!*\
+  !*** /home/travigd/Trash/WebIO-throwaway-2/packages/node_modules/@babel/polyfill/node_modules/core-js/modules/_ctx.js ***!
+  \************************************************************************************************************************/
 /*! no static exports found */
 /***/ (function(module, exports, __webpack_require__) {
 
@@ -1520,9 +1520,9 @@ module.exports = function (fn, that, length) {
 /***/ }),
 
 /***/ "../../node_modules/@babel/polyfill/node_modules/core-js/modules/_date-to-iso-string.js":
-/*!*************************************************************************************************************************************!*\
-  !*** /home/travigd/Trash/WebIO-throwaway/packages/node_modules/@babel/polyfill/node_modules/core-js/modules/_date-to-iso-string.js ***!
-  \*************************************************************************************************************************************/
+/*!***************************************************************************************************************************************!*\
+  !*** /home/travigd/Trash/WebIO-throwaway-2/packages/node_modules/@babel/polyfill/node_modules/core-js/modules/_date-to-iso-string.js ***!
+  \***************************************************************************************************************************************/
 /*! no static exports found */
 /***/ (function(module, exports, __webpack_require__) {
 
@@ -1555,9 +1555,9 @@ module.exports = fails(function () {
 /***/ }),
 
 /***/ "../../node_modules/@babel/polyfill/node_modules/core-js/modules/_date-to-primitive.js":
-/*!************************************************************************************************************************************!*\
-  !*** /home/travigd/Trash/WebIO-throwaway/packages/node_modules/@babel/polyfill/node_modules/core-js/modules/_date-to-primitive.js ***!
-  \************************************************************************************************************************************/
+/*!**************************************************************************************************************************************!*\
+  !*** /home/travigd/Trash/WebIO-throwaway-2/packages/node_modules/@babel/polyfill/node_modules/core-js/modules/_date-to-primitive.js ***!
+  \**************************************************************************************************************************************/
 /*! no static exports found */
 /***/ (function(module, exports, __webpack_require__) {
 
@@ -1578,9 +1578,9 @@ module.exports = function (hint) {
 /***/ }),
 
 /***/ "../../node_modules/@babel/polyfill/node_modules/core-js/modules/_defined.js":
-/*!**************************************************************************************************************************!*\
-  !*** /home/travigd/Trash/WebIO-throwaway/packages/node_modules/@babel/polyfill/node_modules/core-js/modules/_defined.js ***!
-  \**************************************************************************************************************************/
+/*!****************************************************************************************************************************!*\
+  !*** /home/travigd/Trash/WebIO-throwaway-2/packages/node_modules/@babel/polyfill/node_modules/core-js/modules/_defined.js ***!
+  \****************************************************************************************************************************/
 /*! no static exports found */
 /***/ (function(module, exports) {
 
@@ -1593,9 +1593,9 @@ module.exports = function (it) {
 /***/ }),
 
 /***/ "../../node_modules/@babel/polyfill/node_modules/core-js/modules/_descriptors.js":
-/*!******************************************************************************************************************************!*\
-  !*** /home/travigd/Trash/WebIO-throwaway/packages/node_modules/@babel/polyfill/node_modules/core-js/modules/_descriptors.js ***!
-  \******************************************************************************************************************************/
+/*!********************************************************************************************************************************!*\
+  !*** /home/travigd/Trash/WebIO-throwaway-2/packages/node_modules/@babel/polyfill/node_modules/core-js/modules/_descriptors.js ***!
+  \********************************************************************************************************************************/
 /*! no static exports found */
 /***/ (function(module, exports, __webpack_require__) {
 
@@ -1611,9 +1611,9 @@ module.exports = !__webpack_require__(/*! ./_fails */ "../../node_modules/@babel
 /***/ }),
 
 /***/ "../../node_modules/@babel/polyfill/node_modules/core-js/modules/_dom-create.js":
-/*!*****************************************************************************************************************************!*\
-  !*** /home/travigd/Trash/WebIO-throwaway/packages/node_modules/@babel/polyfill/node_modules/core-js/modules/_dom-create.js ***!
-  \*****************************************************************************************************************************/
+/*!*******************************************************************************************************************************!*\
+  !*** /home/travigd/Trash/WebIO-throwaway-2/packages/node_modules/@babel/polyfill/node_modules/core-js/modules/_dom-create.js ***!
+  \*******************************************************************************************************************************/
 /*! no static exports found */
 /***/ (function(module, exports, __webpack_require__) {
 
@@ -1631,9 +1631,9 @@ module.exports = function (it) {
 /***/ }),
 
 /***/ "../../node_modules/@babel/polyfill/node_modules/core-js/modules/_enum-bug-keys.js":
-/*!********************************************************************************************************************************!*\
-  !*** /home/travigd/Trash/WebIO-throwaway/packages/node_modules/@babel/polyfill/node_modules/core-js/modules/_enum-bug-keys.js ***!
-  \********************************************************************************************************************************/
+/*!**********************************************************************************************************************************!*\
+  !*** /home/travigd/Trash/WebIO-throwaway-2/packages/node_modules/@babel/polyfill/node_modules/core-js/modules/_enum-bug-keys.js ***!
+  \**********************************************************************************************************************************/
 /*! no static exports found */
 /***/ (function(module, exports) {
 
@@ -1643,9 +1643,9 @@ module.exports = 'constructor,hasOwnProperty,isPrototypeOf,propertyIsEnumerable,
 /***/ }),
 
 /***/ "../../node_modules/@babel/polyfill/node_modules/core-js/modules/_enum-keys.js":
-/*!****************************************************************************************************************************!*\
-  !*** /home/travigd/Trash/WebIO-throwaway/packages/node_modules/@babel/polyfill/node_modules/core-js/modules/_enum-keys.js ***!
-  \****************************************************************************************************************************/
+/*!******************************************************************************************************************************!*\
+  !*** /home/travigd/Trash/WebIO-throwaway-2/packages/node_modules/@babel/polyfill/node_modules/core-js/modules/_enum-keys.js ***!
+  \******************************************************************************************************************************/
 /*! no static exports found */
 /***/ (function(module, exports, __webpack_require__) {
 
@@ -1677,9 +1677,9 @@ module.exports = function (it) {
 /***/ }),
 
 /***/ "../../node_modules/@babel/polyfill/node_modules/core-js/modules/_export.js":
-/*!*************************************************************************************************************************!*\
-  !*** /home/travigd/Trash/WebIO-throwaway/packages/node_modules/@babel/polyfill/node_modules/core-js/modules/_export.js ***!
-  \*************************************************************************************************************************/
+/*!***************************************************************************************************************************!*\
+  !*** /home/travigd/Trash/WebIO-throwaway-2/packages/node_modules/@babel/polyfill/node_modules/core-js/modules/_export.js ***!
+  \***************************************************************************************************************************/
 /*! no static exports found */
 /***/ (function(module, exports, __webpack_require__) {
 
@@ -1745,9 +1745,9 @@ module.exports = $export;
 /***/ }),
 
 /***/ "../../node_modules/@babel/polyfill/node_modules/core-js/modules/_fails-is-regexp.js":
-/*!**********************************************************************************************************************************!*\
-  !*** /home/travigd/Trash/WebIO-throwaway/packages/node_modules/@babel/polyfill/node_modules/core-js/modules/_fails-is-regexp.js ***!
-  \**********************************************************************************************************************************/
+/*!************************************************************************************************************************************!*\
+  !*** /home/travigd/Trash/WebIO-throwaway-2/packages/node_modules/@babel/polyfill/node_modules/core-js/modules/_fails-is-regexp.js ***!
+  \************************************************************************************************************************************/
 /*! no static exports found */
 /***/ (function(module, exports, __webpack_require__) {
 
@@ -1773,9 +1773,9 @@ module.exports = function (KEY) {
 /***/ }),
 
 /***/ "../../node_modules/@babel/polyfill/node_modules/core-js/modules/_fails.js":
-/*!************************************************************************************************************************!*\
-  !*** /home/travigd/Trash/WebIO-throwaway/packages/node_modules/@babel/polyfill/node_modules/core-js/modules/_fails.js ***!
-  \************************************************************************************************************************/
+/*!**************************************************************************************************************************!*\
+  !*** /home/travigd/Trash/WebIO-throwaway-2/packages/node_modules/@babel/polyfill/node_modules/core-js/modules/_fails.js ***!
+  \**************************************************************************************************************************/
 /*! no static exports found */
 /***/ (function(module, exports) {
 
@@ -1790,9 +1790,9 @@ module.exports = function (exec) {
 /***/ }),
 
 /***/ "../../node_modules/@babel/polyfill/node_modules/core-js/modules/_fix-re-wks.js":
-/*!*****************************************************************************************************************************!*\
-  !*** /home/travigd/Trash/WebIO-throwaway/packages/node_modules/@babel/polyfill/node_modules/core-js/modules/_fix-re-wks.js ***!
-  \*****************************************************************************************************************************/
+/*!*******************************************************************************************************************************!*\
+  !*** /home/travigd/Trash/WebIO-throwaway-2/packages/node_modules/@babel/polyfill/node_modules/core-js/modules/_fix-re-wks.js ***!
+  \*******************************************************************************************************************************/
 /*! no static exports found */
 /***/ (function(module, exports, __webpack_require__) {
 
@@ -1922,9 +1922,9 @@ module.exports = function (KEY, length, exec) {
 /***/ }),
 
 /***/ "../../node_modules/@babel/polyfill/node_modules/core-js/modules/_flags.js":
-/*!************************************************************************************************************************!*\
-  !*** /home/travigd/Trash/WebIO-throwaway/packages/node_modules/@babel/polyfill/node_modules/core-js/modules/_flags.js ***!
-  \************************************************************************************************************************/
+/*!**************************************************************************************************************************!*\
+  !*** /home/travigd/Trash/WebIO-throwaway-2/packages/node_modules/@babel/polyfill/node_modules/core-js/modules/_flags.js ***!
+  \**************************************************************************************************************************/
 /*! no static exports found */
 /***/ (function(module, exports, __webpack_require__) {
 
@@ -1947,9 +1947,9 @@ module.exports = function () {
 /***/ }),
 
 /***/ "../../node_modules/@babel/polyfill/node_modules/core-js/modules/_for-of.js":
-/*!*************************************************************************************************************************!*\
-  !*** /home/travigd/Trash/WebIO-throwaway/packages/node_modules/@babel/polyfill/node_modules/core-js/modules/_for-of.js ***!
-  \*************************************************************************************************************************/
+/*!***************************************************************************************************************************!*\
+  !*** /home/travigd/Trash/WebIO-throwaway-2/packages/node_modules/@babel/polyfill/node_modules/core-js/modules/_for-of.js ***!
+  \***************************************************************************************************************************/
 /*! no static exports found */
 /***/ (function(module, exports, __webpack_require__) {
 
@@ -1992,9 +1992,9 @@ exports.RETURN = RETURN;
 /***/ }),
 
 /***/ "../../node_modules/@babel/polyfill/node_modules/core-js/modules/_function-to-string.js":
-/*!*************************************************************************************************************************************!*\
-  !*** /home/travigd/Trash/WebIO-throwaway/packages/node_modules/@babel/polyfill/node_modules/core-js/modules/_function-to-string.js ***!
-  \*************************************************************************************************************************************/
+/*!***************************************************************************************************************************************!*\
+  !*** /home/travigd/Trash/WebIO-throwaway-2/packages/node_modules/@babel/polyfill/node_modules/core-js/modules/_function-to-string.js ***!
+  \***************************************************************************************************************************************/
 /*! no static exports found */
 /***/ (function(module, exports, __webpack_require__) {
 
@@ -2003,9 +2003,9 @@ module.exports = __webpack_require__(/*! ./_shared */ "../../node_modules/@babel
 /***/ }),
 
 /***/ "../../node_modules/@babel/polyfill/node_modules/core-js/modules/_global.js":
-/*!*************************************************************************************************************************!*\
-  !*** /home/travigd/Trash/WebIO-throwaway/packages/node_modules/@babel/polyfill/node_modules/core-js/modules/_global.js ***!
-  \*************************************************************************************************************************/
+/*!***************************************************************************************************************************!*\
+  !*** /home/travigd/Trash/WebIO-throwaway-2/packages/node_modules/@babel/polyfill/node_modules/core-js/modules/_global.js ***!
+  \***************************************************************************************************************************/
 /*! no static exports found */
 /***/ (function(module, exports) {
 
@@ -2017,9 +2017,9 @@ if (typeof __g == 'number') __g = global; // eslint-disable-line no-undef
 /***/ }),
 
 /***/ "../../node_modules/@babel/polyfill/node_modules/core-js/modules/_has.js":
-/*!**********************************************************************************************************************!*\
-  !*** /home/travigd/Trash/WebIO-throwaway/packages/node_modules/@babel/polyfill/node_modules/core-js/modules/_has.js ***!
-  \**********************************************************************************************************************/
+/*!************************************************************************************************************************!*\
+  !*** /home/travigd/Trash/WebIO-throwaway-2/packages/node_modules/@babel/polyfill/node_modules/core-js/modules/_has.js ***!
+  \************************************************************************************************************************/
 /*! no static exports found */
 /***/ (function(module, exports) {
 
@@ -2032,9 +2032,9 @@ module.exports = function (it, key) {
 /***/ }),
 
 /***/ "../../node_modules/@babel/polyfill/node_modules/core-js/modules/_hide.js":
-/*!***********************************************************************************************************************!*\
-  !*** /home/travigd/Trash/WebIO-throwaway/packages/node_modules/@babel/polyfill/node_modules/core-js/modules/_hide.js ***!
-  \***********************************************************************************************************************/
+/*!*************************************************************************************************************************!*\
+  !*** /home/travigd/Trash/WebIO-throwaway-2/packages/node_modules/@babel/polyfill/node_modules/core-js/modules/_hide.js ***!
+  \*************************************************************************************************************************/
 /*! no static exports found */
 /***/ (function(module, exports, __webpack_require__) {
 
@@ -2052,9 +2052,9 @@ module.exports = __webpack_require__(/*! ./_descriptors */ "../../node_modules/@
 /***/ }),
 
 /***/ "../../node_modules/@babel/polyfill/node_modules/core-js/modules/_html.js":
-/*!***********************************************************************************************************************!*\
-  !*** /home/travigd/Trash/WebIO-throwaway/packages/node_modules/@babel/polyfill/node_modules/core-js/modules/_html.js ***!
-  \***********************************************************************************************************************/
+/*!*************************************************************************************************************************!*\
+  !*** /home/travigd/Trash/WebIO-throwaway-2/packages/node_modules/@babel/polyfill/node_modules/core-js/modules/_html.js ***!
+  \*************************************************************************************************************************/
 /*! no static exports found */
 /***/ (function(module, exports, __webpack_require__) {
 
@@ -2065,9 +2065,9 @@ module.exports = document && document.documentElement;
 /***/ }),
 
 /***/ "../../node_modules/@babel/polyfill/node_modules/core-js/modules/_ie8-dom-define.js":
-/*!*********************************************************************************************************************************!*\
-  !*** /home/travigd/Trash/WebIO-throwaway/packages/node_modules/@babel/polyfill/node_modules/core-js/modules/_ie8-dom-define.js ***!
-  \*********************************************************************************************************************************/
+/*!***********************************************************************************************************************************!*\
+  !*** /home/travigd/Trash/WebIO-throwaway-2/packages/node_modules/@babel/polyfill/node_modules/core-js/modules/_ie8-dom-define.js ***!
+  \***********************************************************************************************************************************/
 /*! no static exports found */
 /***/ (function(module, exports, __webpack_require__) {
 
@@ -2082,9 +2082,9 @@ module.exports = !__webpack_require__(/*! ./_descriptors */ "../../node_modules/
 /***/ }),
 
 /***/ "../../node_modules/@babel/polyfill/node_modules/core-js/modules/_inherit-if-required.js":
-/*!**************************************************************************************************************************************!*\
-  !*** /home/travigd/Trash/WebIO-throwaway/packages/node_modules/@babel/polyfill/node_modules/core-js/modules/_inherit-if-required.js ***!
-  \**************************************************************************************************************************************/
+/*!****************************************************************************************************************************************!*\
+  !*** /home/travigd/Trash/WebIO-throwaway-2/packages/node_modules/@babel/polyfill/node_modules/core-js/modules/_inherit-if-required.js ***!
+  \****************************************************************************************************************************************/
 /*! no static exports found */
 /***/ (function(module, exports, __webpack_require__) {
 
@@ -2106,9 +2106,9 @@ module.exports = function (that, target, C) {
 /***/ }),
 
 /***/ "../../node_modules/@babel/polyfill/node_modules/core-js/modules/_invoke.js":
-/*!*************************************************************************************************************************!*\
-  !*** /home/travigd/Trash/WebIO-throwaway/packages/node_modules/@babel/polyfill/node_modules/core-js/modules/_invoke.js ***!
-  \*************************************************************************************************************************/
+/*!***************************************************************************************************************************!*\
+  !*** /home/travigd/Trash/WebIO-throwaway-2/packages/node_modules/@babel/polyfill/node_modules/core-js/modules/_invoke.js ***!
+  \***************************************************************************************************************************/
 /*! no static exports found */
 /***/ (function(module, exports) {
 
@@ -2139,9 +2139,9 @@ module.exports = function (fn, args, that) {
 /***/ }),
 
 /***/ "../../node_modules/@babel/polyfill/node_modules/core-js/modules/_iobject.js":
-/*!**************************************************************************************************************************!*\
-  !*** /home/travigd/Trash/WebIO-throwaway/packages/node_modules/@babel/polyfill/node_modules/core-js/modules/_iobject.js ***!
-  \**************************************************************************************************************************/
+/*!****************************************************************************************************************************!*\
+  !*** /home/travigd/Trash/WebIO-throwaway-2/packages/node_modules/@babel/polyfill/node_modules/core-js/modules/_iobject.js ***!
+  \****************************************************************************************************************************/
 /*! no static exports found */
 /***/ (function(module, exports, __webpack_require__) {
 
@@ -2156,9 +2156,9 @@ module.exports = Object('z').propertyIsEnumerable(0) ? Object : function (it) {
 /***/ }),
 
 /***/ "../../node_modules/@babel/polyfill/node_modules/core-js/modules/_is-array-iter.js":
-/*!********************************************************************************************************************************!*\
-  !*** /home/travigd/Trash/WebIO-throwaway/packages/node_modules/@babel/polyfill/node_modules/core-js/modules/_is-array-iter.js ***!
-  \********************************************************************************************************************************/
+/*!**********************************************************************************************************************************!*\
+  !*** /home/travigd/Trash/WebIO-throwaway-2/packages/node_modules/@babel/polyfill/node_modules/core-js/modules/_is-array-iter.js ***!
+  \**********************************************************************************************************************************/
 /*! no static exports found */
 /***/ (function(module, exports, __webpack_require__) {
 
@@ -2176,9 +2176,9 @@ module.exports = function (it) {
 /***/ }),
 
 /***/ "../../node_modules/@babel/polyfill/node_modules/core-js/modules/_is-array.js":
-/*!***************************************************************************************************************************!*\
-  !*** /home/travigd/Trash/WebIO-throwaway/packages/node_modules/@babel/polyfill/node_modules/core-js/modules/_is-array.js ***!
-  \***************************************************************************************************************************/
+/*!*****************************************************************************************************************************!*\
+  !*** /home/travigd/Trash/WebIO-throwaway-2/packages/node_modules/@babel/polyfill/node_modules/core-js/modules/_is-array.js ***!
+  \*****************************************************************************************************************************/
 /*! no static exports found */
 /***/ (function(module, exports, __webpack_require__) {
 
@@ -2192,9 +2192,9 @@ module.exports = Array.isArray || function isArray(arg) {
 /***/ }),
 
 /***/ "../../node_modules/@babel/polyfill/node_modules/core-js/modules/_is-integer.js":
-/*!*****************************************************************************************************************************!*\
-  !*** /home/travigd/Trash/WebIO-throwaway/packages/node_modules/@babel/polyfill/node_modules/core-js/modules/_is-integer.js ***!
-  \*****************************************************************************************************************************/
+/*!*******************************************************************************************************************************!*\
+  !*** /home/travigd/Trash/WebIO-throwaway-2/packages/node_modules/@babel/polyfill/node_modules/core-js/modules/_is-integer.js ***!
+  \*******************************************************************************************************************************/
 /*! no static exports found */
 /***/ (function(module, exports, __webpack_require__) {
 
@@ -2210,9 +2210,9 @@ module.exports = function isInteger(it) {
 /***/ }),
 
 /***/ "../../node_modules/@babel/polyfill/node_modules/core-js/modules/_is-object.js":
-/*!****************************************************************************************************************************!*\
-  !*** /home/travigd/Trash/WebIO-throwaway/packages/node_modules/@babel/polyfill/node_modules/core-js/modules/_is-object.js ***!
-  \****************************************************************************************************************************/
+/*!******************************************************************************************************************************!*\
+  !*** /home/travigd/Trash/WebIO-throwaway-2/packages/node_modules/@babel/polyfill/node_modules/core-js/modules/_is-object.js ***!
+  \******************************************************************************************************************************/
 /*! no static exports found */
 /***/ (function(module, exports) {
 
@@ -2225,9 +2225,9 @@ module.exports = function (it) {
 /***/ }),
 
 /***/ "../../node_modules/@babel/polyfill/node_modules/core-js/modules/_is-regexp.js":
-/*!****************************************************************************************************************************!*\
-  !*** /home/travigd/Trash/WebIO-throwaway/packages/node_modules/@babel/polyfill/node_modules/core-js/modules/_is-regexp.js ***!
-  \****************************************************************************************************************************/
+/*!******************************************************************************************************************************!*\
+  !*** /home/travigd/Trash/WebIO-throwaway-2/packages/node_modules/@babel/polyfill/node_modules/core-js/modules/_is-regexp.js ***!
+  \******************************************************************************************************************************/
 /*! no static exports found */
 /***/ (function(module, exports, __webpack_require__) {
 
@@ -2246,9 +2246,9 @@ module.exports = function (it) {
 /***/ }),
 
 /***/ "../../node_modules/@babel/polyfill/node_modules/core-js/modules/_iter-call.js":
-/*!****************************************************************************************************************************!*\
-  !*** /home/travigd/Trash/WebIO-throwaway/packages/node_modules/@babel/polyfill/node_modules/core-js/modules/_iter-call.js ***!
-  \****************************************************************************************************************************/
+/*!******************************************************************************************************************************!*\
+  !*** /home/travigd/Trash/WebIO-throwaway-2/packages/node_modules/@babel/polyfill/node_modules/core-js/modules/_iter-call.js ***!
+  \******************************************************************************************************************************/
 /*! no static exports found */
 /***/ (function(module, exports, __webpack_require__) {
 
@@ -2268,9 +2268,9 @@ module.exports = function (iterator, fn, value, entries) {
 /***/ }),
 
 /***/ "../../node_modules/@babel/polyfill/node_modules/core-js/modules/_iter-create.js":
-/*!******************************************************************************************************************************!*\
-  !*** /home/travigd/Trash/WebIO-throwaway/packages/node_modules/@babel/polyfill/node_modules/core-js/modules/_iter-create.js ***!
-  \******************************************************************************************************************************/
+/*!********************************************************************************************************************************!*\
+  !*** /home/travigd/Trash/WebIO-throwaway-2/packages/node_modules/@babel/polyfill/node_modules/core-js/modules/_iter-create.js ***!
+  \********************************************************************************************************************************/
 /*! no static exports found */
 /***/ (function(module, exports, __webpack_require__) {
 
@@ -2299,9 +2299,9 @@ module.exports = function (Constructor, NAME, next) {
 /***/ }),
 
 /***/ "../../node_modules/@babel/polyfill/node_modules/core-js/modules/_iter-define.js":
-/*!******************************************************************************************************************************!*\
-  !*** /home/travigd/Trash/WebIO-throwaway/packages/node_modules/@babel/polyfill/node_modules/core-js/modules/_iter-define.js ***!
-  \******************************************************************************************************************************/
+/*!********************************************************************************************************************************!*\
+  !*** /home/travigd/Trash/WebIO-throwaway-2/packages/node_modules/@babel/polyfill/node_modules/core-js/modules/_iter-define.js ***!
+  \********************************************************************************************************************************/
 /*! no static exports found */
 /***/ (function(module, exports, __webpack_require__) {
 
@@ -2415,9 +2415,9 @@ module.exports = function (Base, NAME, Constructor, next, DEFAULT, IS_SET, FORCE
 /***/ }),
 
 /***/ "../../node_modules/@babel/polyfill/node_modules/core-js/modules/_iter-detect.js":
-/*!******************************************************************************************************************************!*\
-  !*** /home/travigd/Trash/WebIO-throwaway/packages/node_modules/@babel/polyfill/node_modules/core-js/modules/_iter-detect.js ***!
-  \******************************************************************************************************************************/
+/*!********************************************************************************************************************************!*\
+  !*** /home/travigd/Trash/WebIO-throwaway-2/packages/node_modules/@babel/polyfill/node_modules/core-js/modules/_iter-detect.js ***!
+  \********************************************************************************************************************************/
 /*! no static exports found */
 /***/ (function(module, exports, __webpack_require__) {
 
@@ -2469,9 +2469,9 @@ module.exports = function (exec, skipClosing) {
 /***/ }),
 
 /***/ "../../node_modules/@babel/polyfill/node_modules/core-js/modules/_iter-step.js":
-/*!****************************************************************************************************************************!*\
-  !*** /home/travigd/Trash/WebIO-throwaway/packages/node_modules/@babel/polyfill/node_modules/core-js/modules/_iter-step.js ***!
-  \****************************************************************************************************************************/
+/*!******************************************************************************************************************************!*\
+  !*** /home/travigd/Trash/WebIO-throwaway-2/packages/node_modules/@babel/polyfill/node_modules/core-js/modules/_iter-step.js ***!
+  \******************************************************************************************************************************/
 /*! no static exports found */
 /***/ (function(module, exports) {
 
@@ -2485,9 +2485,9 @@ module.exports = function (done, value) {
 /***/ }),
 
 /***/ "../../node_modules/@babel/polyfill/node_modules/core-js/modules/_iterators.js":
-/*!****************************************************************************************************************************!*\
-  !*** /home/travigd/Trash/WebIO-throwaway/packages/node_modules/@babel/polyfill/node_modules/core-js/modules/_iterators.js ***!
-  \****************************************************************************************************************************/
+/*!******************************************************************************************************************************!*\
+  !*** /home/travigd/Trash/WebIO-throwaway-2/packages/node_modules/@babel/polyfill/node_modules/core-js/modules/_iterators.js ***!
+  \******************************************************************************************************************************/
 /*! no static exports found */
 /***/ (function(module, exports) {
 
@@ -2496,9 +2496,9 @@ module.exports = {};
 /***/ }),
 
 /***/ "../../node_modules/@babel/polyfill/node_modules/core-js/modules/_library.js":
-/*!**************************************************************************************************************************!*\
-  !*** /home/travigd/Trash/WebIO-throwaway/packages/node_modules/@babel/polyfill/node_modules/core-js/modules/_library.js ***!
-  \**************************************************************************************************************************/
+/*!****************************************************************************************************************************!*\
+  !*** /home/travigd/Trash/WebIO-throwaway-2/packages/node_modules/@babel/polyfill/node_modules/core-js/modules/_library.js ***!
+  \****************************************************************************************************************************/
 /*! no static exports found */
 /***/ (function(module, exports) {
 
@@ -2507,9 +2507,9 @@ module.exports = false;
 /***/ }),
 
 /***/ "../../node_modules/@babel/polyfill/node_modules/core-js/modules/_math-expm1.js":
-/*!*****************************************************************************************************************************!*\
-  !*** /home/travigd/Trash/WebIO-throwaway/packages/node_modules/@babel/polyfill/node_modules/core-js/modules/_math-expm1.js ***!
-  \*****************************************************************************************************************************/
+/*!*******************************************************************************************************************************!*\
+  !*** /home/travigd/Trash/WebIO-throwaway-2/packages/node_modules/@babel/polyfill/node_modules/core-js/modules/_math-expm1.js ***!
+  \*******************************************************************************************************************************/
 /*! no static exports found */
 /***/ (function(module, exports) {
 
@@ -2524,9 +2524,9 @@ module.exports = !$expm1 // Old FF bug
 /***/ }),
 
 /***/ "../../node_modules/@babel/polyfill/node_modules/core-js/modules/_math-fround.js":
-/*!******************************************************************************************************************************!*\
-  !*** /home/travigd/Trash/WebIO-throwaway/packages/node_modules/@babel/polyfill/node_modules/core-js/modules/_math-fround.js ***!
-  \******************************************************************************************************************************/
+/*!********************************************************************************************************************************!*\
+  !*** /home/travigd/Trash/WebIO-throwaway-2/packages/node_modules/@babel/polyfill/node_modules/core-js/modules/_math-fround.js ***!
+  \********************************************************************************************************************************/
 /*! no static exports found */
 /***/ (function(module, exports, __webpack_require__) {
 
@@ -2558,9 +2558,9 @@ module.exports = Math.fround || function fround(x) {
 /***/ }),
 
 /***/ "../../node_modules/@babel/polyfill/node_modules/core-js/modules/_math-log1p.js":
-/*!*****************************************************************************************************************************!*\
-  !*** /home/travigd/Trash/WebIO-throwaway/packages/node_modules/@babel/polyfill/node_modules/core-js/modules/_math-log1p.js ***!
-  \*****************************************************************************************************************************/
+/*!*******************************************************************************************************************************!*\
+  !*** /home/travigd/Trash/WebIO-throwaway-2/packages/node_modules/@babel/polyfill/node_modules/core-js/modules/_math-log1p.js ***!
+  \*******************************************************************************************************************************/
 /*! no static exports found */
 /***/ (function(module, exports) {
 
@@ -2572,9 +2572,9 @@ module.exports = Math.log1p || function log1p(x) {
 /***/ }),
 
 /***/ "../../node_modules/@babel/polyfill/node_modules/core-js/modules/_math-sign.js":
-/*!****************************************************************************************************************************!*\
-  !*** /home/travigd/Trash/WebIO-throwaway/packages/node_modules/@babel/polyfill/node_modules/core-js/modules/_math-sign.js ***!
-  \****************************************************************************************************************************/
+/*!******************************************************************************************************************************!*\
+  !*** /home/travigd/Trash/WebIO-throwaway-2/packages/node_modules/@babel/polyfill/node_modules/core-js/modules/_math-sign.js ***!
+  \******************************************************************************************************************************/
 /*! no static exports found */
 /***/ (function(module, exports) {
 
@@ -2587,9 +2587,9 @@ module.exports = Math.sign || function sign(x) {
 /***/ }),
 
 /***/ "../../node_modules/@babel/polyfill/node_modules/core-js/modules/_meta.js":
-/*!***********************************************************************************************************************!*\
-  !*** /home/travigd/Trash/WebIO-throwaway/packages/node_modules/@babel/polyfill/node_modules/core-js/modules/_meta.js ***!
-  \***********************************************************************************************************************/
+/*!*************************************************************************************************************************!*\
+  !*** /home/travigd/Trash/WebIO-throwaway-2/packages/node_modules/@babel/polyfill/node_modules/core-js/modules/_meta.js ***!
+  \*************************************************************************************************************************/
 /*! no static exports found */
 /***/ (function(module, exports, __webpack_require__) {
 
@@ -2670,9 +2670,9 @@ var meta = module.exports = {
 /***/ }),
 
 /***/ "../../node_modules/@babel/polyfill/node_modules/core-js/modules/_microtask.js":
-/*!****************************************************************************************************************************!*\
-  !*** /home/travigd/Trash/WebIO-throwaway/packages/node_modules/@babel/polyfill/node_modules/core-js/modules/_microtask.js ***!
-  \****************************************************************************************************************************/
+/*!******************************************************************************************************************************!*\
+  !*** /home/travigd/Trash/WebIO-throwaway-2/packages/node_modules/@babel/polyfill/node_modules/core-js/modules/_microtask.js ***!
+  \******************************************************************************************************************************/
 /*! no static exports found */
 /***/ (function(module, exports, __webpack_require__) {
 
@@ -2764,9 +2764,9 @@ module.exports = function () {
 /***/ }),
 
 /***/ "../../node_modules/@babel/polyfill/node_modules/core-js/modules/_new-promise-capability.js":
-/*!*****************************************************************************************************************************************!*\
-  !*** /home/travigd/Trash/WebIO-throwaway/packages/node_modules/@babel/polyfill/node_modules/core-js/modules/_new-promise-capability.js ***!
-  \*****************************************************************************************************************************************/
+/*!*******************************************************************************************************************************************!*\
+  !*** /home/travigd/Trash/WebIO-throwaway-2/packages/node_modules/@babel/polyfill/node_modules/core-js/modules/_new-promise-capability.js ***!
+  \*******************************************************************************************************************************************/
 /*! no static exports found */
 /***/ (function(module, exports, __webpack_require__) {
 
@@ -2793,9 +2793,9 @@ module.exports.f = function (C) {
 /***/ }),
 
 /***/ "../../node_modules/@babel/polyfill/node_modules/core-js/modules/_object-assign.js":
-/*!********************************************************************************************************************************!*\
-  !*** /home/travigd/Trash/WebIO-throwaway/packages/node_modules/@babel/polyfill/node_modules/core-js/modules/_object-assign.js ***!
-  \********************************************************************************************************************************/
+/*!**********************************************************************************************************************************!*\
+  !*** /home/travigd/Trash/WebIO-throwaway-2/packages/node_modules/@babel/polyfill/node_modules/core-js/modules/_object-assign.js ***!
+  \**********************************************************************************************************************************/
 /*! no static exports found */
 /***/ (function(module, exports, __webpack_require__) {
 
@@ -2851,9 +2851,9 @@ module.exports = !$assign || __webpack_require__(/*! ./_fails */ "../../node_mod
 /***/ }),
 
 /***/ "../../node_modules/@babel/polyfill/node_modules/core-js/modules/_object-create.js":
-/*!********************************************************************************************************************************!*\
-  !*** /home/travigd/Trash/WebIO-throwaway/packages/node_modules/@babel/polyfill/node_modules/core-js/modules/_object-create.js ***!
-  \********************************************************************************************************************************/
+/*!**********************************************************************************************************************************!*\
+  !*** /home/travigd/Trash/WebIO-throwaway-2/packages/node_modules/@babel/polyfill/node_modules/core-js/modules/_object-create.js ***!
+  \**********************************************************************************************************************************/
 /*! no static exports found */
 /***/ (function(module, exports, __webpack_require__) {
 
@@ -2918,9 +2918,9 @@ module.exports = Object.create || function create(O, Properties) {
 /***/ }),
 
 /***/ "../../node_modules/@babel/polyfill/node_modules/core-js/modules/_object-dp.js":
-/*!****************************************************************************************************************************!*\
-  !*** /home/travigd/Trash/WebIO-throwaway/packages/node_modules/@babel/polyfill/node_modules/core-js/modules/_object-dp.js ***!
-  \****************************************************************************************************************************/
+/*!******************************************************************************************************************************!*\
+  !*** /home/travigd/Trash/WebIO-throwaway-2/packages/node_modules/@babel/polyfill/node_modules/core-js/modules/_object-dp.js ***!
+  \******************************************************************************************************************************/
 /*! no static exports found */
 /***/ (function(module, exports, __webpack_require__) {
 
@@ -2948,9 +2948,9 @@ exports.f = __webpack_require__(/*! ./_descriptors */ "../../node_modules/@babel
 /***/ }),
 
 /***/ "../../node_modules/@babel/polyfill/node_modules/core-js/modules/_object-dps.js":
-/*!*****************************************************************************************************************************!*\
-  !*** /home/travigd/Trash/WebIO-throwaway/packages/node_modules/@babel/polyfill/node_modules/core-js/modules/_object-dps.js ***!
-  \*****************************************************************************************************************************/
+/*!*******************************************************************************************************************************!*\
+  !*** /home/travigd/Trash/WebIO-throwaway-2/packages/node_modules/@babel/polyfill/node_modules/core-js/modules/_object-dps.js ***!
+  \*******************************************************************************************************************************/
 /*! no static exports found */
 /***/ (function(module, exports, __webpack_require__) {
 
@@ -2977,9 +2977,9 @@ module.exports = __webpack_require__(/*! ./_descriptors */ "../../node_modules/@
 /***/ }),
 
 /***/ "../../node_modules/@babel/polyfill/node_modules/core-js/modules/_object-gopd.js":
-/*!******************************************************************************************************************************!*\
-  !*** /home/travigd/Trash/WebIO-throwaway/packages/node_modules/@babel/polyfill/node_modules/core-js/modules/_object-gopd.js ***!
-  \******************************************************************************************************************************/
+/*!********************************************************************************************************************************!*\
+  !*** /home/travigd/Trash/WebIO-throwaway-2/packages/node_modules/@babel/polyfill/node_modules/core-js/modules/_object-gopd.js ***!
+  \********************************************************************************************************************************/
 /*! no static exports found */
 /***/ (function(module, exports, __webpack_require__) {
 
@@ -3010,9 +3010,9 @@ exports.f = __webpack_require__(/*! ./_descriptors */ "../../node_modules/@babel
 /***/ }),
 
 /***/ "../../node_modules/@babel/polyfill/node_modules/core-js/modules/_object-gopn-ext.js":
-/*!**********************************************************************************************************************************!*\
-  !*** /home/travigd/Trash/WebIO-throwaway/packages/node_modules/@babel/polyfill/node_modules/core-js/modules/_object-gopn-ext.js ***!
-  \**********************************************************************************************************************************/
+/*!************************************************************************************************************************************!*\
+  !*** /home/travigd/Trash/WebIO-throwaway-2/packages/node_modules/@babel/polyfill/node_modules/core-js/modules/_object-gopn-ext.js ***!
+  \************************************************************************************************************************************/
 /*! no static exports found */
 /***/ (function(module, exports, __webpack_require__) {
 
@@ -3041,9 +3041,9 @@ module.exports.f = function getOwnPropertyNames(it) {
 /***/ }),
 
 /***/ "../../node_modules/@babel/polyfill/node_modules/core-js/modules/_object-gopn.js":
-/*!******************************************************************************************************************************!*\
-  !*** /home/travigd/Trash/WebIO-throwaway/packages/node_modules/@babel/polyfill/node_modules/core-js/modules/_object-gopn.js ***!
-  \******************************************************************************************************************************/
+/*!********************************************************************************************************************************!*\
+  !*** /home/travigd/Trash/WebIO-throwaway-2/packages/node_modules/@babel/polyfill/node_modules/core-js/modules/_object-gopn.js ***!
+  \********************************************************************************************************************************/
 /*! no static exports found */
 /***/ (function(module, exports, __webpack_require__) {
 
@@ -3059,9 +3059,9 @@ exports.f = Object.getOwnPropertyNames || function getOwnPropertyNames(O) {
 /***/ }),
 
 /***/ "../../node_modules/@babel/polyfill/node_modules/core-js/modules/_object-gops.js":
-/*!******************************************************************************************************************************!*\
-  !*** /home/travigd/Trash/WebIO-throwaway/packages/node_modules/@babel/polyfill/node_modules/core-js/modules/_object-gops.js ***!
-  \******************************************************************************************************************************/
+/*!********************************************************************************************************************************!*\
+  !*** /home/travigd/Trash/WebIO-throwaway-2/packages/node_modules/@babel/polyfill/node_modules/core-js/modules/_object-gops.js ***!
+  \********************************************************************************************************************************/
 /*! no static exports found */
 /***/ (function(module, exports) {
 
@@ -3070,9 +3070,9 @@ exports.f = Object.getOwnPropertySymbols;
 /***/ }),
 
 /***/ "../../node_modules/@babel/polyfill/node_modules/core-js/modules/_object-gpo.js":
-/*!*****************************************************************************************************************************!*\
-  !*** /home/travigd/Trash/WebIO-throwaway/packages/node_modules/@babel/polyfill/node_modules/core-js/modules/_object-gpo.js ***!
-  \*****************************************************************************************************************************/
+/*!*******************************************************************************************************************************!*\
+  !*** /home/travigd/Trash/WebIO-throwaway-2/packages/node_modules/@babel/polyfill/node_modules/core-js/modules/_object-gpo.js ***!
+  \*******************************************************************************************************************************/
 /*! no static exports found */
 /***/ (function(module, exports, __webpack_require__) {
 
@@ -3099,9 +3099,9 @@ module.exports = Object.getPrototypeOf || function (O) {
 /***/ }),
 
 /***/ "../../node_modules/@babel/polyfill/node_modules/core-js/modules/_object-keys-internal.js":
-/*!***************************************************************************************************************************************!*\
-  !*** /home/travigd/Trash/WebIO-throwaway/packages/node_modules/@babel/polyfill/node_modules/core-js/modules/_object-keys-internal.js ***!
-  \***************************************************************************************************************************************/
+/*!*****************************************************************************************************************************************!*\
+  !*** /home/travigd/Trash/WebIO-throwaway-2/packages/node_modules/@babel/polyfill/node_modules/core-js/modules/_object-keys-internal.js ***!
+  \*****************************************************************************************************************************************/
 /*! no static exports found */
 /***/ (function(module, exports, __webpack_require__) {
 
@@ -3136,9 +3136,9 @@ module.exports = function (object, names) {
 /***/ }),
 
 /***/ "../../node_modules/@babel/polyfill/node_modules/core-js/modules/_object-keys.js":
-/*!******************************************************************************************************************************!*\
-  !*** /home/travigd/Trash/WebIO-throwaway/packages/node_modules/@babel/polyfill/node_modules/core-js/modules/_object-keys.js ***!
-  \******************************************************************************************************************************/
+/*!********************************************************************************************************************************!*\
+  !*** /home/travigd/Trash/WebIO-throwaway-2/packages/node_modules/@babel/polyfill/node_modules/core-js/modules/_object-keys.js ***!
+  \********************************************************************************************************************************/
 /*! no static exports found */
 /***/ (function(module, exports, __webpack_require__) {
 
@@ -3154,9 +3154,9 @@ module.exports = Object.keys || function keys(O) {
 /***/ }),
 
 /***/ "../../node_modules/@babel/polyfill/node_modules/core-js/modules/_object-pie.js":
-/*!*****************************************************************************************************************************!*\
-  !*** /home/travigd/Trash/WebIO-throwaway/packages/node_modules/@babel/polyfill/node_modules/core-js/modules/_object-pie.js ***!
-  \*****************************************************************************************************************************/
+/*!*******************************************************************************************************************************!*\
+  !*** /home/travigd/Trash/WebIO-throwaway-2/packages/node_modules/@babel/polyfill/node_modules/core-js/modules/_object-pie.js ***!
+  \*******************************************************************************************************************************/
 /*! no static exports found */
 /***/ (function(module, exports) {
 
@@ -3165,9 +3165,9 @@ exports.f = {}.propertyIsEnumerable;
 /***/ }),
 
 /***/ "../../node_modules/@babel/polyfill/node_modules/core-js/modules/_object-sap.js":
-/*!*****************************************************************************************************************************!*\
-  !*** /home/travigd/Trash/WebIO-throwaway/packages/node_modules/@babel/polyfill/node_modules/core-js/modules/_object-sap.js ***!
-  \*****************************************************************************************************************************/
+/*!*******************************************************************************************************************************!*\
+  !*** /home/travigd/Trash/WebIO-throwaway-2/packages/node_modules/@babel/polyfill/node_modules/core-js/modules/_object-sap.js ***!
+  \*******************************************************************************************************************************/
 /*! no static exports found */
 /***/ (function(module, exports, __webpack_require__) {
 
@@ -3190,9 +3190,9 @@ module.exports = function (KEY, exec) {
 /***/ }),
 
 /***/ "../../node_modules/@babel/polyfill/node_modules/core-js/modules/_object-to-array.js":
-/*!**********************************************************************************************************************************!*\
-  !*** /home/travigd/Trash/WebIO-throwaway/packages/node_modules/@babel/polyfill/node_modules/core-js/modules/_object-to-array.js ***!
-  \**********************************************************************************************************************************/
+/*!************************************************************************************************************************************!*\
+  !*** /home/travigd/Trash/WebIO-throwaway-2/packages/node_modules/@babel/polyfill/node_modules/core-js/modules/_object-to-array.js ***!
+  \************************************************************************************************************************************/
 /*! no static exports found */
 /***/ (function(module, exports, __webpack_require__) {
 
@@ -3224,9 +3224,9 @@ module.exports = function (isEntries) {
 /***/ }),
 
 /***/ "../../node_modules/@babel/polyfill/node_modules/core-js/modules/_own-keys.js":
-/*!***************************************************************************************************************************!*\
-  !*** /home/travigd/Trash/WebIO-throwaway/packages/node_modules/@babel/polyfill/node_modules/core-js/modules/_own-keys.js ***!
-  \***************************************************************************************************************************/
+/*!*****************************************************************************************************************************!*\
+  !*** /home/travigd/Trash/WebIO-throwaway-2/packages/node_modules/@babel/polyfill/node_modules/core-js/modules/_own-keys.js ***!
+  \*****************************************************************************************************************************/
 /*! no static exports found */
 /***/ (function(module, exports, __webpack_require__) {
 
@@ -3248,9 +3248,9 @@ module.exports = Reflect && Reflect.ownKeys || function ownKeys(it) {
 /***/ }),
 
 /***/ "../../node_modules/@babel/polyfill/node_modules/core-js/modules/_parse-float.js":
-/*!******************************************************************************************************************************!*\
-  !*** /home/travigd/Trash/WebIO-throwaway/packages/node_modules/@babel/polyfill/node_modules/core-js/modules/_parse-float.js ***!
-  \******************************************************************************************************************************/
+/*!********************************************************************************************************************************!*\
+  !*** /home/travigd/Trash/WebIO-throwaway-2/packages/node_modules/@babel/polyfill/node_modules/core-js/modules/_parse-float.js ***!
+  \********************************************************************************************************************************/
 /*! no static exports found */
 /***/ (function(module, exports, __webpack_require__) {
 
@@ -3267,9 +3267,9 @@ module.exports = 1 / $parseFloat(__webpack_require__(/*! ./_string-ws */ "../../
 /***/ }),
 
 /***/ "../../node_modules/@babel/polyfill/node_modules/core-js/modules/_parse-int.js":
-/*!****************************************************************************************************************************!*\
-  !*** /home/travigd/Trash/WebIO-throwaway/packages/node_modules/@babel/polyfill/node_modules/core-js/modules/_parse-int.js ***!
-  \****************************************************************************************************************************/
+/*!******************************************************************************************************************************!*\
+  !*** /home/travigd/Trash/WebIO-throwaway-2/packages/node_modules/@babel/polyfill/node_modules/core-js/modules/_parse-int.js ***!
+  \******************************************************************************************************************************/
 /*! no static exports found */
 /***/ (function(module, exports, __webpack_require__) {
 
@@ -3288,9 +3288,9 @@ module.exports = $parseInt(ws + '08') !== 8 || $parseInt(ws + '0x16') !== 22 ? f
 /***/ }),
 
 /***/ "../../node_modules/@babel/polyfill/node_modules/core-js/modules/_perform.js":
-/*!**************************************************************************************************************************!*\
-  !*** /home/travigd/Trash/WebIO-throwaway/packages/node_modules/@babel/polyfill/node_modules/core-js/modules/_perform.js ***!
-  \**************************************************************************************************************************/
+/*!****************************************************************************************************************************!*\
+  !*** /home/travigd/Trash/WebIO-throwaway-2/packages/node_modules/@babel/polyfill/node_modules/core-js/modules/_perform.js ***!
+  \****************************************************************************************************************************/
 /*! no static exports found */
 /***/ (function(module, exports) {
 
@@ -3311,9 +3311,9 @@ module.exports = function (exec) {
 /***/ }),
 
 /***/ "../../node_modules/@babel/polyfill/node_modules/core-js/modules/_promise-resolve.js":
-/*!**********************************************************************************************************************************!*\
-  !*** /home/travigd/Trash/WebIO-throwaway/packages/node_modules/@babel/polyfill/node_modules/core-js/modules/_promise-resolve.js ***!
-  \**********************************************************************************************************************************/
+/*!************************************************************************************************************************************!*\
+  !*** /home/travigd/Trash/WebIO-throwaway-2/packages/node_modules/@babel/polyfill/node_modules/core-js/modules/_promise-resolve.js ***!
+  \************************************************************************************************************************************/
 /*! no static exports found */
 /***/ (function(module, exports, __webpack_require__) {
 
@@ -3335,9 +3335,9 @@ module.exports = function (C, x) {
 /***/ }),
 
 /***/ "../../node_modules/@babel/polyfill/node_modules/core-js/modules/_property-desc.js":
-/*!********************************************************************************************************************************!*\
-  !*** /home/travigd/Trash/WebIO-throwaway/packages/node_modules/@babel/polyfill/node_modules/core-js/modules/_property-desc.js ***!
-  \********************************************************************************************************************************/
+/*!**********************************************************************************************************************************!*\
+  !*** /home/travigd/Trash/WebIO-throwaway-2/packages/node_modules/@babel/polyfill/node_modules/core-js/modules/_property-desc.js ***!
+  \**********************************************************************************************************************************/
 /*! no static exports found */
 /***/ (function(module, exports) {
 
@@ -3353,9 +3353,9 @@ module.exports = function (bitmap, value) {
 /***/ }),
 
 /***/ "../../node_modules/@babel/polyfill/node_modules/core-js/modules/_redefine-all.js":
-/*!*******************************************************************************************************************************!*\
-  !*** /home/travigd/Trash/WebIO-throwaway/packages/node_modules/@babel/polyfill/node_modules/core-js/modules/_redefine-all.js ***!
-  \*******************************************************************************************************************************/
+/*!*********************************************************************************************************************************!*\
+  !*** /home/travigd/Trash/WebIO-throwaway-2/packages/node_modules/@babel/polyfill/node_modules/core-js/modules/_redefine-all.js ***!
+  \*********************************************************************************************************************************/
 /*! no static exports found */
 /***/ (function(module, exports, __webpack_require__) {
 
@@ -3372,9 +3372,9 @@ module.exports = function (target, src, safe) {
 /***/ }),
 
 /***/ "../../node_modules/@babel/polyfill/node_modules/core-js/modules/_redefine.js":
-/*!***************************************************************************************************************************!*\
-  !*** /home/travigd/Trash/WebIO-throwaway/packages/node_modules/@babel/polyfill/node_modules/core-js/modules/_redefine.js ***!
-  \***************************************************************************************************************************/
+/*!*****************************************************************************************************************************!*\
+  !*** /home/travigd/Trash/WebIO-throwaway-2/packages/node_modules/@babel/polyfill/node_modules/core-js/modules/_redefine.js ***!
+  \*****************************************************************************************************************************/
 /*! no static exports found */
 /***/ (function(module, exports, __webpack_require__) {
 
@@ -3419,9 +3419,9 @@ __webpack_require__(/*! ./_core */ "../../node_modules/@babel/polyfill/node_modu
 /***/ }),
 
 /***/ "../../node_modules/@babel/polyfill/node_modules/core-js/modules/_regexp-exec-abstract.js":
-/*!***************************************************************************************************************************************!*\
-  !*** /home/travigd/Trash/WebIO-throwaway/packages/node_modules/@babel/polyfill/node_modules/core-js/modules/_regexp-exec-abstract.js ***!
-  \***************************************************************************************************************************************/
+/*!*****************************************************************************************************************************************!*\
+  !*** /home/travigd/Trash/WebIO-throwaway-2/packages/node_modules/@babel/polyfill/node_modules/core-js/modules/_regexp-exec-abstract.js ***!
+  \*****************************************************************************************************************************************/
 /*! no static exports found */
 /***/ (function(module, exports, __webpack_require__) {
 
@@ -3458,9 +3458,9 @@ module.exports = function (R, S) {
 /***/ }),
 
 /***/ "../../node_modules/@babel/polyfill/node_modules/core-js/modules/_regexp-exec.js":
-/*!******************************************************************************************************************************!*\
-  !*** /home/travigd/Trash/WebIO-throwaway/packages/node_modules/@babel/polyfill/node_modules/core-js/modules/_regexp-exec.js ***!
-  \******************************************************************************************************************************/
+/*!********************************************************************************************************************************!*\
+  !*** /home/travigd/Trash/WebIO-throwaway-2/packages/node_modules/@babel/polyfill/node_modules/core-js/modules/_regexp-exec.js ***!
+  \********************************************************************************************************************************/
 /*! no static exports found */
 /***/ (function(module, exports, __webpack_require__) {
 
@@ -3525,9 +3525,9 @@ module.exports = patchedExec;
 /***/ }),
 
 /***/ "../../node_modules/@babel/polyfill/node_modules/core-js/modules/_same-value.js":
-/*!*****************************************************************************************************************************!*\
-  !*** /home/travigd/Trash/WebIO-throwaway/packages/node_modules/@babel/polyfill/node_modules/core-js/modules/_same-value.js ***!
-  \*****************************************************************************************************************************/
+/*!*******************************************************************************************************************************!*\
+  !*** /home/travigd/Trash/WebIO-throwaway-2/packages/node_modules/@babel/polyfill/node_modules/core-js/modules/_same-value.js ***!
+  \*******************************************************************************************************************************/
 /*! no static exports found */
 /***/ (function(module, exports) {
 
@@ -3540,9 +3540,9 @@ module.exports = Object.is || function is(x, y) {
 /***/ }),
 
 /***/ "../../node_modules/@babel/polyfill/node_modules/core-js/modules/_set-proto.js":
-/*!****************************************************************************************************************************!*\
-  !*** /home/travigd/Trash/WebIO-throwaway/packages/node_modules/@babel/polyfill/node_modules/core-js/modules/_set-proto.js ***!
-  \****************************************************************************************************************************/
+/*!******************************************************************************************************************************!*\
+  !*** /home/travigd/Trash/WebIO-throwaway-2/packages/node_modules/@babel/polyfill/node_modules/core-js/modules/_set-proto.js ***!
+  \******************************************************************************************************************************/
 /*! no static exports found */
 /***/ (function(module, exports, __webpack_require__) {
 
@@ -3581,9 +3581,9 @@ module.exports = {
 /***/ }),
 
 /***/ "../../node_modules/@babel/polyfill/node_modules/core-js/modules/_set-species.js":
-/*!******************************************************************************************************************************!*\
-  !*** /home/travigd/Trash/WebIO-throwaway/packages/node_modules/@babel/polyfill/node_modules/core-js/modules/_set-species.js ***!
-  \******************************************************************************************************************************/
+/*!********************************************************************************************************************************!*\
+  !*** /home/travigd/Trash/WebIO-throwaway-2/packages/node_modules/@babel/polyfill/node_modules/core-js/modules/_set-species.js ***!
+  \********************************************************************************************************************************/
 /*! no static exports found */
 /***/ (function(module, exports, __webpack_require__) {
 
@@ -3611,9 +3611,9 @@ module.exports = function (KEY) {
 /***/ }),
 
 /***/ "../../node_modules/@babel/polyfill/node_modules/core-js/modules/_set-to-string-tag.js":
-/*!************************************************************************************************************************************!*\
-  !*** /home/travigd/Trash/WebIO-throwaway/packages/node_modules/@babel/polyfill/node_modules/core-js/modules/_set-to-string-tag.js ***!
-  \************************************************************************************************************************************/
+/*!**************************************************************************************************************************************!*\
+  !*** /home/travigd/Trash/WebIO-throwaway-2/packages/node_modules/@babel/polyfill/node_modules/core-js/modules/_set-to-string-tag.js ***!
+  \**************************************************************************************************************************************/
 /*! no static exports found */
 /***/ (function(module, exports, __webpack_require__) {
 
@@ -3633,9 +3633,9 @@ module.exports = function (it, tag, stat) {
 /***/ }),
 
 /***/ "../../node_modules/@babel/polyfill/node_modules/core-js/modules/_shared-key.js":
-/*!*****************************************************************************************************************************!*\
-  !*** /home/travigd/Trash/WebIO-throwaway/packages/node_modules/@babel/polyfill/node_modules/core-js/modules/_shared-key.js ***!
-  \*****************************************************************************************************************************/
+/*!*******************************************************************************************************************************!*\
+  !*** /home/travigd/Trash/WebIO-throwaway-2/packages/node_modules/@babel/polyfill/node_modules/core-js/modules/_shared-key.js ***!
+  \*******************************************************************************************************************************/
 /*! no static exports found */
 /***/ (function(module, exports, __webpack_require__) {
 
@@ -3650,9 +3650,9 @@ module.exports = function (key) {
 /***/ }),
 
 /***/ "../../node_modules/@babel/polyfill/node_modules/core-js/modules/_shared.js":
-/*!*************************************************************************************************************************!*\
-  !*** /home/travigd/Trash/WebIO-throwaway/packages/node_modules/@babel/polyfill/node_modules/core-js/modules/_shared.js ***!
-  \*************************************************************************************************************************/
+/*!***************************************************************************************************************************!*\
+  !*** /home/travigd/Trash/WebIO-throwaway-2/packages/node_modules/@babel/polyfill/node_modules/core-js/modules/_shared.js ***!
+  \***************************************************************************************************************************/
 /*! no static exports found */
 /***/ (function(module, exports, __webpack_require__) {
 
@@ -3673,9 +3673,9 @@ var store = global[SHARED] || (global[SHARED] = {});
 /***/ }),
 
 /***/ "../../node_modules/@babel/polyfill/node_modules/core-js/modules/_species-constructor.js":
-/*!**************************************************************************************************************************************!*\
-  !*** /home/travigd/Trash/WebIO-throwaway/packages/node_modules/@babel/polyfill/node_modules/core-js/modules/_species-constructor.js ***!
-  \**************************************************************************************************************************************/
+/*!****************************************************************************************************************************************!*\
+  !*** /home/travigd/Trash/WebIO-throwaway-2/packages/node_modules/@babel/polyfill/node_modules/core-js/modules/_species-constructor.js ***!
+  \****************************************************************************************************************************************/
 /*! no static exports found */
 /***/ (function(module, exports, __webpack_require__) {
 
@@ -3695,9 +3695,9 @@ module.exports = function (O, D) {
 /***/ }),
 
 /***/ "../../node_modules/@babel/polyfill/node_modules/core-js/modules/_strict-method.js":
-/*!********************************************************************************************************************************!*\
-  !*** /home/travigd/Trash/WebIO-throwaway/packages/node_modules/@babel/polyfill/node_modules/core-js/modules/_strict-method.js ***!
-  \********************************************************************************************************************************/
+/*!**********************************************************************************************************************************!*\
+  !*** /home/travigd/Trash/WebIO-throwaway-2/packages/node_modules/@babel/polyfill/node_modules/core-js/modules/_strict-method.js ***!
+  \**********************************************************************************************************************************/
 /*! no static exports found */
 /***/ (function(module, exports, __webpack_require__) {
 
@@ -3718,9 +3718,9 @@ module.exports = function (method, arg) {
 /***/ }),
 
 /***/ "../../node_modules/@babel/polyfill/node_modules/core-js/modules/_string-at.js":
-/*!****************************************************************************************************************************!*\
-  !*** /home/travigd/Trash/WebIO-throwaway/packages/node_modules/@babel/polyfill/node_modules/core-js/modules/_string-at.js ***!
-  \****************************************************************************************************************************/
+/*!******************************************************************************************************************************!*\
+  !*** /home/travigd/Trash/WebIO-throwaway-2/packages/node_modules/@babel/polyfill/node_modules/core-js/modules/_string-at.js ***!
+  \******************************************************************************************************************************/
 /*! no static exports found */
 /***/ (function(module, exports, __webpack_require__) {
 
@@ -3745,9 +3745,9 @@ module.exports = function (TO_STRING) {
 /***/ }),
 
 /***/ "../../node_modules/@babel/polyfill/node_modules/core-js/modules/_string-context.js":
-/*!*********************************************************************************************************************************!*\
-  !*** /home/travigd/Trash/WebIO-throwaway/packages/node_modules/@babel/polyfill/node_modules/core-js/modules/_string-context.js ***!
-  \*********************************************************************************************************************************/
+/*!***********************************************************************************************************************************!*\
+  !*** /home/travigd/Trash/WebIO-throwaway-2/packages/node_modules/@babel/polyfill/node_modules/core-js/modules/_string-context.js ***!
+  \***********************************************************************************************************************************/
 /*! no static exports found */
 /***/ (function(module, exports, __webpack_require__) {
 
@@ -3764,9 +3764,9 @@ module.exports = function (that, searchString, NAME) {
 /***/ }),
 
 /***/ "../../node_modules/@babel/polyfill/node_modules/core-js/modules/_string-html.js":
-/*!******************************************************************************************************************************!*\
-  !*** /home/travigd/Trash/WebIO-throwaway/packages/node_modules/@babel/polyfill/node_modules/core-js/modules/_string-html.js ***!
-  \******************************************************************************************************************************/
+/*!********************************************************************************************************************************!*\
+  !*** /home/travigd/Trash/WebIO-throwaway-2/packages/node_modules/@babel/polyfill/node_modules/core-js/modules/_string-html.js ***!
+  \********************************************************************************************************************************/
 /*! no static exports found */
 /***/ (function(module, exports, __webpack_require__) {
 
@@ -3797,9 +3797,9 @@ module.exports = function (NAME, exec) {
 /***/ }),
 
 /***/ "../../node_modules/@babel/polyfill/node_modules/core-js/modules/_string-pad.js":
-/*!*****************************************************************************************************************************!*\
-  !*** /home/travigd/Trash/WebIO-throwaway/packages/node_modules/@babel/polyfill/node_modules/core-js/modules/_string-pad.js ***!
-  \*****************************************************************************************************************************/
+/*!*******************************************************************************************************************************!*\
+  !*** /home/travigd/Trash/WebIO-throwaway-2/packages/node_modules/@babel/polyfill/node_modules/core-js/modules/_string-pad.js ***!
+  \*******************************************************************************************************************************/
 /*! no static exports found */
 /***/ (function(module, exports, __webpack_require__) {
 
@@ -3825,9 +3825,9 @@ module.exports = function (that, maxLength, fillString, left) {
 /***/ }),
 
 /***/ "../../node_modules/@babel/polyfill/node_modules/core-js/modules/_string-repeat.js":
-/*!********************************************************************************************************************************!*\
-  !*** /home/travigd/Trash/WebIO-throwaway/packages/node_modules/@babel/polyfill/node_modules/core-js/modules/_string-repeat.js ***!
-  \********************************************************************************************************************************/
+/*!**********************************************************************************************************************************!*\
+  !*** /home/travigd/Trash/WebIO-throwaway-2/packages/node_modules/@babel/polyfill/node_modules/core-js/modules/_string-repeat.js ***!
+  \**********************************************************************************************************************************/
 /*! no static exports found */
 /***/ (function(module, exports, __webpack_require__) {
 
@@ -3854,9 +3854,9 @@ module.exports = function repeat(count) {
 /***/ }),
 
 /***/ "../../node_modules/@babel/polyfill/node_modules/core-js/modules/_string-trim.js":
-/*!******************************************************************************************************************************!*\
-  !*** /home/travigd/Trash/WebIO-throwaway/packages/node_modules/@babel/polyfill/node_modules/core-js/modules/_string-trim.js ***!
-  \******************************************************************************************************************************/
+/*!********************************************************************************************************************************!*\
+  !*** /home/travigd/Trash/WebIO-throwaway-2/packages/node_modules/@babel/polyfill/node_modules/core-js/modules/_string-trim.js ***!
+  \********************************************************************************************************************************/
 /*! no static exports found */
 /***/ (function(module, exports, __webpack_require__) {
 
@@ -3898,9 +3898,9 @@ module.exports = exporter;
 /***/ }),
 
 /***/ "../../node_modules/@babel/polyfill/node_modules/core-js/modules/_string-ws.js":
-/*!****************************************************************************************************************************!*\
-  !*** /home/travigd/Trash/WebIO-throwaway/packages/node_modules/@babel/polyfill/node_modules/core-js/modules/_string-ws.js ***!
-  \****************************************************************************************************************************/
+/*!******************************************************************************************************************************!*\
+  !*** /home/travigd/Trash/WebIO-throwaway-2/packages/node_modules/@babel/polyfill/node_modules/core-js/modules/_string-ws.js ***!
+  \******************************************************************************************************************************/
 /*! no static exports found */
 /***/ (function(module, exports) {
 
@@ -3909,9 +3909,9 @@ module.exports = "\t\n\x0B\f\r \xA0\u1680\u180E\u2000\u2001\u2002\u2003" + "\u20
 /***/ }),
 
 /***/ "../../node_modules/@babel/polyfill/node_modules/core-js/modules/_task.js":
-/*!***********************************************************************************************************************!*\
-  !*** /home/travigd/Trash/WebIO-throwaway/packages/node_modules/@babel/polyfill/node_modules/core-js/modules/_task.js ***!
-  \***********************************************************************************************************************/
+/*!*************************************************************************************************************************!*\
+  !*** /home/travigd/Trash/WebIO-throwaway-2/packages/node_modules/@babel/polyfill/node_modules/core-js/modules/_task.js ***!
+  \*************************************************************************************************************************/
 /*! no static exports found */
 /***/ (function(module, exports, __webpack_require__) {
 
@@ -4018,9 +4018,9 @@ module.exports = {
 /***/ }),
 
 /***/ "../../node_modules/@babel/polyfill/node_modules/core-js/modules/_to-absolute-index.js":
-/*!************************************************************************************************************************************!*\
-  !*** /home/travigd/Trash/WebIO-throwaway/packages/node_modules/@babel/polyfill/node_modules/core-js/modules/_to-absolute-index.js ***!
-  \************************************************************************************************************************************/
+/*!**************************************************************************************************************************************!*\
+  !*** /home/travigd/Trash/WebIO-throwaway-2/packages/node_modules/@babel/polyfill/node_modules/core-js/modules/_to-absolute-index.js ***!
+  \**************************************************************************************************************************************/
 /*! no static exports found */
 /***/ (function(module, exports, __webpack_require__) {
 
@@ -4037,9 +4037,9 @@ module.exports = function (index, length) {
 /***/ }),
 
 /***/ "../../node_modules/@babel/polyfill/node_modules/core-js/modules/_to-index.js":
-/*!***************************************************************************************************************************!*\
-  !*** /home/travigd/Trash/WebIO-throwaway/packages/node_modules/@babel/polyfill/node_modules/core-js/modules/_to-index.js ***!
-  \***************************************************************************************************************************/
+/*!*****************************************************************************************************************************!*\
+  !*** /home/travigd/Trash/WebIO-throwaway-2/packages/node_modules/@babel/polyfill/node_modules/core-js/modules/_to-index.js ***!
+  \*****************************************************************************************************************************/
 /*! no static exports found */
 /***/ (function(module, exports, __webpack_require__) {
 
@@ -4059,9 +4059,9 @@ module.exports = function (it) {
 /***/ }),
 
 /***/ "../../node_modules/@babel/polyfill/node_modules/core-js/modules/_to-integer.js":
-/*!*****************************************************************************************************************************!*\
-  !*** /home/travigd/Trash/WebIO-throwaway/packages/node_modules/@babel/polyfill/node_modules/core-js/modules/_to-integer.js ***!
-  \*****************************************************************************************************************************/
+/*!*******************************************************************************************************************************!*\
+  !*** /home/travigd/Trash/WebIO-throwaway-2/packages/node_modules/@babel/polyfill/node_modules/core-js/modules/_to-integer.js ***!
+  \*******************************************************************************************************************************/
 /*! no static exports found */
 /***/ (function(module, exports) {
 
@@ -4076,9 +4076,9 @@ module.exports = function (it) {
 /***/ }),
 
 /***/ "../../node_modules/@babel/polyfill/node_modules/core-js/modules/_to-iobject.js":
-/*!*****************************************************************************************************************************!*\
-  !*** /home/travigd/Trash/WebIO-throwaway/packages/node_modules/@babel/polyfill/node_modules/core-js/modules/_to-iobject.js ***!
-  \*****************************************************************************************************************************/
+/*!*******************************************************************************************************************************!*\
+  !*** /home/travigd/Trash/WebIO-throwaway-2/packages/node_modules/@babel/polyfill/node_modules/core-js/modules/_to-iobject.js ***!
+  \*******************************************************************************************************************************/
 /*! no static exports found */
 /***/ (function(module, exports, __webpack_require__) {
 
@@ -4094,9 +4094,9 @@ module.exports = function (it) {
 /***/ }),
 
 /***/ "../../node_modules/@babel/polyfill/node_modules/core-js/modules/_to-length.js":
-/*!****************************************************************************************************************************!*\
-  !*** /home/travigd/Trash/WebIO-throwaway/packages/node_modules/@babel/polyfill/node_modules/core-js/modules/_to-length.js ***!
-  \****************************************************************************************************************************/
+/*!******************************************************************************************************************************!*\
+  !*** /home/travigd/Trash/WebIO-throwaway-2/packages/node_modules/@babel/polyfill/node_modules/core-js/modules/_to-length.js ***!
+  \******************************************************************************************************************************/
 /*! no static exports found */
 /***/ (function(module, exports, __webpack_require__) {
 
@@ -4112,9 +4112,9 @@ module.exports = function (it) {
 /***/ }),
 
 /***/ "../../node_modules/@babel/polyfill/node_modules/core-js/modules/_to-object.js":
-/*!****************************************************************************************************************************!*\
-  !*** /home/travigd/Trash/WebIO-throwaway/packages/node_modules/@babel/polyfill/node_modules/core-js/modules/_to-object.js ***!
-  \****************************************************************************************************************************/
+/*!******************************************************************************************************************************!*\
+  !*** /home/travigd/Trash/WebIO-throwaway-2/packages/node_modules/@babel/polyfill/node_modules/core-js/modules/_to-object.js ***!
+  \******************************************************************************************************************************/
 /*! no static exports found */
 /***/ (function(module, exports, __webpack_require__) {
 
@@ -4128,9 +4128,9 @@ module.exports = function (it) {
 /***/ }),
 
 /***/ "../../node_modules/@babel/polyfill/node_modules/core-js/modules/_to-primitive.js":
-/*!*******************************************************************************************************************************!*\
-  !*** /home/travigd/Trash/WebIO-throwaway/packages/node_modules/@babel/polyfill/node_modules/core-js/modules/_to-primitive.js ***!
-  \*******************************************************************************************************************************/
+/*!*********************************************************************************************************************************!*\
+  !*** /home/travigd/Trash/WebIO-throwaway-2/packages/node_modules/@babel/polyfill/node_modules/core-js/modules/_to-primitive.js ***!
+  \*********************************************************************************************************************************/
 /*! no static exports found */
 /***/ (function(module, exports, __webpack_require__) {
 
@@ -4151,9 +4151,9 @@ module.exports = function (it, S) {
 /***/ }),
 
 /***/ "../../node_modules/@babel/polyfill/node_modules/core-js/modules/_typed-array.js":
-/*!******************************************************************************************************************************!*\
-  !*** /home/travigd/Trash/WebIO-throwaway/packages/node_modules/@babel/polyfill/node_modules/core-js/modules/_typed-array.js ***!
-  \******************************************************************************************************************************/
+/*!********************************************************************************************************************************!*\
+  !*** /home/travigd/Trash/WebIO-throwaway-2/packages/node_modules/@babel/polyfill/node_modules/core-js/modules/_typed-array.js ***!
+  \********************************************************************************************************************************/
 /*! no static exports found */
 /***/ (function(module, exports, __webpack_require__) {
 
@@ -4749,9 +4749,9 @@ if (__webpack_require__(/*! ./_descriptors */ "../../node_modules/@babel/polyfil
 /***/ }),
 
 /***/ "../../node_modules/@babel/polyfill/node_modules/core-js/modules/_typed-buffer.js":
-/*!*******************************************************************************************************************************!*\
-  !*** /home/travigd/Trash/WebIO-throwaway/packages/node_modules/@babel/polyfill/node_modules/core-js/modules/_typed-buffer.js ***!
-  \*******************************************************************************************************************************/
+/*!*********************************************************************************************************************************!*\
+  !*** /home/travigd/Trash/WebIO-throwaway-2/packages/node_modules/@babel/polyfill/node_modules/core-js/modules/_typed-buffer.js ***!
+  \*********************************************************************************************************************************/
 /*! no static exports found */
 /***/ (function(module, exports, __webpack_require__) {
 
@@ -5119,9 +5119,9 @@ exports[DATA_VIEW] = $DataView;
 /***/ }),
 
 /***/ "../../node_modules/@babel/polyfill/node_modules/core-js/modules/_typed.js":
-/*!************************************************************************************************************************!*\
-  !*** /home/travigd/Trash/WebIO-throwaway/packages/node_modules/@babel/polyfill/node_modules/core-js/modules/_typed.js ***!
-  \************************************************************************************************************************/
+/*!**************************************************************************************************************************!*\
+  !*** /home/travigd/Trash/WebIO-throwaway-2/packages/node_modules/@babel/polyfill/node_modules/core-js/modules/_typed.js ***!
+  \**************************************************************************************************************************/
 /*! no static exports found */
 /***/ (function(module, exports, __webpack_require__) {
 
@@ -5157,9 +5157,9 @@ module.exports = {
 /***/ }),
 
 /***/ "../../node_modules/@babel/polyfill/node_modules/core-js/modules/_uid.js":
-/*!**********************************************************************************************************************!*\
-  !*** /home/travigd/Trash/WebIO-throwaway/packages/node_modules/@babel/polyfill/node_modules/core-js/modules/_uid.js ***!
-  \**********************************************************************************************************************/
+/*!************************************************************************************************************************!*\
+  !*** /home/travigd/Trash/WebIO-throwaway-2/packages/node_modules/@babel/polyfill/node_modules/core-js/modules/_uid.js ***!
+  \************************************************************************************************************************/
 /*! no static exports found */
 /***/ (function(module, exports) {
 
@@ -5173,9 +5173,9 @@ module.exports = function (key) {
 /***/ }),
 
 /***/ "../../node_modules/@babel/polyfill/node_modules/core-js/modules/_user-agent.js":
-/*!*****************************************************************************************************************************!*\
-  !*** /home/travigd/Trash/WebIO-throwaway/packages/node_modules/@babel/polyfill/node_modules/core-js/modules/_user-agent.js ***!
-  \*****************************************************************************************************************************/
+/*!*******************************************************************************************************************************!*\
+  !*** /home/travigd/Trash/WebIO-throwaway-2/packages/node_modules/@babel/polyfill/node_modules/core-js/modules/_user-agent.js ***!
+  \*******************************************************************************************************************************/
 /*! no static exports found */
 /***/ (function(module, exports, __webpack_require__) {
 
@@ -5187,9 +5187,9 @@ module.exports = navigator && navigator.userAgent || '';
 /***/ }),
 
 /***/ "../../node_modules/@babel/polyfill/node_modules/core-js/modules/_validate-collection.js":
-/*!**************************************************************************************************************************************!*\
-  !*** /home/travigd/Trash/WebIO-throwaway/packages/node_modules/@babel/polyfill/node_modules/core-js/modules/_validate-collection.js ***!
-  \**************************************************************************************************************************************/
+/*!****************************************************************************************************************************************!*\
+  !*** /home/travigd/Trash/WebIO-throwaway-2/packages/node_modules/@babel/polyfill/node_modules/core-js/modules/_validate-collection.js ***!
+  \****************************************************************************************************************************************/
 /*! no static exports found */
 /***/ (function(module, exports, __webpack_require__) {
 
@@ -5203,9 +5203,9 @@ module.exports = function (it, TYPE) {
 /***/ }),
 
 /***/ "../../node_modules/@babel/polyfill/node_modules/core-js/modules/_wks-define.js":
-/*!*****************************************************************************************************************************!*\
-  !*** /home/travigd/Trash/WebIO-throwaway/packages/node_modules/@babel/polyfill/node_modules/core-js/modules/_wks-define.js ***!
-  \*****************************************************************************************************************************/
+/*!*******************************************************************************************************************************!*\
+  !*** /home/travigd/Trash/WebIO-throwaway-2/packages/node_modules/@babel/polyfill/node_modules/core-js/modules/_wks-define.js ***!
+  \*******************************************************************************************************************************/
 /*! no static exports found */
 /***/ (function(module, exports, __webpack_require__) {
 
@@ -5229,9 +5229,9 @@ module.exports = function (name) {
 /***/ }),
 
 /***/ "../../node_modules/@babel/polyfill/node_modules/core-js/modules/_wks-ext.js":
-/*!**************************************************************************************************************************!*\
-  !*** /home/travigd/Trash/WebIO-throwaway/packages/node_modules/@babel/polyfill/node_modules/core-js/modules/_wks-ext.js ***!
-  \**************************************************************************************************************************/
+/*!****************************************************************************************************************************!*\
+  !*** /home/travigd/Trash/WebIO-throwaway-2/packages/node_modules/@babel/polyfill/node_modules/core-js/modules/_wks-ext.js ***!
+  \****************************************************************************************************************************/
 /*! no static exports found */
 /***/ (function(module, exports, __webpack_require__) {
 
@@ -5240,9 +5240,9 @@ exports.f = __webpack_require__(/*! ./_wks */ "../../node_modules/@babel/polyfil
 /***/ }),
 
 /***/ "../../node_modules/@babel/polyfill/node_modules/core-js/modules/_wks.js":
-/*!**********************************************************************************************************************!*\
-  !*** /home/travigd/Trash/WebIO-throwaway/packages/node_modules/@babel/polyfill/node_modules/core-js/modules/_wks.js ***!
-  \**********************************************************************************************************************/
+/*!************************************************************************************************************************!*\
+  !*** /home/travigd/Trash/WebIO-throwaway-2/packages/node_modules/@babel/polyfill/node_modules/core-js/modules/_wks.js ***!
+  \************************************************************************************************************************/
 /*! no static exports found */
 /***/ (function(module, exports, __webpack_require__) {
 
@@ -5263,9 +5263,9 @@ $exports.store = store;
 /***/ }),
 
 /***/ "../../node_modules/@babel/polyfill/node_modules/core-js/modules/core.get-iterator-method.js":
-/*!******************************************************************************************************************************************!*\
-  !*** /home/travigd/Trash/WebIO-throwaway/packages/node_modules/@babel/polyfill/node_modules/core-js/modules/core.get-iterator-method.js ***!
-  \******************************************************************************************************************************************/
+/*!********************************************************************************************************************************************!*\
+  !*** /home/travigd/Trash/WebIO-throwaway-2/packages/node_modules/@babel/polyfill/node_modules/core-js/modules/core.get-iterator-method.js ***!
+  \********************************************************************************************************************************************/
 /*! no static exports found */
 /***/ (function(module, exports, __webpack_require__) {
 
@@ -5282,9 +5282,9 @@ module.exports = __webpack_require__(/*! ./_core */ "../../node_modules/@babel/p
 /***/ }),
 
 /***/ "../../node_modules/@babel/polyfill/node_modules/core-js/modules/es6.array.copy-within.js":
-/*!***************************************************************************************************************************************!*\
-  !*** /home/travigd/Trash/WebIO-throwaway/packages/node_modules/@babel/polyfill/node_modules/core-js/modules/es6.array.copy-within.js ***!
-  \***************************************************************************************************************************************/
+/*!*****************************************************************************************************************************************!*\
+  !*** /home/travigd/Trash/WebIO-throwaway-2/packages/node_modules/@babel/polyfill/node_modules/core-js/modules/es6.array.copy-within.js ***!
+  \*****************************************************************************************************************************************/
 /*! no static exports found */
 /***/ (function(module, exports, __webpack_require__) {
 
@@ -5300,9 +5300,9 @@ __webpack_require__(/*! ./_add-to-unscopables */ "../../node_modules/@babel/poly
 /***/ }),
 
 /***/ "../../node_modules/@babel/polyfill/node_modules/core-js/modules/es6.array.every.js":
-/*!*********************************************************************************************************************************!*\
-  !*** /home/travigd/Trash/WebIO-throwaway/packages/node_modules/@babel/polyfill/node_modules/core-js/modules/es6.array.every.js ***!
-  \*********************************************************************************************************************************/
+/*!***********************************************************************************************************************************!*\
+  !*** /home/travigd/Trash/WebIO-throwaway-2/packages/node_modules/@babel/polyfill/node_modules/core-js/modules/es6.array.every.js ***!
+  \***********************************************************************************************************************************/
 /*! no static exports found */
 /***/ (function(module, exports, __webpack_require__) {
 
@@ -5325,9 +5325,9 @@ $export($export.P + $export.F * !__webpack_require__(/*! ./_strict-method */ "..
 /***/ }),
 
 /***/ "../../node_modules/@babel/polyfill/node_modules/core-js/modules/es6.array.fill.js":
-/*!********************************************************************************************************************************!*\
-  !*** /home/travigd/Trash/WebIO-throwaway/packages/node_modules/@babel/polyfill/node_modules/core-js/modules/es6.array.fill.js ***!
-  \********************************************************************************************************************************/
+/*!**********************************************************************************************************************************!*\
+  !*** /home/travigd/Trash/WebIO-throwaway-2/packages/node_modules/@babel/polyfill/node_modules/core-js/modules/es6.array.fill.js ***!
+  \**********************************************************************************************************************************/
 /*! no static exports found */
 /***/ (function(module, exports, __webpack_require__) {
 
@@ -5343,9 +5343,9 @@ __webpack_require__(/*! ./_add-to-unscopables */ "../../node_modules/@babel/poly
 /***/ }),
 
 /***/ "../../node_modules/@babel/polyfill/node_modules/core-js/modules/es6.array.filter.js":
-/*!**********************************************************************************************************************************!*\
-  !*** /home/travigd/Trash/WebIO-throwaway/packages/node_modules/@babel/polyfill/node_modules/core-js/modules/es6.array.filter.js ***!
-  \**********************************************************************************************************************************/
+/*!************************************************************************************************************************************!*\
+  !*** /home/travigd/Trash/WebIO-throwaway-2/packages/node_modules/@babel/polyfill/node_modules/core-js/modules/es6.array.filter.js ***!
+  \************************************************************************************************************************************/
 /*! no static exports found */
 /***/ (function(module, exports, __webpack_require__) {
 
@@ -5368,9 +5368,9 @@ $export($export.P + $export.F * !__webpack_require__(/*! ./_strict-method */ "..
 /***/ }),
 
 /***/ "../../node_modules/@babel/polyfill/node_modules/core-js/modules/es6.array.find-index.js":
-/*!**************************************************************************************************************************************!*\
-  !*** /home/travigd/Trash/WebIO-throwaway/packages/node_modules/@babel/polyfill/node_modules/core-js/modules/es6.array.find-index.js ***!
-  \**************************************************************************************************************************************/
+/*!****************************************************************************************************************************************!*\
+  !*** /home/travigd/Trash/WebIO-throwaway-2/packages/node_modules/@babel/polyfill/node_modules/core-js/modules/es6.array.find-index.js ***!
+  \****************************************************************************************************************************************/
 /*! no static exports found */
 /***/ (function(module, exports, __webpack_require__) {
 
@@ -5400,9 +5400,9 @@ __webpack_require__(/*! ./_add-to-unscopables */ "../../node_modules/@babel/poly
 /***/ }),
 
 /***/ "../../node_modules/@babel/polyfill/node_modules/core-js/modules/es6.array.find.js":
-/*!********************************************************************************************************************************!*\
-  !*** /home/travigd/Trash/WebIO-throwaway/packages/node_modules/@babel/polyfill/node_modules/core-js/modules/es6.array.find.js ***!
-  \********************************************************************************************************************************/
+/*!**********************************************************************************************************************************!*\
+  !*** /home/travigd/Trash/WebIO-throwaway-2/packages/node_modules/@babel/polyfill/node_modules/core-js/modules/es6.array.find.js ***!
+  \**********************************************************************************************************************************/
 /*! no static exports found */
 /***/ (function(module, exports, __webpack_require__) {
 
@@ -5432,9 +5432,9 @@ __webpack_require__(/*! ./_add-to-unscopables */ "../../node_modules/@babel/poly
 /***/ }),
 
 /***/ "../../node_modules/@babel/polyfill/node_modules/core-js/modules/es6.array.for-each.js":
-/*!************************************************************************************************************************************!*\
-  !*** /home/travigd/Trash/WebIO-throwaway/packages/node_modules/@babel/polyfill/node_modules/core-js/modules/es6.array.for-each.js ***!
-  \************************************************************************************************************************************/
+/*!**************************************************************************************************************************************!*\
+  !*** /home/travigd/Trash/WebIO-throwaway-2/packages/node_modules/@babel/polyfill/node_modules/core-js/modules/es6.array.for-each.js ***!
+  \**************************************************************************************************************************************/
 /*! no static exports found */
 /***/ (function(module, exports, __webpack_require__) {
 
@@ -5459,9 +5459,9 @@ $export($export.P + $export.F * !STRICT, 'Array', {
 /***/ }),
 
 /***/ "../../node_modules/@babel/polyfill/node_modules/core-js/modules/es6.array.from.js":
-/*!********************************************************************************************************************************!*\
-  !*** /home/travigd/Trash/WebIO-throwaway/packages/node_modules/@babel/polyfill/node_modules/core-js/modules/es6.array.from.js ***!
-  \********************************************************************************************************************************/
+/*!**********************************************************************************************************************************!*\
+  !*** /home/travigd/Trash/WebIO-throwaway-2/packages/node_modules/@babel/polyfill/node_modules/core-js/modules/es6.array.from.js ***!
+  \**********************************************************************************************************************************/
 /*! no static exports found */
 /***/ (function(module, exports, __webpack_require__) {
 
@@ -5521,9 +5521,9 @@ $export($export.S + $export.F * !__webpack_require__(/*! ./_iter-detect */ "../.
 /***/ }),
 
 /***/ "../../node_modules/@babel/polyfill/node_modules/core-js/modules/es6.array.index-of.js":
-/*!************************************************************************************************************************************!*\
-  !*** /home/travigd/Trash/WebIO-throwaway/packages/node_modules/@babel/polyfill/node_modules/core-js/modules/es6.array.index-of.js ***!
-  \************************************************************************************************************************************/
+/*!**************************************************************************************************************************************!*\
+  !*** /home/travigd/Trash/WebIO-throwaway-2/packages/node_modules/@babel/polyfill/node_modules/core-js/modules/es6.array.index-of.js ***!
+  \**************************************************************************************************************************************/
 /*! no static exports found */
 /***/ (function(module, exports, __webpack_require__) {
 
@@ -5549,9 +5549,9 @@ $export($export.P + $export.F * (NEGATIVE_ZERO || !__webpack_require__(/*! ./_st
 /***/ }),
 
 /***/ "../../node_modules/@babel/polyfill/node_modules/core-js/modules/es6.array.is-array.js":
-/*!************************************************************************************************************************************!*\
-  !*** /home/travigd/Trash/WebIO-throwaway/packages/node_modules/@babel/polyfill/node_modules/core-js/modules/es6.array.is-array.js ***!
-  \************************************************************************************************************************************/
+/*!**************************************************************************************************************************************!*\
+  !*** /home/travigd/Trash/WebIO-throwaway-2/packages/node_modules/@babel/polyfill/node_modules/core-js/modules/es6.array.is-array.js ***!
+  \**************************************************************************************************************************************/
 /*! no static exports found */
 /***/ (function(module, exports, __webpack_require__) {
 
@@ -5565,9 +5565,9 @@ $export($export.S, 'Array', {
 /***/ }),
 
 /***/ "../../node_modules/@babel/polyfill/node_modules/core-js/modules/es6.array.iterator.js":
-/*!************************************************************************************************************************************!*\
-  !*** /home/travigd/Trash/WebIO-throwaway/packages/node_modules/@babel/polyfill/node_modules/core-js/modules/es6.array.iterator.js ***!
-  \************************************************************************************************************************************/
+/*!**************************************************************************************************************************************!*\
+  !*** /home/travigd/Trash/WebIO-throwaway-2/packages/node_modules/@babel/polyfill/node_modules/core-js/modules/es6.array.iterator.js ***!
+  \**************************************************************************************************************************************/
 /*! no static exports found */
 /***/ (function(module, exports, __webpack_require__) {
 
@@ -5616,9 +5616,9 @@ addToUnscopables('entries');
 /***/ }),
 
 /***/ "../../node_modules/@babel/polyfill/node_modules/core-js/modules/es6.array.join.js":
-/*!********************************************************************************************************************************!*\
-  !*** /home/travigd/Trash/WebIO-throwaway/packages/node_modules/@babel/polyfill/node_modules/core-js/modules/es6.array.join.js ***!
-  \********************************************************************************************************************************/
+/*!**********************************************************************************************************************************!*\
+  !*** /home/travigd/Trash/WebIO-throwaway-2/packages/node_modules/@babel/polyfill/node_modules/core-js/modules/es6.array.join.js ***!
+  \**********************************************************************************************************************************/
 /*! no static exports found */
 /***/ (function(module, exports, __webpack_require__) {
 
@@ -5640,9 +5640,9 @@ $export($export.P + $export.F * (__webpack_require__(/*! ./_iobject */ "../../no
 /***/ }),
 
 /***/ "../../node_modules/@babel/polyfill/node_modules/core-js/modules/es6.array.last-index-of.js":
-/*!*****************************************************************************************************************************************!*\
-  !*** /home/travigd/Trash/WebIO-throwaway/packages/node_modules/@babel/polyfill/node_modules/core-js/modules/es6.array.last-index-of.js ***!
-  \*****************************************************************************************************************************************/
+/*!*******************************************************************************************************************************************!*\
+  !*** /home/travigd/Trash/WebIO-throwaway-2/packages/node_modules/@babel/polyfill/node_modules/core-js/modules/es6.array.last-index-of.js ***!
+  \*******************************************************************************************************************************************/
 /*! no static exports found */
 /***/ (function(module, exports, __webpack_require__) {
 
@@ -5683,9 +5683,9 @@ $export($export.P + $export.F * (NEGATIVE_ZERO || !__webpack_require__(/*! ./_st
 /***/ }),
 
 /***/ "../../node_modules/@babel/polyfill/node_modules/core-js/modules/es6.array.map.js":
-/*!*******************************************************************************************************************************!*\
-  !*** /home/travigd/Trash/WebIO-throwaway/packages/node_modules/@babel/polyfill/node_modules/core-js/modules/es6.array.map.js ***!
-  \*******************************************************************************************************************************/
+/*!*********************************************************************************************************************************!*\
+  !*** /home/travigd/Trash/WebIO-throwaway-2/packages/node_modules/@babel/polyfill/node_modules/core-js/modules/es6.array.map.js ***!
+  \*********************************************************************************************************************************/
 /*! no static exports found */
 /***/ (function(module, exports, __webpack_require__) {
 
@@ -5708,9 +5708,9 @@ $export($export.P + $export.F * !__webpack_require__(/*! ./_strict-method */ "..
 /***/ }),
 
 /***/ "../../node_modules/@babel/polyfill/node_modules/core-js/modules/es6.array.of.js":
-/*!******************************************************************************************************************************!*\
-  !*** /home/travigd/Trash/WebIO-throwaway/packages/node_modules/@babel/polyfill/node_modules/core-js/modules/es6.array.of.js ***!
-  \******************************************************************************************************************************/
+/*!********************************************************************************************************************************!*\
+  !*** /home/travigd/Trash/WebIO-throwaway-2/packages/node_modules/@babel/polyfill/node_modules/core-js/modules/es6.array.of.js ***!
+  \********************************************************************************************************************************/
 /*! no static exports found */
 /***/ (function(module, exports, __webpack_require__) {
 
@@ -5749,9 +5749,9 @@ $export($export.S + $export.F * __webpack_require__(/*! ./_fails */ "../../node_
 /***/ }),
 
 /***/ "../../node_modules/@babel/polyfill/node_modules/core-js/modules/es6.array.reduce-right.js":
-/*!****************************************************************************************************************************************!*\
-  !*** /home/travigd/Trash/WebIO-throwaway/packages/node_modules/@babel/polyfill/node_modules/core-js/modules/es6.array.reduce-right.js ***!
-  \****************************************************************************************************************************************/
+/*!******************************************************************************************************************************************!*\
+  !*** /home/travigd/Trash/WebIO-throwaway-2/packages/node_modules/@babel/polyfill/node_modules/core-js/modules/es6.array.reduce-right.js ***!
+  \******************************************************************************************************************************************/
 /*! no static exports found */
 /***/ (function(module, exports, __webpack_require__) {
 
@@ -5774,9 +5774,9 @@ $export($export.P + $export.F * !__webpack_require__(/*! ./_strict-method */ "..
 /***/ }),
 
 /***/ "../../node_modules/@babel/polyfill/node_modules/core-js/modules/es6.array.reduce.js":
-/*!**********************************************************************************************************************************!*\
-  !*** /home/travigd/Trash/WebIO-throwaway/packages/node_modules/@babel/polyfill/node_modules/core-js/modules/es6.array.reduce.js ***!
-  \**********************************************************************************************************************************/
+/*!************************************************************************************************************************************!*\
+  !*** /home/travigd/Trash/WebIO-throwaway-2/packages/node_modules/@babel/polyfill/node_modules/core-js/modules/es6.array.reduce.js ***!
+  \************************************************************************************************************************************/
 /*! no static exports found */
 /***/ (function(module, exports, __webpack_require__) {
 
@@ -5799,9 +5799,9 @@ $export($export.P + $export.F * !__webpack_require__(/*! ./_strict-method */ "..
 /***/ }),
 
 /***/ "../../node_modules/@babel/polyfill/node_modules/core-js/modules/es6.array.slice.js":
-/*!*********************************************************************************************************************************!*\
-  !*** /home/travigd/Trash/WebIO-throwaway/packages/node_modules/@babel/polyfill/node_modules/core-js/modules/es6.array.slice.js ***!
-  \*********************************************************************************************************************************/
+/*!***********************************************************************************************************************************!*\
+  !*** /home/travigd/Trash/WebIO-throwaway-2/packages/node_modules/@babel/polyfill/node_modules/core-js/modules/es6.array.slice.js ***!
+  \***********************************************************************************************************************************/
 /*! no static exports found */
 /***/ (function(module, exports, __webpack_require__) {
 
@@ -5845,9 +5845,9 @@ $export($export.P + $export.F * __webpack_require__(/*! ./_fails */ "../../node_
 /***/ }),
 
 /***/ "../../node_modules/@babel/polyfill/node_modules/core-js/modules/es6.array.some.js":
-/*!********************************************************************************************************************************!*\
-  !*** /home/travigd/Trash/WebIO-throwaway/packages/node_modules/@babel/polyfill/node_modules/core-js/modules/es6.array.some.js ***!
-  \********************************************************************************************************************************/
+/*!**********************************************************************************************************************************!*\
+  !*** /home/travigd/Trash/WebIO-throwaway-2/packages/node_modules/@babel/polyfill/node_modules/core-js/modules/es6.array.some.js ***!
+  \**********************************************************************************************************************************/
 /*! no static exports found */
 /***/ (function(module, exports, __webpack_require__) {
 
@@ -5870,9 +5870,9 @@ $export($export.P + $export.F * !__webpack_require__(/*! ./_strict-method */ "..
 /***/ }),
 
 /***/ "../../node_modules/@babel/polyfill/node_modules/core-js/modules/es6.array.sort.js":
-/*!********************************************************************************************************************************!*\
-  !*** /home/travigd/Trash/WebIO-throwaway/packages/node_modules/@babel/polyfill/node_modules/core-js/modules/es6.array.sort.js ***!
-  \********************************************************************************************************************************/
+/*!**********************************************************************************************************************************!*\
+  !*** /home/travigd/Trash/WebIO-throwaway-2/packages/node_modules/@babel/polyfill/node_modules/core-js/modules/es6.array.sort.js ***!
+  \**********************************************************************************************************************************/
 /*! no static exports found */
 /***/ (function(module, exports, __webpack_require__) {
 
@@ -5905,9 +5905,9 @@ $export($export.P + $export.F * (fails(function () {
 /***/ }),
 
 /***/ "../../node_modules/@babel/polyfill/node_modules/core-js/modules/es6.array.species.js":
-/*!***********************************************************************************************************************************!*\
-  !*** /home/travigd/Trash/WebIO-throwaway/packages/node_modules/@babel/polyfill/node_modules/core-js/modules/es6.array.species.js ***!
-  \***********************************************************************************************************************************/
+/*!*************************************************************************************************************************************!*\
+  !*** /home/travigd/Trash/WebIO-throwaway-2/packages/node_modules/@babel/polyfill/node_modules/core-js/modules/es6.array.species.js ***!
+  \*************************************************************************************************************************************/
 /*! no static exports found */
 /***/ (function(module, exports, __webpack_require__) {
 
@@ -5916,9 +5916,9 @@ __webpack_require__(/*! ./_set-species */ "../../node_modules/@babel/polyfill/no
 /***/ }),
 
 /***/ "../../node_modules/@babel/polyfill/node_modules/core-js/modules/es6.date.now.js":
-/*!******************************************************************************************************************************!*\
-  !*** /home/travigd/Trash/WebIO-throwaway/packages/node_modules/@babel/polyfill/node_modules/core-js/modules/es6.date.now.js ***!
-  \******************************************************************************************************************************/
+/*!********************************************************************************************************************************!*\
+  !*** /home/travigd/Trash/WebIO-throwaway-2/packages/node_modules/@babel/polyfill/node_modules/core-js/modules/es6.date.now.js ***!
+  \********************************************************************************************************************************/
 /*! no static exports found */
 /***/ (function(module, exports, __webpack_require__) {
 
@@ -5934,9 +5934,9 @@ $export($export.S, 'Date', {
 /***/ }),
 
 /***/ "../../node_modules/@babel/polyfill/node_modules/core-js/modules/es6.date.to-iso-string.js":
-/*!****************************************************************************************************************************************!*\
-  !*** /home/travigd/Trash/WebIO-throwaway/packages/node_modules/@babel/polyfill/node_modules/core-js/modules/es6.date.to-iso-string.js ***!
-  \****************************************************************************************************************************************/
+/*!******************************************************************************************************************************************!*\
+  !*** /home/travigd/Trash/WebIO-throwaway-2/packages/node_modules/@babel/polyfill/node_modules/core-js/modules/es6.date.to-iso-string.js ***!
+  \******************************************************************************************************************************************/
 /*! no static exports found */
 /***/ (function(module, exports, __webpack_require__) {
 
@@ -5953,9 +5953,9 @@ $export($export.P + $export.F * (Date.prototype.toISOString !== toISOString), 'D
 /***/ }),
 
 /***/ "../../node_modules/@babel/polyfill/node_modules/core-js/modules/es6.date.to-json.js":
-/*!**********************************************************************************************************************************!*\
-  !*** /home/travigd/Trash/WebIO-throwaway/packages/node_modules/@babel/polyfill/node_modules/core-js/modules/es6.date.to-json.js ***!
-  \**********************************************************************************************************************************/
+/*!************************************************************************************************************************************!*\
+  !*** /home/travigd/Trash/WebIO-throwaway-2/packages/node_modules/@babel/polyfill/node_modules/core-js/modules/es6.date.to-json.js ***!
+  \************************************************************************************************************************************/
 /*! no static exports found */
 /***/ (function(module, exports, __webpack_require__) {
 
@@ -5986,9 +5986,9 @@ $export($export.P + $export.F * __webpack_require__(/*! ./_fails */ "../../node_
 /***/ }),
 
 /***/ "../../node_modules/@babel/polyfill/node_modules/core-js/modules/es6.date.to-primitive.js":
-/*!***************************************************************************************************************************************!*\
-  !*** /home/travigd/Trash/WebIO-throwaway/packages/node_modules/@babel/polyfill/node_modules/core-js/modules/es6.date.to-primitive.js ***!
-  \***************************************************************************************************************************************/
+/*!*****************************************************************************************************************************************!*\
+  !*** /home/travigd/Trash/WebIO-throwaway-2/packages/node_modules/@babel/polyfill/node_modules/core-js/modules/es6.date.to-primitive.js ***!
+  \*****************************************************************************************************************************************/
 /*! no static exports found */
 /***/ (function(module, exports, __webpack_require__) {
 
@@ -6000,9 +6000,9 @@ if (!(TO_PRIMITIVE in proto)) __webpack_require__(/*! ./_hide */ "../../node_mod
 /***/ }),
 
 /***/ "../../node_modules/@babel/polyfill/node_modules/core-js/modules/es6.date.to-string.js":
-/*!************************************************************************************************************************************!*\
-  !*** /home/travigd/Trash/WebIO-throwaway/packages/node_modules/@babel/polyfill/node_modules/core-js/modules/es6.date.to-string.js ***!
-  \************************************************************************************************************************************/
+/*!**************************************************************************************************************************************!*\
+  !*** /home/travigd/Trash/WebIO-throwaway-2/packages/node_modules/@babel/polyfill/node_modules/core-js/modules/es6.date.to-string.js ***!
+  \**************************************************************************************************************************************/
 /*! no static exports found */
 /***/ (function(module, exports, __webpack_require__) {
 
@@ -6023,9 +6023,9 @@ if (new Date(NaN) + '' != INVALID_DATE) {
 /***/ }),
 
 /***/ "../../node_modules/@babel/polyfill/node_modules/core-js/modules/es6.function.bind.js":
-/*!***********************************************************************************************************************************!*\
-  !*** /home/travigd/Trash/WebIO-throwaway/packages/node_modules/@babel/polyfill/node_modules/core-js/modules/es6.function.bind.js ***!
-  \***********************************************************************************************************************************/
+/*!*************************************************************************************************************************************!*\
+  !*** /home/travigd/Trash/WebIO-throwaway-2/packages/node_modules/@babel/polyfill/node_modules/core-js/modules/es6.function.bind.js ***!
+  \*************************************************************************************************************************************/
 /*! no static exports found */
 /***/ (function(module, exports, __webpack_require__) {
 
@@ -6039,9 +6039,9 @@ $export($export.P, 'Function', {
 /***/ }),
 
 /***/ "../../node_modules/@babel/polyfill/node_modules/core-js/modules/es6.function.has-instance.js":
-/*!*******************************************************************************************************************************************!*\
-  !*** /home/travigd/Trash/WebIO-throwaway/packages/node_modules/@babel/polyfill/node_modules/core-js/modules/es6.function.has-instance.js ***!
-  \*******************************************************************************************************************************************/
+/*!*********************************************************************************************************************************************!*\
+  !*** /home/travigd/Trash/WebIO-throwaway-2/packages/node_modules/@babel/polyfill/node_modules/core-js/modules/es6.function.has-instance.js ***!
+  \*********************************************************************************************************************************************/
 /*! no static exports found */
 /***/ (function(module, exports, __webpack_require__) {
 
@@ -6072,9 +6072,9 @@ if (!(HAS_INSTANCE in FunctionProto)) __webpack_require__(/*! ./_object-dp */ ".
 /***/ }),
 
 /***/ "../../node_modules/@babel/polyfill/node_modules/core-js/modules/es6.function.name.js":
-/*!***********************************************************************************************************************************!*\
-  !*** /home/travigd/Trash/WebIO-throwaway/packages/node_modules/@babel/polyfill/node_modules/core-js/modules/es6.function.name.js ***!
-  \***********************************************************************************************************************************/
+/*!*************************************************************************************************************************************!*\
+  !*** /home/travigd/Trash/WebIO-throwaway-2/packages/node_modules/@babel/polyfill/node_modules/core-js/modules/es6.function.name.js ***!
+  \*************************************************************************************************************************************/
 /*! no static exports found */
 /***/ (function(module, exports, __webpack_require__) {
 
@@ -6098,9 +6098,9 @@ NAME in FProto || __webpack_require__(/*! ./_descriptors */ "../../node_modules/
 /***/ }),
 
 /***/ "../../node_modules/@babel/polyfill/node_modules/core-js/modules/es6.map.js":
-/*!*************************************************************************************************************************!*\
-  !*** /home/travigd/Trash/WebIO-throwaway/packages/node_modules/@babel/polyfill/node_modules/core-js/modules/es6.map.js ***!
-  \*************************************************************************************************************************/
+/*!***************************************************************************************************************************!*\
+  !*** /home/travigd/Trash/WebIO-throwaway-2/packages/node_modules/@babel/polyfill/node_modules/core-js/modules/es6.map.js ***!
+  \***************************************************************************************************************************/
 /*! no static exports found */
 /***/ (function(module, exports, __webpack_require__) {
 
@@ -6132,9 +6132,9 @@ module.exports = __webpack_require__(/*! ./_collection */ "../../node_modules/@b
 /***/ }),
 
 /***/ "../../node_modules/@babel/polyfill/node_modules/core-js/modules/es6.math.acosh.js":
-/*!********************************************************************************************************************************!*\
-  !*** /home/travigd/Trash/WebIO-throwaway/packages/node_modules/@babel/polyfill/node_modules/core-js/modules/es6.math.acosh.js ***!
-  \********************************************************************************************************************************/
+/*!**********************************************************************************************************************************!*\
+  !*** /home/travigd/Trash/WebIO-throwaway-2/packages/node_modules/@babel/polyfill/node_modules/core-js/modules/es6.math.acosh.js ***!
+  \**********************************************************************************************************************************/
 /*! no static exports found */
 /***/ (function(module, exports, __webpack_require__) {
 
@@ -6156,9 +6156,9 @@ $export($export.S + $export.F * !($acosh // V8 bug: https://code.google.com/p/v8
 /***/ }),
 
 /***/ "../../node_modules/@babel/polyfill/node_modules/core-js/modules/es6.math.asinh.js":
-/*!********************************************************************************************************************************!*\
-  !*** /home/travigd/Trash/WebIO-throwaway/packages/node_modules/@babel/polyfill/node_modules/core-js/modules/es6.math.asinh.js ***!
-  \********************************************************************************************************************************/
+/*!**********************************************************************************************************************************!*\
+  !*** /home/travigd/Trash/WebIO-throwaway-2/packages/node_modules/@babel/polyfill/node_modules/core-js/modules/es6.math.asinh.js ***!
+  \**********************************************************************************************************************************/
 /*! no static exports found */
 /***/ (function(module, exports, __webpack_require__) {
 
@@ -6179,9 +6179,9 @@ $export($export.S + $export.F * !($asinh && 1 / $asinh(0) > 0), 'Math', {
 /***/ }),
 
 /***/ "../../node_modules/@babel/polyfill/node_modules/core-js/modules/es6.math.atanh.js":
-/*!********************************************************************************************************************************!*\
-  !*** /home/travigd/Trash/WebIO-throwaway/packages/node_modules/@babel/polyfill/node_modules/core-js/modules/es6.math.atanh.js ***!
-  \********************************************************************************************************************************/
+/*!**********************************************************************************************************************************!*\
+  !*** /home/travigd/Trash/WebIO-throwaway-2/packages/node_modules/@babel/polyfill/node_modules/core-js/modules/es6.math.atanh.js ***!
+  \**********************************************************************************************************************************/
 /*! no static exports found */
 /***/ (function(module, exports, __webpack_require__) {
 
@@ -6199,9 +6199,9 @@ $export($export.S + $export.F * !($atanh && 1 / $atanh(-0) < 0), 'Math', {
 /***/ }),
 
 /***/ "../../node_modules/@babel/polyfill/node_modules/core-js/modules/es6.math.cbrt.js":
-/*!*******************************************************************************************************************************!*\
-  !*** /home/travigd/Trash/WebIO-throwaway/packages/node_modules/@babel/polyfill/node_modules/core-js/modules/es6.math.cbrt.js ***!
-  \*******************************************************************************************************************************/
+/*!*********************************************************************************************************************************!*\
+  !*** /home/travigd/Trash/WebIO-throwaway-2/packages/node_modules/@babel/polyfill/node_modules/core-js/modules/es6.math.cbrt.js ***!
+  \*********************************************************************************************************************************/
 /*! no static exports found */
 /***/ (function(module, exports, __webpack_require__) {
 
@@ -6219,9 +6219,9 @@ $export($export.S, 'Math', {
 /***/ }),
 
 /***/ "../../node_modules/@babel/polyfill/node_modules/core-js/modules/es6.math.clz32.js":
-/*!********************************************************************************************************************************!*\
-  !*** /home/travigd/Trash/WebIO-throwaway/packages/node_modules/@babel/polyfill/node_modules/core-js/modules/es6.math.clz32.js ***!
-  \********************************************************************************************************************************/
+/*!**********************************************************************************************************************************!*\
+  !*** /home/travigd/Trash/WebIO-throwaway-2/packages/node_modules/@babel/polyfill/node_modules/core-js/modules/es6.math.clz32.js ***!
+  \**********************************************************************************************************************************/
 /*! no static exports found */
 /***/ (function(module, exports, __webpack_require__) {
 
@@ -6237,9 +6237,9 @@ $export($export.S, 'Math', {
 /***/ }),
 
 /***/ "../../node_modules/@babel/polyfill/node_modules/core-js/modules/es6.math.cosh.js":
-/*!*******************************************************************************************************************************!*\
-  !*** /home/travigd/Trash/WebIO-throwaway/packages/node_modules/@babel/polyfill/node_modules/core-js/modules/es6.math.cosh.js ***!
-  \*******************************************************************************************************************************/
+/*!*********************************************************************************************************************************!*\
+  !*** /home/travigd/Trash/WebIO-throwaway-2/packages/node_modules/@babel/polyfill/node_modules/core-js/modules/es6.math.cosh.js ***!
+  \*********************************************************************************************************************************/
 /*! no static exports found */
 /***/ (function(module, exports, __webpack_require__) {
 
@@ -6256,9 +6256,9 @@ $export($export.S, 'Math', {
 /***/ }),
 
 /***/ "../../node_modules/@babel/polyfill/node_modules/core-js/modules/es6.math.expm1.js":
-/*!********************************************************************************************************************************!*\
-  !*** /home/travigd/Trash/WebIO-throwaway/packages/node_modules/@babel/polyfill/node_modules/core-js/modules/es6.math.expm1.js ***!
-  \********************************************************************************************************************************/
+/*!**********************************************************************************************************************************!*\
+  !*** /home/travigd/Trash/WebIO-throwaway-2/packages/node_modules/@babel/polyfill/node_modules/core-js/modules/es6.math.expm1.js ***!
+  \**********************************************************************************************************************************/
 /*! no static exports found */
 /***/ (function(module, exports, __webpack_require__) {
 
@@ -6274,9 +6274,9 @@ $export($export.S + $export.F * ($expm1 != Math.expm1), 'Math', {
 /***/ }),
 
 /***/ "../../node_modules/@babel/polyfill/node_modules/core-js/modules/es6.math.fround.js":
-/*!*********************************************************************************************************************************!*\
-  !*** /home/travigd/Trash/WebIO-throwaway/packages/node_modules/@babel/polyfill/node_modules/core-js/modules/es6.math.fround.js ***!
-  \*********************************************************************************************************************************/
+/*!***********************************************************************************************************************************!*\
+  !*** /home/travigd/Trash/WebIO-throwaway-2/packages/node_modules/@babel/polyfill/node_modules/core-js/modules/es6.math.fround.js ***!
+  \***********************************************************************************************************************************/
 /*! no static exports found */
 /***/ (function(module, exports, __webpack_require__) {
 
@@ -6290,9 +6290,9 @@ $export($export.S, 'Math', {
 /***/ }),
 
 /***/ "../../node_modules/@babel/polyfill/node_modules/core-js/modules/es6.math.hypot.js":
-/*!********************************************************************************************************************************!*\
-  !*** /home/travigd/Trash/WebIO-throwaway/packages/node_modules/@babel/polyfill/node_modules/core-js/modules/es6.math.hypot.js ***!
-  \********************************************************************************************************************************/
+/*!**********************************************************************************************************************************!*\
+  !*** /home/travigd/Trash/WebIO-throwaway-2/packages/node_modules/@babel/polyfill/node_modules/core-js/modules/es6.math.hypot.js ***!
+  \**********************************************************************************************************************************/
 /*! no static exports found */
 /***/ (function(module, exports, __webpack_require__) {
 
@@ -6329,9 +6329,9 @@ $export($export.S, 'Math', {
 /***/ }),
 
 /***/ "../../node_modules/@babel/polyfill/node_modules/core-js/modules/es6.math.imul.js":
-/*!*******************************************************************************************************************************!*\
-  !*** /home/travigd/Trash/WebIO-throwaway/packages/node_modules/@babel/polyfill/node_modules/core-js/modules/es6.math.imul.js ***!
-  \*******************************************************************************************************************************/
+/*!*********************************************************************************************************************************!*\
+  !*** /home/travigd/Trash/WebIO-throwaway-2/packages/node_modules/@babel/polyfill/node_modules/core-js/modules/es6.math.imul.js ***!
+  \*********************************************************************************************************************************/
 /*! no static exports found */
 /***/ (function(module, exports, __webpack_require__) {
 
@@ -6356,9 +6356,9 @@ $export($export.S + $export.F * __webpack_require__(/*! ./_fails */ "../../node_
 /***/ }),
 
 /***/ "../../node_modules/@babel/polyfill/node_modules/core-js/modules/es6.math.log10.js":
-/*!********************************************************************************************************************************!*\
-  !*** /home/travigd/Trash/WebIO-throwaway/packages/node_modules/@babel/polyfill/node_modules/core-js/modules/es6.math.log10.js ***!
-  \********************************************************************************************************************************/
+/*!**********************************************************************************************************************************!*\
+  !*** /home/travigd/Trash/WebIO-throwaway-2/packages/node_modules/@babel/polyfill/node_modules/core-js/modules/es6.math.log10.js ***!
+  \**********************************************************************************************************************************/
 /*! no static exports found */
 /***/ (function(module, exports, __webpack_require__) {
 
@@ -6374,9 +6374,9 @@ $export($export.S, 'Math', {
 /***/ }),
 
 /***/ "../../node_modules/@babel/polyfill/node_modules/core-js/modules/es6.math.log1p.js":
-/*!********************************************************************************************************************************!*\
-  !*** /home/travigd/Trash/WebIO-throwaway/packages/node_modules/@babel/polyfill/node_modules/core-js/modules/es6.math.log1p.js ***!
-  \********************************************************************************************************************************/
+/*!**********************************************************************************************************************************!*\
+  !*** /home/travigd/Trash/WebIO-throwaway-2/packages/node_modules/@babel/polyfill/node_modules/core-js/modules/es6.math.log1p.js ***!
+  \**********************************************************************************************************************************/
 /*! no static exports found */
 /***/ (function(module, exports, __webpack_require__) {
 
@@ -6390,9 +6390,9 @@ $export($export.S, 'Math', {
 /***/ }),
 
 /***/ "../../node_modules/@babel/polyfill/node_modules/core-js/modules/es6.math.log2.js":
-/*!*******************************************************************************************************************************!*\
-  !*** /home/travigd/Trash/WebIO-throwaway/packages/node_modules/@babel/polyfill/node_modules/core-js/modules/es6.math.log2.js ***!
-  \*******************************************************************************************************************************/
+/*!*********************************************************************************************************************************!*\
+  !*** /home/travigd/Trash/WebIO-throwaway-2/packages/node_modules/@babel/polyfill/node_modules/core-js/modules/es6.math.log2.js ***!
+  \*********************************************************************************************************************************/
 /*! no static exports found */
 /***/ (function(module, exports, __webpack_require__) {
 
@@ -6408,9 +6408,9 @@ $export($export.S, 'Math', {
 /***/ }),
 
 /***/ "../../node_modules/@babel/polyfill/node_modules/core-js/modules/es6.math.sign.js":
-/*!*******************************************************************************************************************************!*\
-  !*** /home/travigd/Trash/WebIO-throwaway/packages/node_modules/@babel/polyfill/node_modules/core-js/modules/es6.math.sign.js ***!
-  \*******************************************************************************************************************************/
+/*!*********************************************************************************************************************************!*\
+  !*** /home/travigd/Trash/WebIO-throwaway-2/packages/node_modules/@babel/polyfill/node_modules/core-js/modules/es6.math.sign.js ***!
+  \*********************************************************************************************************************************/
 /*! no static exports found */
 /***/ (function(module, exports, __webpack_require__) {
 
@@ -6424,9 +6424,9 @@ $export($export.S, 'Math', {
 /***/ }),
 
 /***/ "../../node_modules/@babel/polyfill/node_modules/core-js/modules/es6.math.sinh.js":
-/*!*******************************************************************************************************************************!*\
-  !*** /home/travigd/Trash/WebIO-throwaway/packages/node_modules/@babel/polyfill/node_modules/core-js/modules/es6.math.sinh.js ***!
-  \*******************************************************************************************************************************/
+/*!*********************************************************************************************************************************!*\
+  !*** /home/travigd/Trash/WebIO-throwaway-2/packages/node_modules/@babel/polyfill/node_modules/core-js/modules/es6.math.sinh.js ***!
+  \*********************************************************************************************************************************/
 /*! no static exports found */
 /***/ (function(module, exports, __webpack_require__) {
 
@@ -6448,9 +6448,9 @@ $export($export.S + $export.F * __webpack_require__(/*! ./_fails */ "../../node_
 /***/ }),
 
 /***/ "../../node_modules/@babel/polyfill/node_modules/core-js/modules/es6.math.tanh.js":
-/*!*******************************************************************************************************************************!*\
-  !*** /home/travigd/Trash/WebIO-throwaway/packages/node_modules/@babel/polyfill/node_modules/core-js/modules/es6.math.tanh.js ***!
-  \*******************************************************************************************************************************/
+/*!*********************************************************************************************************************************!*\
+  !*** /home/travigd/Trash/WebIO-throwaway-2/packages/node_modules/@babel/polyfill/node_modules/core-js/modules/es6.math.tanh.js ***!
+  \*********************************************************************************************************************************/
 /*! no static exports found */
 /***/ (function(module, exports, __webpack_require__) {
 
@@ -6471,9 +6471,9 @@ $export($export.S, 'Math', {
 /***/ }),
 
 /***/ "../../node_modules/@babel/polyfill/node_modules/core-js/modules/es6.math.trunc.js":
-/*!********************************************************************************************************************************!*\
-  !*** /home/travigd/Trash/WebIO-throwaway/packages/node_modules/@babel/polyfill/node_modules/core-js/modules/es6.math.trunc.js ***!
-  \********************************************************************************************************************************/
+/*!**********************************************************************************************************************************!*\
+  !*** /home/travigd/Trash/WebIO-throwaway-2/packages/node_modules/@babel/polyfill/node_modules/core-js/modules/es6.math.trunc.js ***!
+  \**********************************************************************************************************************************/
 /*! no static exports found */
 /***/ (function(module, exports, __webpack_require__) {
 
@@ -6489,9 +6489,9 @@ $export($export.S, 'Math', {
 /***/ }),
 
 /***/ "../../node_modules/@babel/polyfill/node_modules/core-js/modules/es6.number.constructor.js":
-/*!****************************************************************************************************************************************!*\
-  !*** /home/travigd/Trash/WebIO-throwaway/packages/node_modules/@babel/polyfill/node_modules/core-js/modules/es6.number.constructor.js ***!
-  \****************************************************************************************************************************************/
+/*!******************************************************************************************************************************************!*\
+  !*** /home/travigd/Trash/WebIO-throwaway-2/packages/node_modules/@babel/polyfill/node_modules/core-js/modules/es6.number.constructor.js ***!
+  \******************************************************************************************************************************************/
 /*! no static exports found */
 /***/ (function(module, exports, __webpack_require__) {
 
@@ -6598,9 +6598,9 @@ if (!$Number(' 0o1') || !$Number('0b1') || $Number('+0x1')) {
 /***/ }),
 
 /***/ "../../node_modules/@babel/polyfill/node_modules/core-js/modules/es6.number.epsilon.js":
-/*!************************************************************************************************************************************!*\
-  !*** /home/travigd/Trash/WebIO-throwaway/packages/node_modules/@babel/polyfill/node_modules/core-js/modules/es6.number.epsilon.js ***!
-  \************************************************************************************************************************************/
+/*!**************************************************************************************************************************************!*\
+  !*** /home/travigd/Trash/WebIO-throwaway-2/packages/node_modules/@babel/polyfill/node_modules/core-js/modules/es6.number.epsilon.js ***!
+  \**************************************************************************************************************************************/
 /*! no static exports found */
 /***/ (function(module, exports, __webpack_require__) {
 
@@ -6614,9 +6614,9 @@ $export($export.S, 'Number', {
 /***/ }),
 
 /***/ "../../node_modules/@babel/polyfill/node_modules/core-js/modules/es6.number.is-finite.js":
-/*!**************************************************************************************************************************************!*\
-  !*** /home/travigd/Trash/WebIO-throwaway/packages/node_modules/@babel/polyfill/node_modules/core-js/modules/es6.number.is-finite.js ***!
-  \**************************************************************************************************************************************/
+/*!****************************************************************************************************************************************!*\
+  !*** /home/travigd/Trash/WebIO-throwaway-2/packages/node_modules/@babel/polyfill/node_modules/core-js/modules/es6.number.is-finite.js ***!
+  \****************************************************************************************************************************************/
 /*! no static exports found */
 /***/ (function(module, exports, __webpack_require__) {
 
@@ -6634,9 +6634,9 @@ $export($export.S, 'Number', {
 /***/ }),
 
 /***/ "../../node_modules/@babel/polyfill/node_modules/core-js/modules/es6.number.is-integer.js":
-/*!***************************************************************************************************************************************!*\
-  !*** /home/travigd/Trash/WebIO-throwaway/packages/node_modules/@babel/polyfill/node_modules/core-js/modules/es6.number.is-integer.js ***!
-  \***************************************************************************************************************************************/
+/*!*****************************************************************************************************************************************!*\
+  !*** /home/travigd/Trash/WebIO-throwaway-2/packages/node_modules/@babel/polyfill/node_modules/core-js/modules/es6.number.is-integer.js ***!
+  \*****************************************************************************************************************************************/
 /*! no static exports found */
 /***/ (function(module, exports, __webpack_require__) {
 
@@ -6650,9 +6650,9 @@ $export($export.S, 'Number', {
 /***/ }),
 
 /***/ "../../node_modules/@babel/polyfill/node_modules/core-js/modules/es6.number.is-nan.js":
-/*!***********************************************************************************************************************************!*\
-  !*** /home/travigd/Trash/WebIO-throwaway/packages/node_modules/@babel/polyfill/node_modules/core-js/modules/es6.number.is-nan.js ***!
-  \***********************************************************************************************************************************/
+/*!*************************************************************************************************************************************!*\
+  !*** /home/travigd/Trash/WebIO-throwaway-2/packages/node_modules/@babel/polyfill/node_modules/core-js/modules/es6.number.is-nan.js ***!
+  \*************************************************************************************************************************************/
 /*! no static exports found */
 /***/ (function(module, exports, __webpack_require__) {
 
@@ -6669,9 +6669,9 @@ $export($export.S, 'Number', {
 /***/ }),
 
 /***/ "../../node_modules/@babel/polyfill/node_modules/core-js/modules/es6.number.is-safe-integer.js":
-/*!********************************************************************************************************************************************!*\
-  !*** /home/travigd/Trash/WebIO-throwaway/packages/node_modules/@babel/polyfill/node_modules/core-js/modules/es6.number.is-safe-integer.js ***!
-  \********************************************************************************************************************************************/
+/*!**********************************************************************************************************************************************!*\
+  !*** /home/travigd/Trash/WebIO-throwaway-2/packages/node_modules/@babel/polyfill/node_modules/core-js/modules/es6.number.is-safe-integer.js ***!
+  \**********************************************************************************************************************************************/
 /*! no static exports found */
 /***/ (function(module, exports, __webpack_require__) {
 
@@ -6690,9 +6690,9 @@ $export($export.S, 'Number', {
 /***/ }),
 
 /***/ "../../node_modules/@babel/polyfill/node_modules/core-js/modules/es6.number.max-safe-integer.js":
-/*!*********************************************************************************************************************************************!*\
-  !*** /home/travigd/Trash/WebIO-throwaway/packages/node_modules/@babel/polyfill/node_modules/core-js/modules/es6.number.max-safe-integer.js ***!
-  \*********************************************************************************************************************************************/
+/*!***********************************************************************************************************************************************!*\
+  !*** /home/travigd/Trash/WebIO-throwaway-2/packages/node_modules/@babel/polyfill/node_modules/core-js/modules/es6.number.max-safe-integer.js ***!
+  \***********************************************************************************************************************************************/
 /*! no static exports found */
 /***/ (function(module, exports, __webpack_require__) {
 
@@ -6706,9 +6706,9 @@ $export($export.S, 'Number', {
 /***/ }),
 
 /***/ "../../node_modules/@babel/polyfill/node_modules/core-js/modules/es6.number.min-safe-integer.js":
-/*!*********************************************************************************************************************************************!*\
-  !*** /home/travigd/Trash/WebIO-throwaway/packages/node_modules/@babel/polyfill/node_modules/core-js/modules/es6.number.min-safe-integer.js ***!
-  \*********************************************************************************************************************************************/
+/*!***********************************************************************************************************************************************!*\
+  !*** /home/travigd/Trash/WebIO-throwaway-2/packages/node_modules/@babel/polyfill/node_modules/core-js/modules/es6.number.min-safe-integer.js ***!
+  \***********************************************************************************************************************************************/
 /*! no static exports found */
 /***/ (function(module, exports, __webpack_require__) {
 
@@ -6722,9 +6722,9 @@ $export($export.S, 'Number', {
 /***/ }),
 
 /***/ "../../node_modules/@babel/polyfill/node_modules/core-js/modules/es6.number.parse-float.js":
-/*!****************************************************************************************************************************************!*\
-  !*** /home/travigd/Trash/WebIO-throwaway/packages/node_modules/@babel/polyfill/node_modules/core-js/modules/es6.number.parse-float.js ***!
-  \****************************************************************************************************************************************/
+/*!******************************************************************************************************************************************!*\
+  !*** /home/travigd/Trash/WebIO-throwaway-2/packages/node_modules/@babel/polyfill/node_modules/core-js/modules/es6.number.parse-float.js ***!
+  \******************************************************************************************************************************************/
 /*! no static exports found */
 /***/ (function(module, exports, __webpack_require__) {
 
@@ -6740,9 +6740,9 @@ $export($export.S + $export.F * (Number.parseFloat != $parseFloat), 'Number', {
 /***/ }),
 
 /***/ "../../node_modules/@babel/polyfill/node_modules/core-js/modules/es6.number.parse-int.js":
-/*!**************************************************************************************************************************************!*\
-  !*** /home/travigd/Trash/WebIO-throwaway/packages/node_modules/@babel/polyfill/node_modules/core-js/modules/es6.number.parse-int.js ***!
-  \**************************************************************************************************************************************/
+/*!****************************************************************************************************************************************!*\
+  !*** /home/travigd/Trash/WebIO-throwaway-2/packages/node_modules/@babel/polyfill/node_modules/core-js/modules/es6.number.parse-int.js ***!
+  \****************************************************************************************************************************************/
 /*! no static exports found */
 /***/ (function(module, exports, __webpack_require__) {
 
@@ -6758,9 +6758,9 @@ $export($export.S + $export.F * (Number.parseInt != $parseInt), 'Number', {
 /***/ }),
 
 /***/ "../../node_modules/@babel/polyfill/node_modules/core-js/modules/es6.number.to-fixed.js":
-/*!*************************************************************************************************************************************!*\
-  !*** /home/travigd/Trash/WebIO-throwaway/packages/node_modules/@babel/polyfill/node_modules/core-js/modules/es6.number.to-fixed.js ***!
-  \*************************************************************************************************************************************/
+/*!***************************************************************************************************************************************!*\
+  !*** /home/travigd/Trash/WebIO-throwaway-2/packages/node_modules/@babel/polyfill/node_modules/core-js/modules/es6.number.to-fixed.js ***!
+  \***************************************************************************************************************************************/
 /*! no static exports found */
 /***/ (function(module, exports, __webpack_require__) {
 
@@ -6906,9 +6906,9 @@ $export($export.P + $export.F * (!!$toFixed && (0.00008.toFixed(3) !== '0.000' |
 /***/ }),
 
 /***/ "../../node_modules/@babel/polyfill/node_modules/core-js/modules/es6.number.to-precision.js":
-/*!*****************************************************************************************************************************************!*\
-  !*** /home/travigd/Trash/WebIO-throwaway/packages/node_modules/@babel/polyfill/node_modules/core-js/modules/es6.number.to-precision.js ***!
-  \*****************************************************************************************************************************************/
+/*!*******************************************************************************************************************************************!*\
+  !*** /home/travigd/Trash/WebIO-throwaway-2/packages/node_modules/@babel/polyfill/node_modules/core-js/modules/es6.number.to-precision.js ***!
+  \*******************************************************************************************************************************************/
 /*! no static exports found */
 /***/ (function(module, exports, __webpack_require__) {
 
@@ -6938,9 +6938,9 @@ $export($export.P + $export.F * ($fails(function () {
 /***/ }),
 
 /***/ "../../node_modules/@babel/polyfill/node_modules/core-js/modules/es6.object.assign.js":
-/*!***********************************************************************************************************************************!*\
-  !*** /home/travigd/Trash/WebIO-throwaway/packages/node_modules/@babel/polyfill/node_modules/core-js/modules/es6.object.assign.js ***!
-  \***********************************************************************************************************************************/
+/*!*************************************************************************************************************************************!*\
+  !*** /home/travigd/Trash/WebIO-throwaway-2/packages/node_modules/@babel/polyfill/node_modules/core-js/modules/es6.object.assign.js ***!
+  \*************************************************************************************************************************************/
 /*! no static exports found */
 /***/ (function(module, exports, __webpack_require__) {
 
@@ -6954,9 +6954,9 @@ $export($export.S + $export.F, 'Object', {
 /***/ }),
 
 /***/ "../../node_modules/@babel/polyfill/node_modules/core-js/modules/es6.object.create.js":
-/*!***********************************************************************************************************************************!*\
-  !*** /home/travigd/Trash/WebIO-throwaway/packages/node_modules/@babel/polyfill/node_modules/core-js/modules/es6.object.create.js ***!
-  \***********************************************************************************************************************************/
+/*!*************************************************************************************************************************************!*\
+  !*** /home/travigd/Trash/WebIO-throwaway-2/packages/node_modules/@babel/polyfill/node_modules/core-js/modules/es6.object.create.js ***!
+  \*************************************************************************************************************************************/
 /*! no static exports found */
 /***/ (function(module, exports, __webpack_require__) {
 
@@ -6970,9 +6970,9 @@ $export($export.S, 'Object', {
 /***/ }),
 
 /***/ "../../node_modules/@babel/polyfill/node_modules/core-js/modules/es6.object.define-properties.js":
-/*!**********************************************************************************************************************************************!*\
-  !*** /home/travigd/Trash/WebIO-throwaway/packages/node_modules/@babel/polyfill/node_modules/core-js/modules/es6.object.define-properties.js ***!
-  \**********************************************************************************************************************************************/
+/*!************************************************************************************************************************************************!*\
+  !*** /home/travigd/Trash/WebIO-throwaway-2/packages/node_modules/@babel/polyfill/node_modules/core-js/modules/es6.object.define-properties.js ***!
+  \************************************************************************************************************************************************/
 /*! no static exports found */
 /***/ (function(module, exports, __webpack_require__) {
 
@@ -6986,9 +6986,9 @@ $export($export.S + $export.F * !__webpack_require__(/*! ./_descriptors */ "../.
 /***/ }),
 
 /***/ "../../node_modules/@babel/polyfill/node_modules/core-js/modules/es6.object.define-property.js":
-/*!********************************************************************************************************************************************!*\
-  !*** /home/travigd/Trash/WebIO-throwaway/packages/node_modules/@babel/polyfill/node_modules/core-js/modules/es6.object.define-property.js ***!
-  \********************************************************************************************************************************************/
+/*!**********************************************************************************************************************************************!*\
+  !*** /home/travigd/Trash/WebIO-throwaway-2/packages/node_modules/@babel/polyfill/node_modules/core-js/modules/es6.object.define-property.js ***!
+  \**********************************************************************************************************************************************/
 /*! no static exports found */
 /***/ (function(module, exports, __webpack_require__) {
 
@@ -7002,9 +7002,9 @@ $export($export.S + $export.F * !__webpack_require__(/*! ./_descriptors */ "../.
 /***/ }),
 
 /***/ "../../node_modules/@babel/polyfill/node_modules/core-js/modules/es6.object.freeze.js":
-/*!***********************************************************************************************************************************!*\
-  !*** /home/travigd/Trash/WebIO-throwaway/packages/node_modules/@babel/polyfill/node_modules/core-js/modules/es6.object.freeze.js ***!
-  \***********************************************************************************************************************************/
+/*!*************************************************************************************************************************************!*\
+  !*** /home/travigd/Trash/WebIO-throwaway-2/packages/node_modules/@babel/polyfill/node_modules/core-js/modules/es6.object.freeze.js ***!
+  \*************************************************************************************************************************************/
 /*! no static exports found */
 /***/ (function(module, exports, __webpack_require__) {
 
@@ -7022,9 +7022,9 @@ __webpack_require__(/*! ./_object-sap */ "../../node_modules/@babel/polyfill/nod
 /***/ }),
 
 /***/ "../../node_modules/@babel/polyfill/node_modules/core-js/modules/es6.object.get-own-property-descriptor.js":
-/*!********************************************************************************************************************************************************!*\
-  !*** /home/travigd/Trash/WebIO-throwaway/packages/node_modules/@babel/polyfill/node_modules/core-js/modules/es6.object.get-own-property-descriptor.js ***!
-  \********************************************************************************************************************************************************/
+/*!**********************************************************************************************************************************************************!*\
+  !*** /home/travigd/Trash/WebIO-throwaway-2/packages/node_modules/@babel/polyfill/node_modules/core-js/modules/es6.object.get-own-property-descriptor.js ***!
+  \**********************************************************************************************************************************************************/
 /*! no static exports found */
 /***/ (function(module, exports, __webpack_require__) {
 
@@ -7042,9 +7042,9 @@ __webpack_require__(/*! ./_object-sap */ "../../node_modules/@babel/polyfill/nod
 /***/ }),
 
 /***/ "../../node_modules/@babel/polyfill/node_modules/core-js/modules/es6.object.get-own-property-names.js":
-/*!***************************************************************************************************************************************************!*\
-  !*** /home/travigd/Trash/WebIO-throwaway/packages/node_modules/@babel/polyfill/node_modules/core-js/modules/es6.object.get-own-property-names.js ***!
-  \***************************************************************************************************************************************************/
+/*!*****************************************************************************************************************************************************!*\
+  !*** /home/travigd/Trash/WebIO-throwaway-2/packages/node_modules/@babel/polyfill/node_modules/core-js/modules/es6.object.get-own-property-names.js ***!
+  \*****************************************************************************************************************************************************/
 /*! no static exports found */
 /***/ (function(module, exports, __webpack_require__) {
 
@@ -7056,9 +7056,9 @@ __webpack_require__(/*! ./_object-sap */ "../../node_modules/@babel/polyfill/nod
 /***/ }),
 
 /***/ "../../node_modules/@babel/polyfill/node_modules/core-js/modules/es6.object.get-prototype-of.js":
-/*!*********************************************************************************************************************************************!*\
-  !*** /home/travigd/Trash/WebIO-throwaway/packages/node_modules/@babel/polyfill/node_modules/core-js/modules/es6.object.get-prototype-of.js ***!
-  \*********************************************************************************************************************************************/
+/*!***********************************************************************************************************************************************!*\
+  !*** /home/travigd/Trash/WebIO-throwaway-2/packages/node_modules/@babel/polyfill/node_modules/core-js/modules/es6.object.get-prototype-of.js ***!
+  \***********************************************************************************************************************************************/
 /*! no static exports found */
 /***/ (function(module, exports, __webpack_require__) {
 
@@ -7076,9 +7076,9 @@ __webpack_require__(/*! ./_object-sap */ "../../node_modules/@babel/polyfill/nod
 /***/ }),
 
 /***/ "../../node_modules/@babel/polyfill/node_modules/core-js/modules/es6.object.is-extensible.js":
-/*!******************************************************************************************************************************************!*\
-  !*** /home/travigd/Trash/WebIO-throwaway/packages/node_modules/@babel/polyfill/node_modules/core-js/modules/es6.object.is-extensible.js ***!
-  \******************************************************************************************************************************************/
+/*!********************************************************************************************************************************************!*\
+  !*** /home/travigd/Trash/WebIO-throwaway-2/packages/node_modules/@babel/polyfill/node_modules/core-js/modules/es6.object.is-extensible.js ***!
+  \********************************************************************************************************************************************/
 /*! no static exports found */
 /***/ (function(module, exports, __webpack_require__) {
 
@@ -7094,9 +7094,9 @@ __webpack_require__(/*! ./_object-sap */ "../../node_modules/@babel/polyfill/nod
 /***/ }),
 
 /***/ "../../node_modules/@babel/polyfill/node_modules/core-js/modules/es6.object.is-frozen.js":
-/*!**************************************************************************************************************************************!*\
-  !*** /home/travigd/Trash/WebIO-throwaway/packages/node_modules/@babel/polyfill/node_modules/core-js/modules/es6.object.is-frozen.js ***!
-  \**************************************************************************************************************************************/
+/*!****************************************************************************************************************************************!*\
+  !*** /home/travigd/Trash/WebIO-throwaway-2/packages/node_modules/@babel/polyfill/node_modules/core-js/modules/es6.object.is-frozen.js ***!
+  \****************************************************************************************************************************************/
 /*! no static exports found */
 /***/ (function(module, exports, __webpack_require__) {
 
@@ -7112,9 +7112,9 @@ __webpack_require__(/*! ./_object-sap */ "../../node_modules/@babel/polyfill/nod
 /***/ }),
 
 /***/ "../../node_modules/@babel/polyfill/node_modules/core-js/modules/es6.object.is-sealed.js":
-/*!**************************************************************************************************************************************!*\
-  !*** /home/travigd/Trash/WebIO-throwaway/packages/node_modules/@babel/polyfill/node_modules/core-js/modules/es6.object.is-sealed.js ***!
-  \**************************************************************************************************************************************/
+/*!****************************************************************************************************************************************!*\
+  !*** /home/travigd/Trash/WebIO-throwaway-2/packages/node_modules/@babel/polyfill/node_modules/core-js/modules/es6.object.is-sealed.js ***!
+  \****************************************************************************************************************************************/
 /*! no static exports found */
 /***/ (function(module, exports, __webpack_require__) {
 
@@ -7130,9 +7130,9 @@ __webpack_require__(/*! ./_object-sap */ "../../node_modules/@babel/polyfill/nod
 /***/ }),
 
 /***/ "../../node_modules/@babel/polyfill/node_modules/core-js/modules/es6.object.is.js":
-/*!*******************************************************************************************************************************!*\
-  !*** /home/travigd/Trash/WebIO-throwaway/packages/node_modules/@babel/polyfill/node_modules/core-js/modules/es6.object.is.js ***!
-  \*******************************************************************************************************************************/
+/*!*********************************************************************************************************************************!*\
+  !*** /home/travigd/Trash/WebIO-throwaway-2/packages/node_modules/@babel/polyfill/node_modules/core-js/modules/es6.object.is.js ***!
+  \*********************************************************************************************************************************/
 /*! no static exports found */
 /***/ (function(module, exports, __webpack_require__) {
 
@@ -7146,9 +7146,9 @@ $export($export.S, 'Object', {
 /***/ }),
 
 /***/ "../../node_modules/@babel/polyfill/node_modules/core-js/modules/es6.object.keys.js":
-/*!*********************************************************************************************************************************!*\
-  !*** /home/travigd/Trash/WebIO-throwaway/packages/node_modules/@babel/polyfill/node_modules/core-js/modules/es6.object.keys.js ***!
-  \*********************************************************************************************************************************/
+/*!***********************************************************************************************************************************!*\
+  !*** /home/travigd/Trash/WebIO-throwaway-2/packages/node_modules/@babel/polyfill/node_modules/core-js/modules/es6.object.keys.js ***!
+  \***********************************************************************************************************************************/
 /*! no static exports found */
 /***/ (function(module, exports, __webpack_require__) {
 
@@ -7166,9 +7166,9 @@ __webpack_require__(/*! ./_object-sap */ "../../node_modules/@babel/polyfill/nod
 /***/ }),
 
 /***/ "../../node_modules/@babel/polyfill/node_modules/core-js/modules/es6.object.prevent-extensions.js":
-/*!***********************************************************************************************************************************************!*\
-  !*** /home/travigd/Trash/WebIO-throwaway/packages/node_modules/@babel/polyfill/node_modules/core-js/modules/es6.object.prevent-extensions.js ***!
-  \***********************************************************************************************************************************************/
+/*!*************************************************************************************************************************************************!*\
+  !*** /home/travigd/Trash/WebIO-throwaway-2/packages/node_modules/@babel/polyfill/node_modules/core-js/modules/es6.object.prevent-extensions.js ***!
+  \*************************************************************************************************************************************************/
 /*! no static exports found */
 /***/ (function(module, exports, __webpack_require__) {
 
@@ -7186,9 +7186,9 @@ __webpack_require__(/*! ./_object-sap */ "../../node_modules/@babel/polyfill/nod
 /***/ }),
 
 /***/ "../../node_modules/@babel/polyfill/node_modules/core-js/modules/es6.object.seal.js":
-/*!*********************************************************************************************************************************!*\
-  !*** /home/travigd/Trash/WebIO-throwaway/packages/node_modules/@babel/polyfill/node_modules/core-js/modules/es6.object.seal.js ***!
-  \*********************************************************************************************************************************/
+/*!***********************************************************************************************************************************!*\
+  !*** /home/travigd/Trash/WebIO-throwaway-2/packages/node_modules/@babel/polyfill/node_modules/core-js/modules/es6.object.seal.js ***!
+  \***********************************************************************************************************************************/
 /*! no static exports found */
 /***/ (function(module, exports, __webpack_require__) {
 
@@ -7206,9 +7206,9 @@ __webpack_require__(/*! ./_object-sap */ "../../node_modules/@babel/polyfill/nod
 /***/ }),
 
 /***/ "../../node_modules/@babel/polyfill/node_modules/core-js/modules/es6.object.set-prototype-of.js":
-/*!*********************************************************************************************************************************************!*\
-  !*** /home/travigd/Trash/WebIO-throwaway/packages/node_modules/@babel/polyfill/node_modules/core-js/modules/es6.object.set-prototype-of.js ***!
-  \*********************************************************************************************************************************************/
+/*!***********************************************************************************************************************************************!*\
+  !*** /home/travigd/Trash/WebIO-throwaway-2/packages/node_modules/@babel/polyfill/node_modules/core-js/modules/es6.object.set-prototype-of.js ***!
+  \***********************************************************************************************************************************************/
 /*! no static exports found */
 /***/ (function(module, exports, __webpack_require__) {
 
@@ -7222,9 +7222,9 @@ $export($export.S, 'Object', {
 /***/ }),
 
 /***/ "../../node_modules/@babel/polyfill/node_modules/core-js/modules/es6.object.to-string.js":
-/*!**************************************************************************************************************************************!*\
-  !*** /home/travigd/Trash/WebIO-throwaway/packages/node_modules/@babel/polyfill/node_modules/core-js/modules/es6.object.to-string.js ***!
-  \**************************************************************************************************************************************/
+/*!****************************************************************************************************************************************!*\
+  !*** /home/travigd/Trash/WebIO-throwaway-2/packages/node_modules/@babel/polyfill/node_modules/core-js/modules/es6.object.to-string.js ***!
+  \****************************************************************************************************************************************/
 /*! no static exports found */
 /***/ (function(module, exports, __webpack_require__) {
 
@@ -7245,9 +7245,9 @@ if (test + '' != '[object z]') {
 /***/ }),
 
 /***/ "../../node_modules/@babel/polyfill/node_modules/core-js/modules/es6.parse-float.js":
-/*!*********************************************************************************************************************************!*\
-  !*** /home/travigd/Trash/WebIO-throwaway/packages/node_modules/@babel/polyfill/node_modules/core-js/modules/es6.parse-float.js ***!
-  \*********************************************************************************************************************************/
+/*!***********************************************************************************************************************************!*\
+  !*** /home/travigd/Trash/WebIO-throwaway-2/packages/node_modules/@babel/polyfill/node_modules/core-js/modules/es6.parse-float.js ***!
+  \***********************************************************************************************************************************/
 /*! no static exports found */
 /***/ (function(module, exports, __webpack_require__) {
 
@@ -7263,9 +7263,9 @@ $export($export.G + $export.F * (parseFloat != $parseFloat), {
 /***/ }),
 
 /***/ "../../node_modules/@babel/polyfill/node_modules/core-js/modules/es6.parse-int.js":
-/*!*******************************************************************************************************************************!*\
-  !*** /home/travigd/Trash/WebIO-throwaway/packages/node_modules/@babel/polyfill/node_modules/core-js/modules/es6.parse-int.js ***!
-  \*******************************************************************************************************************************/
+/*!*********************************************************************************************************************************!*\
+  !*** /home/travigd/Trash/WebIO-throwaway-2/packages/node_modules/@babel/polyfill/node_modules/core-js/modules/es6.parse-int.js ***!
+  \*********************************************************************************************************************************/
 /*! no static exports found */
 /***/ (function(module, exports, __webpack_require__) {
 
@@ -7281,9 +7281,9 @@ $export($export.G + $export.F * (parseInt != $parseInt), {
 /***/ }),
 
 /***/ "../../node_modules/@babel/polyfill/node_modules/core-js/modules/es6.promise.js":
-/*!*****************************************************************************************************************************!*\
-  !*** /home/travigd/Trash/WebIO-throwaway/packages/node_modules/@babel/polyfill/node_modules/core-js/modules/es6.promise.js ***!
-  \*****************************************************************************************************************************/
+/*!*******************************************************************************************************************************!*\
+  !*** /home/travigd/Trash/WebIO-throwaway-2/packages/node_modules/@babel/polyfill/node_modules/core-js/modules/es6.promise.js ***!
+  \*******************************************************************************************************************************/
 /*! no static exports found */
 /***/ (function(module, exports, __webpack_require__) {
 
@@ -7648,9 +7648,9 @@ $export($export.S + $export.F * !(USE_NATIVE && __webpack_require__(/*! ./_iter-
 /***/ }),
 
 /***/ "../../node_modules/@babel/polyfill/node_modules/core-js/modules/es6.reflect.apply.js":
-/*!***********************************************************************************************************************************!*\
-  !*** /home/travigd/Trash/WebIO-throwaway/packages/node_modules/@babel/polyfill/node_modules/core-js/modules/es6.reflect.apply.js ***!
-  \***********************************************************************************************************************************/
+/*!*************************************************************************************************************************************!*\
+  !*** /home/travigd/Trash/WebIO-throwaway-2/packages/node_modules/@babel/polyfill/node_modules/core-js/modules/es6.reflect.apply.js ***!
+  \*************************************************************************************************************************************/
 /*! no static exports found */
 /***/ (function(module, exports, __webpack_require__) {
 
@@ -7679,9 +7679,9 @@ $export($export.S + $export.F * !__webpack_require__(/*! ./_fails */ "../../node
 /***/ }),
 
 /***/ "../../node_modules/@babel/polyfill/node_modules/core-js/modules/es6.reflect.construct.js":
-/*!***************************************************************************************************************************************!*\
-  !*** /home/travigd/Trash/WebIO-throwaway/packages/node_modules/@babel/polyfill/node_modules/core-js/modules/es6.reflect.construct.js ***!
-  \***************************************************************************************************************************************/
+/*!*****************************************************************************************************************************************!*\
+  !*** /home/travigd/Trash/WebIO-throwaway-2/packages/node_modules/@babel/polyfill/node_modules/core-js/modules/es6.reflect.construct.js ***!
+  \*****************************************************************************************************************************************/
 /*! no static exports found */
 /***/ (function(module, exports, __webpack_require__) {
 
@@ -7762,9 +7762,9 @@ $export($export.S + $export.F * (NEW_TARGET_BUG || ARGS_BUG), 'Reflect', {
 /***/ }),
 
 /***/ "../../node_modules/@babel/polyfill/node_modules/core-js/modules/es6.reflect.define-property.js":
-/*!*********************************************************************************************************************************************!*\
-  !*** /home/travigd/Trash/WebIO-throwaway/packages/node_modules/@babel/polyfill/node_modules/core-js/modules/es6.reflect.define-property.js ***!
-  \*********************************************************************************************************************************************/
+/*!***********************************************************************************************************************************************!*\
+  !*** /home/travigd/Trash/WebIO-throwaway-2/packages/node_modules/@babel/polyfill/node_modules/core-js/modules/es6.reflect.define-property.js ***!
+  \***********************************************************************************************************************************************/
 /*! no static exports found */
 /***/ (function(module, exports, __webpack_require__) {
 
@@ -7803,9 +7803,9 @@ $export($export.S + $export.F * __webpack_require__(/*! ./_fails */ "../../node_
 /***/ }),
 
 /***/ "../../node_modules/@babel/polyfill/node_modules/core-js/modules/es6.reflect.delete-property.js":
-/*!*********************************************************************************************************************************************!*\
-  !*** /home/travigd/Trash/WebIO-throwaway/packages/node_modules/@babel/polyfill/node_modules/core-js/modules/es6.reflect.delete-property.js ***!
-  \*********************************************************************************************************************************************/
+/*!***********************************************************************************************************************************************!*\
+  !*** /home/travigd/Trash/WebIO-throwaway-2/packages/node_modules/@babel/polyfill/node_modules/core-js/modules/es6.reflect.delete-property.js ***!
+  \***********************************************************************************************************************************************/
 /*! no static exports found */
 /***/ (function(module, exports, __webpack_require__) {
 
@@ -7826,9 +7826,9 @@ $export($export.S, 'Reflect', {
 /***/ }),
 
 /***/ "../../node_modules/@babel/polyfill/node_modules/core-js/modules/es6.reflect.enumerate.js":
-/*!***************************************************************************************************************************************!*\
-  !*** /home/travigd/Trash/WebIO-throwaway/packages/node_modules/@babel/polyfill/node_modules/core-js/modules/es6.reflect.enumerate.js ***!
-  \***************************************************************************************************************************************/
+/*!*****************************************************************************************************************************************!*\
+  !*** /home/travigd/Trash/WebIO-throwaway-2/packages/node_modules/@babel/polyfill/node_modules/core-js/modules/es6.reflect.enumerate.js ***!
+  \*****************************************************************************************************************************************/
 /*! no static exports found */
 /***/ (function(module, exports, __webpack_require__) {
 
@@ -7880,9 +7880,9 @@ $export($export.S, 'Reflect', {
 /***/ }),
 
 /***/ "../../node_modules/@babel/polyfill/node_modules/core-js/modules/es6.reflect.get-own-property-descriptor.js":
-/*!*********************************************************************************************************************************************************!*\
-  !*** /home/travigd/Trash/WebIO-throwaway/packages/node_modules/@babel/polyfill/node_modules/core-js/modules/es6.reflect.get-own-property-descriptor.js ***!
-  \*********************************************************************************************************************************************************/
+/*!***********************************************************************************************************************************************************!*\
+  !*** /home/travigd/Trash/WebIO-throwaway-2/packages/node_modules/@babel/polyfill/node_modules/core-js/modules/es6.reflect.get-own-property-descriptor.js ***!
+  \***********************************************************************************************************************************************************/
 /*! no static exports found */
 /***/ (function(module, exports, __webpack_require__) {
 
@@ -7902,9 +7902,9 @@ $export($export.S, 'Reflect', {
 /***/ }),
 
 /***/ "../../node_modules/@babel/polyfill/node_modules/core-js/modules/es6.reflect.get-prototype-of.js":
-/*!**********************************************************************************************************************************************!*\
-  !*** /home/travigd/Trash/WebIO-throwaway/packages/node_modules/@babel/polyfill/node_modules/core-js/modules/es6.reflect.get-prototype-of.js ***!
-  \**********************************************************************************************************************************************/
+/*!************************************************************************************************************************************************!*\
+  !*** /home/travigd/Trash/WebIO-throwaway-2/packages/node_modules/@babel/polyfill/node_modules/core-js/modules/es6.reflect.get-prototype-of.js ***!
+  \************************************************************************************************************************************************/
 /*! no static exports found */
 /***/ (function(module, exports, __webpack_require__) {
 
@@ -7924,9 +7924,9 @@ $export($export.S, 'Reflect', {
 /***/ }),
 
 /***/ "../../node_modules/@babel/polyfill/node_modules/core-js/modules/es6.reflect.get.js":
-/*!*********************************************************************************************************************************!*\
-  !*** /home/travigd/Trash/WebIO-throwaway/packages/node_modules/@babel/polyfill/node_modules/core-js/modules/es6.reflect.get.js ***!
-  \*********************************************************************************************************************************/
+/*!***********************************************************************************************************************************!*\
+  !*** /home/travigd/Trash/WebIO-throwaway-2/packages/node_modules/@babel/polyfill/node_modules/core-js/modules/es6.reflect.get.js ***!
+  \***********************************************************************************************************************************/
 /*! no static exports found */
 /***/ (function(module, exports, __webpack_require__) {
 
@@ -7960,9 +7960,9 @@ $export($export.S, 'Reflect', {
 /***/ }),
 
 /***/ "../../node_modules/@babel/polyfill/node_modules/core-js/modules/es6.reflect.has.js":
-/*!*********************************************************************************************************************************!*\
-  !*** /home/travigd/Trash/WebIO-throwaway/packages/node_modules/@babel/polyfill/node_modules/core-js/modules/es6.reflect.has.js ***!
-  \*********************************************************************************************************************************/
+/*!***********************************************************************************************************************************!*\
+  !*** /home/travigd/Trash/WebIO-throwaway-2/packages/node_modules/@babel/polyfill/node_modules/core-js/modules/es6.reflect.has.js ***!
+  \***********************************************************************************************************************************/
 /*! no static exports found */
 /***/ (function(module, exports, __webpack_require__) {
 
@@ -7978,9 +7978,9 @@ $export($export.S, 'Reflect', {
 /***/ }),
 
 /***/ "../../node_modules/@babel/polyfill/node_modules/core-js/modules/es6.reflect.is-extensible.js":
-/*!*******************************************************************************************************************************************!*\
-  !*** /home/travigd/Trash/WebIO-throwaway/packages/node_modules/@babel/polyfill/node_modules/core-js/modules/es6.reflect.is-extensible.js ***!
-  \*******************************************************************************************************************************************/
+/*!*********************************************************************************************************************************************!*\
+  !*** /home/travigd/Trash/WebIO-throwaway-2/packages/node_modules/@babel/polyfill/node_modules/core-js/modules/es6.reflect.is-extensible.js ***!
+  \*********************************************************************************************************************************************/
 /*! no static exports found */
 /***/ (function(module, exports, __webpack_require__) {
 
@@ -8000,9 +8000,9 @@ $export($export.S, 'Reflect', {
 /***/ }),
 
 /***/ "../../node_modules/@babel/polyfill/node_modules/core-js/modules/es6.reflect.own-keys.js":
-/*!**************************************************************************************************************************************!*\
-  !*** /home/travigd/Trash/WebIO-throwaway/packages/node_modules/@babel/polyfill/node_modules/core-js/modules/es6.reflect.own-keys.js ***!
-  \**************************************************************************************************************************************/
+/*!****************************************************************************************************************************************!*\
+  !*** /home/travigd/Trash/WebIO-throwaway-2/packages/node_modules/@babel/polyfill/node_modules/core-js/modules/es6.reflect.own-keys.js ***!
+  \****************************************************************************************************************************************/
 /*! no static exports found */
 /***/ (function(module, exports, __webpack_require__) {
 
@@ -8016,9 +8016,9 @@ $export($export.S, 'Reflect', {
 /***/ }),
 
 /***/ "../../node_modules/@babel/polyfill/node_modules/core-js/modules/es6.reflect.prevent-extensions.js":
-/*!************************************************************************************************************************************************!*\
-  !*** /home/travigd/Trash/WebIO-throwaway/packages/node_modules/@babel/polyfill/node_modules/core-js/modules/es6.reflect.prevent-extensions.js ***!
-  \************************************************************************************************************************************************/
+/*!**************************************************************************************************************************************************!*\
+  !*** /home/travigd/Trash/WebIO-throwaway-2/packages/node_modules/@babel/polyfill/node_modules/core-js/modules/es6.reflect.prevent-extensions.js ***!
+  \**************************************************************************************************************************************************/
 /*! no static exports found */
 /***/ (function(module, exports, __webpack_require__) {
 
@@ -8044,9 +8044,9 @@ $export($export.S, 'Reflect', {
 /***/ }),
 
 /***/ "../../node_modules/@babel/polyfill/node_modules/core-js/modules/es6.reflect.set-prototype-of.js":
-/*!**********************************************************************************************************************************************!*\
-  !*** /home/travigd/Trash/WebIO-throwaway/packages/node_modules/@babel/polyfill/node_modules/core-js/modules/es6.reflect.set-prototype-of.js ***!
-  \**********************************************************************************************************************************************/
+/*!************************************************************************************************************************************************!*\
+  !*** /home/travigd/Trash/WebIO-throwaway-2/packages/node_modules/@babel/polyfill/node_modules/core-js/modules/es6.reflect.set-prototype-of.js ***!
+  \************************************************************************************************************************************************/
 /*! no static exports found */
 /***/ (function(module, exports, __webpack_require__) {
 
@@ -8071,9 +8071,9 @@ if (setProto) $export($export.S, 'Reflect', {
 /***/ }),
 
 /***/ "../../node_modules/@babel/polyfill/node_modules/core-js/modules/es6.reflect.set.js":
-/*!*********************************************************************************************************************************!*\
-  !*** /home/travigd/Trash/WebIO-throwaway/packages/node_modules/@babel/polyfill/node_modules/core-js/modules/es6.reflect.set.js ***!
-  \*********************************************************************************************************************************/
+/*!***********************************************************************************************************************************!*\
+  !*** /home/travigd/Trash/WebIO-throwaway-2/packages/node_modules/@babel/polyfill/node_modules/core-js/modules/es6.reflect.set.js ***!
+  \***********************************************************************************************************************************/
 /*! no static exports found */
 /***/ (function(module, exports, __webpack_require__) {
 
@@ -8131,9 +8131,9 @@ $export($export.S, 'Reflect', {
 /***/ }),
 
 /***/ "../../node_modules/@babel/polyfill/node_modules/core-js/modules/es6.regexp.constructor.js":
-/*!****************************************************************************************************************************************!*\
-  !*** /home/travigd/Trash/WebIO-throwaway/packages/node_modules/@babel/polyfill/node_modules/core-js/modules/es6.regexp.constructor.js ***!
-  \****************************************************************************************************************************************/
+/*!******************************************************************************************************************************************!*\
+  !*** /home/travigd/Trash/WebIO-throwaway-2/packages/node_modules/@babel/polyfill/node_modules/core-js/modules/es6.regexp.constructor.js ***!
+  \******************************************************************************************************************************************/
 /*! no static exports found */
 /***/ (function(module, exports, __webpack_require__) {
 
@@ -8196,9 +8196,9 @@ __webpack_require__(/*! ./_set-species */ "../../node_modules/@babel/polyfill/no
 /***/ }),
 
 /***/ "../../node_modules/@babel/polyfill/node_modules/core-js/modules/es6.regexp.exec.js":
-/*!*********************************************************************************************************************************!*\
-  !*** /home/travigd/Trash/WebIO-throwaway/packages/node_modules/@babel/polyfill/node_modules/core-js/modules/es6.regexp.exec.js ***!
-  \*********************************************************************************************************************************/
+/*!***********************************************************************************************************************************!*\
+  !*** /home/travigd/Trash/WebIO-throwaway-2/packages/node_modules/@babel/polyfill/node_modules/core-js/modules/es6.regexp.exec.js ***!
+  \***********************************************************************************************************************************/
 /*! no static exports found */
 /***/ (function(module, exports, __webpack_require__) {
 
@@ -8218,9 +8218,9 @@ __webpack_require__(/*! ./_export */ "../../node_modules/@babel/polyfill/node_mo
 /***/ }),
 
 /***/ "../../node_modules/@babel/polyfill/node_modules/core-js/modules/es6.regexp.flags.js":
-/*!**********************************************************************************************************************************!*\
-  !*** /home/travigd/Trash/WebIO-throwaway/packages/node_modules/@babel/polyfill/node_modules/core-js/modules/es6.regexp.flags.js ***!
-  \**********************************************************************************************************************************/
+/*!************************************************************************************************************************************!*\
+  !*** /home/travigd/Trash/WebIO-throwaway-2/packages/node_modules/@babel/polyfill/node_modules/core-js/modules/es6.regexp.flags.js ***!
+  \************************************************************************************************************************************/
 /*! no static exports found */
 /***/ (function(module, exports, __webpack_require__) {
 
@@ -8233,9 +8233,9 @@ if (__webpack_require__(/*! ./_descriptors */ "../../node_modules/@babel/polyfil
 /***/ }),
 
 /***/ "../../node_modules/@babel/polyfill/node_modules/core-js/modules/es6.regexp.match.js":
-/*!**********************************************************************************************************************************!*\
-  !*** /home/travigd/Trash/WebIO-throwaway/packages/node_modules/@babel/polyfill/node_modules/core-js/modules/es6.regexp.match.js ***!
-  \**********************************************************************************************************************************/
+/*!************************************************************************************************************************************!*\
+  !*** /home/travigd/Trash/WebIO-throwaway-2/packages/node_modules/@babel/polyfill/node_modules/core-js/modules/es6.regexp.match.js ***!
+  \************************************************************************************************************************************/
 /*! no static exports found */
 /***/ (function(module, exports, __webpack_require__) {
 
@@ -8286,9 +8286,9 @@ __webpack_require__(/*! ./_fix-re-wks */ "../../node_modules/@babel/polyfill/nod
 /***/ }),
 
 /***/ "../../node_modules/@babel/polyfill/node_modules/core-js/modules/es6.regexp.replace.js":
-/*!************************************************************************************************************************************!*\
-  !*** /home/travigd/Trash/WebIO-throwaway/packages/node_modules/@babel/polyfill/node_modules/core-js/modules/es6.regexp.replace.js ***!
-  \************************************************************************************************************************************/
+/*!**************************************************************************************************************************************!*\
+  !*** /home/travigd/Trash/WebIO-throwaway-2/packages/node_modules/@babel/polyfill/node_modules/core-js/modules/es6.regexp.replace.js ***!
+  \**************************************************************************************************************************************/
 /*! no static exports found */
 /***/ (function(module, exports, __webpack_require__) {
 
@@ -8441,9 +8441,9 @@ __webpack_require__(/*! ./_fix-re-wks */ "../../node_modules/@babel/polyfill/nod
 /***/ }),
 
 /***/ "../../node_modules/@babel/polyfill/node_modules/core-js/modules/es6.regexp.search.js":
-/*!***********************************************************************************************************************************!*\
-  !*** /home/travigd/Trash/WebIO-throwaway/packages/node_modules/@babel/polyfill/node_modules/core-js/modules/es6.regexp.search.js ***!
-  \***********************************************************************************************************************************/
+/*!*************************************************************************************************************************************!*\
+  !*** /home/travigd/Trash/WebIO-throwaway-2/packages/node_modules/@babel/polyfill/node_modules/core-js/modules/es6.regexp.search.js ***!
+  \*************************************************************************************************************************************/
 /*! no static exports found */
 /***/ (function(module, exports, __webpack_require__) {
 
@@ -8482,9 +8482,9 @@ __webpack_require__(/*! ./_fix-re-wks */ "../../node_modules/@babel/polyfill/nod
 /***/ }),
 
 /***/ "../../node_modules/@babel/polyfill/node_modules/core-js/modules/es6.regexp.split.js":
-/*!**********************************************************************************************************************************!*\
-  !*** /home/travigd/Trash/WebIO-throwaway/packages/node_modules/@babel/polyfill/node_modules/core-js/modules/es6.regexp.split.js ***!
-  \**********************************************************************************************************************************/
+/*!************************************************************************************************************************************!*\
+  !*** /home/travigd/Trash/WebIO-throwaway-2/packages/node_modules/@babel/polyfill/node_modules/core-js/modules/es6.regexp.split.js ***!
+  \************************************************************************************************************************************/
 /*! no static exports found */
 /***/ (function(module, exports, __webpack_require__) {
 
@@ -8622,9 +8622,9 @@ __webpack_require__(/*! ./_fix-re-wks */ "../../node_modules/@babel/polyfill/nod
 /***/ }),
 
 /***/ "../../node_modules/@babel/polyfill/node_modules/core-js/modules/es6.regexp.to-string.js":
-/*!**************************************************************************************************************************************!*\
-  !*** /home/travigd/Trash/WebIO-throwaway/packages/node_modules/@babel/polyfill/node_modules/core-js/modules/es6.regexp.to-string.js ***!
-  \**************************************************************************************************************************************/
+/*!****************************************************************************************************************************************!*\
+  !*** /home/travigd/Trash/WebIO-throwaway-2/packages/node_modules/@babel/polyfill/node_modules/core-js/modules/es6.regexp.to-string.js ***!
+  \****************************************************************************************************************************************/
 /*! no static exports found */
 /***/ (function(module, exports, __webpack_require__) {
 
@@ -8666,9 +8666,9 @@ if (__webpack_require__(/*! ./_fails */ "../../node_modules/@babel/polyfill/node
 /***/ }),
 
 /***/ "../../node_modules/@babel/polyfill/node_modules/core-js/modules/es6.set.js":
-/*!*************************************************************************************************************************!*\
-  !*** /home/travigd/Trash/WebIO-throwaway/packages/node_modules/@babel/polyfill/node_modules/core-js/modules/es6.set.js ***!
-  \*************************************************************************************************************************/
+/*!***************************************************************************************************************************!*\
+  !*** /home/travigd/Trash/WebIO-throwaway-2/packages/node_modules/@babel/polyfill/node_modules/core-js/modules/es6.set.js ***!
+  \***************************************************************************************************************************/
 /*! no static exports found */
 /***/ (function(module, exports, __webpack_require__) {
 
@@ -8695,9 +8695,9 @@ module.exports = __webpack_require__(/*! ./_collection */ "../../node_modules/@b
 /***/ }),
 
 /***/ "../../node_modules/@babel/polyfill/node_modules/core-js/modules/es6.string.anchor.js":
-/*!***********************************************************************************************************************************!*\
-  !*** /home/travigd/Trash/WebIO-throwaway/packages/node_modules/@babel/polyfill/node_modules/core-js/modules/es6.string.anchor.js ***!
-  \***********************************************************************************************************************************/
+/*!*************************************************************************************************************************************!*\
+  !*** /home/travigd/Trash/WebIO-throwaway-2/packages/node_modules/@babel/polyfill/node_modules/core-js/modules/es6.string.anchor.js ***!
+  \*************************************************************************************************************************************/
 /*! no static exports found */
 /***/ (function(module, exports, __webpack_require__) {
 
@@ -8713,9 +8713,9 @@ __webpack_require__(/*! ./_string-html */ "../../node_modules/@babel/polyfill/no
 /***/ }),
 
 /***/ "../../node_modules/@babel/polyfill/node_modules/core-js/modules/es6.string.big.js":
-/*!********************************************************************************************************************************!*\
-  !*** /home/travigd/Trash/WebIO-throwaway/packages/node_modules/@babel/polyfill/node_modules/core-js/modules/es6.string.big.js ***!
-  \********************************************************************************************************************************/
+/*!**********************************************************************************************************************************!*\
+  !*** /home/travigd/Trash/WebIO-throwaway-2/packages/node_modules/@babel/polyfill/node_modules/core-js/modules/es6.string.big.js ***!
+  \**********************************************************************************************************************************/
 /*! no static exports found */
 /***/ (function(module, exports, __webpack_require__) {
 
@@ -8731,9 +8731,9 @@ __webpack_require__(/*! ./_string-html */ "../../node_modules/@babel/polyfill/no
 /***/ }),
 
 /***/ "../../node_modules/@babel/polyfill/node_modules/core-js/modules/es6.string.blink.js":
-/*!**********************************************************************************************************************************!*\
-  !*** /home/travigd/Trash/WebIO-throwaway/packages/node_modules/@babel/polyfill/node_modules/core-js/modules/es6.string.blink.js ***!
-  \**********************************************************************************************************************************/
+/*!************************************************************************************************************************************!*\
+  !*** /home/travigd/Trash/WebIO-throwaway-2/packages/node_modules/@babel/polyfill/node_modules/core-js/modules/es6.string.blink.js ***!
+  \************************************************************************************************************************************/
 /*! no static exports found */
 /***/ (function(module, exports, __webpack_require__) {
 
@@ -8749,9 +8749,9 @@ __webpack_require__(/*! ./_string-html */ "../../node_modules/@babel/polyfill/no
 /***/ }),
 
 /***/ "../../node_modules/@babel/polyfill/node_modules/core-js/modules/es6.string.bold.js":
-/*!*********************************************************************************************************************************!*\
-  !*** /home/travigd/Trash/WebIO-throwaway/packages/node_modules/@babel/polyfill/node_modules/core-js/modules/es6.string.bold.js ***!
-  \*********************************************************************************************************************************/
+/*!***********************************************************************************************************************************!*\
+  !*** /home/travigd/Trash/WebIO-throwaway-2/packages/node_modules/@babel/polyfill/node_modules/core-js/modules/es6.string.bold.js ***!
+  \***********************************************************************************************************************************/
 /*! no static exports found */
 /***/ (function(module, exports, __webpack_require__) {
 
@@ -8767,9 +8767,9 @@ __webpack_require__(/*! ./_string-html */ "../../node_modules/@babel/polyfill/no
 /***/ }),
 
 /***/ "../../node_modules/@babel/polyfill/node_modules/core-js/modules/es6.string.code-point-at.js":
-/*!******************************************************************************************************************************************!*\
-  !*** /home/travigd/Trash/WebIO-throwaway/packages/node_modules/@babel/polyfill/node_modules/core-js/modules/es6.string.code-point-at.js ***!
-  \******************************************************************************************************************************************/
+/*!********************************************************************************************************************************************!*\
+  !*** /home/travigd/Trash/WebIO-throwaway-2/packages/node_modules/@babel/polyfill/node_modules/core-js/modules/es6.string.code-point-at.js ***!
+  \********************************************************************************************************************************************/
 /*! no static exports found */
 /***/ (function(module, exports, __webpack_require__) {
 
@@ -8790,9 +8790,9 @@ $export($export.P, 'String', {
 /***/ }),
 
 /***/ "../../node_modules/@babel/polyfill/node_modules/core-js/modules/es6.string.ends-with.js":
-/*!**************************************************************************************************************************************!*\
-  !*** /home/travigd/Trash/WebIO-throwaway/packages/node_modules/@babel/polyfill/node_modules/core-js/modules/es6.string.ends-with.js ***!
-  \**************************************************************************************************************************************/
+/*!****************************************************************************************************************************************!*\
+  !*** /home/travigd/Trash/WebIO-throwaway-2/packages/node_modules/@babel/polyfill/node_modules/core-js/modules/es6.string.ends-with.js ***!
+  \****************************************************************************************************************************************/
 /*! no static exports found */
 /***/ (function(module, exports, __webpack_require__) {
 
@@ -8824,9 +8824,9 @@ $export($export.P + $export.F * __webpack_require__(/*! ./_fails-is-regexp */ ".
 /***/ }),
 
 /***/ "../../node_modules/@babel/polyfill/node_modules/core-js/modules/es6.string.fixed.js":
-/*!**********************************************************************************************************************************!*\
-  !*** /home/travigd/Trash/WebIO-throwaway/packages/node_modules/@babel/polyfill/node_modules/core-js/modules/es6.string.fixed.js ***!
-  \**********************************************************************************************************************************/
+/*!************************************************************************************************************************************!*\
+  !*** /home/travigd/Trash/WebIO-throwaway-2/packages/node_modules/@babel/polyfill/node_modules/core-js/modules/es6.string.fixed.js ***!
+  \************************************************************************************************************************************/
 /*! no static exports found */
 /***/ (function(module, exports, __webpack_require__) {
 
@@ -8842,9 +8842,9 @@ __webpack_require__(/*! ./_string-html */ "../../node_modules/@babel/polyfill/no
 /***/ }),
 
 /***/ "../../node_modules/@babel/polyfill/node_modules/core-js/modules/es6.string.fontcolor.js":
-/*!**************************************************************************************************************************************!*\
-  !*** /home/travigd/Trash/WebIO-throwaway/packages/node_modules/@babel/polyfill/node_modules/core-js/modules/es6.string.fontcolor.js ***!
-  \**************************************************************************************************************************************/
+/*!****************************************************************************************************************************************!*\
+  !*** /home/travigd/Trash/WebIO-throwaway-2/packages/node_modules/@babel/polyfill/node_modules/core-js/modules/es6.string.fontcolor.js ***!
+  \****************************************************************************************************************************************/
 /*! no static exports found */
 /***/ (function(module, exports, __webpack_require__) {
 
@@ -8860,9 +8860,9 @@ __webpack_require__(/*! ./_string-html */ "../../node_modules/@babel/polyfill/no
 /***/ }),
 
 /***/ "../../node_modules/@babel/polyfill/node_modules/core-js/modules/es6.string.fontsize.js":
-/*!*************************************************************************************************************************************!*\
-  !*** /home/travigd/Trash/WebIO-throwaway/packages/node_modules/@babel/polyfill/node_modules/core-js/modules/es6.string.fontsize.js ***!
-  \*************************************************************************************************************************************/
+/*!***************************************************************************************************************************************!*\
+  !*** /home/travigd/Trash/WebIO-throwaway-2/packages/node_modules/@babel/polyfill/node_modules/core-js/modules/es6.string.fontsize.js ***!
+  \***************************************************************************************************************************************/
 /*! no static exports found */
 /***/ (function(module, exports, __webpack_require__) {
 
@@ -8878,9 +8878,9 @@ __webpack_require__(/*! ./_string-html */ "../../node_modules/@babel/polyfill/no
 /***/ }),
 
 /***/ "../../node_modules/@babel/polyfill/node_modules/core-js/modules/es6.string.from-code-point.js":
-/*!********************************************************************************************************************************************!*\
-  !*** /home/travigd/Trash/WebIO-throwaway/packages/node_modules/@babel/polyfill/node_modules/core-js/modules/es6.string.from-code-point.js ***!
-  \********************************************************************************************************************************************/
+/*!**********************************************************************************************************************************************!*\
+  !*** /home/travigd/Trash/WebIO-throwaway-2/packages/node_modules/@babel/polyfill/node_modules/core-js/modules/es6.string.from-code-point.js ***!
+  \**********************************************************************************************************************************************/
 /*! no static exports found */
 /***/ (function(module, exports, __webpack_require__) {
 
@@ -8913,9 +8913,9 @@ $export($export.S + $export.F * (!!$fromCodePoint && $fromCodePoint.length != 1)
 /***/ }),
 
 /***/ "../../node_modules/@babel/polyfill/node_modules/core-js/modules/es6.string.includes.js":
-/*!*************************************************************************************************************************************!*\
-  !*** /home/travigd/Trash/WebIO-throwaway/packages/node_modules/@babel/polyfill/node_modules/core-js/modules/es6.string.includes.js ***!
-  \*************************************************************************************************************************************/
+/*!***************************************************************************************************************************************!*\
+  !*** /home/travigd/Trash/WebIO-throwaway-2/packages/node_modules/@babel/polyfill/node_modules/core-js/modules/es6.string.includes.js ***!
+  \***************************************************************************************************************************************/
 /*! no static exports found */
 /***/ (function(module, exports, __webpack_require__) {
 
@@ -8939,9 +8939,9 @@ $export($export.P + $export.F * __webpack_require__(/*! ./_fails-is-regexp */ ".
 /***/ }),
 
 /***/ "../../node_modules/@babel/polyfill/node_modules/core-js/modules/es6.string.italics.js":
-/*!************************************************************************************************************************************!*\
-  !*** /home/travigd/Trash/WebIO-throwaway/packages/node_modules/@babel/polyfill/node_modules/core-js/modules/es6.string.italics.js ***!
-  \************************************************************************************************************************************/
+/*!**************************************************************************************************************************************!*\
+  !*** /home/travigd/Trash/WebIO-throwaway-2/packages/node_modules/@babel/polyfill/node_modules/core-js/modules/es6.string.italics.js ***!
+  \**************************************************************************************************************************************/
 /*! no static exports found */
 /***/ (function(module, exports, __webpack_require__) {
 
@@ -8957,9 +8957,9 @@ __webpack_require__(/*! ./_string-html */ "../../node_modules/@babel/polyfill/no
 /***/ }),
 
 /***/ "../../node_modules/@babel/polyfill/node_modules/core-js/modules/es6.string.iterator.js":
-/*!*************************************************************************************************************************************!*\
-  !*** /home/travigd/Trash/WebIO-throwaway/packages/node_modules/@babel/polyfill/node_modules/core-js/modules/es6.string.iterator.js ***!
-  \*************************************************************************************************************************************/
+/*!***************************************************************************************************************************************!*\
+  !*** /home/travigd/Trash/WebIO-throwaway-2/packages/node_modules/@babel/polyfill/node_modules/core-js/modules/es6.string.iterator.js ***!
+  \***************************************************************************************************************************************/
 /*! no static exports found */
 /***/ (function(module, exports, __webpack_require__) {
 
@@ -8993,9 +8993,9 @@ __webpack_require__(/*! ./_iter-define */ "../../node_modules/@babel/polyfill/no
 /***/ }),
 
 /***/ "../../node_modules/@babel/polyfill/node_modules/core-js/modules/es6.string.link.js":
-/*!*********************************************************************************************************************************!*\
-  !*** /home/travigd/Trash/WebIO-throwaway/packages/node_modules/@babel/polyfill/node_modules/core-js/modules/es6.string.link.js ***!
-  \*********************************************************************************************************************************/
+/*!***********************************************************************************************************************************!*\
+  !*** /home/travigd/Trash/WebIO-throwaway-2/packages/node_modules/@babel/polyfill/node_modules/core-js/modules/es6.string.link.js ***!
+  \***********************************************************************************************************************************/
 /*! no static exports found */
 /***/ (function(module, exports, __webpack_require__) {
 
@@ -9011,9 +9011,9 @@ __webpack_require__(/*! ./_string-html */ "../../node_modules/@babel/polyfill/no
 /***/ }),
 
 /***/ "../../node_modules/@babel/polyfill/node_modules/core-js/modules/es6.string.raw.js":
-/*!********************************************************************************************************************************!*\
-  !*** /home/travigd/Trash/WebIO-throwaway/packages/node_modules/@babel/polyfill/node_modules/core-js/modules/es6.string.raw.js ***!
-  \********************************************************************************************************************************/
+/*!**********************************************************************************************************************************!*\
+  !*** /home/travigd/Trash/WebIO-throwaway-2/packages/node_modules/@babel/polyfill/node_modules/core-js/modules/es6.string.raw.js ***!
+  \**********************************************************************************************************************************/
 /*! no static exports found */
 /***/ (function(module, exports, __webpack_require__) {
 
@@ -9044,9 +9044,9 @@ $export($export.S, 'String', {
 /***/ }),
 
 /***/ "../../node_modules/@babel/polyfill/node_modules/core-js/modules/es6.string.repeat.js":
-/*!***********************************************************************************************************************************!*\
-  !*** /home/travigd/Trash/WebIO-throwaway/packages/node_modules/@babel/polyfill/node_modules/core-js/modules/es6.string.repeat.js ***!
-  \***********************************************************************************************************************************/
+/*!*************************************************************************************************************************************!*\
+  !*** /home/travigd/Trash/WebIO-throwaway-2/packages/node_modules/@babel/polyfill/node_modules/core-js/modules/es6.string.repeat.js ***!
+  \*************************************************************************************************************************************/
 /*! no static exports found */
 /***/ (function(module, exports, __webpack_require__) {
 
@@ -9060,9 +9060,9 @@ $export($export.P, 'String', {
 /***/ }),
 
 /***/ "../../node_modules/@babel/polyfill/node_modules/core-js/modules/es6.string.small.js":
-/*!**********************************************************************************************************************************!*\
-  !*** /home/travigd/Trash/WebIO-throwaway/packages/node_modules/@babel/polyfill/node_modules/core-js/modules/es6.string.small.js ***!
-  \**********************************************************************************************************************************/
+/*!************************************************************************************************************************************!*\
+  !*** /home/travigd/Trash/WebIO-throwaway-2/packages/node_modules/@babel/polyfill/node_modules/core-js/modules/es6.string.small.js ***!
+  \************************************************************************************************************************************/
 /*! no static exports found */
 /***/ (function(module, exports, __webpack_require__) {
 
@@ -9078,9 +9078,9 @@ __webpack_require__(/*! ./_string-html */ "../../node_modules/@babel/polyfill/no
 /***/ }),
 
 /***/ "../../node_modules/@babel/polyfill/node_modules/core-js/modules/es6.string.starts-with.js":
-/*!****************************************************************************************************************************************!*\
-  !*** /home/travigd/Trash/WebIO-throwaway/packages/node_modules/@babel/polyfill/node_modules/core-js/modules/es6.string.starts-with.js ***!
-  \****************************************************************************************************************************************/
+/*!******************************************************************************************************************************************!*\
+  !*** /home/travigd/Trash/WebIO-throwaway-2/packages/node_modules/@babel/polyfill/node_modules/core-js/modules/es6.string.starts-with.js ***!
+  \******************************************************************************************************************************************/
 /*! no static exports found */
 /***/ (function(module, exports, __webpack_require__) {
 
@@ -9110,9 +9110,9 @@ $export($export.P + $export.F * __webpack_require__(/*! ./_fails-is-regexp */ ".
 /***/ }),
 
 /***/ "../../node_modules/@babel/polyfill/node_modules/core-js/modules/es6.string.strike.js":
-/*!***********************************************************************************************************************************!*\
-  !*** /home/travigd/Trash/WebIO-throwaway/packages/node_modules/@babel/polyfill/node_modules/core-js/modules/es6.string.strike.js ***!
-  \***********************************************************************************************************************************/
+/*!*************************************************************************************************************************************!*\
+  !*** /home/travigd/Trash/WebIO-throwaway-2/packages/node_modules/@babel/polyfill/node_modules/core-js/modules/es6.string.strike.js ***!
+  \*************************************************************************************************************************************/
 /*! no static exports found */
 /***/ (function(module, exports, __webpack_require__) {
 
@@ -9128,9 +9128,9 @@ __webpack_require__(/*! ./_string-html */ "../../node_modules/@babel/polyfill/no
 /***/ }),
 
 /***/ "../../node_modules/@babel/polyfill/node_modules/core-js/modules/es6.string.sub.js":
-/*!********************************************************************************************************************************!*\
-  !*** /home/travigd/Trash/WebIO-throwaway/packages/node_modules/@babel/polyfill/node_modules/core-js/modules/es6.string.sub.js ***!
-  \********************************************************************************************************************************/
+/*!**********************************************************************************************************************************!*\
+  !*** /home/travigd/Trash/WebIO-throwaway-2/packages/node_modules/@babel/polyfill/node_modules/core-js/modules/es6.string.sub.js ***!
+  \**********************************************************************************************************************************/
 /*! no static exports found */
 /***/ (function(module, exports, __webpack_require__) {
 
@@ -9146,9 +9146,9 @@ __webpack_require__(/*! ./_string-html */ "../../node_modules/@babel/polyfill/no
 /***/ }),
 
 /***/ "../../node_modules/@babel/polyfill/node_modules/core-js/modules/es6.string.sup.js":
-/*!********************************************************************************************************************************!*\
-  !*** /home/travigd/Trash/WebIO-throwaway/packages/node_modules/@babel/polyfill/node_modules/core-js/modules/es6.string.sup.js ***!
-  \********************************************************************************************************************************/
+/*!**********************************************************************************************************************************!*\
+  !*** /home/travigd/Trash/WebIO-throwaway-2/packages/node_modules/@babel/polyfill/node_modules/core-js/modules/es6.string.sup.js ***!
+  \**********************************************************************************************************************************/
 /*! no static exports found */
 /***/ (function(module, exports, __webpack_require__) {
 
@@ -9164,9 +9164,9 @@ __webpack_require__(/*! ./_string-html */ "../../node_modules/@babel/polyfill/no
 /***/ }),
 
 /***/ "../../node_modules/@babel/polyfill/node_modules/core-js/modules/es6.string.trim.js":
-/*!*********************************************************************************************************************************!*\
-  !*** /home/travigd/Trash/WebIO-throwaway/packages/node_modules/@babel/polyfill/node_modules/core-js/modules/es6.string.trim.js ***!
-  \*********************************************************************************************************************************/
+/*!***********************************************************************************************************************************!*\
+  !*** /home/travigd/Trash/WebIO-throwaway-2/packages/node_modules/@babel/polyfill/node_modules/core-js/modules/es6.string.trim.js ***!
+  \***********************************************************************************************************************************/
 /*! no static exports found */
 /***/ (function(module, exports, __webpack_require__) {
 
@@ -9182,9 +9182,9 @@ __webpack_require__(/*! ./_string-trim */ "../../node_modules/@babel/polyfill/no
 /***/ }),
 
 /***/ "../../node_modules/@babel/polyfill/node_modules/core-js/modules/es6.symbol.js":
-/*!****************************************************************************************************************************!*\
-  !*** /home/travigd/Trash/WebIO-throwaway/packages/node_modules/@babel/polyfill/node_modules/core-js/modules/es6.symbol.js ***!
-  \****************************************************************************************************************************/
+/*!******************************************************************************************************************************!*\
+  !*** /home/travigd/Trash/WebIO-throwaway-2/packages/node_modules/@babel/polyfill/node_modules/core-js/modules/es6.symbol.js ***!
+  \******************************************************************************************************************************/
 /*! no static exports found */
 /***/ (function(module, exports, __webpack_require__) {
 
@@ -9501,9 +9501,9 @@ setToStringTag(global.JSON, 'JSON', true);
 /***/ }),
 
 /***/ "../../node_modules/@babel/polyfill/node_modules/core-js/modules/es6.typed.array-buffer.js":
-/*!****************************************************************************************************************************************!*\
-  !*** /home/travigd/Trash/WebIO-throwaway/packages/node_modules/@babel/polyfill/node_modules/core-js/modules/es6.typed.array-buffer.js ***!
-  \****************************************************************************************************************************************/
+/*!******************************************************************************************************************************************!*\
+  !*** /home/travigd/Trash/WebIO-throwaway-2/packages/node_modules/@babel/polyfill/node_modules/core-js/modules/es6.typed.array-buffer.js ***!
+  \******************************************************************************************************************************************/
 /*! no static exports found */
 /***/ (function(module, exports, __webpack_require__) {
 
@@ -9571,9 +9571,9 @@ __webpack_require__(/*! ./_set-species */ "../../node_modules/@babel/polyfill/no
 /***/ }),
 
 /***/ "../../node_modules/@babel/polyfill/node_modules/core-js/modules/es6.typed.data-view.js":
-/*!*************************************************************************************************************************************!*\
-  !*** /home/travigd/Trash/WebIO-throwaway/packages/node_modules/@babel/polyfill/node_modules/core-js/modules/es6.typed.data-view.js ***!
-  \*************************************************************************************************************************************/
+/*!***************************************************************************************************************************************!*\
+  !*** /home/travigd/Trash/WebIO-throwaway-2/packages/node_modules/@babel/polyfill/node_modules/core-js/modules/es6.typed.data-view.js ***!
+  \***************************************************************************************************************************************/
 /*! no static exports found */
 /***/ (function(module, exports, __webpack_require__) {
 
@@ -9586,9 +9586,9 @@ $export($export.G + $export.W + $export.F * !__webpack_require__(/*! ./_typed */
 /***/ }),
 
 /***/ "../../node_modules/@babel/polyfill/node_modules/core-js/modules/es6.typed.float32-array.js":
-/*!*****************************************************************************************************************************************!*\
-  !*** /home/travigd/Trash/WebIO-throwaway/packages/node_modules/@babel/polyfill/node_modules/core-js/modules/es6.typed.float32-array.js ***!
-  \*****************************************************************************************************************************************/
+/*!*******************************************************************************************************************************************!*\
+  !*** /home/travigd/Trash/WebIO-throwaway-2/packages/node_modules/@babel/polyfill/node_modules/core-js/modules/es6.typed.float32-array.js ***!
+  \*******************************************************************************************************************************************/
 /*! no static exports found */
 /***/ (function(module, exports, __webpack_require__) {
 
@@ -9601,9 +9601,9 @@ __webpack_require__(/*! ./_typed-array */ "../../node_modules/@babel/polyfill/no
 /***/ }),
 
 /***/ "../../node_modules/@babel/polyfill/node_modules/core-js/modules/es6.typed.float64-array.js":
-/*!*****************************************************************************************************************************************!*\
-  !*** /home/travigd/Trash/WebIO-throwaway/packages/node_modules/@babel/polyfill/node_modules/core-js/modules/es6.typed.float64-array.js ***!
-  \*****************************************************************************************************************************************/
+/*!*******************************************************************************************************************************************!*\
+  !*** /home/travigd/Trash/WebIO-throwaway-2/packages/node_modules/@babel/polyfill/node_modules/core-js/modules/es6.typed.float64-array.js ***!
+  \*******************************************************************************************************************************************/
 /*! no static exports found */
 /***/ (function(module, exports, __webpack_require__) {
 
@@ -9616,9 +9616,9 @@ __webpack_require__(/*! ./_typed-array */ "../../node_modules/@babel/polyfill/no
 /***/ }),
 
 /***/ "../../node_modules/@babel/polyfill/node_modules/core-js/modules/es6.typed.int16-array.js":
-/*!***************************************************************************************************************************************!*\
-  !*** /home/travigd/Trash/WebIO-throwaway/packages/node_modules/@babel/polyfill/node_modules/core-js/modules/es6.typed.int16-array.js ***!
-  \***************************************************************************************************************************************/
+/*!*****************************************************************************************************************************************!*\
+  !*** /home/travigd/Trash/WebIO-throwaway-2/packages/node_modules/@babel/polyfill/node_modules/core-js/modules/es6.typed.int16-array.js ***!
+  \*****************************************************************************************************************************************/
 /*! no static exports found */
 /***/ (function(module, exports, __webpack_require__) {
 
@@ -9631,9 +9631,9 @@ __webpack_require__(/*! ./_typed-array */ "../../node_modules/@babel/polyfill/no
 /***/ }),
 
 /***/ "../../node_modules/@babel/polyfill/node_modules/core-js/modules/es6.typed.int32-array.js":
-/*!***************************************************************************************************************************************!*\
-  !*** /home/travigd/Trash/WebIO-throwaway/packages/node_modules/@babel/polyfill/node_modules/core-js/modules/es6.typed.int32-array.js ***!
-  \***************************************************************************************************************************************/
+/*!*****************************************************************************************************************************************!*\
+  !*** /home/travigd/Trash/WebIO-throwaway-2/packages/node_modules/@babel/polyfill/node_modules/core-js/modules/es6.typed.int32-array.js ***!
+  \*****************************************************************************************************************************************/
 /*! no static exports found */
 /***/ (function(module, exports, __webpack_require__) {
 
@@ -9646,9 +9646,9 @@ __webpack_require__(/*! ./_typed-array */ "../../node_modules/@babel/polyfill/no
 /***/ }),
 
 /***/ "../../node_modules/@babel/polyfill/node_modules/core-js/modules/es6.typed.int8-array.js":
-/*!**************************************************************************************************************************************!*\
-  !*** /home/travigd/Trash/WebIO-throwaway/packages/node_modules/@babel/polyfill/node_modules/core-js/modules/es6.typed.int8-array.js ***!
-  \**************************************************************************************************************************************/
+/*!****************************************************************************************************************************************!*\
+  !*** /home/travigd/Trash/WebIO-throwaway-2/packages/node_modules/@babel/polyfill/node_modules/core-js/modules/es6.typed.int8-array.js ***!
+  \****************************************************************************************************************************************/
 /*! no static exports found */
 /***/ (function(module, exports, __webpack_require__) {
 
@@ -9661,9 +9661,9 @@ __webpack_require__(/*! ./_typed-array */ "../../node_modules/@babel/polyfill/no
 /***/ }),
 
 /***/ "../../node_modules/@babel/polyfill/node_modules/core-js/modules/es6.typed.uint16-array.js":
-/*!****************************************************************************************************************************************!*\
-  !*** /home/travigd/Trash/WebIO-throwaway/packages/node_modules/@babel/polyfill/node_modules/core-js/modules/es6.typed.uint16-array.js ***!
-  \****************************************************************************************************************************************/
+/*!******************************************************************************************************************************************!*\
+  !*** /home/travigd/Trash/WebIO-throwaway-2/packages/node_modules/@babel/polyfill/node_modules/core-js/modules/es6.typed.uint16-array.js ***!
+  \******************************************************************************************************************************************/
 /*! no static exports found */
 /***/ (function(module, exports, __webpack_require__) {
 
@@ -9676,9 +9676,9 @@ __webpack_require__(/*! ./_typed-array */ "../../node_modules/@babel/polyfill/no
 /***/ }),
 
 /***/ "../../node_modules/@babel/polyfill/node_modules/core-js/modules/es6.typed.uint32-array.js":
-/*!****************************************************************************************************************************************!*\
-  !*** /home/travigd/Trash/WebIO-throwaway/packages/node_modules/@babel/polyfill/node_modules/core-js/modules/es6.typed.uint32-array.js ***!
-  \****************************************************************************************************************************************/
+/*!******************************************************************************************************************************************!*\
+  !*** /home/travigd/Trash/WebIO-throwaway-2/packages/node_modules/@babel/polyfill/node_modules/core-js/modules/es6.typed.uint32-array.js ***!
+  \******************************************************************************************************************************************/
 /*! no static exports found */
 /***/ (function(module, exports, __webpack_require__) {
 
@@ -9691,9 +9691,9 @@ __webpack_require__(/*! ./_typed-array */ "../../node_modules/@babel/polyfill/no
 /***/ }),
 
 /***/ "../../node_modules/@babel/polyfill/node_modules/core-js/modules/es6.typed.uint8-array.js":
-/*!***************************************************************************************************************************************!*\
-  !*** /home/travigd/Trash/WebIO-throwaway/packages/node_modules/@babel/polyfill/node_modules/core-js/modules/es6.typed.uint8-array.js ***!
-  \***************************************************************************************************************************************/
+/*!*****************************************************************************************************************************************!*\
+  !*** /home/travigd/Trash/WebIO-throwaway-2/packages/node_modules/@babel/polyfill/node_modules/core-js/modules/es6.typed.uint8-array.js ***!
+  \*****************************************************************************************************************************************/
 /*! no static exports found */
 /***/ (function(module, exports, __webpack_require__) {
 
@@ -9706,9 +9706,9 @@ __webpack_require__(/*! ./_typed-array */ "../../node_modules/@babel/polyfill/no
 /***/ }),
 
 /***/ "../../node_modules/@babel/polyfill/node_modules/core-js/modules/es6.typed.uint8-clamped-array.js":
-/*!***********************************************************************************************************************************************!*\
-  !*** /home/travigd/Trash/WebIO-throwaway/packages/node_modules/@babel/polyfill/node_modules/core-js/modules/es6.typed.uint8-clamped-array.js ***!
-  \***********************************************************************************************************************************************/
+/*!*************************************************************************************************************************************************!*\
+  !*** /home/travigd/Trash/WebIO-throwaway-2/packages/node_modules/@babel/polyfill/node_modules/core-js/modules/es6.typed.uint8-clamped-array.js ***!
+  \*************************************************************************************************************************************************/
 /*! no static exports found */
 /***/ (function(module, exports, __webpack_require__) {
 
@@ -9721,9 +9721,9 @@ __webpack_require__(/*! ./_typed-array */ "../../node_modules/@babel/polyfill/no
 /***/ }),
 
 /***/ "../../node_modules/@babel/polyfill/node_modules/core-js/modules/es6.weak-map.js":
-/*!******************************************************************************************************************************!*\
-  !*** /home/travigd/Trash/WebIO-throwaway/packages/node_modules/@babel/polyfill/node_modules/core-js/modules/es6.weak-map.js ***!
-  \******************************************************************************************************************************/
+/*!********************************************************************************************************************************!*\
+  !*** /home/travigd/Trash/WebIO-throwaway-2/packages/node_modules/@babel/polyfill/node_modules/core-js/modules/es6.weak-map.js ***!
+  \********************************************************************************************************************************/
 /*! no static exports found */
 /***/ (function(module, exports, __webpack_require__) {
 
@@ -9804,9 +9804,9 @@ if (NATIVE_WEAK_MAP && IS_IE11) {
 /***/ }),
 
 /***/ "../../node_modules/@babel/polyfill/node_modules/core-js/modules/es6.weak-set.js":
-/*!******************************************************************************************************************************!*\
-  !*** /home/travigd/Trash/WebIO-throwaway/packages/node_modules/@babel/polyfill/node_modules/core-js/modules/es6.weak-set.js ***!
-  \******************************************************************************************************************************/
+/*!********************************************************************************************************************************!*\
+  !*** /home/travigd/Trash/WebIO-throwaway-2/packages/node_modules/@babel/polyfill/node_modules/core-js/modules/es6.weak-set.js ***!
+  \********************************************************************************************************************************/
 /*! no static exports found */
 /***/ (function(module, exports, __webpack_require__) {
 
@@ -9833,9 +9833,9 @@ __webpack_require__(/*! ./_collection */ "../../node_modules/@babel/polyfill/nod
 /***/ }),
 
 /***/ "../../node_modules/@babel/polyfill/node_modules/core-js/modules/es7.array.includes.js":
-/*!************************************************************************************************************************************!*\
-  !*** /home/travigd/Trash/WebIO-throwaway/packages/node_modules/@babel/polyfill/node_modules/core-js/modules/es7.array.includes.js ***!
-  \************************************************************************************************************************************/
+/*!**************************************************************************************************************************************!*\
+  !*** /home/travigd/Trash/WebIO-throwaway-2/packages/node_modules/@babel/polyfill/node_modules/core-js/modules/es7.array.includes.js ***!
+  \**************************************************************************************************************************************/
 /*! no static exports found */
 /***/ (function(module, exports, __webpack_require__) {
 
@@ -9859,9 +9859,9 @@ __webpack_require__(/*! ./_add-to-unscopables */ "../../node_modules/@babel/poly
 /***/ }),
 
 /***/ "../../node_modules/@babel/polyfill/node_modules/core-js/modules/es7.object.entries.js":
-/*!************************************************************************************************************************************!*\
-  !*** /home/travigd/Trash/WebIO-throwaway/packages/node_modules/@babel/polyfill/node_modules/core-js/modules/es7.object.entries.js ***!
-  \************************************************************************************************************************************/
+/*!**************************************************************************************************************************************!*\
+  !*** /home/travigd/Trash/WebIO-throwaway-2/packages/node_modules/@babel/polyfill/node_modules/core-js/modules/es7.object.entries.js ***!
+  \**************************************************************************************************************************************/
 /*! no static exports found */
 /***/ (function(module, exports, __webpack_require__) {
 
@@ -9879,9 +9879,9 @@ $export($export.S, 'Object', {
 /***/ }),
 
 /***/ "../../node_modules/@babel/polyfill/node_modules/core-js/modules/es7.object.get-own-property-descriptors.js":
-/*!*********************************************************************************************************************************************************!*\
-  !*** /home/travigd/Trash/WebIO-throwaway/packages/node_modules/@babel/polyfill/node_modules/core-js/modules/es7.object.get-own-property-descriptors.js ***!
-  \*********************************************************************************************************************************************************/
+/*!***********************************************************************************************************************************************************!*\
+  !*** /home/travigd/Trash/WebIO-throwaway-2/packages/node_modules/@babel/polyfill/node_modules/core-js/modules/es7.object.get-own-property-descriptors.js ***!
+  \***********************************************************************************************************************************************************/
 /*! no static exports found */
 /***/ (function(module, exports, __webpack_require__) {
 
@@ -9917,9 +9917,9 @@ $export($export.S, 'Object', {
 /***/ }),
 
 /***/ "../../node_modules/@babel/polyfill/node_modules/core-js/modules/es7.object.values.js":
-/*!***********************************************************************************************************************************!*\
-  !*** /home/travigd/Trash/WebIO-throwaway/packages/node_modules/@babel/polyfill/node_modules/core-js/modules/es7.object.values.js ***!
-  \***********************************************************************************************************************************/
+/*!*************************************************************************************************************************************!*\
+  !*** /home/travigd/Trash/WebIO-throwaway-2/packages/node_modules/@babel/polyfill/node_modules/core-js/modules/es7.object.values.js ***!
+  \*************************************************************************************************************************************/
 /*! no static exports found */
 /***/ (function(module, exports, __webpack_require__) {
 
@@ -9937,9 +9937,9 @@ $export($export.S, 'Object', {
 /***/ }),
 
 /***/ "../../node_modules/@babel/polyfill/node_modules/core-js/modules/es7.promise.finally.js":
-/*!*************************************************************************************************************************************!*\
-  !*** /home/travigd/Trash/WebIO-throwaway/packages/node_modules/@babel/polyfill/node_modules/core-js/modules/es7.promise.finally.js ***!
-  \*************************************************************************************************************************************/
+/*!***************************************************************************************************************************************!*\
+  !*** /home/travigd/Trash/WebIO-throwaway-2/packages/node_modules/@babel/polyfill/node_modules/core-js/modules/es7.promise.finally.js ***!
+  \***************************************************************************************************************************************/
 /*! no static exports found */
 /***/ (function(module, exports, __webpack_require__) {
 
@@ -9976,9 +9976,9 @@ $export($export.P + $export.R, 'Promise', {
 /***/ }),
 
 /***/ "../../node_modules/@babel/polyfill/node_modules/core-js/modules/es7.string.pad-end.js":
-/*!************************************************************************************************************************************!*\
-  !*** /home/travigd/Trash/WebIO-throwaway/packages/node_modules/@babel/polyfill/node_modules/core-js/modules/es7.string.pad-end.js ***!
-  \************************************************************************************************************************************/
+/*!**************************************************************************************************************************************!*\
+  !*** /home/travigd/Trash/WebIO-throwaway-2/packages/node_modules/@babel/polyfill/node_modules/core-js/modules/es7.string.pad-end.js ***!
+  \**************************************************************************************************************************************/
 /*! no static exports found */
 /***/ (function(module, exports, __webpack_require__) {
 
@@ -10004,9 +10004,9 @@ $export($export.P + $export.F * WEBKIT_BUG, 'String', {
 /***/ }),
 
 /***/ "../../node_modules/@babel/polyfill/node_modules/core-js/modules/es7.string.pad-start.js":
-/*!**************************************************************************************************************************************!*\
-  !*** /home/travigd/Trash/WebIO-throwaway/packages/node_modules/@babel/polyfill/node_modules/core-js/modules/es7.string.pad-start.js ***!
-  \**************************************************************************************************************************************/
+/*!****************************************************************************************************************************************!*\
+  !*** /home/travigd/Trash/WebIO-throwaway-2/packages/node_modules/@babel/polyfill/node_modules/core-js/modules/es7.string.pad-start.js ***!
+  \****************************************************************************************************************************************/
 /*! no static exports found */
 /***/ (function(module, exports, __webpack_require__) {
 
@@ -10032,9 +10032,9 @@ $export($export.P + $export.F * WEBKIT_BUG, 'String', {
 /***/ }),
 
 /***/ "../../node_modules/@babel/polyfill/node_modules/core-js/modules/es7.symbol.async-iterator.js":
-/*!*******************************************************************************************************************************************!*\
-  !*** /home/travigd/Trash/WebIO-throwaway/packages/node_modules/@babel/polyfill/node_modules/core-js/modules/es7.symbol.async-iterator.js ***!
-  \*******************************************************************************************************************************************/
+/*!*********************************************************************************************************************************************!*\
+  !*** /home/travigd/Trash/WebIO-throwaway-2/packages/node_modules/@babel/polyfill/node_modules/core-js/modules/es7.symbol.async-iterator.js ***!
+  \*********************************************************************************************************************************************/
 /*! no static exports found */
 /***/ (function(module, exports, __webpack_require__) {
 
@@ -10043,9 +10043,9 @@ __webpack_require__(/*! ./_wks-define */ "../../node_modules/@babel/polyfill/nod
 /***/ }),
 
 /***/ "../../node_modules/@babel/polyfill/node_modules/core-js/modules/web.dom.iterable.js":
-/*!**********************************************************************************************************************************!*\
-  !*** /home/travigd/Trash/WebIO-throwaway/packages/node_modules/@babel/polyfill/node_modules/core-js/modules/web.dom.iterable.js ***!
-  \**********************************************************************************************************************************/
+/*!************************************************************************************************************************************!*\
+  !*** /home/travigd/Trash/WebIO-throwaway-2/packages/node_modules/@babel/polyfill/node_modules/core-js/modules/web.dom.iterable.js ***!
+  \************************************************************************************************************************************/
 /*! no static exports found */
 /***/ (function(module, exports, __webpack_require__) {
 
@@ -10123,9 +10123,9 @@ for (var collections = getKeys(DOMIterables), i = 0; i < collections.length; i++
 /***/ }),
 
 /***/ "../../node_modules/@babel/polyfill/node_modules/core-js/modules/web.immediate.js":
-/*!*******************************************************************************************************************************!*\
-  !*** /home/travigd/Trash/WebIO-throwaway/packages/node_modules/@babel/polyfill/node_modules/core-js/modules/web.immediate.js ***!
-  \*******************************************************************************************************************************/
+/*!*********************************************************************************************************************************!*\
+  !*** /home/travigd/Trash/WebIO-throwaway-2/packages/node_modules/@babel/polyfill/node_modules/core-js/modules/web.immediate.js ***!
+  \*********************************************************************************************************************************/
 /*! no static exports found */
 /***/ (function(module, exports, __webpack_require__) {
 
@@ -10141,9 +10141,9 @@ $export($export.G + $export.B, {
 /***/ }),
 
 /***/ "../../node_modules/@babel/polyfill/node_modules/core-js/modules/web.timers.js":
-/*!****************************************************************************************************************************!*\
-  !*** /home/travigd/Trash/WebIO-throwaway/packages/node_modules/@babel/polyfill/node_modules/core-js/modules/web.timers.js ***!
-  \****************************************************************************************************************************/
+/*!******************************************************************************************************************************!*\
+  !*** /home/travigd/Trash/WebIO-throwaway-2/packages/node_modules/@babel/polyfill/node_modules/core-js/modules/web.timers.js ***!
+  \******************************************************************************************************************************/
 /*! no static exports found */
 /***/ (function(module, exports, __webpack_require__) {
 
@@ -10178,9 +10178,9 @@ $export($export.G + $export.B + $export.F * MSIE, {
 /***/ }),
 
 /***/ "../../node_modules/@babel/polyfill/node_modules/core-js/web/index.js":
-/*!*******************************************************************************************************************!*\
-  !*** /home/travigd/Trash/WebIO-throwaway/packages/node_modules/@babel/polyfill/node_modules/core-js/web/index.js ***!
-  \*******************************************************************************************************************/
+/*!*********************************************************************************************************************!*\
+  !*** /home/travigd/Trash/WebIO-throwaway-2/packages/node_modules/@babel/polyfill/node_modules/core-js/web/index.js ***!
+  \*********************************************************************************************************************/
 /*! no static exports found */
 /***/ (function(module, exports, __webpack_require__) {
 
@@ -10194,4627 +10194,10 @@ module.exports = __webpack_require__(/*! ../modules/_core */ "../../node_modules
 
 /***/ }),
 
-/***/ "../../node_modules/@webio/webio/dist/DomNode.js":
-/*!**********************************************************************************************!*\
-  !*** /home/travigd/Trash/WebIO-throwaway/packages/node_modules/@webio/webio/dist/DomNode.js ***!
-  \**********************************************************************************************/
-/*! no static exports found */
-/***/ (function(module, exports, __webpack_require__) {
-
-"use strict";
-
-
-var __extends = this && this.__extends || function () {
-  var _extendStatics = function extendStatics(d, b) {
-    _extendStatics = Object.setPrototypeOf || {
-      __proto__: []
-    } instanceof Array && function (d, b) {
-      d.__proto__ = b;
-    } || function (d, b) {
-      for (var p in b) {
-        if (b.hasOwnProperty(p)) d[p] = b[p];
-      }
-    };
-
-    return _extendStatics(d, b);
-  };
-
-  return function (d, b) {
-    _extendStatics(d, b);
-
-    function __() {
-      this.constructor = d;
-    }
-
-    d.prototype = b === null ? Object.create(b) : (__.prototype = b.prototype, new __());
-  };
-}();
-
-var __rest = this && this.__rest || function (s, e) {
-  var t = {};
-
-  for (var p in s) {
-    if (Object.prototype.hasOwnProperty.call(s, p) && e.indexOf(p) < 0) t[p] = s[p];
-  }
-
-  if (s != null && typeof Object.getOwnPropertySymbols === "function") for (var i = 0, p = Object.getOwnPropertySymbols(s); i < p.length; i++) {
-    if (e.indexOf(p[i]) < 0) t[p[i]] = s[p[i]];
-  }
-  return t;
-};
-
-var __importDefault = this && this.__importDefault || function (mod) {
-  return mod && mod.__esModule ? mod : {
-    "default": mod
-  };
-};
-
-Object.defineProperty(exports, "__esModule", {
-  value: true
-});
-
-var debug_1 = __importDefault(__webpack_require__(/*! debug */ "../../node_modules/debug/src/browser.js"));
-
-var debug = debug_1.default("WebIO:DomNode");
-
-var Node_1 = __importDefault(__webpack_require__(/*! ./Node */ "../../node_modules/@webio/webio/dist/Node.js"));
-
-var events_1 = __webpack_require__(/*! ./events */ "../../node_modules/@webio/webio/dist/events.js");
-
-var createNode_1 = __importDefault(__webpack_require__(/*! ./createNode */ "../../node_modules/@webio/webio/dist/createNode.js"));
-
-exports.DOM_NODE_TYPE = "DOM";
-
-var WebIODomNode =
-/** @class */
-function (_super) {
-  __extends(WebIODomNode, _super);
-
-  function WebIODomNode(nodeData, options) {
-    var _this = _super.call(this, nodeData, options) || this;
-
-    _this.eventListeners = {};
-    debug("Creating WebIODomNode", {
-      nodeData: nodeData,
-      options: options,
-      node: _this
-    });
-    _this.element = WebIODomNode.createElement(nodeData);
-
-    _this.applyProps(nodeData.props); // Recursively construct children.
-
-
-    _this.children = nodeData.children.map(function (nodeData) {
-      if (typeof nodeData === "string") {
-        return nodeData;
-      }
-
-      return createNode_1.default(nodeData, {
-        webIO: _this.webIO,
-        scope: _this.scope
-      });
-    }); // Append childrens' elements to this node's element.
-
-    for (var _i = 0, _a = _this.children; _i < _a.length; _i++) {
-      var child = _a[_i];
-
-      if (typeof child === "string") {
-        _this.element.appendChild(document.createTextNode(child));
-      } else {
-        _this.element.appendChild(child.element);
-      }
-    }
-
-    return _this;
-  }
-
-  WebIODomNode.createElement = function (data) {
-    var _a = data.instanceArgs,
-        namespace = _a.namespace,
-        tag = _a.tag;
-
-    switch (namespace.toLocaleLowerCase()) {
-      case "html"
-      /* HTML */
-      :
-        return document.createElement(tag);
-
-      case "http://www.w3.org/2000/svg"
-      /* SVG */
-      :
-      case "svg"
-      /* SVG_SHORTHAND */
-      :
-        return document.createElementNS("http://www.w3.org/2000/svg"
-        /* SVG */
-        , tag);
-
-      default:
-        throw new Error("Unknown DOM namespace: " + namespace + ".");
-    }
-  };
-  /**
-   * Apply "props" to the underlying DOM element.
-   *
-   * @param props - The props to apply.
-   */
-
-
-  WebIODomNode.prototype.applyProps = function (props) {
-    debug("applyProps", props);
-
-    var style = props.style,
-        events = props.events,
-        attributes = props.attributes,
-        attributesNS = props.attributesNS,
-        setInnerHtml = props.setInnerHtml,
-        rest = __rest(props, ["style", "events", "attributes", "attributesNS", "setInnerHtml"]);
-
-    style && this.applyStyles(style);
-    events && this.applyEvents(events);
-    attributes && this.applyAttributes(attributes);
-    attributesNS && this.applyAttributesNS(attributesNS);
-    setInnerHtml && this.setInnerHTML(setInnerHtml);
-    this.applyMiscellaneousProps(rest);
-  };
-  /**
-   * Apply all props that don't have special meaning.
-   *
-   * This should really be refactored so that all these "miscellaneous" props
-   * are delivered in a separate object (e.g. have props.miscProps on the same
-   * level as props.style and props.events et al.).
-   * @param props - The object of miscellaneous props and their values.
-   */
-
-
-  WebIODomNode.prototype.applyMiscellaneousProps = function (props) {
-    debug("applyMiscellaneousProps", props);
-
-    for (var _i = 0, _a = Object.keys(props); _i < _a.length; _i++) {
-      var propName = _a[_i];
-      this.element[propName] = props[propName];
-    }
-  };
-
-  WebIODomNode.prototype.applyStyles = function (styles) {
-    if (!styles) {
-      return;
-    }
-
-    for (var _i = 0, _a = Object.keys(styles); _i < _a.length; _i++) {
-      var attributeName = _a[_i];
-      this.element.style[attributeName] = styles[attributeName];
-    }
-  };
-  /**
-   * Apply (add/remove) event listeners to the underlying DOM element.
-   *
-   * @param events - A map object from event names to event listeners. If an
-   *    event name is specified (e.g. `click`) that didn't exist before, the
-   *    associated handler (e.g. `events["click"]`) is added as a listener; if
-   *    the event name has already been specified (even if the listener function
-   *    changed!), then nothing happens; if the event name is absent (or null) in
-   *    the map, then any previously setup listeners (if any) are removed.
-   */
-
-
-  WebIODomNode.prototype.applyEvents = function (events) {
-    debug("applyEvents", events);
-
-    for (var _i = 0, _a = Object.keys(events); _i < _a.length; _i++) {
-      var eventName = _a[_i];
-      var oldListener = this.eventListeners[eventName];
-      var newListenerSource = events[eventName];
-      var newListener = newListenerSource && events_1.createWebIOEventListener(this.element, newListenerSource, {
-        scope: this.scope,
-        webIO: this.webIO
-      });
-
-      if (oldListener && !newListener) {
-        // We want to just remove the old listener.
-        this.element.removeEventListener(eventName, oldListener);
-        delete this.eventListeners[eventName];
-      } else if (!oldListener && newListener) {
-        debug("addEventListener(" + eventName + ", ...)");
-        this.element.addEventListener(eventName, newListener);
-        this.eventListeners[eventName] = newListener;
-      } // If the listener is just changed, we don't really handle that.
-
-    }
-  };
-  /**
-   * Apply DOM attributes to the underlying DOM element.
-   *
-   * @param attributes - The map of attributes to apply.
-   */
-
-
-  WebIODomNode.prototype.applyAttributes = function (attributes) {
-    for (var _i = 0, _a = Object.keys(attributes); _i < _a.length; _i++) {
-      var key = _a[_i];
-      var value = attributes[key];
-
-      if (value === null) {
-        this.element.removeAttribute(key);
-      } else {
-        this.element.setAttribute(key, value);
-      }
-    }
-  };
-  /**
-   * Apply namespaced DOM attributes to the underlying DOM element.
-   *
-   * @param attributes - The `{attributeName: {namespace, value}}` map to apply.
-   */
-
-
-  WebIODomNode.prototype.applyAttributesNS = function (attributes) {
-    for (var _i = 0, _a = Object.keys(attributes); _i < _a.length; _i++) {
-      var key = _a[_i];
-      var _b = attributes[key],
-          namespace = _b.namespace,
-          value = _b.value;
-
-      if (value === null) {
-        this.element.removeAttributeNS(namespace, key);
-      } else {
-        this.element.setAttributeNS(namespace, key, value);
-      }
-    }
-  };
-  /**
-   * Set the value associated with the node's element.
-   *
-   * This generally only works with `<input />` elements.
-   *
-   * @param value
-   * @throws Will throw an error if the element doesn't have a `value` attribute.
-   */
-
-
-  WebIODomNode.prototype.setValue = function (value) {
-    if ("value" in this.element) {
-      // If the value hasn't changed, don't re-set it.
-      if (this.element.value !== value) {
-        this.element.value = value;
-      }
-    } else {
-      throw new Error("Cannot set value on an HTMLElement that doesn't support it.");
-    }
-  };
-
-  return WebIODomNode;
-}(Node_1.default);
-
-exports.default = WebIODomNode;
-
-/***/ }),
-
-/***/ "../../node_modules/@webio/webio/dist/IFrame.js":
-/*!*********************************************************************************************!*\
-  !*** /home/travigd/Trash/WebIO-throwaway/packages/node_modules/@webio/webio/dist/IFrame.js ***!
-  \*********************************************************************************************/
-/*! no static exports found */
-/***/ (function(module, exports, __webpack_require__) {
-
-"use strict";
-
-
-var __extends = this && this.__extends || function () {
-  var _extendStatics = function extendStatics(d, b) {
-    _extendStatics = Object.setPrototypeOf || {
-      __proto__: []
-    } instanceof Array && function (d, b) {
-      d.__proto__ = b;
-    } || function (d, b) {
-      for (var p in b) {
-        if (b.hasOwnProperty(p)) d[p] = b[p];
-      }
-    };
-
-    return _extendStatics(d, b);
-  };
-
-  return function (d, b) {
-    _extendStatics(d, b);
-
-    function __() {
-      this.constructor = d;
-    }
-
-    d.prototype = b === null ? Object.create(b) : (__.prototype = b.prototype, new __());
-  };
-}();
-
-var __awaiter = this && this.__awaiter || function (thisArg, _arguments, P, generator) {
-  return new (P || (P = Promise))(function (resolve, reject) {
-    function fulfilled(value) {
-      try {
-        step(generator.next(value));
-      } catch (e) {
-        reject(e);
-      }
-    }
-
-    function rejected(value) {
-      try {
-        step(generator["throw"](value));
-      } catch (e) {
-        reject(e);
-      }
-    }
-
-    function step(result) {
-      result.done ? resolve(result.value) : new P(function (resolve) {
-        resolve(result.value);
-      }).then(fulfilled, rejected);
-    }
-
-    step((generator = generator.apply(thisArg, _arguments || [])).next());
-  });
-};
-
-var __generator = this && this.__generator || function (thisArg, body) {
-  var _ = {
-    label: 0,
-    sent: function sent() {
-      if (t[0] & 1) throw t[1];
-      return t[1];
-    },
-    trys: [],
-    ops: []
-  },
-      f,
-      y,
-      t,
-      g;
-  return g = {
-    next: verb(0),
-    "throw": verb(1),
-    "return": verb(2)
-  }, typeof Symbol === "function" && (g[Symbol.iterator] = function () {
-    return this;
-  }), g;
-
-  function verb(n) {
-    return function (v) {
-      return step([n, v]);
-    };
-  }
-
-  function step(op) {
-    if (f) throw new TypeError("Generator is already executing.");
-
-    while (_) {
-      try {
-        if (f = 1, y && (t = op[0] & 2 ? y["return"] : op[0] ? y["throw"] || ((t = y["return"]) && t.call(y), 0) : y.next) && !(t = t.call(y, op[1])).done) return t;
-        if (y = 0, t) op = [op[0] & 2, t.value];
-
-        switch (op[0]) {
-          case 0:
-          case 1:
-            t = op;
-            break;
-
-          case 4:
-            _.label++;
-            return {
-              value: op[1],
-              done: false
-            };
-
-          case 5:
-            _.label++;
-            y = op[1];
-            op = [0];
-            continue;
-
-          case 7:
-            op = _.ops.pop();
-
-            _.trys.pop();
-
-            continue;
-
-          default:
-            if (!(t = _.trys, t = t.length > 0 && t[t.length - 1]) && (op[0] === 6 || op[0] === 2)) {
-              _ = 0;
-              continue;
-            }
-
-            if (op[0] === 3 && (!t || op[1] > t[0] && op[1] < t[3])) {
-              _.label = op[1];
-              break;
-            }
-
-            if (op[0] === 6 && _.label < t[1]) {
-              _.label = t[1];
-              t = op;
-              break;
-            }
-
-            if (t && _.label < t[2]) {
-              _.label = t[2];
-
-              _.ops.push(op);
-
-              break;
-            }
-
-            if (t[2]) _.ops.pop();
-
-            _.trys.pop();
-
-            continue;
-        }
-
-        op = body.call(thisArg, _);
-      } catch (e) {
-        op = [6, e];
-        y = 0;
-      } finally {
-        f = t = 0;
-      }
-    }
-
-    if (op[0] & 5) throw op[1];
-    return {
-      value: op[0] ? op[1] : void 0,
-      done: true
-    };
-  }
-};
-
-var __importDefault = this && this.__importDefault || function (mod) {
-  return mod && mod.__esModule ? mod : {
-    "default": mod
-  };
-};
-
-Object.defineProperty(exports, "__esModule", {
-  value: true
-});
-
-var debug_1 = __importDefault(__webpack_require__(/*! debug */ "../../node_modules/debug/src/browser.js"));
-
-var debug = debug_1.default("WebIO:IFrame");
-
-var Node_1 = __importDefault(__webpack_require__(/*! ./Node */ "../../node_modules/@webio/webio/dist/Node.js"));
-
-var setInnerHTML_1 = __importDefault(__webpack_require__(/*! ./setInnerHTML */ "../../node_modules/@webio/webio/dist/setInnerHTML.js"));
-
-exports.IFRAME_NODE_TYPE = "IFrame";
-/**
- * A WebIO IFrame node.
- *
- * This renders WebIO content within a (mostly) isolate IFrame. Both the IFrame
- * and the parent page share the same WebIO instance.
- *
- * IMPORANT: IFrames have **huge** overhead on a browser page because they
- * require a whole new page context (it's pretty much the same as opening a
- * new tab). Using many IFrames will result in huge memory usage.
- *
- * NOTE: We don't have a good way to style IFrames such that they're exactly the
- * size of the content within them. RIP.
- */
-
-var WebIOIFrame =
-/** @class */
-function (_super) {
-  __extends(WebIOIFrame, _super);
-
-  function WebIOIFrame(iframeData, options) {
-    var _this = _super.call(this, iframeData, options) || this;
-
-    _this.children = null;
-    debug("Creating new WebIOIFrame.", iframeData);
-    var iframe = _this.element = document.createElement("iframe");
-    iframe.className = "webio-iframe";
-    iframe.src = "about:blank";
-    iframe.frameBorder = "0";
-    iframe.scrolling = "no";
-    iframe.height = "100%";
-    iframe.width = "100%";
-    iframe.style.display = "block";
-    var innerHTML = iframeData.instanceArgs.innerHTML;
-
-    iframe.onload = function () {
-      return _this.initializeIFrame(innerHTML);
-    };
-
-    return _this;
-  }
-  /**
-   * Initialize the IFrame after the onload event has been fired.
-   * @param innerHTML
-   */
-
-
-  WebIOIFrame.prototype.initializeIFrame = function (innerHTML) {
-    return __awaiter(this, void 0, void 0, function () {
-      var iframe, iframeWindow, iframeDocument, baseTag;
-      return __generator(this, function (_a) {
-        iframe = this.element;
-        iframeWindow = iframe.contentWindow;
-        iframeDocument = iframe.contentDocument; // Set WebIO window global.
-
-        iframeWindow.WebIO = this.webIO;
-        baseTag = document.createElement("base");
-        baseTag.href = document.baseURI;
-        iframeDocument.head.appendChild(baseTag); // Apply some styling.
-        // It seems that there's not an easy way to get the iframe to have the
-        // "correct" size (i.e. exactly the size of its contents, as if it were
-        // just a normal <div> element). This currently doesn't really work.
-
-        iframeDocument.body.style.cssText = "\n      margin: 0;\n      padding: 0;\n      height: 100%;\n    "; // Set inner html of body.
-
-        setInnerHTML_1.default(iframeDocument.body, innerHTML);
-        return [2
-        /*return*/
-        ];
-      });
-    });
-  };
-
-  return WebIOIFrame;
-}(Node_1.default);
-
-exports.default = WebIOIFrame;
-
-/***/ }),
-
-/***/ "../../node_modules/@webio/webio/dist/Node.js":
-/*!*******************************************************************************************!*\
-  !*** /home/travigd/Trash/WebIO-throwaway/packages/node_modules/@webio/webio/dist/Node.js ***!
-  \*******************************************************************************************/
-/*! no static exports found */
-/***/ (function(module, exports, __webpack_require__) {
-
-"use strict";
-
-
-var __importDefault = this && this.__importDefault || function (mod) {
-  return mod && mod.__esModule ? mod : {
-    "default": mod
-  };
-};
-
-Object.defineProperty(exports, "__esModule", {
-  value: true
-});
-
-var setInnerHTML_1 = __importDefault(__webpack_require__(/*! ./setInnerHTML */ "../../node_modules/@webio/webio/dist/setInnerHTML.js"));
-/**
- * A high-level "point-of-entry" under which WebIO "things" are rendered.
- *
- * A `WebIONode` has a root DOM element and some functionality for managing the
- * attributes (DOM attributes, CSS styles, event listeners, etc.) that are
- * applied to it.
- */
-
-
-var WebIONode =
-/** @class */
-function () {
-  function WebIONode(nodeData, options) {
-    this.nodeData = nodeData;
-    var scope = options.scope,
-        webIO = options.webIO;
-    this.scope = scope;
-    this.webIO = webIO;
-  }
-  /**
-   * Set the innerHTML of the node's DOM element.
-   */
-
-
-  WebIONode.prototype.setInnerHTML = function (html) {
-    setInnerHTML_1.default(this.element, html);
-  };
-
-  return WebIONode;
-}();
-
-exports.default = WebIONode;
-
-/***/ }),
-
-/***/ "../../node_modules/@webio/webio/dist/Observable.js":
-/*!*************************************************************************************************!*\
-  !*** /home/travigd/Trash/WebIO-throwaway/packages/node_modules/@webio/webio/dist/Observable.js ***!
-  \*************************************************************************************************/
-/*! no static exports found */
-/***/ (function(module, exports, __webpack_require__) {
-
-"use strict";
-
-
-var __importDefault = this && this.__importDefault || function (mod) {
-  return mod && mod.__esModule ? mod : {
-    "default": mod
-  };
-};
-
-Object.defineProperty(exports, "__esModule", {
-  value: true
-});
-
-var debug_1 = __importDefault(__webpack_require__(/*! debug */ "../../node_modules/debug/src/browser.js"));
-
-var debug = debug_1.default("WebIO:Observable");
-/**
- * A logical "observable" entity.
- *
- * An observable has a name (which is unique to a given scope), an id (which is
- * unique to a given process), and a value, as well as a set of subscribers.
- *
- * Note that a single observable value might have more than one
- * `WebIOObservable` instances (they will have the same id, and possibly even
- * the same name, but exist in different scopes). If one of these observables
- * changes, it is **not** the responsibility of the `WebIOObservable` to update
- * any others. Typically, this update is done by syncing the value back to Julia
- * and letting Julia issue updates for the other observables who live in other
- * scopes.
- *
- */
-
-var WebIOObservable =
-/** @class */
-function () {
-  function WebIOObservable(name, _a, scope) {
-    var id = _a.id,
-        value = _a.value,
-        sync = _a.sync;
-    this.scope = scope;
-    /**
-     * An array of active subscriber/listener functions. These are evoked when
-     * the value of the observable changes.
-     */
-
-    this.subscribers = [];
-    this.name = name;
-    this.id = id;
-    this.value = value;
-    this.sync = sync;
-    this.webIO.registerObservable(this);
-  }
-
-  Object.defineProperty(WebIOObservable.prototype, "webIO", {
-    get: function get() {
-      return this.scope.webIO;
-    },
-    enumerable: true,
-    configurable: true
-  });
-  /**
-   * Set the value of the observable, optionally synchronizing it with
-   * Julia/WebIO.
-   *
-   * @param newValue - The value to be stored within the observable.
-   * @param sync - If `true`, send the new value to Julia/WebIO. This should
-   *    always be `false` if the new value originated from Julia/WebIO itself.
-   */
-
-  WebIOObservable.prototype.setValue = function (newValue, sync) {
-    if (sync === void 0) {
-      sync = true;
-    }
-
-    debug("Setting value of observable (" + this.name + "/" + this.id + ").", newValue);
-    this.value = newValue;
-    this.notifySubscribers();
-
-    if (sync) {
-      this.syncValue();
-    }
-  };
-  /**
-   * Synchronize the value stored within this observable with Julia/WebIO.
-   *
-   * This overwrites the value stored in Julia/WebIO. This method is called
-   * automatically when using `setValue` with `sync=true` (the default).
-   */
-
-
-  WebIOObservable.prototype.syncValue = function () {
-    this.webIO.reconcileObservables(this);
-    return this.scope.send({
-      type: "command",
-      command: "update_observable"
-      /* UPDATE_OBSERVABLE */
-      ,
-      scope: this.scope.id,
-      id: this.id,
-      name: this.name,
-      value: this.value
-    });
-  };
-  /**
-   * Register a new subscriber.
-   *
-   * @example
-   *    declare const obs: Observable<number>;
-   *    // We store a reference to listener so that we may give pass it to
-   *    // unsubscribe later.
-   *    const listener = (value: number) => {
-   *      console.log(`obs got ${value}!`);
-   *    };
-   *    obs.subscribe(listener);
-   *    // Later...
-   *    obs.unsubscribe(listener);
-   *
-   * @param subscriber - A function that is called every time the value of the
-   *    observable is called; the function is given the current value of the
-   *    observable.
-   */
-
-
-  WebIOObservable.prototype.subscribe = function (subscriber) {
-    debug("Attaching subscriber in Observable(" + this.name + "/" + this.id + ").", this, subscriber);
-    this.subscribers.push(subscriber);
-  };
-  /**
-   * Deregister an existing subscriber.
-   *
-   * Note: this method requires that the reference to the original subscriber
-   *    function is retained (so that it can be used here).
-   *
-   * @param subscriber
-   */
-
-
-  WebIOObservable.prototype.unsubscribe = function (subscriber) {
-    var index = this.subscribers.indexOf(subscriber);
-
-    if (index != -1) {
-      this.subscribers.splice(index, 1);
-    }
-  };
-  /**
-   * Call each of the registered subscribers with the current value of the
-   * observable.
-   */
-
-
-  WebIOObservable.prototype.notifySubscribers = function () {
-    var _this = this;
-
-    this.subscribers.forEach(function (subscriber) {
-      debug("Notifying subscriber in Observable(" + _this.name + "/" + _this.id + ").");
-      subscriber(_this.value);
-    });
-  };
-
-  return WebIOObservable;
-}();
-
-exports.default = WebIOObservable;
-
-/***/ }),
-
-/***/ "../../node_modules/@webio/webio/dist/ObservableNode.js":
-/*!*****************************************************************************************************!*\
-  !*** /home/travigd/Trash/WebIO-throwaway/packages/node_modules/@webio/webio/dist/ObservableNode.js ***!
-  \*****************************************************************************************************/
-/*! no static exports found */
-/***/ (function(module, exports, __webpack_require__) {
-
-"use strict";
-
-
-var __extends = this && this.__extends || function () {
-  var _extendStatics = function extendStatics(d, b) {
-    _extendStatics = Object.setPrototypeOf || {
-      __proto__: []
-    } instanceof Array && function (d, b) {
-      d.__proto__ = b;
-    } || function (d, b) {
-      for (var p in b) {
-        if (b.hasOwnProperty(p)) d[p] = b[p];
-      }
-    };
-
-    return _extendStatics(d, b);
-  };
-
-  return function (d, b) {
-    _extendStatics(d, b);
-
-    function __() {
-      this.constructor = d;
-    }
-
-    d.prototype = b === null ? Object.create(b) : (__.prototype = b.prototype, new __());
-  };
-}();
-
-var __importDefault = this && this.__importDefault || function (mod) {
-  return mod && mod.__esModule ? mod : {
-    "default": mod
-  };
-};
-
-Object.defineProperty(exports, "__esModule", {
-  value: true
-});
-
-var debug_1 = __importDefault(__webpack_require__(/*! debug */ "../../node_modules/debug/src/browser.js"));
-
-var debug = debug_1.default("WebIO:ObservableNode");
-
-var Node_1 = __importDefault(__webpack_require__(/*! ./Node */ "../../node_modules/@webio/webio/dist/Node.js"));
-
-var createNode_1 = __importDefault(__webpack_require__(/*! ./createNode */ "../../node_modules/@webio/webio/dist/createNode.js"));
-
-exports.OBSERVABLE_NODE_TYPE = "ObservableNode";
-/**
- * A special type of node/observable that contains a node.
- */
-
-var WebIOObservableNode =
-/** @class */
-function (_super) {
-  __extends(WebIOObservableNode, _super);
-
-  function WebIOObservableNode(schema, context) {
-    var _this = _super.call(this, schema, context) || this;
-
-    _this.observable = null;
-    _this.children = null;
-
-    _this.onObservableUpdate = function () {
-      _this.mountObservable();
-    };
-
-    debug("Creating WebIODomNode", {
-      schema: schema,
-      context: context
-    });
-    _this.element = document.createElement("div");
-    _this.element.className = "webio-observable-node";
-
-    _this.element.setAttribute("data-webio-observable-name", schema.instanceArgs.name);
-
-    try {
-      if (!context.scope) {
-        throw new Error("Cannot render ObservableNode that has no parent scope.");
-      }
-
-      _this.observable = _this.scope.getObservable(schema.instanceArgs.name);
-
-      _this.mountObservable();
-
-      _this.scope.promises.connected.then(function () {
-        return _this.observable.subscribe(_this.onObservableUpdate);
-      });
-    } catch (e) {
-      _this.node = null;
-      _this.element.innerHTML = "<strong>Caught exception while trying to render ObservableNode: " + e.message + "</strong>";
-    }
-
-    return _this;
-  }
-
-  WebIOObservableNode.prototype.mountObservable = function () {
-    if (!this.observable) {
-      throw new Error("Cannot mount null observable.");
-    }
-
-    debug("Mounting node within WebIOObservableNode.", {
-      nodeSchema: this.observable.value
-    });
-    var newNode = createNode_1.default(this.observable.value, {
-      webIO: this.webIO,
-      scope: this.scope
-    });
-
-    if (this.node) {
-      this.element.replaceChild(newNode.element, this.node.element);
-    } else {
-      this.element.appendChild(newNode.element);
-    }
-
-    this.node = newNode;
-  };
-
-  return WebIOObservableNode;
-}(Node_1.default);
-
-exports.default = WebIOObservableNode;
-
-/***/ }),
-
-/***/ "../../node_modules/@webio/webio/dist/Scope.js":
-/*!********************************************************************************************!*\
-  !*** /home/travigd/Trash/WebIO-throwaway/packages/node_modules/@webio/webio/dist/Scope.js ***!
-  \********************************************************************************************/
-/*! no static exports found */
-/***/ (function(module, exports, __webpack_require__) {
-
-"use strict";
-
-
-var __extends = this && this.__extends || function () {
-  var _extendStatics = function extendStatics(d, b) {
-    _extendStatics = Object.setPrototypeOf || {
-      __proto__: []
-    } instanceof Array && function (d, b) {
-      d.__proto__ = b;
-    } || function (d, b) {
-      for (var p in b) {
-        if (b.hasOwnProperty(p)) d[p] = b[p];
-      }
-    };
-
-    return _extendStatics(d, b);
-  };
-
-  return function (d, b) {
-    _extendStatics(d, b);
-
-    function __() {
-      this.constructor = d;
-    }
-
-    d.prototype = b === null ? Object.create(b) : (__.prototype = b.prototype, new __());
-  };
-}();
-
-var __awaiter = this && this.__awaiter || function (thisArg, _arguments, P, generator) {
-  return new (P || (P = Promise))(function (resolve, reject) {
-    function fulfilled(value) {
-      try {
-        step(generator.next(value));
-      } catch (e) {
-        reject(e);
-      }
-    }
-
-    function rejected(value) {
-      try {
-        step(generator["throw"](value));
-      } catch (e) {
-        reject(e);
-      }
-    }
-
-    function step(result) {
-      result.done ? resolve(result.value) : new P(function (resolve) {
-        resolve(result.value);
-      }).then(fulfilled, rejected);
-    }
-
-    step((generator = generator.apply(thisArg, _arguments || [])).next());
-  });
-};
-
-var __generator = this && this.__generator || function (thisArg, body) {
-  var _ = {
-    label: 0,
-    sent: function sent() {
-      if (t[0] & 1) throw t[1];
-      return t[1];
-    },
-    trys: [],
-    ops: []
-  },
-      f,
-      y,
-      t,
-      g;
-  return g = {
-    next: verb(0),
-    "throw": verb(1),
-    "return": verb(2)
-  }, typeof Symbol === "function" && (g[Symbol.iterator] = function () {
-    return this;
-  }), g;
-
-  function verb(n) {
-    return function (v) {
-      return step([n, v]);
-    };
-  }
-
-  function step(op) {
-    if (f) throw new TypeError("Generator is already executing.");
-
-    while (_) {
-      try {
-        if (f = 1, y && (t = op[0] & 2 ? y["return"] : op[0] ? y["throw"] || ((t = y["return"]) && t.call(y), 0) : y.next) && !(t = t.call(y, op[1])).done) return t;
-        if (y = 0, t) op = [op[0] & 2, t.value];
-
-        switch (op[0]) {
-          case 0:
-          case 1:
-            t = op;
-            break;
-
-          case 4:
-            _.label++;
-            return {
-              value: op[1],
-              done: false
-            };
-
-          case 5:
-            _.label++;
-            y = op[1];
-            op = [0];
-            continue;
-
-          case 7:
-            op = _.ops.pop();
-
-            _.trys.pop();
-
-            continue;
-
-          default:
-            if (!(t = _.trys, t = t.length > 0 && t[t.length - 1]) && (op[0] === 6 || op[0] === 2)) {
-              _ = 0;
-              continue;
-            }
-
-            if (op[0] === 3 && (!t || op[1] > t[0] && op[1] < t[3])) {
-              _.label = op[1];
-              break;
-            }
-
-            if (op[0] === 6 && _.label < t[1]) {
-              _.label = t[1];
-              t = op;
-              break;
-            }
-
-            if (t && _.label < t[2]) {
-              _.label = t[2];
-
-              _.ops.push(op);
-
-              break;
-            }
-
-            if (t[2]) _.ops.pop();
-
-            _.trys.pop();
-
-            continue;
-        }
-
-        op = body.call(thisArg, _);
-      } catch (e) {
-        op = [6, e];
-        y = 0;
-      } finally {
-        f = t = 0;
-      }
-    }
-
-    if (op[0] & 5) throw op[1];
-    return {
-      value: op[0] ? op[1] : void 0,
-      done: true
-    };
-  }
-};
-
-var __rest = this && this.__rest || function (s, e) {
-  var t = {};
-
-  for (var p in s) {
-    if (Object.prototype.hasOwnProperty.call(s, p) && e.indexOf(p) < 0) t[p] = s[p];
-  }
-
-  if (s != null && typeof Object.getOwnPropertySymbols === "function") for (var i = 0, p = Object.getOwnPropertySymbols(s); i < p.length; i++) {
-    if (e.indexOf(p[i]) < 0) t[p[i]] = s[p[i]];
-  }
-  return t;
-};
-
-var __importDefault = this && this.__importDefault || function (mod) {
-  return mod && mod.__esModule ? mod : {
-    "default": mod
-  };
-};
-
-Object.defineProperty(exports, "__esModule", {
-  value: true
-});
-
-var debug_1 = __importDefault(__webpack_require__(/*! debug */ "../../node_modules/debug/src/browser.js"));
-
-var debug = debug_1.default("WebIO:Scope");
-
-var Node_1 = __importDefault(__webpack_require__(/*! ./Node */ "../../node_modules/@webio/webio/dist/Node.js"));
-
-var Observable_1 = __importDefault(__webpack_require__(/*! ./Observable */ "../../node_modules/@webio/webio/dist/Observable.js"));
-
-var utils_1 = __webpack_require__(/*! ./utils */ "../../node_modules/@webio/webio/dist/utils.js");
-
-var events_1 = __webpack_require__(/*! ./events */ "../../node_modules/@webio/webio/dist/events.js");
-
-var createNode_1 = __importDefault(__webpack_require__(/*! ./createNode */ "../../node_modules/@webio/webio/dist/createNode.js"));
-
-var imports_1 = __webpack_require__(/*! ./imports */ "../../node_modules/@webio/webio/dist/imports.js");
-
-exports.SCOPE_NODE_TYPE = "Scope";
-
-var WebIOScope =
-/** @class */
-function (_super) {
-  __extends(WebIOScope, _super);
-
-  function WebIOScope(schema, context) {
-    var _this = _super.call(this, schema, context) || this;
-
-    _this.children = null;
-    debug("Creating new WebIOScope.", schema);
-    _this.element = document.createElement("div");
-    _this.element.className = "webio-scope";
-
-    _this.element.setAttribute("data-webio-scope-id", schema.instanceArgs.id);
-
-    var _a = schema.instanceArgs,
-        id = _a.id,
-        _b = _a.observables,
-        observables = _b === void 0 ? {} : _b,
-        _c = _a.handlers,
-        handlers = _c === void 0 ? {} : _c;
-    _this.id = id; // Create WebIOObservables.
-
-    _this.observables = {};
-    Object.keys(observables).forEach(function (name) {
-      var observable = new Observable_1.default(name, observables[name], _this);
-      _this.observables[name] = observable;
-      observable.subscribe(function (value) {
-        return _this.evokeObservableHandlers(name, value);
-      });
-    });
-    _this.handlers = {}; // TODO: refactor registerScope as described elsewhere
-
-    _this.webIO.registerScope(_this); // TODO: this following is super messy and needs to be refactored.
-
-    /**
-     * The issue here is that we need to have this.promises hooked up before
-     * we create children... and we have to do the imports **after** we create
-     * the children. There's definitely a cleaner way to do this but my brain
-     * is a little bit fried right now.
-     *
-     * Currently, we just have a "dummy promise" that we create and then
-     * "manually" resolve **after** the imports are done, so that
-     * `this.promises` is set when we call `initialize` -- which we need since
-     * `initialize` creates children which might in turn (e.g. in the case of
-     * {@link WebIOObservableNode}) rely on `this.promises`.
-     */
-
-
-    var resolveImportsLoaded;
-    var rejectImportsLoaded;
-    var importsLoadedPromise = new Promise(function (resolve, reject) {
-      resolveImportsLoaded = resolve;
-      rejectImportsLoaded = reject;
-    });
-    _this.promises = {
-      connected: _this.webIO.connected.then(function () {
-        return _this;
-      }),
-      importsLoaded: importsLoadedPromise
-    }; // This is super messy and should be refactored.
-    // We must do `setupScope` after imports are loaded (see pull #217).
-
-    _this.initialize(schema).then(function () {
-      var args = [];
-
-      for (var _i = 0; _i < arguments.length; _i++) {
-        args[_i] = arguments[_i];
-      }
-
-      return resolveImportsLoaded(args);
-    }).then(function () {
-      return _this.setupScope();
-    }).catch(function () {
-      var args = [];
-
-      for (var _i = 0; _i < arguments.length; _i++) {
-        args[_i] = arguments[_i];
-      }
-
-      return rejectImportsLoaded(args);
-    });
-
-    return _this;
-  }
-
-  Object.defineProperty(WebIOScope.prototype, "dom", {
-    get: function get() {
-      return this.element;
-    },
-    enumerable: true,
-    configurable: true
-  });
-  /**
-   * Perform asynchronous initialization tasks.
-   */
-
-  WebIOScope.prototype.initialize = function (schema) {
-    return __awaiter(this, void 0, void 0, function () {
-      var _a, _b, handlers, imports, systemJSConfig, _c, preDependencies, _d, _promises, restHandlers, resources, _e, _i, _f, child, importsLoadedHandlers, handlers_1, callbacks;
-
-      var _this = this;
-
-      return __generator(this, function (_g) {
-        switch (_g.label) {
-          case 0:
-            _a = schema.instanceArgs, _b = _a.handlers, handlers = _b === void 0 ? {} : _b, imports = _a.imports, systemJSConfig = _a.systemjs_options;
-            _c = handlers.preDependencies, preDependencies = _c === void 0 ? [] : _c, _d = handlers._promises, _promises = _d === void 0 ? {} : _d, restHandlers = __rest(handlers, ["preDependencies", "_promises"]);
-            preDependencies.map(function (functionString) {
-              return events_1.createWebIOEventListener(_this, functionString, {
-                scope: _this,
-                webIO: _this.webIO
-              });
-            }).forEach(function (handler) {
-              return handler.call(_this);
-            }); // Map the function strings into handlers which have `this` bound to the scope's
-            // element and which have access to the _webIOScope resources variable (via closure).
-
-            Object.keys(restHandlers).forEach(function (observableName) {
-              _this.handlers[observableName] = handlers[observableName].map(function (handlerString) {
-                return events_1.createWebIOEventListener(_this, handlerString, {
-                  scope: _this,
-                  webIO: _this.webIO
-                });
-              });
-            });
-            if (!imports) return [3
-            /*break*/
-            , 2];
-            return [4
-            /*yield*/
-            , imports_1.importBlock(imports, systemJSConfig)];
-
-          case 1:
-            _e = _g.sent();
-            return [3
-            /*break*/
-            , 3];
-
-          case 2:
-            _e = null;
-            _g.label = 3;
-
-          case 3:
-            resources = _e; // Create children WebIONodes.
-
-            debug("Creating children for scope (id: " + this.id + ").");
-            this.children = schema.children.map(function (nodeData) {
-              if (typeof nodeData === "string") {
-                return nodeData;
-              }
-
-              return createNode_1.default(nodeData, {
-                webIO: _this.webIO,
-                scope: _this
-              });
-            }); // Append children elements to our element.
-
-            for (_i = 0, _f = this.children; _i < _f.length; _i++) {
-              child = _f[_i];
-
-              if (typeof child === "string") {
-                this.element.appendChild(document.createTextNode(child));
-              } else {
-                this.element.appendChild(child.element);
-              }
-            }
-
-            importsLoadedHandlers = _promises.importsLoaded;
-
-            if (resources && importsLoadedHandlers) {
-              debug("Invoking importsLoaded handlers for scope (" + this.id + ").", {
-                scope: this,
-                importsLoadedHandlers: importsLoadedHandlers,
-                resources: resources
-              });
-              handlers_1 = importsLoadedHandlers.map(function (handler) {
-                return events_1.createWebIOEventListener(_this, handler, {
-                  scope: _this,
-                  webIO: _this.webIO
-                });
-              }); // `as any` is necessary because createWebIOEventListener normally returns
-              // a function which is expected to be an event listener... but this is
-              // kind of a special case of that.
-
-              handlers_1.forEach(function (handler) {
-                return handler.apply(void 0, resources);
-              });
-            }
-
-            if (schema.instanceArgs.mount_callbacks) {
-              callbacks = schema.instanceArgs.mount_callbacks.map(function (src) {
-                return events_1.createWebIOEventListener(_this, src, {
-                  scope: _this,
-                  webIO: _this.webIO
-                });
-              });
-              callbacks.forEach(function (callback) {
-                return callback();
-              });
-            } // This isn't super clean, but this function is used to create the
-            // importsLoaded promise, so we need to return the promises.
-            // TODO: refactor this
-
-
-            return [2
-            /*return*/
-            , resources];
-        }
-      });
-    });
-  };
-
-  WebIOScope.prototype.getLocalObservable = function (observableName) {
-    // Only return a "local" observable
-    var obs = this.observables[observableName];
-
-    if (!obs) {
-      throw new Error("Scope(id=" + this.id + ") has no observable named \"" + observableName + "\".");
-    }
-
-    return obs;
-  };
-
-  WebIOScope.prototype.getObservable = function (observable) {
-    if (typeof observable === "string" || observable.scope === this.id) {
-      return this.getLocalObservable(utils_1.getObservableName(observable));
-    } // Otherwise, let the root WebIO instance find the correct scope and
-    // observable.
-
-
-    return this.webIO.getObservable(observable);
-  };
-
-  WebIOScope.prototype.getObservableValue = function (observable) {
-    return this.getObservable(observable).value;
-  };
-  /**
-   * Update an observable within the scope.
-   * @param observable - The name (or specifier) of the observable to modify.
-   * @param value - The value to set the observable to.
-   * @param sync - Whether or not to sync the value to Julia. This should always be
-   *    false if the update originated from Julia and is just being propogated into
-   *    the browser.
-   */
-
-
-  WebIOScope.prototype.setObservableValue = function (observable, value, sync) {
-    if (sync === void 0) {
-      sync = true;
-    }
-
-    var observableName = utils_1.getObservableName(observable);
-
-    if (!(observableName in this.observables)) {
-      throw new Error("Scope(id=" + this.id + ") has no observable named \"" + observableName + "\".");
-    }
-
-    debug("Setting Observable (name: " + observableName + ") to \"" + value + "\" in WebIOScope (id: " + this.id + ").");
-    this.observables[observableName].setValue(value, sync);
-  };
-  /**
-   * Send a message to the WebIO Julia machinery.
-   *
-   * Sets the scope id if not specified.
-   */
-
-
-  WebIOScope.prototype.send = function (message) {
-    return this.webIO.send(message);
-  };
-  /**
-   * Evoke the listeners for an observable with the current value of
-   * that observable.
-   *
-   * @param name - The name of the observable whose listeners should be evoked.
-   * @param value - The current value of the observable.
-   */
-
-
-  WebIOScope.prototype.evokeObservableHandlers = function (name, value) {
-    var _this = this;
-
-    var listeners = this.handlers[name] || [];
-    debug("Evoking " + listeners.length + " observable handlers for observable \"" + name + "\".");
-    listeners.forEach(function (listener) {
-      listener.call(_this, value, _this);
-    });
-  };
-  /**
-   * Send the setup-scope message.
-   *
-   * This informs Julia/WebIO that we want to listen to changes associated
-   * with this scope.
-   */
-
-
-  WebIOScope.prototype.setupScope = function () {
-    return this.send({
-      type: "command",
-      command: "setup_scope"
-      /* SETUP_SCOPE */
-      ,
-      scope: this.id
-    });
-  };
-
-  return WebIOScope;
-}(Node_1.default);
-
-exports.default = WebIOScope;
-
-/***/ }),
-
-/***/ "../../node_modules/@webio/webio/dist/WebIO.js":
-/*!********************************************************************************************!*\
-  !*** /home/travigd/Trash/WebIO-throwaway/packages/node_modules/@webio/webio/dist/WebIO.js ***!
-  \********************************************************************************************/
-/*! no static exports found */
-/***/ (function(module, exports, __webpack_require__) {
-
-"use strict";
-
-
-var __assign = this && this.__assign || function () {
-  __assign = Object.assign || function (t) {
-    for (var s, i = 1, n = arguments.length; i < n; i++) {
-      s = arguments[i];
-
-      for (var p in s) {
-        if (Object.prototype.hasOwnProperty.call(s, p)) t[p] = s[p];
-      }
-    }
-
-    return t;
-  };
-
-  return __assign.apply(this, arguments);
-};
-
-var __awaiter = this && this.__awaiter || function (thisArg, _arguments, P, generator) {
-  return new (P || (P = Promise))(function (resolve, reject) {
-    function fulfilled(value) {
-      try {
-        step(generator.next(value));
-      } catch (e) {
-        reject(e);
-      }
-    }
-
-    function rejected(value) {
-      try {
-        step(generator["throw"](value));
-      } catch (e) {
-        reject(e);
-      }
-    }
-
-    function step(result) {
-      result.done ? resolve(result.value) : new P(function (resolve) {
-        resolve(result.value);
-      }).then(fulfilled, rejected);
-    }
-
-    step((generator = generator.apply(thisArg, _arguments || [])).next());
-  });
-};
-
-var __generator = this && this.__generator || function (thisArg, body) {
-  var _ = {
-    label: 0,
-    sent: function sent() {
-      if (t[0] & 1) throw t[1];
-      return t[1];
-    },
-    trys: [],
-    ops: []
-  },
-      f,
-      y,
-      t,
-      g;
-  return g = {
-    next: verb(0),
-    "throw": verb(1),
-    "return": verb(2)
-  }, typeof Symbol === "function" && (g[Symbol.iterator] = function () {
-    return this;
-  }), g;
-
-  function verb(n) {
-    return function (v) {
-      return step([n, v]);
-    };
-  }
-
-  function step(op) {
-    if (f) throw new TypeError("Generator is already executing.");
-
-    while (_) {
-      try {
-        if (f = 1, y && (t = op[0] & 2 ? y["return"] : op[0] ? y["throw"] || ((t = y["return"]) && t.call(y), 0) : y.next) && !(t = t.call(y, op[1])).done) return t;
-        if (y = 0, t) op = [op[0] & 2, t.value];
-
-        switch (op[0]) {
-          case 0:
-          case 1:
-            t = op;
-            break;
-
-          case 4:
-            _.label++;
-            return {
-              value: op[1],
-              done: false
-            };
-
-          case 5:
-            _.label++;
-            y = op[1];
-            op = [0];
-            continue;
-
-          case 7:
-            op = _.ops.pop();
-
-            _.trys.pop();
-
-            continue;
-
-          default:
-            if (!(t = _.trys, t = t.length > 0 && t[t.length - 1]) && (op[0] === 6 || op[0] === 2)) {
-              _ = 0;
-              continue;
-            }
-
-            if (op[0] === 3 && (!t || op[1] > t[0] && op[1] < t[3])) {
-              _.label = op[1];
-              break;
-            }
-
-            if (op[0] === 6 && _.label < t[1]) {
-              _.label = t[1];
-              t = op;
-              break;
-            }
-
-            if (t && _.label < t[2]) {
-              _.label = t[2];
-
-              _.ops.push(op);
-
-              break;
-            }
-
-            if (t[2]) _.ops.pop();
-
-            _.trys.pop();
-
-            continue;
-        }
-
-        op = body.call(thisArg, _);
-      } catch (e) {
-        op = [6, e];
-        y = 0;
-      } finally {
-        f = t = 0;
-      }
-    }
-
-    if (op[0] & 5) throw op[1];
-    return {
-      value: op[0] ? op[1] : void 0,
-      done: true
-    };
-  }
-};
-
-var __importDefault = this && this.__importDefault || function (mod) {
-  return mod && mod.__esModule ? mod : {
-    "default": mod
-  };
-};
-
-var __importStar = this && this.__importStar || function (mod) {
-  if (mod && mod.__esModule) return mod;
-  var result = {};
-  if (mod != null) for (var k in mod) {
-    if (Object.hasOwnProperty.call(mod, k)) result[k] = mod[k];
-  }
-  result["default"] = mod;
-  return result;
-};
-
-Object.defineProperty(exports, "__esModule", {
-  value: true
-}); // import isArray from "is-array";
-// import arrayEqual from "array-equal";
-
-var debug_1 = __importDefault(__webpack_require__(/*! debug */ "../../node_modules/debug/src/browser.js"));
-
-var createNode_1 = __importStar(__webpack_require__(/*! ./createNode */ "../../node_modules/@webio/webio/dist/createNode.js"));
-
-var imports_1 = __webpack_require__(/*! ./imports */ "../../node_modules/@webio/webio/dist/imports.js");
-
-var events_1 = __webpack_require__(/*! ./events */ "../../node_modules/@webio/webio/dist/events.js");
-
-var log = debug_1.default("WebIO");
-
-var WebIO =
-/** @class */
-function () {
-  function WebIO() {
-    var _this = this;
-    /**
-     * A map from `scopeId` to the corresponding {@link WebIOScope} instance.
-     */
-
-
-    this.scopes = {};
-    /**
-     * A map from `observableId` to an array of corresponding
-     * {@link WebIOObservable} instances. We have an array of these instances
-     * since an observable may appear within several different scopes. Also note
-     * that we identify observables by id here, rather than by name, since the
-     * name may be different in different scopes; the ids are usually of the form
-     * `obs_123`.
-     */
-
-    this.observables = {}; // We have to use the !-postfix on {resolve,reject}Connected because TypeScript
-    // thinks that the body of the promise below isn't immediately executed (it is).
-
-    this.connected = new Promise(function (resolve, reject) {
-      _this.resolveConnected = resolve;
-      _this.rejectConnected = reject;
-    });
-  }
-  /**
-   * Dispatch a message into the WebIO JavaScript machinery.
-   *
-   * The message usually comes from the comm (e.g. WebSocket) that WebIO is
-   * using to communicate.
-   *
-   * @param message - The message to dispatch.
-   */
-
-
-  WebIO.prototype.dispatch = function (message) {
-    switch (message.type) {
-      case "request":
-        return this.dispatchRequest(message);
-
-      case "command":
-        return this.dispatchCommand(message);
-
-      case "response":
-        throw new Error("Dispatching responses in the frontend is not implemented.");
-    }
-
-    throw new Error("Unknown message type: " + message.type + ".");
-  };
-
-  WebIO.prototype.dispatchCommand = function (message) {
-    log("Dispatching message (command: " + message.command + ").", message);
-
-    switch (message.command) {
-      case "update_observable"
-      /* UPDATE_OBSERVABLE */
-      :
-        {
-          var scope = this.scopes[message.scope];
-
-          if (!scope) {
-            throw new Error("WebIO has no such scope: (id " + message.scope + ").");
-          }
-
-          scope.setObservableValue(message.name, message.value, false);
-          return;
-        }
-
-      default:
-        {
-          // TODO: see notes in interface definition of WebIOMessage
-          throw new Error("Unknown command: " + message.command); // const {scope: scopeId, command} = message;
-          // const scope = this.scopes[scopeId];
-          // if (!scope) {
-          //   throw new Error(`WebIO has no such scope (id: ${scopeId}).`);
-          // }
-        }
-    }
-  };
-
-  WebIO.prototype.dispatchRequest = function (message) {
-    return __awaiter(this, void 0, void 0, function () {
-      var _a, scope, result;
-
-      return __generator(this, function (_b) {
-        switch (_b.label) {
-          case 0:
-            log("dispatchRequest: " + message.request);
-            _a = message.request;
-
-            switch (_a) {
-              case "eval"
-              /* EVAL */
-              :
-                return [3
-                /*break*/
-                , 1];
-            }
-
-            return [3
-            /*break*/
-            , 5];
-
-          case 1:
-            scope = this.getScope(message.scope);
-            result = events_1.evalWithWebIOContext(scope, message.expression, {
-              webIO: this,
-              scope: scope
-            });
-            if (!(result instanceof Promise)) return [3
-            /*break*/
-            , 3];
-            log("Eval expression returned a promise, awaiting promise.");
-            return [4
-            /*yield*/
-            , result];
-
-          case 2:
-            result = _b.sent();
-            _b.label = 3;
-
-          case 3:
-            return [4
-            /*yield*/
-            , this.send({
-              type: "response",
-              request: message.request,
-              requestId: message.requestId,
-              result: result
-            })];
-
-          case 4:
-            return [2
-            /*return*/
-            , _b.sent()];
-
-          case 5:
-            throw new Error("Unknown request type: " + message.request + ".");
-        }
-      });
-    });
-  };
-  /**
-   * Set the send callback that WebIO will use.
-   *
-   * This method, when called for the first time, will also resolve the WebIO
-   * connected promise and send any messages that are waiting.
-   */
-
-
-  WebIO.prototype.setSendCallback = function (sendCallback) {
-    log("Setting WebIO sendCallback.");
-    this.sendCallback = sendCallback;
-    this.resolveConnected();
-  };
-  /**
-   * A method called by scopes to register themselves so that messages
-   * can be routed appropriately.
-   *
-   * @todo This should probably be changed so that this method is used to
-   *    create a new `WebIOScope` and have it registered then instead of
-   *    asking the scope to register itself.
-   *    tl;dr; change
-   *    `scope = new WebIOScope(...); webIO.registerScope(scope)`
-   *    to `scope = webio.createScope(...);`.
-   *
-   * @param scope
-   */
-
-
-  WebIO.prototype.registerScope = function (scope) {
-    log("Registering WebIO scope (id: " + scope.id + ").");
-    this.scopes[scope.id] = scope;
-  };
-  /**
-   * A method called by observables to register themselves. This is used to
-   * ensure that observables are in a consistent state within the browser.
-   * @param observable
-   */
-
-
-  WebIO.prototype.registerObservable = function (observable) {
-    var id = observable.id;
-    log("Registering WebIO observable (id: " + observable.id + ").");
-
-    if (!this.observables[id]) {
-      this.observables[id] = [];
-    }
-
-    this.observables[observable.id].push(observable);
-  };
-  /**
-   * Ensure that all observable instances have the value off the
-   * `sourceObservable`.
-   *
-   * @param sourceObservable - The observable whose values are synchronized with
-   *    all other registered observables of the same id.
-   */
-
-
-  WebIO.prototype.reconcileObservables = function (sourceObservable) {
-    var id = sourceObservable.id,
-        name = sourceObservable.name,
-        value = sourceObservable.value;
-    var observables = this.observables[id] || [];
-    log("Reconciling " + observables.length + " observables (id: " + id + ").");
-
-    if (observables.length < 1) {
-      console.warn("Tried to reconcile observables (id: " + id + ", name: " + name + ") but we don't know" + "about any observables with that id.");
-      return;
-    }
-
-    for (var _i = 0, observables_1 = observables; _i < observables_1.length; _i++) {
-      var observable = observables_1[_i]; // Don't re-set the value of the observable that triggered the
-      // reconciliation.
-
-      if (observable === sourceObservable) continue;
-      log("Reconciling observable \"" + observable.name + "\" in scope \"" + observable.scope.id + "\".");
-      observable.setValue(value, false);
-    }
-  };
-
-  ;
-  /**
-   * Send a message to the WebIO Julia machinery.
-   *
-   * Sets `type: "message"` before passing to the send callback.
-   */
-
-  WebIO.prototype.send = function (message) {
-    return __awaiter(this, void 0, void 0, function () {
-      return __generator(this, function (_a) {
-        switch (_a.label) {
-          case 0:
-            return [4
-            /*yield*/
-            , this.connected];
-
-          case 1:
-            _a.sent();
-
-            log("Sending WebIO message:", message);
-            log("sendCallback:", this.sendCallback);
-            return [2
-            /*return*/
-            , this.sendCallback(__assign({
-              type: "message"
-            }, message))];
-        }
-      });
-    });
-  };
-  /**
-   * Mount a WebIO node into the specified element.
-   *
-   * This method overwrites the content of the element.
-   *
-   * @param element - The element to be replaced with the WebIO node.
-   * @param nodeSchema - The data associated with the WebIO node.
-   */
-
-
-  WebIO.prototype.mount = function (element, nodeSchema) {
-    if (!element) {
-      console.error("WebIO cannot mount node into element.", {
-        element: element,
-        nodeData: nodeSchema
-      });
-      throw new Error("WebIO cannot mount node into element.");
-    }
-
-    log("Mounting WebIO node.", {
-      nodeData: nodeSchema,
-      element: element
-    });
-    var node = createNode_1.default(nodeSchema, {
-      webIO: this
-    }); // Reset the contents of the node we're mounting into.
-
-    element.innerHTML = "";
-    element.classList.add("webio-mountpoint"); // Temporary hack for @piever
-    // https://github.com/JuliaGizmos/WebIO.jl/pull/211#issuecomment-429672805
-
-    element.classList.add("interactbulma");
-    element.appendChild(node.element);
-  };
-
-  WebIO.prototype.getScope = function (scopeId) {
-    var scope = this.scopes[scopeId];
-
-    if (!scope) {
-      throw new Error("WebIO has no scope (id: " + scopeId + ").");
-    }
-
-    return scope;
-  };
-  /**
-   * Get an {@link WebIOObservable} object.
-   *
-   * @throws Will throw an error if the scope does not exist or there is no
-   *    such observable within the scope.
-   */
-
-
-  WebIO.prototype.getObservable = function (_a) {
-    var scope = _a.scope,
-        name = _a.name;
-    return this.getScope(scope).getLocalObservable(name);
-  };
-  /**
-   * Get the value of some observable.
-   *
-   * @deprecated This method is a shim for old WebIO functionally which relied
-   * on a global WebIO instance.
-   *
-   * @throws Will throw an error if the scope does not exist or there is no
-   *    such observable within the scope.
-   */
-
-
-  WebIO.prototype.getval = function (_a) {
-    var scope = _a.scope,
-        name = _a.name;
-    return this.getScope(scope).getObservableValue(name);
-  };
-  /**
-   * Set the value of some observable.
-   *
-   * @deprecated This method is a shim for old WebIO functionally which relied
-   * on a global WebIO instance.
-   *
-   * @throws Will throw an error if the scope does not exist or there is no
-   *    such observable within the scope.
-   */
-
-
-  WebIO.prototype.setval = function (_a, value, sync) {
-    var scope = _a.scope,
-        name = _a.name;
-
-    if (sync === void 0) {
-      sync = true;
-    }
-
-    return this.getScope(scope).setObservableValue(name, value, sync);
-  };
-
-  WebIO.prototype.loadJS = function (dependency) {
-    return __awaiter(this, void 0, void 0, function () {
-      return __generator(this, function (_a) {
-        switch (_a.label) {
-          case 0:
-            return [4
-            /*yield*/
-            , imports_1.importJSUrl(dependency.name, dependency.url)];
-
-          case 1:
-            return [2
-            /*return*/
-            , _a.sent()];
-        }
-      });
-    });
-  };
-
-  WebIO.prototype.loadCSS = function (dependency) {
-    return __awaiter(this, void 0, void 0, function () {
-      return __generator(this, function (_a) {
-        switch (_a.label) {
-          case 0:
-            return [4
-            /*yield*/
-            , imports_1.importLink(dependency.url, {
-              rel: "stylesheet",
-              type: "text/css",
-              media: "all"
-            })];
-
-          case 1:
-            return [2
-            /*return*/
-            , _a.sent()];
-        }
-      });
-    });
-  };
-  /**
-   * A reference to {@link NODE_CLASSES} to allow for extension.
-   */
-
-
-  WebIO.NODE_CLASSES = createNode_1.NODE_CLASSES;
-  return WebIO;
-}();
-
-exports.default = WebIO;
-
-/***/ }),
-
-/***/ "../../node_modules/@webio/webio/dist/createNode.js":
-/*!*************************************************************************************************!*\
-  !*** /home/travigd/Trash/WebIO-throwaway/packages/node_modules/@webio/webio/dist/createNode.js ***!
-  \*************************************************************************************************/
-/*! no static exports found */
-/***/ (function(module, exports, __webpack_require__) {
-
-"use strict";
-
-
-var __importStar = this && this.__importStar || function (mod) {
-  if (mod && mod.__esModule) return mod;
-  var result = {};
-  if (mod != null) for (var k in mod) {
-    if (Object.hasOwnProperty.call(mod, k)) result[k] = mod[k];
-  }
-  result["default"] = mod;
-  return result;
-};
-
-Object.defineProperty(exports, "__esModule", {
-  value: true
-});
-
-var _a;
-
-var DomNode_1 = __importStar(__webpack_require__(/*! ./DomNode */ "../../node_modules/@webio/webio/dist/DomNode.js"));
-
-var Scope_1 = __importStar(__webpack_require__(/*! ./Scope */ "../../node_modules/@webio/webio/dist/Scope.js"));
-
-var IFrame_1 = __importStar(__webpack_require__(/*! ./IFrame */ "../../node_modules/@webio/webio/dist/IFrame.js"));
-
-var ObservableNode_1 = __importStar(__webpack_require__(/*! ./ObservableNode */ "../../node_modules/@webio/webio/dist/ObservableNode.js"));
-/**
- * Map from node type to node class.
- *
- * The node class should extends WebIONode and take the same arguments in its
- * constructor.
- */
-
-
-exports.NODE_CLASSES = (_a = {}, _a[DomNode_1.DOM_NODE_TYPE] = DomNode_1.default, _a[Scope_1.SCOPE_NODE_TYPE] = Scope_1.default, _a[IFrame_1.IFRAME_NODE_TYPE] = IFrame_1.default, _a[ObservableNode_1.OBSERVABLE_NODE_TYPE] = ObservableNode_1.default, _a);
-/**
-* Create a new WebIO node (a scope or a DOM node).
-* @param schema
-* @param context
-*/
-
-var createNode = function createNode(schema, context) {
-  var NodeClass = exports.NODE_CLASSES[schema.nodeType];
-
-  if (NodeClass) {
-    // We need any here to tell TypeScript that NodeClass isn't an abstract
-    // class (because WebIONode **is** an abstract class but we will only have
-    // subclasses in our NODE_CLASSES map).
-    return new NodeClass(schema, context);
-  }
-
-  throw new Error("Unknown WebIO node type: " + schema.nodeType + ".");
-};
-
-exports.default = createNode;
-
-/***/ }),
-
-/***/ "../../node_modules/@webio/webio/dist/events.js":
-/*!*********************************************************************************************!*\
-  !*** /home/travigd/Trash/WebIO-throwaway/packages/node_modules/@webio/webio/dist/events.js ***!
-  \*********************************************************************************************/
-/*! no static exports found */
-/***/ (function(module, exports, __webpack_require__) {
-
-"use strict";
-
-
-var __importDefault = this && this.__importDefault || function (mod) {
-  return mod && mod.__esModule ? mod : {
-    "default": mod
-  };
-};
-
-Object.defineProperty(exports, "__esModule", {
-  value: true
-});
-
-var debug_1 = __importDefault(__webpack_require__(/*! debug */ "../../node_modules/debug/src/browser.js"));
-
-var log = debug_1.default("WebIO:events");
-/**
- * Create a WebIO event listener.
- *
- * This function returns an event listener function that will operate in the
- * correct WebIO scope (i.e. WebIO will refer to the right instance and `this`
- * will be bound to the DOM node specified).
- *
- * Note that we use _webIO-prefixed variable names to avoid any possible clashes
- * with user-code.
- *
- * @param _webIOThis - the DOM node that `this` should be bound to.
- * @param _webIOListenerSource - the source (preferably as a string) of the listener
- *    function; if not a string, the function will be converted to a string and
- *    then re-eval'd to ensure that WebIO and this refer to the correct objects.
- * @param _webIOContext - the context handler should be evaluated in.
- */
-
-exports.createWebIOEventListener = function (_webIOThis, _webIOListenerSource, _webIOContext) {
-  var WebIO = _webIOContext.webIO,
-      _webIOScope = _webIOContext.scope;
-  log("Creating event listener.", {
-    context: _webIOThis,
-    scope: _webIOScope,
-    source: _webIOListenerSource
-  }); // Wrap the source in parens so that eval returns the function instance
-  // (so that eval treats it as an expression rather than a top-level function
-  // declaration).
-
-  return eval("(" + _webIOListenerSource + ")").bind(_webIOThis);
-};
-
-exports.evalWithWebIOContext = function (_webIOThis, _webIOListenerSource, _webIOContext) {
-  var WebIO = _webIOContext.webIO,
-      _webIOScope = _webIOContext.scope;
-
-  var _wrappedFunction = function _wrappedFunction() {
-    return eval("" + _webIOListenerSource);
-  };
-
-  return _wrappedFunction.apply(_webIOThis);
-};
-
-/***/ }),
-
-/***/ "../../node_modules/@webio/webio/dist/imports.js":
-/*!**********************************************************************************************!*\
-  !*** /home/travigd/Trash/WebIO-throwaway/packages/node_modules/@webio/webio/dist/imports.js ***!
-  \**********************************************************************************************/
-/*! no static exports found */
-/***/ (function(module, exports, __webpack_require__) {
-
-"use strict";
-
-
-var __awaiter = this && this.__awaiter || function (thisArg, _arguments, P, generator) {
-  return new (P || (P = Promise))(function (resolve, reject) {
-    function fulfilled(value) {
-      try {
-        step(generator.next(value));
-      } catch (e) {
-        reject(e);
-      }
-    }
-
-    function rejected(value) {
-      try {
-        step(generator["throw"](value));
-      } catch (e) {
-        reject(e);
-      }
-    }
-
-    function step(result) {
-      result.done ? resolve(result.value) : new P(function (resolve) {
-        resolve(result.value);
-      }).then(fulfilled, rejected);
-    }
-
-    step((generator = generator.apply(thisArg, _arguments || [])).next());
-  });
-};
-
-var __generator = this && this.__generator || function (thisArg, body) {
-  var _ = {
-    label: 0,
-    sent: function sent() {
-      if (t[0] & 1) throw t[1];
-      return t[1];
-    },
-    trys: [],
-    ops: []
-  },
-      f,
-      y,
-      t,
-      g;
-  return g = {
-    next: verb(0),
-    "throw": verb(1),
-    "return": verb(2)
-  }, typeof Symbol === "function" && (g[Symbol.iterator] = function () {
-    return this;
-  }), g;
-
-  function verb(n) {
-    return function (v) {
-      return step([n, v]);
-    };
-  }
-
-  function step(op) {
-    if (f) throw new TypeError("Generator is already executing.");
-
-    while (_) {
-      try {
-        if (f = 1, y && (t = op[0] & 2 ? y["return"] : op[0] ? y["throw"] || ((t = y["return"]) && t.call(y), 0) : y.next) && !(t = t.call(y, op[1])).done) return t;
-        if (y = 0, t) op = [op[0] & 2, t.value];
-
-        switch (op[0]) {
-          case 0:
-          case 1:
-            t = op;
-            break;
-
-          case 4:
-            _.label++;
-            return {
-              value: op[1],
-              done: false
-            };
-
-          case 5:
-            _.label++;
-            y = op[1];
-            op = [0];
-            continue;
-
-          case 7:
-            op = _.ops.pop();
-
-            _.trys.pop();
-
-            continue;
-
-          default:
-            if (!(t = _.trys, t = t.length > 0 && t[t.length - 1]) && (op[0] === 6 || op[0] === 2)) {
-              _ = 0;
-              continue;
-            }
-
-            if (op[0] === 3 && (!t || op[1] > t[0] && op[1] < t[3])) {
-              _.label = op[1];
-              break;
-            }
-
-            if (op[0] === 6 && _.label < t[1]) {
-              _.label = t[1];
-              t = op;
-              break;
-            }
-
-            if (t && _.label < t[2]) {
-              _.label = t[2];
-
-              _.ops.push(op);
-
-              break;
-            }
-
-            if (t[2]) _.ops.pop();
-
-            _.trys.pop();
-
-            continue;
-        }
-
-        op = body.call(thisArg, _);
-      } catch (e) {
-        op = [6, e];
-        y = 0;
-      } finally {
-        f = t = 0;
-      }
-    }
-
-    if (op[0] & 5) throw op[1];
-    return {
-      value: op[0] ? op[1] : void 0,
-      done: true
-    };
-  }
-};
-
-var __importDefault = this && this.__importDefault || function (mod) {
-  return mod && mod.__esModule ? mod : {
-    "default": mod
-  };
-};
-
-var _this = this;
-
-Object.defineProperty(exports, "__esModule", {
-  value: true
-});
-
-var systemjs_1 = __importDefault(__webpack_require__(/*! systemjs */ "../../node_modules/@webio/webio/node_modules/systemjs/dist/system.js"));
-
-var debug_1 = __importDefault(__webpack_require__(/*! debug */ "../../node_modules/debug/src/browser.js"));
-
-var debug = debug_1.default("WebIO:imports");
-var URL_PROTOCOL_REGEX = /[A-Za-z]+:\/\//;
-
-var isRelativeUrl = function isRelativeUrl(url) {
-  return !(URL_PROTOCOL_REGEX.test(url) || url.startsWith("//"));
-};
-
-var _lastImportNumber = 0;
-
-var uniqueImportName = function uniqueImportName() {
-  return "import_" + (_lastImportNumber += 1);
-};
-
-exports.importJSUrl = function (name, url) {
-  var _a, _b;
-
-  debug("Importing JavaScript resource (" + name + ") from url (" + url + ").");
-  systemjs_1.default.config({
-    paths: (_a = {}, _a[name] = url, _a),
-    meta: (_b = {}, _b[name] = {
-      authorization: isRelativeUrl(url)
-    }, _b)
-  });
-  return systemjs_1.default.import(url);
-};
-
-exports.importJS = function (importData) {
-  debug("Importing JavaScript resource.", importData);
-  var url = importData.url,
-      blob = importData.blob;
-  var name = importData.name || uniqueImportName();
-
-  if (blob) {
-    throw new Error("Importing JS blob is not yet implemented.");
-  } else if (url) {
-    return exports.importJSUrl(name, url);
-  } else {
-    throw new Error("One of blob or url must be specified in call to importJS.");
-  }
-};
-/**
- * Import some href/url in a `<link />` tag.
- * @param url
- */
-
-
-exports.importLink = function (url, options) {
-  if (document.querySelector("link[data-webio-import=\"" + url + "\"]")) {
-    debug("CSS resource (${url}) is already imported."); // This actually has a slight race condition where if the import actually
-    // is still loading, we'll resolve immediately. Probably(?) not a big deal.
-
-    return Promise.resolve();
-  }
-
-  return new Promise(function (resolve, reject) {
-    var link = document.createElement("link"); // Apply options
-
-    var rel = options.rel,
-        type = options.type,
-        media = options.media;
-    rel && (link.rel = rel);
-    type && (link.type = type);
-    media && (link.media = media);
-    link.href = url;
-    link.setAttribute("async", "");
-
-    link.onload = function () {
-      return resolve();
-    };
-
-    link.onerror = function () {
-      link.remove();
-      reject();
-    };
-
-    document.head.appendChild(link);
-  });
-};
-
-exports.importCSS = function (importData) {
-  debug("Importing CSS resource.", importData);
-  var url = importData.url,
-      blob = importData.blob;
-
-  if (url) {
-    return exports.importLink(url, {
-      rel: "stylesheet",
-      type: "text/css",
-      media: "all"
-    });
-  } else if (blob) {
-    throw new Error("Imports CSS blob is not yet implemented.");
-  } else {
-    throw new Error("One of blob or url must be specified in call to importCSS.");
-  }
-};
-
-exports.importSyncBlock = function (importData) {
-  return __awaiter(_this, void 0, void 0, function () {
-    var results, _i, _a, importItem, _b, _c;
-
-    return __generator(this, function (_d) {
-      switch (_d.label) {
-        case 0:
-          debug("Importing synchronous block.", importData);
-          results = [];
-          _i = 0, _a = importData.data;
-          _d.label = 1;
-
-        case 1:
-          if (!(_i < _a.length)) return [3
-          /*break*/
-          , 4];
-          importItem = _a[_i];
-          _c = (_b = results).push;
-          return [4
-          /*yield*/
-          , exports.importResource(importItem)];
-
-        case 2:
-          _c.apply(_b, [_d.sent()]);
-
-          _d.label = 3;
-
-        case 3:
-          _i++;
-          return [3
-          /*break*/
-          , 1];
-
-        case 4:
-          return [2
-          /*return*/
-          , results];
-      }
-    });
-  });
-};
-
-exports.importAsyncBlock = function (importData) {
-  return __awaiter(_this, void 0, void 0, function () {
-    return __generator(this, function (_a) {
-      debug("Importing asynchronous block.", importData);
-      return [2
-      /*return*/
-      , Promise.all(importData.data.map(exports.importResource))];
-    });
-  });
-};
-/**
- * Import a _thing_.
- * @param importData
- */
-
-
-exports.importResource = function (importData) {
-  switch (importData.type) {
-    case "js"
-    /* JS */
-    :
-      return exports.importJS(importData);
-
-    case "css"
-    /* CSS */
-    :
-      return exports.importCSS(importData);
-
-    default:
-      throw new Error("Importing resource of type \"" + importData.type + "\" not supported.");
-  }
-};
-
-exports.importBlock = function (importData, config) {
-  if (config) {
-    systemjs_1.default.config(config);
-  }
-
-  switch (importData.type) {
-    case "sync_block"
-    /* SYNC_BLOCK */
-    :
-      return exports.importSyncBlock(importData);
-
-    case "async_block"
-    /* ASYNC_BLOCK */
-    :
-      return exports.importAsyncBlock(importData);
-
-    default:
-      throw new Error("Cannot import unknown block type: " + importData.type + ".");
-  }
-};
-
-console.warn("WebIO is registering SystemJS window global.");
-window.SystemJS = systemjs_1.default;
-
-/***/ }),
-
-/***/ "../../node_modules/@webio/webio/dist/index.js":
-/*!********************************************************************************************!*\
-  !*** /home/travigd/Trash/WebIO-throwaway/packages/node_modules/@webio/webio/dist/index.js ***!
-  \********************************************************************************************/
-/*! no static exports found */
-/***/ (function(module, exports, __webpack_require__) {
-
-"use strict";
-
-
-function __export(m) {
-  for (var p in m) {
-    if (!exports.hasOwnProperty(p)) exports[p] = m[p];
-  }
-}
-
-Object.defineProperty(exports, "__esModule", {
-  value: true
-});
-
-var WebIO_1 = __webpack_require__(/*! ./WebIO */ "../../node_modules/@webio/webio/dist/WebIO.js");
-
-exports.default = WebIO_1.default;
-
-__export(__webpack_require__(/*! ./DomNode */ "../../node_modules/@webio/webio/dist/DomNode.js"));
-
-__export(__webpack_require__(/*! ./IFrame */ "../../node_modules/@webio/webio/dist/IFrame.js"));
-
-__export(__webpack_require__(/*! ./Node */ "../../node_modules/@webio/webio/dist/Node.js"));
-
-__export(__webpack_require__(/*! ./Observable */ "../../node_modules/@webio/webio/dist/Observable.js"));
-
-__export(__webpack_require__(/*! ./ObservableNode */ "../../node_modules/@webio/webio/dist/ObservableNode.js"));
-
-__export(__webpack_require__(/*! ./Scope */ "../../node_modules/@webio/webio/dist/Scope.js"));
-
-__export(__webpack_require__(/*! ./WebIO */ "../../node_modules/@webio/webio/dist/WebIO.js"));
-
-__export(__webpack_require__(/*! ./createNode */ "../../node_modules/@webio/webio/dist/createNode.js"));
-
-__export(__webpack_require__(/*! ./events */ "../../node_modules/@webio/webio/dist/events.js"));
-
-__export(__webpack_require__(/*! ./imports */ "../../node_modules/@webio/webio/dist/imports.js"));
-
-__export(__webpack_require__(/*! ./message */ "../../node_modules/@webio/webio/dist/message.js"));
-
-__export(__webpack_require__(/*! ./setInnerHTML */ "../../node_modules/@webio/webio/dist/setInnerHTML.js"));
-
-__export(__webpack_require__(/*! ./utils */ "../../node_modules/@webio/webio/dist/utils.js"));
-
-/***/ }),
-
-/***/ "../../node_modules/@webio/webio/dist/message.js":
-/*!**********************************************************************************************!*\
-  !*** /home/travigd/Trash/WebIO-throwaway/packages/node_modules/@webio/webio/dist/message.js ***!
-  \**********************************************************************************************/
-/*! no static exports found */
-/***/ (function(module, exports, __webpack_require__) {
-
-"use strict";
-
-
-Object.defineProperty(exports, "__esModule", {
-  value: true
-});
-
-/***/ }),
-
-/***/ "../../node_modules/@webio/webio/dist/setInnerHTML.js":
-/*!***************************************************************************************************!*\
-  !*** /home/travigd/Trash/WebIO-throwaway/packages/node_modules/@webio/webio/dist/setInnerHTML.js ***!
-  \***************************************************************************************************/
-/*! no static exports found */
-/***/ (function(module, exports, __webpack_require__) {
-
-"use strict";
-
-
-Object.defineProperty(exports, "__esModule", {
-  value: true
-});
-/**
- * Set the `innerHTML` attribute of a DOM element.
- *
- * This method will guarantee the execution of `<script />`s which is not done
- * by simply setting `element.innerHTML = ...`.
- *
- * @param element - The DOM element whose `innerHTML` will be set.
- * @param html - The HTML string to use; any special HTML characters (`<`, `>`, `&`, etc.)
- *    should be &-escaped as appropriate (e.g. to set the displayed text to "foo&bar",
- *    `html` should be `foo&amp;bar`).
- */
-
-var setInnerHTML = function setInnerHTML(element, html) {
-  // In the original WebIO, we like to replace </script> with </_script> because the whole shebang
-  // is executed inside a <script></script> block (and we don't want to close it too early).
-  html = html.replace(/<\/_script>/g, "</script>");
-  element.innerHTML = html; // If the HTML contained any <script> tags, these are NOT executed when we assign the DOM
-  // innerHTML attribute, so we have to find-and-replace them to force them to execute.
-  // We do this weird array coercion because getElementsByTagName returns a
-  // HTMLCollection object, which updates as the contents of element update
-  // (creating an infinite loop).
-
-  var scripts = Array.from(element.getElementsByTagName("script"));
-  scripts.forEach(function (oldScript) {
-    var newScript = document.createElement("script"); // Copy all attributes.
-    // Unfortunately, attributes is a NamedNodeMap which doesn't have very
-    // ES6-like methods of manipulation
-
-    for (var i = 0; i < oldScript.attributes.length; ++i) {
-      var _a = oldScript.attributes[i],
-          name_1 = _a.name,
-          value = _a.value;
-      newScript.setAttribute(name_1, value);
-    } // Copy script content
-
-
-    newScript.appendChild(document.createTextNode(oldScript.innerHTML)); // Replace inside DOM
-
-    oldScript.parentNode.replaceChild(newScript, oldScript);
-  });
-};
-
-exports.default = setInnerHTML;
-
-/***/ }),
-
-/***/ "../../node_modules/@webio/webio/dist/utils.js":
-/*!********************************************************************************************!*\
-  !*** /home/travigd/Trash/WebIO-throwaway/packages/node_modules/@webio/webio/dist/utils.js ***!
-  \********************************************************************************************/
-/*! no static exports found */
-/***/ (function(module, exports, __webpack_require__) {
-
-"use strict";
-
-
-Object.defineProperty(exports, "__esModule", {
-  value: true
-});
-
-exports.getObservableName = function (specifier) {
-  if (typeof specifier === "string") {
-    return specifier;
-  }
-
-  return specifier.name;
-};
-
-/***/ }),
-
-/***/ "../../node_modules/@webio/webio/node_modules/systemjs/dist/system.js":
-/*!*******************************************************************************************************************!*\
-  !*** /home/travigd/Trash/WebIO-throwaway/packages/node_modules/@webio/webio/node_modules/systemjs/dist/system.js ***!
-  \*******************************************************************************************************************/
-/*! no static exports found */
-/***/ (function(module, exports, __webpack_require__) {
-
-/* WEBPACK VAR INJECTION */(function(Buffer, process, global, __filename) {var require;function _typeof(obj) { if (typeof Symbol === "function" && typeof Symbol.iterator === "symbol") { _typeof = function _typeof(obj) { return typeof obj; }; } else { _typeof = function _typeof(obj) { return obj && typeof Symbol === "function" && obj.constructor === Symbol && obj !== Symbol.prototype ? "symbol" : typeof obj; }; } return _typeof(obj); }
-
-/*
- * SystemJS v0.20.19 Dev
- */
-!function () {
-  "use strict";
-
-  function e(e) {
-    return ut ? Symbol() : "@@" + e;
-  }
-
-  function t(e, t) {
-    ot || (t = t.replace(at ? /file:\/\/\//g : /file:\/\//g, ""));
-    var r,
-        n = (e.message || e) + "\n  " + t;
-    r = ft && e.fileName ? new Error(n, e.fileName, e.lineNumber) : new Error(n);
-    var o = e.originalErr ? e.originalErr.stack : e.stack;
-    return r.stack = it ? n + "\n  " + o : o, r.originalErr = e.originalErr || e, r;
-  }
-
-  function r(e, t) {
-    throw new RangeError('Unable to resolve "' + e + '" to ' + t);
-  }
-
-  function n(e, t) {
-    e = e.trim();
-    var n = t && t.substr(0, t.indexOf(":") + 1),
-        o = e[0],
-        i = e[1];
-    if ("/" === o && "/" === i) return n || r(e, t), n + e;
-
-    if ("." === o && ("/" === i || "." === i && ("/" === e[2] || 2 === e.length && (e += "/")) || 1 === e.length && (e += "/")) || "/" === o) {
-      var a,
-          s = !n || "/" !== t[n.length];
-
-      if (s ? (void 0 === t && r(e, t), a = t) : a = "/" === t[n.length + 1] ? "file:" !== n ? (a = t.substr(n.length + 2)).substr(a.indexOf("/") + 1) : t.substr(8) : t.substr(n.length + 1), "/" === o) {
-        if (!s) return t.substr(0, t.length - a.length - 1) + e;
-        r(e, t);
-      }
-
-      for (var u = a.substr(0, a.lastIndexOf("/") + 1) + e, l = [], c = -1, f = 0; f < u.length; f++) {
-        if (-1 === c) {
-          if ("." !== u[f]) c = f;else {
-            if ("." !== u[f + 1] || "/" !== u[f + 2] && f + 2 !== u.length) {
-              if ("/" !== u[f + 1] && f + 1 !== u.length) {
-                c = f;
-                continue;
-              }
-
-              f += 1;
-            } else l.pop(), f += 2;
-
-            s && 0 === l.length && r(e, t);
-          }
-        } else "/" === u[f] && (l.push(u.substring(c, f + 1)), c = -1);
-      }
-
-      return -1 !== c && l.push(u.substr(c)), t.substr(0, t.length - a.length) + l.join("");
-    }
-
-    return -1 !== e.indexOf(":") ? it && ":" === e[1] && "\\" === e[2] && e[0].match(/[a-z]/i) ? "file:///" + e.replace(/\\/g, "/") : e : void 0;
-  }
-
-  function o(e) {
-    if (e.values) return e.values();
-    if ("undefined" == typeof Symbol || !Symbol.iterator) throw new Error("Symbol.iterator not supported in this browser");
-    var t = {};
-    return t[Symbol.iterator] = function () {
-      var t = Object.keys(e),
-          r = 0;
-      return {
-        next: function next() {
-          return r < t.length ? {
-            value: e[t[r++]],
-            done: !1
-          } : {
-            value: void 0,
-            done: !0
-          };
-        }
-      };
-    }, t;
-  }
-
-  function i() {
-    this.registry = new u();
-  }
-
-  function a(e) {
-    if (!(e instanceof l)) throw new TypeError("Module instantiation did not return a valid namespace object.");
-    return e;
-  }
-
-  function s(e) {
-    if (void 0 === e) throw new RangeError("No resolution found.");
-    return e;
-  }
-
-  function u() {
-    this[mt] = {};
-  }
-
-  function l(e) {
-    Object.defineProperty(this, vt, {
-      value: e
-    }), Object.keys(e).forEach(c, this);
-  }
-
-  function c(e) {
-    Object.defineProperty(this, e, {
-      enumerable: !0,
-      get: function get() {
-        return this[vt][e];
-      }
-    });
-  }
-
-  function f() {
-    i.call(this);
-    var e = this.registry.delete;
-
-    this.registry.delete = function (r) {
-      var n = e.call(this, r);
-      return t.hasOwnProperty(r) && !t[r].linkRecord && (delete t[r], n = !0), n;
-    };
-
-    var t = {};
-    this[yt] = {
-      lastRegister: void 0,
-      records: t
-    }, this.trace = !1;
-  }
-
-  function d(e, t, r) {
-    return e.records[t] = {
-      key: t,
-      registration: r,
-      module: void 0,
-      importerSetters: void 0,
-      loadError: void 0,
-      evalError: void 0,
-      linkRecord: {
-        instantiatePromise: void 0,
-        dependencies: void 0,
-        execute: void 0,
-        executingRequire: !1,
-        moduleObj: void 0,
-        setters: void 0,
-        depsInstantiatePromise: void 0,
-        dependencyInstantiations: void 0
-      }
-    };
-  }
-
-  function p(e, t, r, n, o) {
-    var i = n[t];
-    if (i) return Promise.resolve(i);
-    var a = o.records[t];
-    return a && !a.module ? a.loadError ? Promise.reject(a.loadError) : h(e, a, a.linkRecord, n, o) : e.resolve(t, r).then(function (t) {
-      if (i = n[t]) return i;
-      if ((a = o.records[t]) && !a.module || (a = d(o, t, a && a.registration)), a.loadError) return Promise.reject(a.loadError);
-      var r = a.linkRecord;
-      return r ? h(e, a, r, n, o) : a;
-    });
-  }
-
-  function g(e, t, r) {
-    return function () {
-      var e = r.lastRegister;
-      return e ? (r.lastRegister = void 0, t.registration = e, !0) : !!t.registration;
-    };
-  }
-
-  function h(e, r, n, o, i) {
-    return n.instantiatePromise || (n.instantiatePromise = (r.registration ? Promise.resolve() : Promise.resolve().then(function () {
-      return i.lastRegister = void 0, e[bt](r.key, e[bt].length > 1 && g(e, r, i));
-    })).then(function (t) {
-      if (void 0 !== t) {
-        if (!(t instanceof l)) throw new TypeError("Instantiate did not return a valid Module object.");
-        return delete i.records[r.key], e.trace && v(e, r, n), o[r.key] = t;
-      }
-
-      var a = r.registration;
-      if (r.registration = void 0, !a) throw new TypeError("Module instantiation did not call an anonymous or correctly named System.register.");
-      return n.dependencies = a[0], r.importerSetters = [], n.moduleObj = {}, a[2] ? (n.moduleObj.default = n.moduleObj.__useDefault = {}, n.executingRequire = a[1], n.execute = a[2]) : y(e, r, n, a[1]), r;
-    }).catch(function (e) {
-      throw r.linkRecord = void 0, r.loadError = r.loadError || t(e, "Instantiating " + r.key);
-    }));
-  }
-
-  function m(e, t, r, n, o, i) {
-    return e.resolve(t, r).then(function (r) {
-      i && (i[t] = r);
-      var a = o.records[r],
-          s = n[r];
-      if (s && (!a || a.module && s !== a.module)) return s;
-      if (a && a.loadError) throw a.loadError;
-      (!a || !s && a.module) && (a = d(o, r, a && a.registration));
-      var u = a.linkRecord;
-      return u ? h(e, a, u, n, o) : a;
-    });
-  }
-
-  function v(e, t, r) {
-    e.loads = e.loads || {}, e.loads[t.key] = {
-      key: t.key,
-      deps: r.dependencies,
-      dynamicDeps: [],
-      depMap: r.depMap || {}
-    };
-  }
-
-  function y(e, t, r, n) {
-    var o = r.moduleObj,
-        i = t.importerSetters,
-        a = !1,
-        s = n.call(st, function (e, t) {
-      if ("object" == _typeof(e)) {
-        var r = !1;
-
-        for (var n in e) {
-          t = e[n], "__useDefault" === n || n in o && o[n] === t || (r = !0, o[n] = t);
-        }
-
-        if (!1 === r) return t;
-      } else {
-        if ((a || e in o) && o[e] === t) return t;
-        o[e] = t;
-      }
-
-      for (var s = 0; s < i.length; s++) {
-        i[s](o);
-      }
-
-      return t;
-    }, new x(e, t.key));
-    r.setters = s.setters, r.execute = s.execute, s.exports && (r.moduleObj = o = s.exports, a = !0);
-  }
-
-  function b(e, r, n, o, i) {
-    if (n.depsInstantiatePromise) return n.depsInstantiatePromise;
-
-    for (var a = Array(n.dependencies.length), s = 0; s < n.dependencies.length; s++) {
-      a[s] = m(e, n.dependencies[s], r.key, o, i, e.trace && n.depMap || (n.depMap = {}));
-    }
-
-    var u = Promise.all(a).then(function (e) {
-      if (n.dependencyInstantiations = e, n.setters) for (var t = 0; t < e.length; t++) {
-        var o = n.setters[t];
-
-        if (o) {
-          var i = e[t];
-          if (i instanceof l) o(i);else {
-            if (i.loadError) throw i.loadError;
-            o(i.module || i.linkRecord.moduleObj), i.importerSetters && i.importerSetters.push(o);
-          }
-        }
-      }
-      return r;
-    });
-    return e.trace && (u = u.then(function () {
-      return v(e, r, n), r;
-    })), (u = u.catch(function (e) {
-      throw n.depsInstantiatePromise = void 0, t(e, "Loading " + r.key);
-    })).catch(function () {}), n.depsInstantiatePromise = u;
-  }
-
-  function w(e, t, r, n, o) {
-    return new Promise(function (r, i) {
-      function a(t) {
-        var r = t.linkRecord;
-        r && -1 === u.indexOf(t) && (u.push(t), c++, b(e, t, r, n, o).then(s, i));
-      }
-
-      function s(e) {
-        c--;
-        var t = e.linkRecord;
-        if (t) for (var n = 0; n < t.dependencies.length; n++) {
-          var o = t.dependencyInstantiations[n];
-          o instanceof l || a(o);
-        }
-        0 === c && r();
-      }
-
-      var u = [],
-          c = 0;
-      a(t);
-    });
-  }
-
-  function x(e, t) {
-    this.loader = e, this.key = this.id = t, this.meta = {
-      url: t
-    };
-  }
-
-  function k(e, t, r, n, o, i) {
-    if (t.module) return t.module;
-    if (t.evalError) throw t.evalError;
-    if (i && -1 !== i.indexOf(t)) return t.linkRecord.moduleObj;
-    var a = O(e, t, r, n, o, r.setters ? [] : i || []);
-    if (a) throw a;
-    return t.module;
-  }
-
-  function E(e, t, r, n, o, i, a) {
-    return function (s) {
-      for (var u = 0; u < r.length; u++) {
-        if (r[u] === s) {
-          var c,
-              f = n[u];
-          return c = f instanceof l ? f : k(e, f, f.linkRecord, o, i, a), "__useDefault" in c ? c.__useDefault : c;
-        }
-      }
-
-      throw new Error("Module " + s + " not declared as a System.registerDynamic dependency of " + t);
-    };
-  }
-
-  function O(e, r, n, o, i, a) {
-    a.push(r);
-    var s;
-    if (n.setters) for (var u, c, f = 0; f < n.dependencies.length; f++) {
-      if (!((u = n.dependencyInstantiations[f]) instanceof l) && ((c = u.linkRecord) && -1 === a.indexOf(u) && (s = u.evalError ? u.evalError : O(e, u, c, o, i, c.setters ? a : [])), s)) return r.linkRecord = void 0, r.evalError = t(s, "Evaluating " + r.key), r.evalError;
-    }
-    if (n.execute) if (n.setters) s = S(n.execute);else {
-      var d = {
-        id: r.key
-      },
-          p = n.moduleObj;
-      Object.defineProperty(d, "exports", {
-        configurable: !0,
-        set: function set(e) {
-          p.default = p.__useDefault = e;
-        },
-        get: function get() {
-          return p.__useDefault;
-        }
-      });
-      var g = E(e, r.key, n.dependencies, n.dependencyInstantiations, o, i, a);
-      if (!n.executingRequire) for (f = 0; f < n.dependencies.length; f++) {
-        g(n.dependencies[f]);
-      }
-      s = j(n.execute, g, p.default, d), d.exports !== p.__useDefault && (p.default = p.__useDefault = d.exports);
-      var h = p.default;
-      if (h && h.__esModule) for (var m in h) {
-        Object.hasOwnProperty.call(h, m) && (p[m] = h[m]);
-      }
-    }
-    if (r.linkRecord = void 0, s) return r.evalError = t(s, "Evaluating " + r.key);
-
-    if (o[r.key] = r.module = new l(n.moduleObj), !n.setters) {
-      if (r.importerSetters) for (f = 0; f < r.importerSetters.length; f++) {
-        r.importerSetters[f](r.module);
-      }
-      r.importerSetters = void 0;
-    }
-  }
-
-  function S(e) {
-    try {
-      e.call(wt);
-    } catch (e) {
-      return e;
-    }
-  }
-
-  function j(e, t, r, n) {
-    try {
-      var o = e.call(st, t, r, n);
-      void 0 !== o && (n.exports = o);
-    } catch (e) {
-      return e;
-    }
-  }
-
-  function _() {}
-
-  function P(e) {
-    return e instanceof l ? e : new l(e && e.__esModule ? e : {
-      default: e,
-      __useDefault: e
-    });
-  }
-
-  function M(e) {
-    return void 0 === xt && (xt = "undefined" != typeof Symbol && !!Symbol.toStringTag), e instanceof l || xt && "[object Module]" == Object.prototype.toString.call(e);
-  }
-
-  function R(e, t) {
-    (t || this.warnings && "undefined" != typeof console && console.warn) && console.warn(e);
-  }
-
-  function C(e, t, r) {
-    var n = new Uint8Array(t);
-    return 0 === n[0] && 97 === n[1] && 115 === n[2] ? WebAssembly.compile(t).then(function (t) {
-      var n = [],
-          o = [],
-          i = {};
-      return WebAssembly.Module.imports && WebAssembly.Module.imports(t).forEach(function (e) {
-        var t = e.module;
-        o.push(function (e) {
-          i[t] = e;
-        }), -1 === n.indexOf(t) && n.push(t);
-      }), e.register(n, function (e) {
-        return {
-          setters: o,
-          execute: function execute() {
-            e(new WebAssembly.Instance(t, i).exports);
-          }
-        };
-      }), r(), !0;
-    }) : Promise.resolve(!1);
-  }
-
-  function L(e, t) {
-    if ("." === e[0]) throw new Error("Node module " + e + " can't be loaded as it is not a package require.");
-
-    if (!kt) {
-      var r = this._nodeRequire("module"),
-          n = decodeURI(t.substr(at ? 8 : 7));
-
-      (kt = new r(n)).paths = r._nodeModulePaths(n);
-    }
-
-    return kt.require(e);
-  }
-
-  function A(e, t) {
-    for (var r in t) {
-      Object.hasOwnProperty.call(t, r) && (e[r] = t[r]);
-    }
-
-    return e;
-  }
-
-  function I(e, t) {
-    for (var r in t) {
-      Object.hasOwnProperty.call(t, r) && void 0 === e[r] && (e[r] = t[r]);
-    }
-
-    return e;
-  }
-
-  function F(e, t, r) {
-    for (var n in t) {
-      if (Object.hasOwnProperty.call(t, n)) {
-        var o = t[n];
-        void 0 === e[n] ? e[n] = o : o instanceof Array && e[n] instanceof Array ? e[n] = [].concat(r ? o : e[n]).concat(r ? e[n] : o) : "object" == _typeof(o) && null !== o && "object" == _typeof(e[n]) ? e[n] = (r ? I : A)(A({}, e[n]), o) : r || (e[n] = o);
-      }
-    }
-  }
-
-  function K(e) {
-    if (Pt || Mt) {
-      var t = document.createElement("link");
-      Pt ? (t.rel = "preload", t.as = "script") : t.rel = "prefetch", t.href = e, document.head.appendChild(t);
-    } else new Image().src = e;
-  }
-
-  function D(e, t, r) {
-    try {
-      importScripts(e);
-    } catch (e) {
-      r(e);
-    }
-
-    t();
-  }
-
-  function U(e, t, r, n, o) {
-    function i() {
-      n(), s();
-    }
-
-    function a(t) {
-      s(), o(new Error("Fetching " + e));
-    }
-
-    function s() {
-      for (var e = 0; e < Rt.length; e++) {
-        if (Rt[e].err === a) {
-          Rt.splice(e, 1);
-          break;
-        }
-      }
-
-      u.removeEventListener("load", i, !1), u.removeEventListener("error", a, !1), document.head.removeChild(u);
-    }
-
-    if (e = e.replace(/#/g, "%23"), _t) return D(e, n, o);
-    var u = document.createElement("script");
-    u.type = "text/javascript", u.charset = "utf-8", u.async = !0, t && (u.crossOrigin = t), r && (u.integrity = r), u.addEventListener("load", i, !1), u.addEventListener("error", a, !1), u.src = e, document.head.appendChild(u);
-  }
-
-  function q(e, t) {
-    for (var r = e.split("."); r.length;) {
-      t = t[r.shift()];
-    }
-
-    return t;
-  }
-
-  function T(e, t, r) {
-    var o = N(t, r);
-
-    if (o) {
-      var i = t[o] + r.substr(o.length),
-          a = n(i, nt);
-      return void 0 !== a ? a : e + i;
-    }
-
-    return -1 !== r.indexOf(":") ? r : e + r;
-  }
-
-  function z(e) {
-    var t = this.name;
-
-    if (t.substr(0, e.length) === e && (t.length === e.length || "/" === t[e.length] || "/" === e[e.length - 1] || ":" === e[e.length - 1])) {
-      var r = e.split("/").length;
-      r > this.len && (this.match = e, this.len = r);
-    }
-  }
-
-  function N(e, t) {
-    if (Object.hasOwnProperty.call(e, t)) return t;
-    var r = {
-      name: t,
-      match: void 0,
-      len: 0
-    };
-    return Object.keys(e).forEach(z, r), r.match;
-  }
-
-  function J(e, t, r, n) {
-    if ("file:///" === e.substr(0, 8)) {
-      if (Ft) return $(e, t, r, n);
-      throw new Error("Unable to fetch file URLs in this environment.");
-    }
-
-    e = e.replace(/#/g, "%23");
-    var o = {
-      headers: {
-        Accept: "application/x-es-module, */*"
-      }
-    };
-    return r && (o.integrity = r), t && ("string" == typeof t && (o.headers.Authorization = t), o.credentials = "include"), fetch(e, o).then(function (e) {
-      if (e.ok) return n ? e.arrayBuffer() : e.text();
-      throw new Error("Fetch error: " + e.status + " " + e.statusText);
-    });
-  }
-
-  function $(e, t, r, n) {
-    return new Promise(function (r, o) {
-      function i() {
-        r(n ? s.response : s.responseText);
-      }
-
-      function a() {
-        o(new Error("XHR error: " + (s.status ? " (" + s.status + (s.statusText ? " " + s.statusText : "") + ")" : "") + " loading " + e));
-      }
-
-      e = e.replace(/#/g, "%23");
-      var s = new XMLHttpRequest();
-      n && (s.responseType = "arraybuffer"), s.onreadystatechange = function () {
-        4 === s.readyState && (0 == s.status ? s.response ? i() : (s.addEventListener("error", a), s.addEventListener("load", i)) : 200 === s.status ? i() : a());
-      }, s.open("GET", e, !0), s.setRequestHeader && (s.setRequestHeader("Accept", "application/x-es-module, */*"), t && ("string" == typeof t && s.setRequestHeader("Authorization", t), s.withCredentials = !0)), s.send(null);
-    });
-  }
-
-  function B(e, t, r, n) {
-    return "file:///" != e.substr(0, 8) ? Promise.reject(new Error('Unable to fetch "' + e + '". Only file URLs of the form file:/// supported running in Node.')) : (Lt = Lt || __webpack_require__(/*! fs */ "../../node_modules/node-libs-browser/mock/empty.js"), e = at ? e.replace(/\//g, "\\").substr(8) : e.substr(7), new Promise(function (t, r) {
-      Lt.readFile(e, function (e, o) {
-        if (e) return r(e);
-        if (n) t(o);else {
-          var i = o + "";
-          "\uFEFF" === i[0] && (i = i.substr(1)), t(i);
-        }
-      });
-    }));
-  }
-
-  function W() {
-    throw new Error("No fetch method is defined for this environment.");
-  }
-
-  function G() {
-    return {
-      pluginKey: void 0,
-      pluginArgument: void 0,
-      pluginModule: void 0,
-      packageKey: void 0,
-      packageConfig: void 0,
-      load: void 0
-    };
-  }
-
-  function H(e, t, r) {
-    var n = G();
-
-    if (r) {
-      var o;
-      t.pluginFirst ? -1 !== (o = r.lastIndexOf("!")) && (n.pluginArgument = n.pluginKey = r.substr(0, o)) : -1 !== (o = r.indexOf("!")) && (n.pluginArgument = n.pluginKey = r.substr(o + 1)), n.packageKey = N(t.packages, r), n.packageKey && (n.packageConfig = t.packages[n.packageKey]);
-    }
-
-    return n;
-  }
-
-  function Z(e, t) {
-    var r = this[St],
-        n = G(),
-        o = H(this, r, t),
-        i = this;
-    return Promise.resolve().then(function () {
-      var r = e.lastIndexOf("#?");
-      if (-1 === r) return Promise.resolve(e);
-      var n = he.call(i, e.substr(r + 2));
-      return me.call(i, n, t, !0).then(function (t) {
-        return t ? e.substr(0, r) : "@empty";
-      });
-    }).then(function (e) {
-      var a = ne(r.pluginFirst, e);
-      return a ? (n.pluginKey = a.plugin, Promise.all([ee.call(i, r, a.argument, o && o.pluginArgument || t, n, o, !0), i.resolve(a.plugin, t)]).then(function (e) {
-        if (n.pluginArgument = e[0], n.pluginKey = e[1], n.pluginArgument === n.pluginKey) throw new Error("Plugin " + n.pluginArgument + " cannot load itself, make sure it is excluded from any wildcard meta configuration via a custom loader: false rule.");
-        return oe(r.pluginFirst, e[0], e[1]);
-      })) : ee.call(i, r, e, o && o.pluginArgument || t, n, o, !1);
-    }).then(function (e) {
-      return ve.call(i, e, t, o);
-    }).then(function (e) {
-      return re.call(i, r, e, n), n.pluginKey || !n.load.loader ? e : i.resolve(n.load.loader, e).then(function (t) {
-        return n.pluginKey = t, n.pluginArgument = e, e;
-      });
-    }).then(function (e) {
-      return i[jt][e] = n, e;
-    });
-  }
-
-  function X(e, t) {
-    var r = ne(e.pluginFirst, t);
-
-    if (r) {
-      var n = X.call(this, e, r.plugin);
-      return oe(e.pluginFirst, Q.call(this, e, r.argument, void 0, !1, !1), n);
-    }
-
-    return Q.call(this, e, t, void 0, !1, !1);
-  }
-
-  function Y(e, t) {
-    var r = this[St],
-        n = G(),
-        o = o || H(this, r, t),
-        i = ne(r.pluginFirst, e);
-    return i ? (n.pluginKey = Y.call(this, i.plugin, t), oe(r.pluginFirst, V.call(this, r, i.argument, o.pluginArgument || t, n, o, !!n.pluginKey), n.pluginKey)) : V.call(this, r, e, o.pluginArgument || t, n, o, !!n.pluginKey);
-  }
-
-  function Q(e, t, r, o, i) {
-    var a = n(t, r || nt);
-    if (a) return T(e.baseURL, e.paths, a);
-
-    if (o) {
-      var s = N(e.map, t);
-      if (s && (t = e.map[s] + t.substr(s.length), a = n(t, nt))) return T(e.baseURL, e.paths, a);
-    }
-
-    if (this.registry.has(t)) return t;
-    if ("@node/" === t.substr(0, 6)) return t;
-    var u = i && "/" !== t[t.length - 1],
-        l = T(e.baseURL, e.paths, u ? t + "/" : t);
-    return u ? l.substr(0, l.length - 1) : l;
-  }
-
-  function V(e, t, r, n, o, i) {
-    if (o && o.packageConfig && "." !== t[0]) {
-      var a = o.packageConfig.map,
-          s = a && N(a, t);
-
-      if (s && "string" == typeof a[s]) {
-        var u = ue(this, e, o.packageConfig, o.packageKey, s, t, n, i);
-        if (u) return u;
-      }
-    }
-
-    var l = Q.call(this, e, t, r, !0, !0),
-        c = de(e, l);
-    if (n.packageKey = c && c.packageKey || N(e.packages, l), !n.packageKey) return l;
-    if (-1 !== e.packageConfigKeys.indexOf(l)) return n.packageKey = void 0, l;
-    n.packageConfig = e.packages[n.packageKey] || (e.packages[n.packageKey] = Ee());
-    var f = l.substr(n.packageKey.length + 1);
-    return ae(this, e, n.packageConfig, n.packageKey, f, n, i);
-  }
-
-  function ee(e, t, r, n, o, i) {
-    var a = this;
-    return Et.then(function () {
-      if (o && o.packageConfig && "./" !== t.substr(0, 2)) {
-        var r = o.packageConfig.map,
-            s = r && N(r, t);
-        if (s) return ce(a, e, o.packageConfig, o.packageKey, s, t, n, i);
-      }
-
-      return Et;
-    }).then(function (o) {
-      if (o) return o;
-      var s = Q.call(a, e, t, r, !0, !0),
-          u = de(e, s);
-      return n.packageKey = u && u.packageKey || N(e.packages, s), n.packageKey ? -1 !== e.packageConfigKeys.indexOf(s) ? (n.packageKey = void 0, n.load = te(), n.load.format = "json", n.load.loader = "", Promise.resolve(s)) : (n.packageConfig = e.packages[n.packageKey] || (e.packages[n.packageKey] = Ee()), (u && !n.packageConfig.configured ? pe(a, e, u.configPath, n) : Et).then(function () {
-        var t = s.substr(n.packageKey.length + 1);
-        return le(a, e, n.packageConfig, n.packageKey, t, n, i);
-      })) : Promise.resolve(s);
-    });
-  }
-
-  function te() {
-    return {
-      extension: "",
-      deps: void 0,
-      format: void 0,
-      loader: void 0,
-      scriptLoad: void 0,
-      globals: void 0,
-      nonce: void 0,
-      integrity: void 0,
-      sourceMap: void 0,
-      exports: void 0,
-      encapsulateGlobal: !1,
-      crossOrigin: void 0,
-      cjsRequireDetection: !0,
-      cjsDeferDepsExecute: !1,
-      esModule: !1
-    };
-  }
-
-  function re(e, t, r) {
-    r.load = r.load || te();
-    var n,
-        o = 0;
-
-    for (var i in e.meta) {
-      if (-1 !== (n = i.indexOf("*")) && i.substr(0, n) === t.substr(0, n) && i.substr(n + 1) === t.substr(t.length - i.length + n + 1)) {
-        var a = i.split("/").length;
-        a > o && (o = a), F(r.load, e.meta[i], o !== a);
-      }
-    }
-
-    if (e.meta[t] && F(r.load, e.meta[t], !1), r.packageKey) {
-      var s = t.substr(r.packageKey.length + 1),
-          u = {};
-
-      if (r.packageConfig.meta) {
-        o = 0;
-        ge(r.packageConfig.meta, s, function (e, t, r) {
-          r > o && (o = r), F(u, t, r && o > r);
-        }), F(r.load, u, !1);
-      }
-
-      !r.packageConfig.format || r.pluginKey || r.load.loader || (r.load.format = r.load.format || r.packageConfig.format);
-    }
-  }
-
-  function ne(e, t) {
-    var r,
-        n,
-        o = e ? t.indexOf("!") : t.lastIndexOf("!");
-    if (-1 !== o) return e ? (r = t.substr(o + 1), n = t.substr(0, o)) : (r = t.substr(0, o), n = t.substr(o + 1) || r.substr(r.lastIndexOf(".") + 1)), {
-      argument: r,
-      plugin: n
-    };
-  }
-
-  function oe(e, t, r) {
-    return e ? r + "!" + t : t + "!" + r;
-  }
-
-  function ie(e, t, r, n, o) {
-    if (!n || !t.defaultExtension || "/" === n[n.length - 1] || o) return n;
-    var i = !1;
-    if (t.meta && ge(t.meta, n, function (e, t, r) {
-      if (0 === r || e.lastIndexOf("*") !== e.length - 1) return i = !0;
-    }), !i && e.meta && ge(e.meta, r + "/" + n, function (e, t, r) {
-      if (0 === r || e.lastIndexOf("*") !== e.length - 1) return i = !0;
-    }), i) return n;
-    var a = "." + t.defaultExtension;
-    return n.substr(n.length - a.length) !== a ? n + a : n;
-  }
-
-  function ae(e, t, r, n, o, i, a) {
-    if (!o) {
-      if (!r.main) return n;
-      o = "./" === r.main.substr(0, 2) ? r.main.substr(2) : r.main;
-    }
-
-    if (r.map) {
-      var s = "./" + o,
-          u = N(r.map, s);
-
-      if (u || (s = "./" + ie(t, r, n, o, a)) !== "./" + o && (u = N(r.map, s)), u) {
-        var l = ue(e, t, r, n, u, s, i, a);
-        if (l) return l;
-      }
-    }
-
-    return n + "/" + ie(t, r, n, o, a);
-  }
-
-  function se(e, t, r) {
-    return !(t.substr(0, e.length) === e && r.length > e.length);
-  }
-
-  function ue(e, t, r, n, o, i, a, s) {
-    "/" === i[i.length - 1] && (i = i.substr(0, i.length - 1));
-    var u = r.map[o];
-    if ("object" == _typeof(u)) throw new Error("Synchronous conditional normalization not supported sync normalizing " + o + " in " + n);
-    if (se(o, u, i) && "string" == typeof u) return V.call(e, t, u + i.substr(o.length), n + "/", a, a, s);
-  }
-
-  function le(e, t, r, n, o, i, a) {
-    if (!o) {
-      if (!r.main) return Promise.resolve(n);
-      o = "./" === r.main.substr(0, 2) ? r.main.substr(2) : r.main;
-    }
-
-    var s, u;
-    return r.map && (s = "./" + o, (u = N(r.map, s)) || (s = "./" + ie(t, r, n, o, a)) !== "./" + o && (u = N(r.map, s))), (u ? ce(e, t, r, n, u, s, i, a) : Et).then(function (e) {
-      return e ? Promise.resolve(e) : Promise.resolve(n + "/" + ie(t, r, n, o, a));
-    });
-  }
-
-  function ce(e, t, r, n, o, i, a, s) {
-    "/" === i[i.length - 1] && (i = i.substr(0, i.length - 1));
-    var u = r.map[o];
-    if ("string" == typeof u) return se(o, u, i) ? ee.call(e, t, u + i.substr(o.length), n + "/", a, a, s).then(function (t) {
-      return ve.call(e, t, n + "/", a);
-    }) : Et;
-    var l = [],
-        c = [];
-
-    for (var d in u) {
-      var p = he(d);
-      c.push({
-        condition: p,
-        map: u[d]
-      }), l.push(f.prototype.import.call(e, p.module, n));
-    }
-
-    return Promise.all(l).then(function (e) {
-      for (var t = 0; t < c.length; t++) {
-        var r = c[t].condition,
-            n = q(r.prop, "__useDefault" in e[t] ? e[t].__useDefault : e[t]);
-        if (!r.negate && n || r.negate && !n) return c[t].map;
-      }
-    }).then(function (r) {
-      if (r) return se(o, r, i) ? ee.call(e, t, r + i.substr(o.length), n + "/", a, a, s).then(function (t) {
-        return ve.call(e, t, n + "/", a);
-      }) : Et;
-    });
-  }
-
-  function fe(e) {
-    var t = e.lastIndexOf("*"),
-        r = Math.max(t + 1, e.lastIndexOf("/"));
-    return {
-      length: r,
-      regEx: new RegExp("^(" + e.substr(0, r).replace(/[.+?^${}()|[\]\\]/g, "\\$&").replace(/\*/g, "[^\\/]+") + ")(\\/|$)"),
-      wildcard: -1 !== t
-    };
-  }
-
-  function de(e, t) {
-    for (var r, n, o = !1, i = 0; i < e.packageConfigPaths.length; i++) {
-      var a = e.packageConfigPaths[i],
-          s = Dt[a] || (Dt[a] = fe(a));
-
-      if (!(t.length < s.length)) {
-        var u = t.match(s.regEx);
-        !u || r && (o && s.wildcard || !(r.length < u[1].length)) || (r = u[1], o = !s.wildcard, n = r + a.substr(s.length));
-      }
-    }
-
-    if (r) return {
-      packageKey: r,
-      configPath: n
-    };
-  }
-
-  function pe(e, r, n, o, i) {
-    var a = e.pluginLoader || e;
-    return -1 === r.packageConfigKeys.indexOf(n) && r.packageConfigKeys.push(n), a.import(n).then(function (e) {
-      Oe(o.packageConfig, e, o.packageKey, !0, r), o.packageConfig.configured = !0;
-    }).catch(function (e) {
-      throw t(e, "Unable to fetch package configuration file " + n);
-    });
-  }
-
-  function ge(e, t, r) {
-    var n;
-
-    for (var o in e) {
-      var i = "./" === o.substr(0, 2) ? "./" : "";
-      if (i && (o = o.substr(2)), -1 !== (n = o.indexOf("*")) && o.substr(0, n) === t.substr(0, n) && o.substr(n + 1) === t.substr(t.length - o.length + n + 1) && r(o, e[i + o], o.split("/").length)) return;
-    }
-
-    var a = e[t] && Object.hasOwnProperty.call(e, t) ? e[t] : e["./" + t];
-    a && r(a, a, 0);
-  }
-
-  function he(e) {
-    var t,
-        r,
-        n,
-        o = e.lastIndexOf("|");
-    return -1 !== o ? (t = e.substr(o + 1), r = e.substr(0, o), "~" === t[0] && (n = !0, t = t.substr(1))) : (n = "~" === e[0], t = "default", r = e.substr(n), -1 !== Ut.indexOf(r) && (t = r, r = null)), {
-      module: r || "@system-env",
-      prop: t,
-      negate: n
-    };
-  }
-
-  function me(e, t, r) {
-    return f.prototype.import.call(this, e.module, t).then(function (t) {
-      var n = q(e.prop, t);
-      if (r && "boolean" != typeof n) throw new TypeError("Condition did not resolve to a boolean.");
-      return e.negate ? !n : n;
-    });
-  }
-
-  function ve(e, t, r) {
-    var n = e.match(qt);
-    if (!n) return Promise.resolve(e);
-    var o = he.call(this, n[0].substr(2, n[0].length - 3));
-    return me.call(this, o, t, !1).then(function (r) {
-      if ("string" != typeof r) throw new TypeError("The condition value for " + e + " doesn't resolve to a string.");
-      if (-1 !== r.indexOf("/")) throw new TypeError("Unabled to interpolate conditional " + e + (t ? " in " + t : "") + "\n\tThe condition value " + r + ' cannot contain a "/" separator.');
-      return e.replace(qt, r);
-    });
-  }
-
-  function ye(e, t, r) {
-    for (var n = 0; n < Tt.length; n++) {
-      var o = Tt[n];
-      t[o] && Er[o.substr(0, o.length - 6)] && r(t[o]);
-    }
-  }
-
-  function be(e, t) {
-    var r = {};
-
-    for (var n in e) {
-      var o = e[n];
-      t > 1 ? o instanceof Array ? r[n] = [].concat(o) : "object" == _typeof(o) ? r[n] = be(o, t - 1) : "packageConfig" !== n && (r[n] = o) : r[n] = o;
-    }
-
-    return r;
-  }
-
-  function we(e, t) {
-    var r = e[t];
-    return r instanceof Array ? e[t].concat([]) : "object" == _typeof(r) ? be(r, 3) : e[t];
-  }
-
-  function xe(e) {
-    if (e) {
-      if (-1 !== Or.indexOf(e)) return we(this[St], e);
-      throw new Error('"' + e + '" is not a valid configuration name. Must be one of ' + Or.join(", ") + ".");
-    }
-
-    for (var t = {}, r = 0; r < Or.length; r++) {
-      var n = Or[r],
-          o = we(this[St], n);
-      void 0 !== o && (t[n] = o);
-    }
-
-    return t;
-  }
-
-  function ke(e, t) {
-    var r = this,
-        o = this[St];
-
-    if ("warnings" in e && (o.warnings = e.warnings), "wasm" in e && (o.wasm = "undefined" != typeof WebAssembly && e.wasm), ("production" in e || "build" in e) && tt.call(r, !!e.production, !!(e.build || Er && Er.build)), !t) {
-      var i;
-      ye(r, e, function (e) {
-        i = i || e.baseURL;
-      }), (i = i || e.baseURL) && (o.baseURL = n(i, nt) || n("./" + i, nt), "/" !== o.baseURL[o.baseURL.length - 1] && (o.baseURL += "/")), e.paths && A(o.paths, e.paths), ye(r, e, function (e) {
-        e.paths && A(o.paths, e.paths);
-      });
-
-      for (var a in o.paths) {
-        -1 !== o.paths[a].indexOf("*") && (R.call(o, "Path config " + a + " -> " + o.paths[a] + " is no longer supported as wildcards are deprecated."), delete o.paths[a]);
-      }
-    }
-
-    if (e.defaultJSExtensions && R.call(o, "The defaultJSExtensions configuration option is deprecated.\n  Use packages defaultExtension instead.", !0), "boolean" == typeof e.pluginFirst && (o.pluginFirst = e.pluginFirst), e.map) for (var a in e.map) {
-      var s = e.map[a];
-
-      if ("string" == typeof s) {
-        var u = Q.call(r, o, s, void 0, !1, !1);
-        "/" === u[u.length - 1] && ":" !== a[a.length - 1] && "/" !== a[a.length - 1] && (u = u.substr(0, u.length - 1)), o.map[a] = u;
-      } else {
-        m = (m = Q.call(r, o, "/" !== a[a.length - 1] ? a + "/" : a, void 0, !0, !0)).substr(0, m.length - 1);
-        var l = o.packages[m];
-        l || ((l = o.packages[m] = Ee()).defaultExtension = ""), Oe(l, {
-          map: s
-        }, m, !1, o);
-      }
-    }
-
-    if (e.packageConfigPaths) {
-      for (var c = [], f = 0; f < e.packageConfigPaths.length; f++) {
-        var d = e.packageConfigPaths[f],
-            p = Math.max(d.lastIndexOf("*") + 1, d.lastIndexOf("/")),
-            g = Q.call(r, o, d.substr(0, p), void 0, !1, !1);
-        c[f] = g + d.substr(p);
-      }
-
-      o.packageConfigPaths = c;
-    }
-
-    if (e.bundles) for (var a in e.bundles) {
-      for (var h = [], f = 0; f < e.bundles[a].length; f++) {
-        h.push(r.normalizeSync(e.bundles[a][f]));
-      }
-
-      o.bundles[a] = h;
-    }
-    if (e.packages) for (var a in e.packages) {
-      if (a.match(/^([^\/]+:)?\/\/$/)) throw new TypeError('"' + a + '" is not a valid package name.');
-      var m = Q.call(r, o, "/" !== a[a.length - 1] ? a + "/" : a, void 0, !0, !0);
-      m = m.substr(0, m.length - 1), Oe(o.packages[m] = o.packages[m] || Ee(), e.packages[a], m, !1, o);
-    }
-    if (e.depCache) for (var a in e.depCache) {
-      o.depCache[r.normalizeSync(a)] = [].concat(e.depCache[a]);
-    }
-    if (e.meta) for (var a in e.meta) {
-      if ("*" === a[0]) A(o.meta[a] = o.meta[a] || {}, e.meta[a]);else {
-        var v = Q.call(r, o, a, void 0, !0, !0);
-        A(o.meta[v] = o.meta[v] || {}, e.meta[a]);
-      }
-    }
-    "transpiler" in e && (o.transpiler = e.transpiler);
-
-    for (var y in e) {
-      -1 === Or.indexOf(y) && -1 === Tt.indexOf(y) && (r[y] = e[y]);
-    }
-
-    ye(r, e, function (e) {
-      r.config(e, !0);
-    });
-  }
-
-  function Ee() {
-    return {
-      defaultExtension: void 0,
-      main: void 0,
-      format: void 0,
-      meta: void 0,
-      map: void 0,
-      packageConfig: void 0,
-      configured: !1
-    };
-  }
-
-  function Oe(e, t, r, n, o) {
-    for (var i in t) {
-      "main" === i || "format" === i || "defaultExtension" === i || "configured" === i ? n && void 0 !== e[i] || (e[i] = t[i]) : "map" === i ? (n ? I : A)(e.map = e.map || {}, t.map) : "meta" === i ? (n ? I : A)(e.meta = e.meta || {}, t.meta) : Object.hasOwnProperty.call(t, i) && R.call(o, '"' + i + '" is not a valid package configuration option in package ' + r);
-    }
-
-    return void 0 === e.defaultExtension && (e.defaultExtension = "js"), void 0 === e.main && e.map && e.map["."] ? (e.main = e.map["."], delete e.map["."]) : "object" == _typeof(e.main) && (e.map = e.map || {}, e.map["./@main"] = e.main, e.main.default = e.main.default || "./", e.main = "@main"), e;
-  }
-
-  function Se(e) {
-    return zt ? Wt + new Buffer(e).toString("base64") : "undefined" != typeof btoa ? Wt + btoa(unescape(encodeURIComponent(e))) : "";
-  }
-
-  function je(e, t, r, n) {
-    var o = e.lastIndexOf("\n");
-
-    if (t) {
-      if ("object" != _typeof(t)) throw new TypeError("load.metadata.sourceMap must be set to an object.");
-      t = JSON.stringify(t);
-    }
-
-    return (n ? "(function(System, SystemJS) {" : "") + e + (n ? "\n})(System, System);" : "") + ("\n//# sourceURL=" != e.substr(o, 15) ? "\n//# sourceURL=" + r + (t ? "!transpiled" : "") : "") + (t && Se(t) || "");
-  }
-
-  function _e(e, t, r, n, o) {
-    Nt || (Nt = document.head || document.body || document.documentElement);
-    var i = document.createElement("script");
-    i.text = je(t, r, n, !1);
-    var a,
-        s = window.onerror;
-    if (window.onerror = function (e) {
-      a = addToError(e, "Evaluating " + n), s && s.apply(this, arguments);
-    }, Pe(e), o && i.setAttribute("nonce", o), Nt.appendChild(i), Nt.removeChild(i), Me(), window.onerror = s, a) return a;
-  }
-
-  function Pe(e) {
-    0 == Gt++ && (Bt = st.System), st.System = st.SystemJS = e;
-  }
-
-  function Me() {
-    0 == --Gt && (st.System = st.SystemJS = Bt);
-  }
-
-  function Re(e, t, r, n, o, i, a) {
-    if (t) {
-      if (i && Ht) return _e(e, t, r, n, i);
-
-      try {
-        Pe(e), !Jt && e._nodeRequire && (Jt = e._nodeRequire("vm"), $t = Jt.runInThisContext("typeof System !== 'undefined' && System") === e), $t ? Jt.runInThisContext(je(t, r, n, !a), {
-          filename: n + (r ? "!transpiled" : "")
-        }) : (0, eval)(je(t, r, n, !a)), Me();
-      } catch (e) {
-        return Me(), e;
-      }
-    }
-  }
-
-  function Ce(e) {
-    return "file:///" === e.substr(0, 8) ? e.substr(7 + !!at) : Zt && e.substr(0, Zt.length) === Zt ? e.substr(Zt.length) : e;
-  }
-
-  function Le(e, t) {
-    return Ce(this.normalizeSync(e, t));
-  }
-
-  function Ae(e) {
-    var t,
-        r = e.lastIndexOf("!"),
-        n = (t = -1 !== r ? e.substr(0, r) : e).split("/");
-    return n.pop(), n = n.join("/"), {
-      filename: Ce(t),
-      dirname: Ce(n)
-    };
-  }
-
-  function Ie(e) {
-    function t(e, t) {
-      for (var r = 0; r < e.length; r++) {
-        if (e[r][0] < t.index && e[r][1] > t.index) return !0;
-      }
-
-      return !1;
-    }
-
-    It.lastIndex = tr.lastIndex = rr.lastIndex = 0;
-    var r,
-        n = [],
-        o = [],
-        i = [];
-
-    if (e.length / e.split("\n").length < 200) {
-      for (; r = rr.exec(e);) {
-        o.push([r.index, r.index + r[0].length]);
-      }
-
-      for (; r = tr.exec(e);) {
-        t(o, r) || i.push([r.index + r[1].length, r.index + r[0].length - 1]);
-      }
-    }
-
-    for (; r = It.exec(e);) {
-      if (!t(o, r) && !t(i, r)) {
-        var a = r[1].substr(1, r[1].length - 2);
-        if (a.match(/"|'/)) continue;
-        n.push(a);
-      }
-    }
-
-    return n;
-  }
-
-  function Fe(e) {
-    if (-1 === nr.indexOf(e)) {
-      try {
-        var t = st[e];
-      } catch (t) {
-        nr.push(e);
-      }
-
-      this(e, t);
-    }
-  }
-
-  function Ke(e) {
-    if ("string" == typeof e) return q(e, st);
-    if (!(e instanceof Array)) throw new Error("Global exports must be a string or array.");
-
-    for (var t = {}, r = 0; r < e.length; r++) {
-      t[e[r].split(".").pop()] = q(e[r], st);
-    }
-
-    return t;
-  }
-
-  function De(e, t, r, n) {
-    var o = st.define;
-    st.define = void 0;
-    var i;
-
-    if (r) {
-      i = {};
-
-      for (var a in r) {
-        i[a] = st[a], st[a] = r[a];
-      }
-    }
-
-    return t || (Yt = {}, Object.keys(st).forEach(Fe, function (e, t) {
-      Yt[e] = t;
-    })), function () {
-      var e,
-          r = t ? Ke(t) : {},
-          a = !!t;
-      if (t && !n || Object.keys(st).forEach(Fe, function (o, i) {
-        Yt[o] !== i && void 0 !== i && (n && (st[o] = void 0), t || (r[o] = i, void 0 !== e ? a || e === i || (a = !0) : e = i));
-      }), r = a ? r : e, i) for (var s in i) {
-        st[s] = i[s];
-      }
-      return st.define = o, r;
-    };
-  }
-
-  function Ue(e, t) {
-    var r = ((e = e.replace(tr, "")).match(ar)[1].split(",")[t] || "require").replace(sr, ""),
-        n = ur[r] || (ur[r] = new RegExp(or + r + ir, "g"));
-    n.lastIndex = 0;
-
-    for (var o, i = []; o = n.exec(e);) {
-      i.push(o[2] || o[3]);
-    }
-
-    return i;
-  }
-
-  function qe(e) {
-    return function (t, r, n) {
-      e(t, r, n), "object" != _typeof(r = n.exports) && "function" != typeof r || "__esModule" in r || Object.defineProperty(n.exports, "__esModule", {
-        value: !0
-      });
-    };
-  }
-
-  function Te(e, t) {
-    Vt = e, cr = t, Qt = void 0, lr = !1;
-  }
-
-  function ze(e) {
-    Qt ? e.registerDynamic(Vt ? Qt[0].concat(Vt) : Qt[0], !1, cr ? qe(Qt[1]) : Qt[1]) : lr && e.registerDynamic([], !1, _);
-  }
-
-  function Ne(e, t) {
-    !e.load.esModule || "object" != _typeof(t) && "function" != typeof t || "__esModule" in t || Object.defineProperty(t, "__esModule", {
-      value: !0
-    });
-  }
-
-  function Je(e, t) {
-    var r = this,
-        n = this[St];
-    return (Be(n, this, e) || Et).then(function () {
-      if (!t()) {
-        var o = r[jt][e];
-
-        if ("@node/" === e.substr(0, 6)) {
-          if (!r._nodeRequire) throw new TypeError("Error loading " + e + ". Can only load node core modules in Node.");
-          return r.registerDynamic([], !1, function () {
-            return L.call(r, e.substr(6), r.baseURL);
-          }), void t();
-        }
-
-        return o.load.scriptLoad ? !o.load.pluginKey && fr || (o.load.scriptLoad = !1, R.call(n, 'scriptLoad not supported for "' + e + '"')) : !1 !== o.load.scriptLoad && !o.load.pluginKey && fr && (o.load.deps || o.load.globals || !("system" === o.load.format || "register" === o.load.format || "global" === o.load.format && o.load.exports) || (o.load.scriptLoad = !0)), o.load.scriptLoad ? new Promise(function (n, i) {
-          if ("amd" === o.load.format && st.define !== r.amdDefine) throw new Error("Loading AMD with scriptLoad requires setting the global `" + pr + ".define = SystemJS.amdDefine`");
-          U(e, o.load.crossOrigin, o.load.integrity, function () {
-            if (!t()) {
-              o.load.format = "global";
-              var e = o.load.exports && Ke(o.load.exports);
-              r.registerDynamic([], !1, function () {
-                return Ne(o, e), e;
-              }), t();
-            }
-
-            n();
-          }, i);
-        }) : $e(r, e, o).then(function () {
-          return We(r, e, o, t, n.wasm);
-        });
-      }
-    }).then(function (t) {
-      return delete r[jt][e], t;
-    });
-  }
-
-  function $e(e, t, r) {
-    return r.pluginKey ? e.import(r.pluginKey).then(function (e) {
-      r.pluginModule = e, r.pluginLoad = {
-        name: t,
-        address: r.pluginArgument,
-        source: void 0,
-        metadata: r.load
-      }, r.load.deps = r.load.deps || [];
-    }) : Et;
-  }
-
-  function Be(e, t, r) {
-    var n = e.depCache[r];
-    if (n) for (a = 0; a < n.length; a++) {
-      t.normalize(n[a], r).then(K);
-    } else {
-      var o = !1;
-
-      for (var i in e.bundles) {
-        for (var a = 0; a < e.bundles[i].length; a++) {
-          var s = e.bundles[i][a];
-
-          if (s === r) {
-            o = !0;
-            break;
-          }
-
-          if (-1 !== s.indexOf("*")) {
-            var u = s.split("*");
-
-            if (2 !== u.length) {
-              e.bundles[i].splice(a--, 1);
-              continue;
-            }
-
-            if (r.substr(0, u[0].length) === u[0] && r.substr(r.length - u[1].length, u[1].length) === u[1]) {
-              o = !0;
-              break;
-            }
-          }
-        }
-
-        if (o) return t.import(i);
-      }
-    }
-  }
-
-  function We(e, t, r, n, o) {
-    return r.load.exports && !r.load.format && (r.load.format = "global"), Et.then(function () {
-      if (r.pluginModule && r.pluginModule.locate) return Promise.resolve(r.pluginModule.locate.call(e, r.pluginLoad)).then(function (e) {
-        e && (r.pluginLoad.address = e);
-      });
-    }).then(function () {
-      return r.pluginModule ? (o = !1, r.pluginModule.fetch ? r.pluginModule.fetch.call(e, r.pluginLoad, function (e) {
-        return Kt(e.address, r.load.authorization, r.load.integrity, !1);
-      }) : Kt(r.pluginLoad.address, r.load.authorization, r.load.integrity, !1)) : Kt(t, r.load.authorization, r.load.integrity, o);
-    }).then(function (i) {
-      return o && "string" != typeof i ? C(e, i, n).then(function (o) {
-        if (!o) {
-          var a = ot ? new TextDecoder("utf-8").decode(new Uint8Array(i)) : i.toString();
-          return Ge(e, t, a, r, n);
-        }
-      }) : Ge(e, t, i, r, n);
-    });
-  }
-
-  function Ge(e, t, r, n, o) {
-    return Promise.resolve(r).then(function (t) {
-      return "detect" === n.load.format && (n.load.format = void 0), Ve(t, n), n.pluginModule ? (n.pluginLoad.source = t, n.pluginModule.translate ? Promise.resolve(n.pluginModule.translate.call(e, n.pluginLoad, n.traceOpts)).then(function (e) {
-        if (n.load.sourceMap) {
-          if ("object" != _typeof(n.load.sourceMap)) throw new Error("metadata.load.sourceMap must be set to an object.");
-          Xe(n.pluginLoad.address, n.load.sourceMap);
-        }
-
-        return "string" == typeof e ? e : n.pluginLoad.source;
-      }) : t) : t;
-    }).then(function (r) {
-      return n.load.format || '"bundle"' !== r.substring(0, 8) ? "register" === n.load.format || !n.load.format && He(r) ? (n.load.format = "register", r) : "esm" === n.load.format || !n.load.format && r.match(gr) ? (n.load.format = "esm", Ye(e, r, t, n, o)) : r : (n.load.format = "system", r);
-    }).then(function (t) {
-      if ("string" != typeof t || !n.pluginModule || !n.pluginModule.instantiate) return t;
-      var r = !1;
-      return n.pluginLoad.source = t, Promise.resolve(n.pluginModule.instantiate.call(e, n.pluginLoad, function (e) {
-        if (t = e.source, n.load = e.metadata, r) throw new Error("Instantiate must only be called once.");
-        r = !0;
-      })).then(function (e) {
-        return r ? t : P(e);
-      });
-    }).then(function (r) {
-      if ("string" != typeof r) return r;
-      n.load.format || (n.load.format = Ze(r));
-      var i = !1;
-
-      switch (n.load.format) {
-        case "esm":
-        case "register":
-        case "system":
-          if (u = Re(e, r, n.load.sourceMap, t, n.load.integrity, n.load.nonce, !1)) throw u;
-          if (!o()) return Ot;
-          return;
-
-        case "json":
-          var a = JSON.parse(r);
-          return e.newModule({
-            default: a,
-            __useDefault: a
-          });
-
-        case "amd":
-          var s = st.define;
-          st.define = e.amdDefine, Te(n.load.deps, n.load.esModule);
-          var u = Re(e, r, n.load.sourceMap, t, n.load.integrity, n.load.nonce, !1);
-          if ((i = o()) || (ze(e), i = o()), st.define = s, u) throw u;
-          break;
-
-        case "cjs":
-          var l = n.load.deps,
-              c = (n.load.deps || []).concat(n.load.cjsRequireDetection ? Ie(r) : []);
-
-          for (var f in n.load.globals) {
-            n.load.globals[f] && c.push(n.load.globals[f]);
-          }
-
-          e.registerDynamic(c, !0, function (o, i, a) {
-            if (o.resolve = function (t) {
-              return Le.call(e, t, a.id);
-            }, a.paths = [], a.require = o, !n.load.cjsDeferDepsExecute && l) for (var s = 0; s < l.length; s++) {
-              o(l[s]);
-            }
-            var u = Ae(a.id),
-                c = {
-              exports: i,
-              args: [o, i, a, u.filename, u.dirname, st, st]
-            },
-                f = "(function (require, exports, module, __filename, __dirname, global, GLOBAL";
-            if (n.load.globals) for (var d in n.load.globals) {
-              c.args.push(o(n.load.globals[d])), f += ", " + d;
-            }
-            var p = st.define;
-            st.define = void 0, st.__cjsWrapper = c, r = f + ") {" + r.replace(yr, "") + "\n}).apply(__cjsWrapper.exports, __cjsWrapper.args);";
-            var g = Re(e, r, n.load.sourceMap, t, n.load.integrity, n.load.nonce, !1);
-            if (g) throw g;
-            Ne(n, i), st.__cjsWrapper = void 0, st.define = p;
-          }), i = o();
-          break;
-
-        case "global":
-          c = n.load.deps || [];
-
-          for (var f in n.load.globals) {
-            var d = n.load.globals[f];
-            d && c.push(d);
-          }
-
-          e.registerDynamic(c, !1, function (o, i, a) {
-            var s;
-
-            if (n.load.globals) {
-              s = {};
-
-              for (var u in n.load.globals) {
-                n.load.globals[u] && (s[u] = o(n.load.globals[u]));
-              }
-            }
-
-            var l = n.load.exports;
-            l && (r += "\n" + pr + '["' + l + '"] = ' + l + ";");
-            var c = De(a.id, l, s, n.load.encapsulateGlobal),
-                f = Re(e, r, n.load.sourceMap, t, n.load.integrity, n.load.nonce, !0);
-            if (f) throw f;
-            var d = c();
-            return Ne(n, d), d;
-          }), i = o();
-          break;
-
-        default:
-          throw new TypeError('Unknown module format "' + n.load.format + '" for "' + t + '".' + ("es6" === n.load.format ? ' Use "esm" instead here.' : ""));
-      }
-
-      if (!i) throw new Error("Module " + t + " detected as " + n.load.format + " but didn't execute correctly.");
-    });
-  }
-
-  function He(e) {
-    var t = e.match(hr);
-    return t && "System.register" === e.substr(t[0].length, 15);
-  }
-
-  function Ze(e) {
-    return e.match(mr) ? "amd" : (vr.lastIndex = 0, It.lastIndex = 0, It.exec(e) || vr.exec(e) ? "cjs" : "global");
-  }
-
-  function Xe(e, t) {
-    var r = e.split("!")[0];
-    t.file && t.file != e || (t.file = r + "!transpiled"), (!t.sources || t.sources.length <= 1 && (!t.sources[0] || t.sources[0] === e)) && (t.sources = [r]);
-  }
-
-  function Ye(e, r, n, o, i) {
-    if (!e.transpiler) throw new TypeError("Unable to dynamically transpile ES module\n   A loader plugin needs to be configured via `SystemJS.config({ transpiler: 'transpiler-module' })`.");
-
-    if (o.load.deps) {
-      for (var a = "", s = 0; s < o.load.deps.length; s++) {
-        a += 'import "' + o.load.deps[s] + '"; ';
-      }
-
-      r = a + r;
-    }
-
-    return e.import.call(e, e.transpiler).then(function (t) {
-      if (!(t = t.__useDefault || t).translate) throw new Error(e.transpiler + " is not a valid transpiler plugin.");
-      return t === o.pluginModule ? r : ("string" == typeof o.load.sourceMap && (o.load.sourceMap = JSON.parse(o.load.sourceMap)), o.pluginLoad = o.pluginLoad || {
-        name: n,
-        address: n,
-        source: r,
-        metadata: o.load
-      }, o.load.deps = o.load.deps || [], Promise.resolve(t.translate.call(e, o.pluginLoad, o.traceOpts)).then(function (e) {
-        var t = o.load.sourceMap;
-        return t && "object" == _typeof(t) && Xe(n, t), "esm" === o.load.format && He(e) && (o.load.format = "register"), e;
-      }));
-    }, function (e) {
-      throw t(e, "Unable to load transpiler to transpile " + n);
-    });
-  }
-
-  function Qe(e, t, r) {
-    for (var n, o = t.split("."); o.length > 1;) {
-      e = e[n = o.shift()] = e[n] || {};
-    }
-
-    void 0 === e[n = o.shift()] && (e[n] = r);
-  }
-
-  function Ve(e, t) {
-    var r = e.match(br);
-    if (r) for (var n = r[0].match(wr), o = 0; o < n.length; o++) {
-      var i = n[o],
-          a = i.length,
-          s = i.substr(0, 1);
-
-      if (";" == i.substr(a - 1, 1) && a--, '"' == s || "'" == s) {
-        var u = i.substr(1, i.length - 3),
-            l = u.substr(0, u.indexOf(" "));
-
-        if (l) {
-          var c = u.substr(l.length + 1, u.length - l.length - 1);
-          "deps" === l && (l = "deps[]"), "[]" === l.substr(l.length - 2, 2) ? (l = l.substr(0, l.length - 2), t.load[l] = t.load[l] || [], t.load[l].push(c)) : "use" !== l && Qe(t.load, l, c);
-        } else t.load[u] = !0;
-      }
-    }
-  }
-
-  function et() {
-    f.call(this), this._loader = {}, this[jt] = {}, this[St] = {
-      baseURL: nt,
-      paths: {},
-      packageConfigPaths: [],
-      packageConfigKeys: [],
-      map: {},
-      packages: {},
-      depCache: {},
-      meta: {},
-      bundles: {},
-      production: !1,
-      transpiler: void 0,
-      loadedBundles: {},
-      warnings: !1,
-      pluginFirst: !1,
-      wasm: !1
-    }, this.scriptSrc = dr, this._nodeRequire = er, this.registry.set("@empty", Ot), tt.call(this, !1, !1), Xt(this);
-  }
-
-  function tt(e, t) {
-    this[St].production = e, this.registry.set("@system-env", Er = this.newModule({
-      browser: ot,
-      node: !!this._nodeRequire,
-      production: !t && e,
-      dev: t || !e,
-      build: t,
-      default: !0
-    }));
-  }
-
-  function rt(e, t) {
-    R.call(e[St], "SystemJS." + t + " is deprecated for SystemJS.registry." + t);
-  }
-
-  var nt,
-      ot = "undefined" != typeof window && "undefined" != typeof document,
-      it = "undefined" != typeof process && process.versions && process.versions.node,
-      at = "undefined" != typeof process && "string" == typeof process.platform && process.platform.match(/^win/),
-      st = "undefined" != typeof self ? self : global,
-      ut = "undefined" != typeof Symbol;
-
-  if ("undefined" != typeof document && document.getElementsByTagName) {
-    if (!(nt = document.baseURI)) {
-      var lt = document.getElementsByTagName("base");
-      nt = lt[0] && lt[0].href || window.location.href;
-    }
-  } else "undefined" != typeof location && (nt = location.href);
-
-  if (nt) {
-    var ct = (nt = nt.split("#")[0].split("?")[0]).lastIndexOf("/");
-    -1 !== ct && (nt = nt.substr(0, ct + 1));
-  } else {
-    if ("undefined" == typeof process || !process.cwd) throw new TypeError("No environment baseURI");
-    nt = "file://" + (at ? "/" : "") + process.cwd(), at && (nt = nt.replace(/\\/g, "/"));
-  }
-
-  "/" !== nt[nt.length - 1] && (nt += "/");
-  var ft = "_" == new Error(0, "_").fileName,
-      dt = Promise.resolve();
-  i.prototype.constructor = i, i.prototype.import = function (e, r) {
-    if ("string" != typeof e) throw new TypeError("Loader import method must be passed a module key string");
-    var n = this;
-    return dt.then(function () {
-      return n[gt](e, r);
-    }).then(a).catch(function (n) {
-      throw t(n, "Loading " + e + (r ? " from " + r : ""));
-    });
-  };
-  var pt = i.resolve = e("resolve"),
-      gt = i.resolveInstantiate = e("resolveInstantiate");
-  i.prototype[gt] = function (e, t) {
-    var r = this;
-    return r.resolve(e, t).then(function (e) {
-      return r.registry.get(e);
-    });
-  }, i.prototype.resolve = function (e, r) {
-    var n = this;
-    return dt.then(function () {
-      return n[pt](e, r);
-    }).then(s).catch(function (n) {
-      throw t(n, "Resolving " + e + (r ? " to " + r : ""));
-    });
-  };
-  var ht = "undefined" != typeof Symbol && Symbol.iterator,
-      mt = e("registry");
-  ht && (u.prototype[Symbol.iterator] = function () {
-    return this.entries()[Symbol.iterator]();
-  }, u.prototype.entries = function () {
-    var e = this[mt];
-    return o(Object.keys(e).map(function (t) {
-      return [t, e[t]];
-    }));
-  }), u.prototype.keys = function () {
-    return o(Object.keys(this[mt]));
-  }, u.prototype.values = function () {
-    var e = this[mt];
-    return o(Object.keys(e).map(function (t) {
-      return e[t];
-    }));
-  }, u.prototype.get = function (e) {
-    return this[mt][e];
-  }, u.prototype.set = function (e, t) {
-    if (!(t instanceof l)) throw new Error("Registry must be set with an instance of Module Namespace");
-    return this[mt][e] = t, this;
-  }, u.prototype.has = function (e) {
-    return Object.hasOwnProperty.call(this[mt], e);
-  }, u.prototype.delete = function (e) {
-    return !!Object.hasOwnProperty.call(this[mt], e) && (delete this[mt][e], !0);
-  };
-  var vt = e("baseObject");
-  l.prototype = Object.create(null), "undefined" != typeof Symbol && Symbol.toStringTag && Object.defineProperty(l.prototype, Symbol.toStringTag, {
-    value: "Module"
-  });
-  var yt = e("register-internal");
-  f.prototype = Object.create(i.prototype), f.prototype.constructor = f;
-  var bt = f.instantiate = e("instantiate");
-  f.prototype[f.resolve = i.resolve] = function (e, t) {
-    return n(e, t || nt);
-  }, f.prototype[bt] = function (e, t) {}, f.prototype[i.resolveInstantiate] = function (e, t) {
-    var r = this,
-        n = this[yt],
-        o = this.registry[mt];
-    return p(r, e, t, o, n).then(function (e) {
-      if (e instanceof l) return e;
-      var t = e.linkRecord;
-
-      if (!t) {
-        if (e.module) return e.module;
-        throw e.evalError;
-      }
-
-      return w(r, e, t, o, n).then(function () {
-        return k(r, e, t, o, n, void 0);
-      });
-    });
-  }, f.prototype.register = function (e, t, r) {
-    var n = this[yt];
-    void 0 === r ? n.lastRegister = [e, t, void 0] : (n.records[e] || d(n, e, void 0)).registration = [t, r, void 0];
-  }, f.prototype.registerDynamic = function (e, t, r, n) {
-    var o = this[yt];
-    "string" != typeof e ? o.lastRegister = [e, t, r] : (o.records[e] || d(o, e, void 0)).registration = [t, r, n];
-  }, x.prototype.import = function (e) {
-    return this.loader.trace && this.loader.loads[this.key].dynamicDeps.push(e), this.loader.import(e, this.key);
-  };
-  var wt = {};
-  Object.freeze && Object.freeze(wt);
-
-  var xt,
-      kt,
-      Et = Promise.resolve(),
-      Ot = new l({}),
-      St = e("loader-config"),
-      jt = e("metadata"),
-      _t = "undefined" == typeof window && "undefined" != typeof self && "undefined" != typeof importScripts,
-      Pt = !1,
-      Mt = !1;
-
-  if (ot && function () {
-    var e = document.createElement("link").relList;
-
-    if (e && e.supports) {
-      Mt = !0;
-
-      try {
-        Pt = e.supports("preload");
-      } catch (e) {}
-    }
-  }(), ot) {
-    var Rt = [],
-        Ct = window.onerror;
-
-    window.onerror = function (e, t) {
-      for (var r = 0; r < Rt.length; r++) {
-        if (Rt[r].src === t) return void Rt[r].err(e);
-      }
-
-      Ct && Ct.apply(this, arguments);
-    };
-  }
-
-  var Lt,
-      At,
-      It = /(?:^\uFEFF?|[^$_a-zA-Z\xA0-\uFFFF."'])require\s*\(\s*("[^"\\]*(?:\\.[^"\\]*)*"|'[^'\\]*(?:\\.[^'\\]*)*'|`[^`\\]*(?:\\.[^`\\]*)*`)\s*\)/g,
-      Ft = "undefined" != typeof XMLHttpRequest,
-      Kt = At = "undefined" != typeof self && void 0 !== self.fetch ? J : Ft ? $ :  true && "undefined" != typeof process ? B : W,
-      Dt = {},
-      Ut = ["browser", "node", "dev", "build", "production", "default"],
-      qt = /#\{[^\}]+\}/,
-      Tt = ["browserConfig", "nodeConfig", "devConfig", "buildConfig", "productionConfig"],
-      zt = "undefined" != typeof Buffer;
-
-  try {
-    zt && "YQ==" !== new Buffer("a").toString("base64") && (zt = !1);
-  } catch (e) {
-    zt = !1;
-  }
-
-  var Nt,
-      Jt,
-      $t,
-      Bt,
-      Wt = "\n//# sourceMappingURL=data:application/json;base64,",
-      Gt = 0,
-      Ht = !1;
-  ot && "undefined" != typeof document && document.getElementsByTagName && (window.chrome && window.chrome.extension || navigator.userAgent.match(/^Node\.js/) || (Ht = !0));
-
-  var Zt,
-      Xt = function Xt(e) {
-    function t(r, n, o, i) {
-      if ("object" == _typeof(r) && !(r instanceof Array)) return t.apply(null, Array.prototype.splice.call(arguments, 1, arguments.length - 1));
-
-      if ("string" == typeof r && "function" == typeof n && (r = [r]), !(r instanceof Array)) {
-        if ("string" == typeof r) {
-          var a = e.decanonicalize(r, i),
-              s = e.get(a);
-          if (!s) throw new Error('Module not already loaded loading "' + r + '" as ' + a + (i ? ' from "' + i + '".' : "."));
-          return "__useDefault" in s ? s.__useDefault : s;
-        }
-
-        throw new TypeError("Invalid require");
-      }
-
-      for (var u = [], l = 0; l < r.length; l++) {
-        u.push(e.import(r[l], i));
-      }
-
-      Promise.all(u).then(function (e) {
-        n && n.apply(null, e);
-      }, o);
-    }
-
-    function r(r, n, o) {
-      function i(r, i, l) {
-        for (var c = [], f = 0; f < n.length; f++) {
-          c.push(r(n[f]));
-        }
-
-        if (l.uri = l.id, l.config = _, -1 !== u && c.splice(u, 0, l), -1 !== s && c.splice(s, 0, i), -1 !== a) {
-          var d = function d(n, o, i) {
-            return "string" == typeof n && "function" != typeof o ? r(n) : t.call(e, n, o, i, l.id);
-          };
-
-          d.toUrl = function (t) {
-            return e.normalizeSync(t, l.id);
-          }, c.splice(a, 0, d);
-        }
-
-        var p = st.require;
-        st.require = t;
-        var g = o.apply(-1 === s ? st : i, c);
-        st.require = p, void 0 !== g && (l.exports = g);
-      }
-
-      "string" != typeof r && (o = n, n = r, r = null), n instanceof Array || (o = n, n = ["require", "exports", "module"].splice(0, o.length)), "function" != typeof o && (o = function (e) {
-        return function () {
-          return e;
-        };
-      }(o)), r || Vt && (n = n.concat(Vt), Vt = void 0);
-      var a, s, u;
-      -1 !== (a = n.indexOf("require")) && (n.splice(a, 1), r || (n = n.concat(Ue(o.toString(), a)))), -1 !== (s = n.indexOf("exports")) && n.splice(s, 1), -1 !== (u = n.indexOf("module")) && n.splice(u, 1), r ? (e.registerDynamic(r, n, !1, i), Qt ? (Qt = void 0, lr = !0) : lr || (Qt = [n, i])) : e.registerDynamic(n, !1, cr ? qe(i) : i);
-    }
-
-    e.set("@@cjs-helpers", e.newModule({
-      requireResolve: Le.bind(e),
-      getPathVars: Ae
-    })), e.set("@@global-helpers", e.newModule({
-      prepareGlobal: De
-    })), r.amd = {}, e.amdDefine = r, e.amdRequire = t;
-  };
-
-  "undefined" != typeof window && "undefined" != typeof document && window.location && (Zt = location.protocol + "//" + location.hostname + (location.port ? ":" + location.port : ""));
-  var Yt,
-      Qt,
-      Vt,
-      er,
-      tr = /(^|[^\\])(\/\*([\s\S]*?)\*\/|([^:]|^)\/\/(.*)$)/gm,
-      rr = /("[^"\\\n\r]*(\\.[^"\\\n\r]*)*"|'[^'\\\n\r]*(\\.[^'\\\n\r]*)*')/g,
-      nr = ["_g", "sessionStorage", "localStorage", "clipboardData", "frames", "frameElement", "external", "mozAnimationStartTime", "webkitStorageInfo", "webkitIndexedDB", "mozInnerScreenY", "mozInnerScreenX"],
-      or = "(?:^|[^$_a-zA-Z\\xA0-\\uFFFF.])",
-      ir = "\\s*\\(\\s*(\"([^\"]+)\"|'([^']+)')\\s*\\)",
-      ar = /\(([^\)]*)\)/,
-      sr = /^\s+|\s+$/g,
-      ur = {},
-      lr = !1,
-      cr = !1,
-      fr = (ot || _t) && "undefined" != typeof navigator && navigator.userAgent && !navigator.userAgent.match(/MSIE (9|10).0/);
-   false || "undefined" == typeof process || process.browser || (er = require);
-  var dr,
-      pr = "undefined" != typeof self ? "self" : "global",
-      gr = /(^\s*|[}\);\n]\s*)(import\s*(['"]|(\*\s+as\s+)?(?!type)([^"'\(\)\n; ]+)\s*from\s*['"]|\{)|export\s+\*\s+from\s+["']|export\s*(\{|default|function|class|var|const|let|async\s+function))/,
-      hr = /^(\s*\/\*[^\*]*(\*(?!\/)[^\*]*)*\*\/|\s*\/\/[^\n]*|\s*"[^"]+"\s*;?|\s*'[^']+'\s*;?)*\s*/,
-      mr = /(?:^\uFEFF?|[^$_a-zA-Z\xA0-\uFFFF.])define\s*\(\s*("[^"]+"\s*,\s*|'[^']+'\s*,\s*)?\s*(\[(\s*(("[^"]+"|'[^']+')\s*,|\/\/.*\r?\n|\/\*(.|\s)*?\*\/))*(\s*("[^"]+"|'[^']+')\s*,?)?(\s*(\/\/.*\r?\n|\/\*(.|\s)*?\*\/))*\s*\]|function\s*|{|[_$a-zA-Z\xA0-\uFFFF][_$a-zA-Z0-9\xA0-\uFFFF]*\))/,
-      vr = /(?:^\uFEFF?|[^$_a-zA-Z\xA0-\uFFFF.])(exports\s*(\[['"]|\.)|module(\.exports|\['exports'\]|\["exports"\])\s*(\[['"]|[=,\.]))/,
-      yr = /^\#\!.*/,
-      br = /^(\s*\/\*[^\*]*(\*(?!\/)[^\*]*)*\*\/|\s*\/\/[^\n]*|\s*"[^"]+"\s*;?|\s*'[^']+'\s*;?)+/,
-      wr = /\/\*[^\*]*(\*(?!\/)[^\*]*)*\*\/|\/\/[^\n]*|"[^"]+"\s*;?|'[^']+'\s*;?/g;
-  if ("undefined" == typeof Promise) throw new Error("SystemJS needs a Promise polyfill.");
-
-  if ("undefined" != typeof document) {
-    var xr = document.getElementsByTagName("script"),
-        kr = xr[xr.length - 1];
-    document.currentScript && (kr.defer || kr.async) && (kr = document.currentScript), dr = kr && kr.src;
-  } else if ("undefined" != typeof importScripts) try {
-    throw new Error("_");
-  } catch (e) {
-    e.stack.replace(/(?:at|@).*(http.+):[\d]+:[\d]+/, function (e, t) {
-      dr = t;
-    });
-  } else  true && (dr = __filename);
-
-  var Er;
-  et.prototype = Object.create(f.prototype), et.prototype.constructor = et, et.prototype[et.resolve = f.resolve] = et.prototype.normalize = Z, et.prototype.load = function (e, t) {
-    return R.call(this[St], "System.load is deprecated."), this.import(e, t);
-  }, et.prototype.decanonicalize = et.prototype.normalizeSync = et.prototype.resolveSync = Y, et.prototype[et.instantiate = f.instantiate] = Je, et.prototype.config = ke, et.prototype.getConfig = xe, et.prototype.global = st, et.prototype.import = function () {
-    return f.prototype.import.apply(this, arguments).then(function (e) {
-      return "__useDefault" in e ? e.__useDefault : e;
-    });
-  };
-
-  for (var Or = ["baseURL", "map", "paths", "packages", "packageConfigPaths", "depCache", "meta", "bundles", "transpiler", "warnings", "pluginFirst", "production", "wasm"], Sr = "undefined" != typeof Proxy, jr = 0; jr < Or.length; jr++) {
-    !function (e) {
-      Object.defineProperty(et.prototype, e, {
-        get: function get() {
-          var t = we(this[St], e);
-          return Sr && "object" == _typeof(t) && (t = new Proxy(t, {
-            set: function set(t, r) {
-              throw new Error("Cannot set SystemJS." + e + '["' + r + '"] directly. Use SystemJS.config({ ' + e + ': { "' + r + '": ... } }) rather.');
-            }
-          })), t;
-        },
-        set: function set(t) {
-          throw new Error("Setting `SystemJS." + e + "` directly is no longer supported. Use `SystemJS.config({ " + e + ": ... })`.");
-        }
-      });
-    }(Or[jr]);
-  }
-
-  et.prototype.delete = function (e) {
-    return rt(this, "delete"), this.registry.delete(e);
-  }, et.prototype.get = function (e) {
-    return rt(this, "get"), this.registry.get(e);
-  }, et.prototype.has = function (e) {
-    return rt(this, "has"), this.registry.has(e);
-  }, et.prototype.set = function (e, t) {
-    return rt(this, "set"), this.registry.set(e, t);
-  }, et.prototype.newModule = function (e) {
-    return new l(e);
-  }, et.prototype.isModule = M, et.prototype.register = function (e, t, r) {
-    return "string" == typeof e && (e = X.call(this, this[St], e)), f.prototype.register.call(this, e, t, r);
-  }, et.prototype.registerDynamic = function (e, t, r, n) {
-    return "string" == typeof e && (e = X.call(this, this[St], e)), f.prototype.registerDynamic.call(this, e, t, r, n);
-  }, et.prototype.version = "0.20.19 Dev";
-
-  var _r = new et();
-
-  (ot || _t) && (st.SystemJS = st.System = _r),  true && module.exports && (module.exports = _r);
-}();
-/* WEBPACK VAR INJECTION */}.call(this, __webpack_require__(/*! ./../../../../../buffer/index.js */ "../../node_modules/buffer/index.js").Buffer, __webpack_require__(/*! ./../../../../../process/browser.js */ "../../node_modules/process/browser.js"), __webpack_require__(/*! ./../../../../../webpack/buildin/global.js */ "../../node_modules/webpack/buildin/global.js"), "/index.js"))
-
-/***/ }),
-
 /***/ "../../node_modules/base64-js/index.js":
-/*!************************************************************************************!*\
-  !*** /home/travigd/Trash/WebIO-throwaway/packages/node_modules/base64-js/index.js ***!
-  \************************************************************************************/
+/*!**************************************************************************************!*\
+  !*** /home/travigd/Trash/WebIO-throwaway-2/packages/node_modules/base64-js/index.js ***!
+  \**************************************************************************************/
 /*! no static exports found */
 /***/ (function(module, exports, __webpack_require__) {
 
@@ -14941,9 +10324,9 @@ function fromByteArray(uint8) {
 /***/ }),
 
 /***/ "../../node_modules/buffer/index.js":
-/*!*********************************************************************************!*\
-  !*** /home/travigd/Trash/WebIO-throwaway/packages/node_modules/buffer/index.js ***!
-  \*********************************************************************************/
+/*!***********************************************************************************!*\
+  !*** /home/travigd/Trash/WebIO-throwaway-2/packages/node_modules/buffer/index.js ***!
+  \***********************************************************************************/
 /*! no static exports found */
 /***/ (function(module, exports, __webpack_require__) {
 
@@ -16806,9 +12189,9 @@ function isnan(val) {
 /***/ }),
 
 /***/ "../../node_modules/debug/src/browser.js":
-/*!**************************************************************************************!*\
-  !*** /home/travigd/Trash/WebIO-throwaway/packages/node_modules/debug/src/browser.js ***!
-  \**************************************************************************************/
+/*!****************************************************************************************!*\
+  !*** /home/travigd/Trash/WebIO-throwaway-2/packages/node_modules/debug/src/browser.js ***!
+  \****************************************************************************************/
 /*! no static exports found */
 /***/ (function(module, exports, __webpack_require__) {
 
@@ -16994,9 +12377,9 @@ formatters.j = function (v) {
 /***/ }),
 
 /***/ "../../node_modules/debug/src/common.js":
-/*!*************************************************************************************!*\
-  !*** /home/travigd/Trash/WebIO-throwaway/packages/node_modules/debug/src/common.js ***!
-  \*************************************************************************************/
+/*!***************************************************************************************!*\
+  !*** /home/travigd/Trash/WebIO-throwaway-2/packages/node_modules/debug/src/common.js ***!
+  \***************************************************************************************/
 /*! no static exports found */
 /***/ (function(module, exports, __webpack_require__) {
 
@@ -17277,9 +12660,9 @@ module.exports = setup;
 /***/ }),
 
 /***/ "../../node_modules/ieee754/index.js":
-/*!**********************************************************************************!*\
-  !*** /home/travigd/Trash/WebIO-throwaway/packages/node_modules/ieee754/index.js ***!
-  \**********************************************************************************/
+/*!************************************************************************************!*\
+  !*** /home/travigd/Trash/WebIO-throwaway-2/packages/node_modules/ieee754/index.js ***!
+  \************************************************************************************/
 /*! no static exports found */
 /***/ (function(module, exports) {
 
@@ -17375,9 +12758,9 @@ exports.write = function (buffer, value, offset, isLE, mLen, nBytes) {
 /***/ }),
 
 /***/ "../../node_modules/isarray/index.js":
-/*!**********************************************************************************!*\
-  !*** /home/travigd/Trash/WebIO-throwaway/packages/node_modules/isarray/index.js ***!
-  \**********************************************************************************/
+/*!************************************************************************************!*\
+  !*** /home/travigd/Trash/WebIO-throwaway-2/packages/node_modules/isarray/index.js ***!
+  \************************************************************************************/
 /*! no static exports found */
 /***/ (function(module, exports) {
 
@@ -17390,9 +12773,9 @@ module.exports = Array.isArray || function (arr) {
 /***/ }),
 
 /***/ "../../node_modules/ms/index.js":
-/*!*****************************************************************************!*\
-  !*** /home/travigd/Trash/WebIO-throwaway/packages/node_modules/ms/index.js ***!
-  \*****************************************************************************/
+/*!*******************************************************************************!*\
+  !*** /home/travigd/Trash/WebIO-throwaway-2/packages/node_modules/ms/index.js ***!
+  \*******************************************************************************/
 /*! no static exports found */
 /***/ (function(module, exports) {
 
@@ -17582,9 +12965,9 @@ function plural(ms, msAbs, n, name) {
 /***/ }),
 
 /***/ "../../node_modules/node-libs-browser/mock/empty.js":
-/*!*************************************************************************************************!*\
-  !*** /home/travigd/Trash/WebIO-throwaway/packages/node_modules/node-libs-browser/mock/empty.js ***!
-  \*************************************************************************************************/
+/*!***************************************************************************************************!*\
+  !*** /home/travigd/Trash/WebIO-throwaway-2/packages/node_modules/node-libs-browser/mock/empty.js ***!
+  \***************************************************************************************************/
 /*! no static exports found */
 /***/ (function(module, exports) {
 
@@ -17593,9 +12976,9 @@ function plural(ms, msAbs, n, name) {
 /***/ }),
 
 /***/ "../../node_modules/process/browser.js":
-/*!************************************************************************************!*\
-  !*** /home/travigd/Trash/WebIO-throwaway/packages/node_modules/process/browser.js ***!
-  \************************************************************************************/
+/*!**************************************************************************************!*\
+  !*** /home/travigd/Trash/WebIO-throwaway-2/packages/node_modules/process/browser.js ***!
+  \**************************************************************************************/
 /*! no static exports found */
 /***/ (function(module, exports) {
 
@@ -17811,9 +13194,9 @@ process.umask = function () {
 /***/ }),
 
 /***/ "../../node_modules/regenerator-runtime/runtime.js":
-/*!************************************************************************************************!*\
-  !*** /home/travigd/Trash/WebIO-throwaway/packages/node_modules/regenerator-runtime/runtime.js ***!
-  \************************************************************************************************/
+/*!**************************************************************************************************!*\
+  !*** /home/travigd/Trash/WebIO-throwaway-2/packages/node_modules/regenerator-runtime/runtime.js ***!
+  \**************************************************************************************************/
 /*! no static exports found */
 /***/ (function(module, exports, __webpack_require__) {
 
@@ -18528,6 +13911,1907 @@ try {
 
 /***/ }),
 
+/***/ "../../node_modules/systemjs/dist/system.js":
+/*!*******************************************************************************************!*\
+  !*** /home/travigd/Trash/WebIO-throwaway-2/packages/node_modules/systemjs/dist/system.js ***!
+  \*******************************************************************************************/
+/*! no static exports found */
+/***/ (function(module, exports, __webpack_require__) {
+
+/* WEBPACK VAR INJECTION */(function(Buffer, process, global, __filename) {var require;function _typeof(obj) { if (typeof Symbol === "function" && typeof Symbol.iterator === "symbol") { _typeof = function _typeof(obj) { return typeof obj; }; } else { _typeof = function _typeof(obj) { return obj && typeof Symbol === "function" && obj.constructor === Symbol && obj !== Symbol.prototype ? "symbol" : typeof obj; }; } return _typeof(obj); }
+
+/*
+ * SystemJS v0.21.0 Dev
+ */
+!function () {
+  "use strict";
+
+  function e(e) {
+    return rt ? Symbol() : "@@" + e;
+  }
+
+  function t(e, t) {
+    Qe || (t = t.replace(et ? /file:\/\/\//g : /file:\/\//g, ""));
+    var r,
+        n = (e.message || e) + "\n  " + t;
+    r = it && e.fileName ? new Error(n, e.fileName, e.lineNumber) : new Error(n);
+    var o = e.originalErr ? e.originalErr.stack : e.stack;
+    return r.stack = Ve ? n + "\n  " + o : o, r.originalErr = e.originalErr || e, r;
+  }
+
+  function r(e, t) {
+    throw new RangeError('Unable to resolve "' + e + '" to ' + t);
+  }
+
+  function n(e, t) {
+    e = e.trim();
+    var n = t && t.substr(0, t.indexOf(":") + 1),
+        o = e[0],
+        i = e[1];
+    if ("/" === o && "/" === i) return n || r(e, t), n + e;
+
+    if ("." === o && ("/" === i || "." === i && ("/" === e[2] || 2 === e.length && (e += "/")) || 1 === e.length && (e += "/")) || "/" === o) {
+      var a,
+          s = !n || "/" !== t[n.length];
+
+      if (s ? (void 0 === t && r(e, t), a = t) : a = "/" === t[n.length + 1] ? "file:" !== n ? (a = t.substr(n.length + 2)).substr(a.indexOf("/") + 1) : t.substr(8) : t.substr(n.length + 1), "/" === o) {
+        if (!s) return t.substr(0, t.length - a.length - 1) + e;
+        r(e, t);
+      }
+
+      for (var u = a.substr(0, a.lastIndexOf("/") + 1) + e, l = [], c = -1, f = 0; f < u.length; f++) {
+        if (-1 === c) {
+          if ("." !== u[f]) c = f;else {
+            if ("." !== u[f + 1] || "/" !== u[f + 2] && f + 2 !== u.length) {
+              if ("/" !== u[f + 1] && f + 1 !== u.length) {
+                c = f;
+                continue;
+              }
+
+              f += 1;
+            } else l.pop(), f += 2;
+
+            s && 0 === l.length && r(e, t);
+          }
+        } else "/" === u[f] && (l.push(u.substring(c, f + 1)), c = -1);
+      }
+
+      return -1 !== c && l.push(u.substr(c)), t.substr(0, t.length - a.length) + l.join("");
+    }
+
+    return -1 !== e.indexOf(":") ? Ve && ":" === e[1] && "\\" === e[2] && e[0].match(/[a-z]/i) ? "file:///" + e.replace(/\\/g, "/") : e : void 0;
+  }
+
+  function o(e) {
+    if (e.values) return e.values();
+    if ("undefined" == typeof Symbol || !Symbol.iterator) throw new Error("Symbol.iterator not supported in this browser");
+    var t = {};
+    return t[Symbol.iterator] = function () {
+      var t = Object.keys(e),
+          r = 0;
+      return {
+        next: function next() {
+          return r < t.length ? {
+            value: e[t[r++]],
+            done: !1
+          } : {
+            value: void 0,
+            done: !0
+          };
+        }
+      };
+    }, t;
+  }
+
+  function i() {
+    this.registry = new u();
+  }
+
+  function a(e) {
+    if (!(e instanceof l)) throw new TypeError("Module instantiation did not return a valid namespace object.");
+    return e;
+  }
+
+  function s(e) {
+    if (void 0 === e) throw new RangeError("No resolution found.");
+    return e;
+  }
+
+  function u() {
+    this[ct] = {};
+  }
+
+  function l(e) {
+    Object.defineProperty(this, ft, {
+      value: e
+    }), Object.keys(e).forEach(c, this);
+  }
+
+  function c(e) {
+    Object.defineProperty(this, e, {
+      enumerable: !0,
+      get: function get() {
+        return this[ft][e];
+      }
+    });
+  }
+
+  function f() {
+    i.call(this);
+    var e = this.registry.delete;
+
+    this.registry.delete = function (r) {
+      var n = e.call(this, r);
+      return t.hasOwnProperty(r) && !t[r].linkRecord && (delete t[r], n = !0), n;
+    };
+
+    var t = {};
+    this[dt] = {
+      lastRegister: void 0,
+      records: t
+    }, this.trace = !1;
+  }
+
+  function d(e, t, r) {
+    return e.records[t] = {
+      key: t,
+      registration: r,
+      module: void 0,
+      importerSetters: void 0,
+      loadError: void 0,
+      evalError: void 0,
+      linkRecord: {
+        instantiatePromise: void 0,
+        dependencies: void 0,
+        execute: void 0,
+        executingRequire: !1,
+        moduleObj: void 0,
+        setters: void 0,
+        depsInstantiatePromise: void 0,
+        dependencyInstantiations: void 0
+      }
+    };
+  }
+
+  function p(e, t, r, n, o) {
+    var i = n[t];
+    if (i) return Promise.resolve(i);
+    var a = o.records[t];
+    return a && !a.module ? a.loadError ? Promise.reject(a.loadError) : h(e, a, a.linkRecord, n, o) : e.resolve(t, r).then(function (t) {
+      if (i = n[t]) return i;
+      if ((a = o.records[t]) && !a.module || (a = d(o, t, a && a.registration)), a.loadError) return Promise.reject(a.loadError);
+      var r = a.linkRecord;
+      return r ? h(e, a, r, n, o) : a;
+    });
+  }
+
+  function g(e, t, r) {
+    return function () {
+      var e = r.lastRegister;
+      return e ? (r.lastRegister = void 0, t.registration = e, !0) : !!t.registration;
+    };
+  }
+
+  function h(e, r, n, o, i) {
+    return n.instantiatePromise || (n.instantiatePromise = (r.registration ? Promise.resolve() : Promise.resolve().then(function () {
+      return i.lastRegister = void 0, e[pt](r.key, e[pt].length > 1 && g(e, r, i));
+    })).then(function (t) {
+      if (void 0 !== t) {
+        if (!(t instanceof l)) throw new TypeError("Instantiate did not return a valid Module object.");
+        return delete i.records[r.key], e.trace && v(e, r, n), o[r.key] = t;
+      }
+
+      var a = r.registration;
+      if (r.registration = void 0, !a) throw new TypeError("Module instantiation did not call an anonymous or correctly named System.register.");
+      return n.dependencies = a[0], r.importerSetters = [], n.moduleObj = {}, a[2] ? (n.moduleObj.default = n.moduleObj.__useDefault = {}, n.executingRequire = a[1], n.execute = a[2]) : y(e, r, n, a[1]), r;
+    }).catch(function (e) {
+      throw r.linkRecord = void 0, r.loadError = r.loadError || t(e, "Instantiating " + r.key);
+    }));
+  }
+
+  function m(e, t, r, n, o, i) {
+    return e.resolve(t, r).then(function (r) {
+      i && (i[t] = r);
+      var a = o.records[r],
+          s = n[r];
+      if (s && (!a || a.module && s !== a.module)) return s;
+      if (a && a.loadError) throw a.loadError;
+      (!a || !s && a.module) && (a = d(o, r, a && a.registration));
+      var u = a.linkRecord;
+      return u ? h(e, a, u, n, o) : a;
+    });
+  }
+
+  function v(e, t, r) {
+    e.loads = e.loads || {}, e.loads[t.key] = {
+      key: t.key,
+      deps: r.dependencies,
+      dynamicDeps: [],
+      depMap: r.depMap || {}
+    };
+  }
+
+  function y(e, t, r, n) {
+    var o = r.moduleObj,
+        i = t.importerSetters,
+        a = !1,
+        s = n.call(tt, function (e, t) {
+      if ("object" == _typeof(e)) {
+        var r = !1;
+
+        for (var n in e) {
+          t = e[n], "__useDefault" === n || n in o && o[n] === t || (r = !0, o[n] = t);
+        }
+
+        if (!1 === r) return t;
+      } else {
+        if ((a || e in o) && o[e] === t) return t;
+        o[e] = t;
+      }
+
+      for (var s = 0; s < i.length; s++) {
+        i[s](o);
+      }
+
+      return t;
+    }, new x(e, t.key));
+    r.setters = s.setters, r.execute = s.execute, s.exports && (r.moduleObj = o = s.exports, a = !0);
+  }
+
+  function b(e, r, n, o, i) {
+    if (n.depsInstantiatePromise) return n.depsInstantiatePromise;
+
+    for (var a = Array(n.dependencies.length), s = 0; s < n.dependencies.length; s++) {
+      a[s] = m(e, n.dependencies[s], r.key, o, i, e.trace && n.depMap || (n.depMap = {}));
+    }
+
+    var u = Promise.all(a).then(function (e) {
+      if (n.dependencyInstantiations = e, n.setters) for (var t = 0; t < e.length; t++) {
+        var o = n.setters[t];
+
+        if (o) {
+          var i = e[t];
+          if (i instanceof l) o(i);else {
+            if (i.loadError) throw i.loadError;
+            o(i.module || i.linkRecord.moduleObj), i.importerSetters && i.importerSetters.push(o);
+          }
+        }
+      }
+      return r;
+    });
+    return e.trace && (u = u.then(function () {
+      return v(e, r, n), r;
+    })), (u = u.catch(function (e) {
+      throw n.depsInstantiatePromise = void 0, t(e, "Loading " + r.key);
+    })).catch(function () {}), n.depsInstantiatePromise = u;
+  }
+
+  function w(e, t, r, n, o) {
+    return new Promise(function (r, i) {
+      function a(t) {
+        var r = t.linkRecord;
+        r && -1 === u.indexOf(t) && (u.push(t), c++, b(e, t, r, n, o).then(s, i));
+      }
+
+      function s(e) {
+        c--;
+        var t = e.linkRecord;
+        if (t) for (var n = 0; n < t.dependencies.length; n++) {
+          var o = t.dependencyInstantiations[n];
+          o instanceof l || a(o);
+        }
+        0 === c && r();
+      }
+
+      var u = [],
+          c = 0;
+      a(t);
+    });
+  }
+
+  function x(e, t) {
+    this.loader = e, this.key = this.id = t, this.meta = {
+      url: t
+    };
+  }
+
+  function k(e, t, r, n, o, i) {
+    if (t.module) return t.module;
+    if (t.evalError) throw t.evalError;
+    if (i && -1 !== i.indexOf(t)) return t.linkRecord.moduleObj;
+    var a = O(e, t, r, n, o, r.setters ? [] : i || []);
+    if (a) throw a;
+    return t.module;
+  }
+
+  function E(e, t, r, n, o, i, a) {
+    return function (s) {
+      for (var u = 0; u < r.length; u++) {
+        if (r[u] === s) {
+          var c,
+              f = n[u];
+          return "__useDefault" in (c = f instanceof l ? f : k(e, f, f.linkRecord, o, i, a)) ? c.__useDefault : c;
+        }
+      }
+
+      throw new Error("Module " + s + " not declared as a System.registerDynamic dependency of " + t);
+    };
+  }
+
+  function O(e, r, n, o, i, a) {
+    a.push(r);
+    var s;
+    if (n.setters) for (var u, c, f = 0; f < n.dependencies.length; f++) {
+      if (!((u = n.dependencyInstantiations[f]) instanceof l) && ((c = u.linkRecord) && -1 === a.indexOf(u) && (s = u.evalError ? u.evalError : O(e, u, c, o, i, c.setters ? a : [])), s)) return r.linkRecord = void 0, r.evalError = t(s, "Evaluating " + r.key), r.evalError;
+    }
+    if (n.execute) if (n.setters) s = S(n.execute);else {
+      var d = {
+        id: r.key
+      },
+          p = n.moduleObj;
+      Object.defineProperty(d, "exports", {
+        configurable: !0,
+        set: function set(e) {
+          p.default = p.__useDefault = e;
+        },
+        get: function get() {
+          return p.__useDefault;
+        }
+      });
+      var g = E(e, r.key, n.dependencies, n.dependencyInstantiations, o, i, a);
+      if (!n.executingRequire) for (f = 0; f < n.dependencies.length; f++) {
+        g(n.dependencies[f]);
+      }
+      s = j(n.execute, g, p.default, d), d.exports !== p.__useDefault && (p.default = p.__useDefault = d.exports);
+      var h = p.default;
+      if (h && h.__esModule) for (var m in h) {
+        Object.hasOwnProperty.call(h, m) && (p[m] = h[m]);
+      }
+    }
+    if (r.linkRecord = void 0, s) return r.evalError = t(s, "Evaluating " + r.key);
+
+    if (o[r.key] = r.module = new l(n.moduleObj), !n.setters) {
+      if (r.importerSetters) for (f = 0; f < r.importerSetters.length; f++) {
+        r.importerSetters[f](r.module);
+      }
+      r.importerSetters = void 0;
+    }
+  }
+
+  function S(e) {
+    try {
+      e.call(gt);
+    } catch (e) {
+      return e;
+    }
+  }
+
+  function j(e, t, r, n) {
+    try {
+      var o = e.call(tt, t, r, n);
+      void 0 !== o && (n.exports = o);
+    } catch (e) {
+      return e;
+    }
+  }
+
+  function _() {}
+
+  function P(e) {
+    return e instanceof l ? e : new l(e && e.__esModule ? e : {
+      default: e,
+      __useDefault: e
+    });
+  }
+
+  function M(e, t) {
+    (t || this.warnings && "undefined" != typeof console && console.warn) && console.warn(e);
+  }
+
+  function R(e, t, r) {
+    var n = new Uint8Array(t);
+    return 0 === n[0] && 97 === n[1] && 115 === n[2] ? WebAssembly.compile(t).then(function (t) {
+      var n = [],
+          o = [],
+          i = {};
+      return WebAssembly.Module.imports && WebAssembly.Module.imports(t).forEach(function (e) {
+        var t = e.module;
+        o.push(function (e) {
+          i[t] = e;
+        }), -1 === n.indexOf(t) && n.push(t);
+      }), e.register(n, function (e) {
+        return {
+          setters: o,
+          execute: function execute() {
+            e(new WebAssembly.Instance(t, i).exports);
+          }
+        };
+      }), r(), !0;
+    }) : Promise.resolve(!1);
+  }
+
+  function C(e, t) {
+    if ("." === e[0]) throw new Error("Node module " + e + " can't be loaded as it is not a package require.");
+
+    if (!mt) {
+      var r = this._nodeRequire("module"),
+          n = decodeURI(t.substr(et ? 8 : 7));
+
+      (mt = new r(n)).paths = r._nodeModulePaths(n);
+    }
+
+    return mt.require(e);
+  }
+
+  function L(e, t) {
+    for (var r in t) {
+      Object.hasOwnProperty.call(t, r) && (e[r] = t[r]);
+    }
+
+    return e;
+  }
+
+  function A(e, t) {
+    for (var r in t) {
+      Object.hasOwnProperty.call(t, r) && void 0 === e[r] && (e[r] = t[r]);
+    }
+
+    return e;
+  }
+
+  function I(e, t, r) {
+    for (var n in t) {
+      if (Object.hasOwnProperty.call(t, n)) {
+        var o = t[n];
+        void 0 === e[n] ? e[n] = o : o instanceof Array && e[n] instanceof Array ? e[n] = [].concat(r ? o : e[n]).concat(r ? e[n] : o) : "object" == _typeof(o) && null !== o && "object" == _typeof(e[n]) ? e[n] = (r ? A : L)(L({}, e[n]), o) : r || (e[n] = o);
+      }
+    }
+  }
+
+  function F(e) {
+    if (kt || Et) {
+      var t = document.createElement("link");
+      kt ? (t.rel = "preload", t.as = "script") : t.rel = "prefetch", t.href = e, document.head.appendChild(t);
+    } else new Image().src = e;
+  }
+
+  function K(e, t, r) {
+    try {
+      importScripts(e);
+    } catch (e) {
+      r(e);
+    }
+
+    t();
+  }
+
+  function D(e, t, r, n, o) {
+    function i() {
+      n(), s();
+    }
+
+    function a(t) {
+      s(), o(new Error("Fetching " + e));
+    }
+
+    function s() {
+      u.removeEventListener("load", i, !1), u.removeEventListener("error", a, !1), document.head.removeChild(u);
+    }
+
+    if (e = e.replace(/#/g, "%23"), xt) return K(e, n, o);
+    var u = document.createElement("script");
+    u.type = "text/javascript", u.charset = "utf-8", u.async = !0, t && (u.crossOrigin = t), r && (u.integrity = r), u.addEventListener("load", i, !1), u.addEventListener("error", a, !1), u.src = e, document.head.appendChild(u);
+  }
+
+  function U(e, t) {
+    for (var r = e.split("."); r.length;) {
+      t = t[r.shift()];
+    }
+
+    return t;
+  }
+
+  function q(e, t, r) {
+    var o = z(t, r);
+
+    if (o) {
+      var i = t[o] + r.substr(o.length),
+          a = n(i, Ye);
+      return void 0 !== a ? a : e + i;
+    }
+
+    return -1 !== r.indexOf(":") ? r : e + r;
+  }
+
+  function T(e) {
+    var t = this.name;
+
+    if (t.substr(0, e.length) === e && (t.length === e.length || "/" === t[e.length] || "/" === e[e.length - 1] || ":" === e[e.length - 1])) {
+      var r = e.split("/").length;
+      r > this.len && (this.match = e, this.len = r);
+    }
+  }
+
+  function z(e, t) {
+    if (Object.hasOwnProperty.call(e, t)) return t;
+    var r = {
+      name: t,
+      match: void 0,
+      len: 0
+    };
+    return Object.keys(e).forEach(T, r), r.match;
+  }
+
+  function N(e, t, r, n) {
+    return new Promise(function (r, o) {
+      function i() {
+        r(n ? s.response : s.responseText);
+      }
+
+      function a() {
+        o(new Error("XHR error: " + (s.status ? " (" + s.status + (s.statusText ? " " + s.statusText : "") + ")" : "") + " loading " + e));
+      }
+
+      e = e.replace(/#/g, "%23");
+      var s = new XMLHttpRequest();
+      n && (s.responseType = "arraybuffer"), s.onreadystatechange = function () {
+        4 === s.readyState && (0 == s.status ? s.response ? i() : (s.addEventListener("error", a), s.addEventListener("load", i)) : 200 === s.status ? i() : a());
+      }, s.open("GET", e, !0), s.setRequestHeader && (s.setRequestHeader("Accept", "application/x-es-module, */*"), t && ("string" == typeof t && s.setRequestHeader("Authorization", t), s.withCredentials = !0)), s.send(null);
+    });
+  }
+
+  function J() {
+    return {
+      pluginKey: void 0,
+      pluginArgument: void 0,
+      pluginModule: void 0,
+      packageKey: void 0,
+      packageConfig: void 0,
+      load: void 0
+    };
+  }
+
+  function $(e, t, r) {
+    var n = J();
+
+    if (r) {
+      var o;
+      t.pluginFirst ? -1 !== (o = r.lastIndexOf("!")) && (n.pluginArgument = n.pluginKey = r.substr(0, o)) : -1 !== (o = r.indexOf("!")) && (n.pluginArgument = n.pluginKey = r.substr(o + 1)), n.packageKey = z(t.packages, r), n.packageKey && (n.packageConfig = t.packages[n.packageKey]);
+    }
+
+    return n;
+  }
+
+  function B(e, t) {
+    var r = Q(e.pluginFirst, t);
+
+    if (r) {
+      var n = B.call(this, e, r.plugin);
+      return V(e.pluginFirst, G.call(this, e, r.argument, void 0, !1, !1), n);
+    }
+
+    return G.call(this, e, t, void 0, !1, !1);
+  }
+
+  function W(e, t) {
+    var r = this[bt],
+        n = J(),
+        o = o || $(this, r, t),
+        i = Q(r.pluginFirst, e);
+    return i ? (n.pluginKey = W.call(this, i.plugin, t), V(r.pluginFirst, H.call(this, r, i.argument, o.pluginArgument || t, n, o, !!n.pluginKey), n.pluginKey)) : H.call(this, r, e, o.pluginArgument || t, n, o, !!n.pluginKey);
+  }
+
+  function G(e, t, r, o, i) {
+    var a = n(t, r || Ye);
+    if (a) return q(e.baseURL, e.paths, a);
+
+    if (o) {
+      var s = z(e.map, t);
+      if (s && (t = e.map[s] + t.substr(s.length), a = n(t, Ye))) return q(e.baseURL, e.paths, a);
+    }
+
+    if (this.registry.has(t)) return t;
+    if ("@node/" === t.substr(0, 6)) return t;
+    var u = i && "/" !== t[t.length - 1],
+        l = q(e.baseURL, e.paths, u ? t + "/" : t);
+    return u ? l.substr(0, l.length - 1) : l;
+  }
+
+  function H(e, t, r, n, o, i) {
+    if (o && o.packageConfig && "." !== t[0]) {
+      var a = o.packageConfig.map,
+          s = a && z(a, t);
+
+      if (s && "string" == typeof a[s]) {
+        var u = ne(this, e, o.packageConfig, o.packageKey, s, t, n, i);
+        if (u) return u;
+      }
+    }
+
+    var l = G.call(this, e, t, r, !0, !0),
+        c = se(e, l);
+    if (n.packageKey = c && c.packageKey || z(e.packages, l), !n.packageKey) return l;
+    if (-1 !== e.packageConfigKeys.indexOf(l)) return n.packageKey = void 0, l;
+    n.packageConfig = e.packages[n.packageKey] || (e.packages[n.packageKey] = me());
+    var f = l.substr(n.packageKey.length + 1);
+    return te(this, e, n.packageConfig, n.packageKey, f, n, i);
+  }
+
+  function Z(e, t, r, n, o, i) {
+    var a = this;
+    return vt.then(function () {
+      if (o && o.packageConfig && "./" !== t.substr(0, 2)) {
+        var r = o.packageConfig.map,
+            s = r && z(r, t);
+        if (s) return ie(a, e, o.packageConfig, o.packageKey, s, t, n, i);
+      }
+
+      return vt;
+    }).then(function (o) {
+      if (o) return o;
+      var s = G.call(a, e, t, r, !0, !0),
+          u = se(e, s);
+      return n.packageKey = u && u.packageKey || z(e.packages, s), n.packageKey ? -1 !== e.packageConfigKeys.indexOf(s) ? (n.packageKey = void 0, n.load = X(), n.load.format = "json", n.load.loader = "", Promise.resolve(s)) : (n.packageConfig = e.packages[n.packageKey] || (e.packages[n.packageKey] = me()), (u && !n.packageConfig.configured ? ue(a, e, u.configPath, n) : vt).then(function () {
+        var t = s.substr(n.packageKey.length + 1);
+        return oe(a, e, n.packageConfig, n.packageKey, t, n, i);
+      })) : Promise.resolve(s);
+    });
+  }
+
+  function X() {
+    return {
+      extension: "",
+      deps: void 0,
+      format: void 0,
+      loader: void 0,
+      scriptLoad: void 0,
+      globals: void 0,
+      nonce: void 0,
+      integrity: void 0,
+      sourceMap: void 0,
+      exports: void 0,
+      encapsulateGlobal: !1,
+      crossOrigin: void 0,
+      cjsRequireDetection: !0,
+      cjsDeferDepsExecute: !1,
+      esModule: !1
+    };
+  }
+
+  function Y(e, t, r) {
+    r.load = r.load || X();
+    var n,
+        o = 0;
+
+    for (var i in e.meta) {
+      if (-1 !== (n = i.indexOf("*")) && i.substr(0, n) === t.substr(0, n) && i.substr(n + 1) === t.substr(t.length - i.length + n + 1)) {
+        var a = i.split("/").length;
+        a > o && (o = a), I(r.load, e.meta[i], o !== a);
+      }
+    }
+
+    if (e.meta[t] && I(r.load, e.meta[t], !1), r.packageKey) {
+      var s = t.substr(r.packageKey.length + 1),
+          u = {};
+
+      if (r.packageConfig.meta) {
+        o = 0;
+        le(r.packageConfig.meta, s, function (e, t, r) {
+          r > o && (o = r), I(u, t, r && o > r);
+        }), I(r.load, u, !1);
+      }
+
+      !r.packageConfig.format || r.pluginKey || r.load.loader || (r.load.format = r.load.format || r.packageConfig.format);
+    }
+  }
+
+  function Q(e, t) {
+    var r,
+        n,
+        o = e ? t.indexOf("!") : t.lastIndexOf("!");
+    if (-1 !== o) return e ? (r = t.substr(o + 1), n = t.substr(0, o)) : (r = t.substr(0, o), n = t.substr(o + 1) || r.substr(r.lastIndexOf(".") + 1)), {
+      argument: r,
+      plugin: n
+    };
+  }
+
+  function V(e, t, r) {
+    return e ? r + "!" + t : t + "!" + r;
+  }
+
+  function ee(e, t, r, n, o) {
+    if (!n || !t.defaultExtension || "/" === n[n.length - 1] || o) return n;
+    var i = !1;
+    if (t.meta && le(t.meta, n, function (e, t, r) {
+      if (0 === r || e.lastIndexOf("*") !== e.length - 1) return i = !0;
+    }), !i && e.meta && le(e.meta, r + "/" + n, function (e, t, r) {
+      if (0 === r || e.lastIndexOf("*") !== e.length - 1) return i = !0;
+    }), i) return n;
+    var a = "." + t.defaultExtension;
+    return n.substr(n.length - a.length) !== a ? n + a : n;
+  }
+
+  function te(e, t, r, n, o, i, a) {
+    if (!o) {
+      if (!r.main) return n;
+      o = "./" === r.main.substr(0, 2) ? r.main.substr(2) : r.main;
+    }
+
+    if (r.map) {
+      var s = "./" + o,
+          u = z(r.map, s);
+
+      if (u || (s = "./" + ee(t, r, n, o, a)) !== "./" + o && (u = z(r.map, s)), u) {
+        var l = ne(e, t, r, n, u, s, i, a);
+        if (l) return l;
+      }
+    }
+
+    return n + "/" + ee(t, r, n, o, a);
+  }
+
+  function re(e, t, r) {
+    return !(t.substr(0, e.length) === e && r.length > e.length);
+  }
+
+  function ne(e, t, r, n, o, i, a, s) {
+    "/" === i[i.length - 1] && (i = i.substr(0, i.length - 1));
+    var u = r.map[o];
+    if ("object" == _typeof(u)) throw new Error("Synchronous conditional normalization not supported sync normalizing " + o + " in " + n);
+    if (re(o, u, i) && "string" == typeof u) return H.call(e, t, u + i.substr(o.length), n + "/", a, a, s);
+  }
+
+  function oe(e, t, r, n, o, i, a) {
+    if (!o) {
+      if (!r.main) return Promise.resolve(n);
+      o = "./" === r.main.substr(0, 2) ? r.main.substr(2) : r.main;
+    }
+
+    var s, u;
+    return r.map && (s = "./" + o, (u = z(r.map, s)) || (s = "./" + ee(t, r, n, o, a)) !== "./" + o && (u = z(r.map, s))), (u ? ie(e, t, r, n, u, s, i, a) : vt).then(function (e) {
+      return e ? Promise.resolve(e) : Promise.resolve(n + "/" + ee(t, r, n, o, a));
+    });
+  }
+
+  function ie(e, t, r, n, o, i, a, s) {
+    "/" === i[i.length - 1] && (i = i.substr(0, i.length - 1));
+    var u = r.map[o];
+    if ("string" == typeof u) return re(o, u, i) ? Z.call(e, t, u + i.substr(o.length), n + "/", a, a, s).then(function (t) {
+      return de.call(e, t, n + "/", a);
+    }) : vt;
+    var l = [],
+        c = [];
+
+    for (var d in u) {
+      var p = ce(d);
+      c.push({
+        condition: p,
+        map: u[d]
+      }), l.push(f.prototype.import.call(e, p.module, n));
+    }
+
+    return Promise.all(l).then(function (e) {
+      for (var t = 0; t < c.length; t++) {
+        var r = c[t].condition,
+            n = U(r.prop, "__useDefault" in e[t] ? e[t].__useDefault : e[t]);
+        if (!r.negate && n || r.negate && !n) return c[t].map;
+      }
+    }).then(function (r) {
+      if (r) return re(o, r, i) ? Z.call(e, t, r + i.substr(o.length), n + "/", a, a, s).then(function (t) {
+        return de.call(e, t, n + "/", a);
+      }) : vt;
+    });
+  }
+
+  function ae(e) {
+    var t = e.lastIndexOf("*"),
+        r = Math.max(t + 1, e.lastIndexOf("/"));
+    return {
+      length: r,
+      regEx: new RegExp("^(" + e.substr(0, r).replace(/[.+?^${}()|[\]\\]/g, "\\$&").replace(/\*/g, "[^\\/]+") + ")(\\/|$)"),
+      wildcard: -1 !== t
+    };
+  }
+
+  function se(e, t) {
+    for (var r, n, o = !1, i = 0; i < e.packageConfigPaths.length; i++) {
+      var a = e.packageConfigPaths[i],
+          s = Rt[a] || (Rt[a] = ae(a));
+
+      if (!(t.length < s.length)) {
+        var u = t.match(s.regEx);
+        !u || r && (o && s.wildcard || !(r.length < u[1].length)) || (r = u[1], o = !s.wildcard, n = r + a.substr(s.length));
+      }
+    }
+
+    if (r) return {
+      packageKey: r,
+      configPath: n
+    };
+  }
+
+  function ue(e, r, n, o, i) {
+    var a = e.pluginLoader || e;
+    return -1 === r.packageConfigKeys.indexOf(n) && r.packageConfigKeys.push(n), a.import(n).then(function (e) {
+      ve(o.packageConfig, e, o.packageKey, !0, r), o.packageConfig.configured = !0;
+    }).catch(function (e) {
+      throw t(e, "Unable to fetch package configuration file " + n);
+    });
+  }
+
+  function le(e, t, r) {
+    var n;
+
+    for (var o in e) {
+      var i = "./" === o.substr(0, 2) ? "./" : "";
+      if (i && (o = o.substr(2)), -1 !== (n = o.indexOf("*")) && o.substr(0, n) === t.substr(0, n) && o.substr(n + 1) === t.substr(t.length - o.length + n + 1) && r(o, e[i + o], o.split("/").length)) return;
+    }
+
+    var a = e[t] && Object.hasOwnProperty.call(e, t) ? e[t] : e["./" + t];
+    a && r(a, a, 0);
+  }
+
+  function ce(e) {
+    var t,
+        r,
+        n,
+        o = e.lastIndexOf("|");
+    return -1 !== o ? (t = e.substr(o + 1), r = e.substr(0, o), "~" === t[0] && (n = !0, t = t.substr(1))) : (n = "~" === e[0], t = "default", r = e.substr(n), -1 !== Ct.indexOf(r) && (t = r, r = null)), {
+      module: r || "@system-env",
+      prop: t,
+      negate: n
+    };
+  }
+
+  function fe(e, t, r) {
+    return f.prototype.import.call(this, e.module, t).then(function (t) {
+      var n = U(e.prop, t);
+      if (r && "boolean" != typeof n) throw new TypeError("Condition did not resolve to a boolean.");
+      return e.negate ? !n : n;
+    });
+  }
+
+  function de(e, t, r) {
+    var n = e.match(Lt);
+    if (!n) return Promise.resolve(e);
+    var o = ce.call(this, n[0].substr(2, n[0].length - 3));
+    return fe.call(this, o, t, !1).then(function (r) {
+      if ("string" != typeof r) throw new TypeError("The condition value for " + e + " doesn't resolve to a string.");
+      if (-1 !== r.indexOf("/")) throw new TypeError("Unabled to interpolate conditional " + e + (t ? " in " + t : "") + "\n\tThe condition value " + r + ' cannot contain a "/" separator.');
+      return e.replace(Lt, r);
+    });
+  }
+
+  function pe(e, t, r) {
+    for (var n = 0; n < At.length; n++) {
+      var o = At[n];
+      t[o] && hr[o.substr(0, o.length - 6)] && r(t[o]);
+    }
+  }
+
+  function ge(e, t) {
+    var r = {};
+
+    for (var n in e) {
+      var o = e[n];
+      t > 1 ? o instanceof Array ? r[n] = [].concat(o) : "object" == _typeof(o) ? r[n] = ge(o, t - 1) : "packageConfig" !== n && (r[n] = o) : r[n] = o;
+    }
+
+    return r;
+  }
+
+  function he(e, t) {
+    var r = e[t];
+    return r instanceof Array ? e[t].concat([]) : "object" == _typeof(r) ? ge(r, 3) : e[t];
+  }
+
+  function me() {
+    return {
+      defaultExtension: void 0,
+      main: void 0,
+      format: void 0,
+      meta: void 0,
+      map: void 0,
+      packageConfig: void 0,
+      configured: !1
+    };
+  }
+
+  function ve(e, t, r, n, o) {
+    for (var i in t) {
+      "main" === i || "format" === i || "defaultExtension" === i || "configured" === i ? n && void 0 !== e[i] || (e[i] = t[i]) : "map" === i ? (n ? A : L)(e.map = e.map || {}, t.map) : "meta" === i ? (n ? A : L)(e.meta = e.meta || {}, t.meta) : Object.hasOwnProperty.call(t, i) && M.call(o, '"' + i + '" is not a valid package configuration option in package ' + r);
+    }
+
+    return void 0 === e.defaultExtension && (e.defaultExtension = "js"), void 0 === e.main && e.map && e.map["."] ? (e.main = e.map["."], delete e.map["."]) : "object" == _typeof(e.main) && (e.map = e.map || {}, e.map["./@main"] = e.main, e.main.default = e.main.default || "./", e.main = "@main"), e;
+  }
+
+  function ye(e) {
+    return It ? qt + new Buffer(e).toString("base64") : "undefined" != typeof btoa ? qt + btoa(unescape(encodeURIComponent(e))) : "";
+  }
+
+  function be(e, t, r, n) {
+    var o = e.lastIndexOf("\n");
+
+    if (t) {
+      if ("object" != _typeof(t)) throw new TypeError("load.metadata.sourceMap must be set to an object.");
+      t = JSON.stringify(t);
+    }
+
+    return (n ? "(function(System, SystemJS) {" : "") + e + (n ? "\n})(System, System);" : "") + ("\n//# sourceURL=" != e.substr(o, 15) ? "\n//# sourceURL=" + r + (t ? "!transpiled" : "") : "") + (t && ye(t) || "");
+  }
+
+  function we(e, t, r, n, o) {
+    Ft || (Ft = document.head || document.body || document.documentElement);
+    var i = document.createElement("script");
+    i.text = be(t, r, n, !1);
+    var a,
+        s = window.onerror;
+    if (window.onerror = function (e) {
+      a = addToError(e, "Evaluating " + n), s && s.apply(this, arguments);
+    }, xe(e), o && i.setAttribute("nonce", o), Ft.appendChild(i), Ft.removeChild(i), ke(), window.onerror = s, a) return a;
+  }
+
+  function xe(e) {
+    0 == Tt++ && (Ut = tt.System), tt.System = tt.SystemJS = e;
+  }
+
+  function ke() {
+    0 == --Tt && (tt.System = tt.SystemJS = Ut);
+  }
+
+  function Ee(e, t, r, n, o, i, a) {
+    if (t) {
+      if (i && zt) return we(e, t, r, n, i);
+
+      try {
+        xe(e), !Kt && e._nodeRequire && (Kt = e._nodeRequire("vm"), Dt = Kt.runInThisContext("typeof System !== 'undefined' && System") === e), Dt ? Kt.runInThisContext(be(t, r, n, !a), {
+          filename: n + (r ? "!transpiled" : "")
+        }) : (0, eval)(be(t, r, n, !a)), ke();
+      } catch (e) {
+        return ke(), e;
+      }
+    }
+  }
+
+  function Oe(e) {
+    e.set("@@cjs-helpers", e.newModule({
+      requireResolve: _e.bind(e),
+      getPathVars: Pe
+    })), e.set("@@global-helpers", e.newModule({
+      prepareGlobal: Le
+    }));
+  }
+
+  function Se(e) {
+    function t(r, n, o, i) {
+      if ("object" == _typeof(r) && !(r instanceof Array)) return t.apply(null, Array.prototype.splice.call(arguments, 1, arguments.length - 1));
+
+      if ("string" == typeof r && "function" == typeof n && (r = [r]), !(r instanceof Array)) {
+        if ("string" == typeof r) {
+          var a = e.decanonicalize(r, i),
+              s = e.get(a);
+          if (!s) throw new Error('Module not already loaded loading "' + r + '" as ' + a + (i ? ' from "' + i + '".' : "."));
+          return "__useDefault" in s ? s.__useDefault : s;
+        }
+
+        throw new TypeError("Invalid require");
+      }
+
+      for (var u = [], l = 0; l < r.length; l++) {
+        u.push(e.import(r[l], i));
+      }
+
+      Promise.all(u).then(function (e) {
+        n && n.apply(null, e);
+      }, o);
+    }
+
+    function r(r, n, o) {
+      function i(r, i, l) {
+        for (var c = [], f = 0; f < n.length; f++) {
+          c.push(r(n[f]));
+        }
+
+        if (l.uri = l.id, l.config = _, -1 !== u && c.splice(u, 0, l), -1 !== s && c.splice(s, 0, i), -1 !== a) {
+          var d = function d(n, o, i) {
+            return "string" == typeof n && "function" != typeof o ? r(n) : t.call(e, n, o, i, l.id);
+          };
+
+          d.toUrl = function (t) {
+            return e.normalizeSync(t, l.id);
+          }, c.splice(a, 0, d);
+        }
+
+        var p = tt.require;
+        tt.require = t;
+        var g = o.apply(-1 === s ? tt : i, c);
+        tt.require = p, void 0 !== g && (l.exports = g);
+      }
+
+      "string" != typeof r && (o = n, n = r, r = null), n instanceof Array || (n = ["require", "exports", "module"].splice(0, (o = n).length)), "function" != typeof o && (o = function (e) {
+        return function () {
+          return e;
+        };
+      }(o)), r || Bt && (n = n.concat(Bt), Bt = void 0);
+      var a, s, u;
+      -1 !== (a = n.indexOf("require")) && (n.splice(a, 1), r || (n = n.concat(Ae(o.toString(), a)))), -1 !== (s = n.indexOf("exports")) && n.splice(s, 1), -1 !== (u = n.indexOf("module")) && n.splice(u, 1), r ? (e.registerDynamic(r, n, !1, i), $t ? ($t = void 0, tr = !0) : tr || ($t = [n, i])) : e.registerDynamic(n, !1, rr ? Ie(i) : i);
+    }
+
+    r.amd = {}, e.amdDefine = r, e.amdRequire = t;
+  }
+
+  function je(e) {
+    return "file:///" === e.substr(0, 8) ? e.substr(7 + !!et) : Nt && e.substr(0, Nt.length) === Nt ? e.substr(Nt.length) : e;
+  }
+
+  function _e(e, t) {
+    return je(this.normalizeSync(e, t));
+  }
+
+  function Pe(e) {
+    var t,
+        r = e.lastIndexOf("!"),
+        n = (t = -1 !== r ? e.substr(0, r) : e).split("/");
+    return n.pop(), n = n.join("/"), {
+      filename: je(t),
+      dirname: je(n)
+    };
+  }
+
+  function Me(e) {
+    function t(e, t) {
+      for (var r = 0; r < e.length; r++) {
+        if (e[r][0] < t.index && e[r][1] > t.index) return !0;
+      }
+
+      return !1;
+    }
+
+    _t.lastIndex = Gt.lastIndex = Ht.lastIndex = 0;
+    var r,
+        n = [],
+        o = [],
+        i = [];
+
+    if (e.length / e.split("\n").length < 200) {
+      for (; r = Ht.exec(e);) {
+        o.push([r.index, r.index + r[0].length]);
+      }
+
+      for (; r = Gt.exec(e);) {
+        t(o, r) || i.push([r.index + r[1].length, r.index + r[0].length - 1]);
+      }
+    }
+
+    for (; r = _t.exec(e);) {
+      if (!t(o, r) && !t(i, r)) {
+        var a = r[1].substr(1, r[1].length - 2);
+        if (a.match(/"|'/)) continue;
+        n.push(a);
+      }
+    }
+
+    return n;
+  }
+
+  function Re(e) {
+    if (-1 === Zt.indexOf(e)) {
+      try {
+        var t = tt[e];
+      } catch (t) {
+        Zt.push(e);
+      }
+
+      this(e, t);
+    }
+  }
+
+  function Ce(e) {
+    if ("string" == typeof e) return U(e, tt);
+    if (!(e instanceof Array)) throw new Error("Global exports must be a string or array.");
+
+    for (var t = {}, r = 0; r < e.length; r++) {
+      t[e[r].split(".").pop()] = U(e[r], tt);
+    }
+
+    return t;
+  }
+
+  function Le(e, t, r, n) {
+    var o = tt.define;
+    tt.define = void 0;
+    var i;
+
+    if (r) {
+      i = {};
+
+      for (var a in r) {
+        i[a] = tt[a], tt[a] = r[a];
+      }
+    }
+
+    return t || (Jt = {}, Object.keys(tt).forEach(Re, function (e, t) {
+      Jt[e] = t;
+    })), function () {
+      var e,
+          r = t ? Ce(t) : {},
+          a = !!t;
+      if (t && !n || Object.keys(tt).forEach(Re, function (o, i) {
+        Jt[o] !== i && void 0 !== i && (n && (tt[o] = void 0), t || (r[o] = i, void 0 !== e ? a || e === i || (a = !0) : e = i));
+      }), r = a ? r : e, i) for (var s in i) {
+        tt[s] = i[s];
+      }
+      return tt.define = o, r;
+    };
+  }
+
+  function Ae(e, t) {
+    var r = ((e = e.replace(Gt, "")).match(Qt)[1].split(",")[t] || "require").replace(Vt, ""),
+        n = er[r] || (er[r] = new RegExp(Xt + r + Yt, "g"));
+    n.lastIndex = 0;
+
+    for (var o, i = []; o = n.exec(e);) {
+      i.push(o[2] || o[3]);
+    }
+
+    return i;
+  }
+
+  function Ie(e) {
+    return function (t, r, n) {
+      e(t, r, n), "object" != _typeof(r = n.exports) && "function" != typeof r || "__esModule" in r || Object.defineProperty(n.exports, "__esModule", {
+        value: !0
+      });
+    };
+  }
+
+  function Fe(e, t) {
+    Bt = e, rr = t, $t = void 0, tr = !1;
+  }
+
+  function Ke(e) {
+    $t ? e.registerDynamic(Bt ? $t[0].concat(Bt) : $t[0], !1, rr ? Ie($t[1]) : $t[1]) : tr && e.registerDynamic([], !1, _);
+  }
+
+  function De(e, t) {
+    !e.load.esModule || "object" != _typeof(t) && "function" != typeof t || "__esModule" in t || Object.defineProperty(t, "__esModule", {
+      value: !0
+    });
+  }
+
+  function Ue(e, t, r) {
+    return r.pluginKey ? e.import(r.pluginKey).then(function (e) {
+      r.pluginModule = e, r.pluginLoad = {
+        name: t,
+        address: r.pluginArgument,
+        source: void 0,
+        metadata: r.load
+      }, r.load.deps = r.load.deps || [];
+    }) : vt;
+  }
+
+  function qe(e, t, r) {
+    var n = e.depCache[r];
+    if (n) for (a = 0; a < n.length; a++) {
+      t.normalize(n[a], r).then(F);
+    } else {
+      var o = !1;
+
+      for (var i in e.bundles) {
+        for (var a = 0; a < e.bundles[i].length; a++) {
+          var s = e.bundles[i][a];
+
+          if (s === r) {
+            o = !0;
+            break;
+          }
+
+          if (-1 !== s.indexOf("*")) {
+            var u = s.split("*");
+
+            if (2 !== u.length) {
+              e.bundles[i].splice(a--, 1);
+              continue;
+            }
+
+            if (r.substr(0, u[0].length) === u[0] && r.substr(r.length - u[1].length, u[1].length) === u[1]) {
+              o = !0;
+              break;
+            }
+          }
+        }
+
+        if (o) return t.import(i);
+      }
+    }
+  }
+
+  function Te(e, t, r, n, o) {
+    return r.load.exports && !r.load.format && (r.load.format = "global"), vt.then(function () {
+      if (r.pluginModule && r.pluginModule.locate) return Promise.resolve(r.pluginModule.locate.call(e, r.pluginLoad)).then(function (e) {
+        e && (r.pluginLoad.address = e);
+      });
+    }).then(function () {
+      return r.pluginModule ? (o = !1, r.pluginModule.fetch ? r.pluginModule.fetch.call(e, r.pluginLoad, function (e) {
+        return Mt(e.address, r.load.authorization, r.load.integrity, !1);
+      }) : Mt(r.pluginLoad.address, r.load.authorization, r.load.integrity, !1)) : Mt(t, r.load.authorization, r.load.integrity, o);
+    }).then(function (i) {
+      return o && "string" != typeof i ? R(e, i, n).then(function (o) {
+        if (!o) {
+          var a = Qe ? new TextDecoder("utf-8").decode(new Uint8Array(i)) : i.toString();
+          return ze(e, t, a, r, n);
+        }
+      }) : ze(e, t, i, r, n);
+    });
+  }
+
+  function ze(e, t, r, n, o) {
+    return Promise.resolve(r).then(function (t) {
+      return "detect" === n.load.format && (n.load.format = void 0), Ge(t, n), n.pluginModule ? (n.pluginLoad.source = t, n.pluginModule.translate ? Promise.resolve(n.pluginModule.translate.call(e, n.pluginLoad, n.traceOpts)).then(function (e) {
+        if (n.load.sourceMap) {
+          if ("object" != _typeof(n.load.sourceMap)) throw new Error("metadata.load.sourceMap must be set to an object.");
+          $e(n.pluginLoad.address, n.load.sourceMap);
+        }
+
+        return "string" == typeof e ? e : n.pluginLoad.source;
+      }) : t) : t;
+    }).then(function (r) {
+      return n.load.format || '"bundle"' !== r.substring(0, 8) ? "register" === n.load.format || !n.load.format && Ne(r) ? (n.load.format = "register", r) : "esm" === n.load.format || !n.load.format && r.match(ar) ? (n.load.format = "esm", Be(e, r, t, n, o)) : r : (n.load.format = "system", r);
+    }).then(function (t) {
+      if ("string" != typeof t || !n.pluginModule || !n.pluginModule.instantiate) return t;
+      var r = !1;
+      return n.pluginLoad.source = t, Promise.resolve(n.pluginModule.instantiate.call(e, n.pluginLoad, function (e) {
+        if (t = e.source, n.load = e.metadata, r) throw new Error("Instantiate must only be called once.");
+        r = !0;
+      })).then(function (e) {
+        return r ? t : P(e);
+      });
+    }).then(function (r) {
+      if ("string" != typeof r) return r;
+      n.load.format || (n.load.format = Je(r));
+      var i = !1;
+
+      switch (n.load.format) {
+        case "esm":
+        case "register":
+        case "system":
+          if (u = Ee(e, r, n.load.sourceMap, t, n.load.integrity, n.load.nonce, !1)) throw u;
+          if (!o()) return yt;
+          return;
+
+        case "json":
+          var a = JSON.parse(r);
+          return e.newModule({
+            default: a,
+            __useDefault: a
+          });
+
+        case "amd":
+          var s = tt.define;
+          tt.define = e.amdDefine, Fe(n.load.deps, n.load.esModule);
+          var u = Ee(e, r, n.load.sourceMap, t, n.load.integrity, n.load.nonce, !1);
+          if ((i = o()) || (Ke(e), i = o()), tt.define = s, u) throw u;
+          break;
+
+        case "cjs":
+          var l = n.load.deps,
+              c = (n.load.deps || []).concat(n.load.cjsRequireDetection ? Me(r) : []);
+
+          for (var f in n.load.globals) {
+            n.load.globals[f] && c.push(n.load.globals[f]);
+          }
+
+          e.registerDynamic(c, !0, function (o, i, a) {
+            if (o.resolve = function (t) {
+              return _e.call(e, t, a.id);
+            }, a.paths = [], a.require = o, !n.load.cjsDeferDepsExecute && l) for (var s = 0; s < l.length; s++) {
+              o(l[s]);
+            }
+            var u = Pe(a.id),
+                c = {
+              exports: i,
+              args: [o, i, a, u.filename, u.dirname, tt, tt]
+            },
+                f = "(function (require, exports, module, __filename, __dirname, global, GLOBAL";
+            if (n.load.globals) for (var d in n.load.globals) {
+              c.args.push(o(n.load.globals[d])), f += ", " + d;
+            }
+            var p = tt.define;
+            tt.define = void 0, tt.__cjsWrapper = c, r = f + ") {" + r.replace(cr, "") + "\n}).apply(__cjsWrapper.exports, __cjsWrapper.args);";
+            var g = Ee(e, r, n.load.sourceMap, t, n.load.integrity, n.load.nonce, !1);
+            if (g) throw g;
+            De(n, i), tt.__cjsWrapper = void 0, tt.define = p;
+          }), i = o();
+          break;
+
+        case "global":
+          c = n.load.deps || [];
+
+          for (var f in n.load.globals) {
+            var d = n.load.globals[f];
+            d && c.push(d);
+          }
+
+          e.registerDynamic(c, !1, function (o, i, a) {
+            var s;
+
+            if (n.load.globals) {
+              s = {};
+
+              for (var u in n.load.globals) {
+                n.load.globals[u] && (s[u] = o(n.load.globals[u]));
+              }
+            }
+
+            var l = n.load.exports;
+            l && (r += "\n" + ir + '["' + l + '"] = ' + l + ";");
+            var c = Le(a.id, l, s, n.load.encapsulateGlobal),
+                f = Ee(e, r, n.load.sourceMap, t, n.load.integrity, n.load.nonce, !0);
+            if (f) throw f;
+            var d = c();
+            return De(n, d), d;
+          }), i = o();
+          break;
+
+        default:
+          throw new TypeError('Unknown module format "' + n.load.format + '" for "' + t + '".' + ("es6" === n.load.format ? ' Use "esm" instead here.' : ""));
+      }
+
+      if (!i) throw new Error("Module " + t + " detected as " + n.load.format + " but didn't execute correctly.");
+    });
+  }
+
+  function Ne(e) {
+    var t = e.match(sr);
+    return t && "System.register" === e.substr(t[0].length, 15);
+  }
+
+  function Je(e) {
+    return e.match(ur) ? "amd" : (lr.lastIndex = 0, _t.lastIndex = 0, _t.exec(e) || lr.exec(e) ? "cjs" : "global");
+  }
+
+  function $e(e, t) {
+    var r = e.split("!")[0];
+    t.file && t.file != e || (t.file = r + "!transpiled"), (!t.sources || t.sources.length <= 1 && (!t.sources[0] || t.sources[0] === e)) && (t.sources = [r]);
+  }
+
+  function Be(e, r, n, o, i) {
+    if (!e.transpiler) throw new TypeError("Unable to dynamically transpile ES module\n   A loader plugin needs to be configured via `SystemJS.config({ transpiler: 'transpiler-module' })`.");
+
+    if (o.load.deps) {
+      for (var a = "", s = 0; s < o.load.deps.length; s++) {
+        a += 'import "' + o.load.deps[s] + '"; ';
+      }
+
+      r = a + r;
+    }
+
+    return e.import.call(e, e.transpiler).then(function (t) {
+      if (!(t = t.__useDefault || t).translate) throw new Error(e.transpiler + " is not a valid transpiler plugin.");
+      return t === o.pluginModule ? r : ("string" == typeof o.load.sourceMap && (o.load.sourceMap = JSON.parse(o.load.sourceMap)), o.pluginLoad = o.pluginLoad || {
+        name: n,
+        address: n,
+        source: r,
+        metadata: o.load
+      }, o.load.deps = o.load.deps || [], Promise.resolve(t.translate.call(e, o.pluginLoad, o.traceOpts)).then(function (e) {
+        var t = o.load.sourceMap;
+        return t && "object" == _typeof(t) && $e(n, t), "esm" === o.load.format && Ne(e) && (o.load.format = "register"), e;
+      }));
+    }, function (e) {
+      throw t(e, "Unable to load transpiler to transpile " + n);
+    });
+  }
+
+  function We(e, t, r) {
+    for (var n, o = t.split("."); o.length > 1;) {
+      e = e[n = o.shift()] = e[n] || {};
+    }
+
+    void 0 === e[n = o.shift()] && (e[n] = r);
+  }
+
+  function Ge(e, t) {
+    var r = e.match(fr);
+    if (r) for (var n = r[0].match(dr), o = 0; o < n.length; o++) {
+      var i = n[o],
+          a = i.length,
+          s = i.substr(0, 1);
+
+      if (";" == i.substr(a - 1, 1) && a--, '"' == s || "'" == s) {
+        var u = i.substr(1, i.length - 3),
+            l = u.substr(0, u.indexOf(" "));
+
+        if (l) {
+          var c = u.substr(l.length + 1, u.length - l.length - 1);
+          "deps" === l && (l = "deps[]"), "[]" === l.substr(l.length - 2, 2) ? (l = l.substr(0, l.length - 2), t.load[l] = t.load[l] || [], t.load[l].push(c)) : "use" !== l && We(t.load, l, c);
+        } else t.load[u] = !0;
+      }
+    }
+  }
+
+  function He() {
+    f.call(this), this._loader = {}, this[wt] = {}, this[bt] = {
+      baseURL: Ye,
+      paths: {},
+      packageConfigPaths: [],
+      packageConfigKeys: [],
+      map: {},
+      packages: {},
+      depCache: {},
+      meta: {},
+      bundles: {},
+      production: !1,
+      transpiler: void 0,
+      loadedBundles: {},
+      warnings: !1,
+      pluginFirst: !1,
+      wasm: !1
+    }, this.scriptSrc = or, this._nodeRequire = Wt, this.registry.set("@empty", yt), Ze.call(this, !1, !1), Oe(this), Se(this);
+  }
+
+  function Ze(e, t) {
+    this[bt].production = e, this.registry.set("@system-env", hr = this.newModule({
+      browser: Qe,
+      node: !!this._nodeRequire,
+      production: !t && e,
+      dev: t || !e,
+      build: t,
+      default: !0
+    }));
+  }
+
+  function Xe(e, t) {
+    M.call(e[bt], "SystemJS." + t + " is deprecated for SystemJS.registry." + t);
+  }
+
+  var Ye,
+      Qe = "undefined" != typeof window && "undefined" != typeof document,
+      Ve = "undefined" != typeof process && process.versions && process.versions.node,
+      et = "undefined" != typeof process && "string" == typeof process.platform && process.platform.match(/^win/),
+      tt = "undefined" != typeof self ? self : global,
+      rt = "undefined" != typeof Symbol;
+
+  if ("undefined" != typeof document && document.getElementsByTagName) {
+    if (!(Ye = document.baseURI)) {
+      var nt = document.getElementsByTagName("base");
+      Ye = nt[0] && nt[0].href || window.location.href;
+    }
+  } else "undefined" != typeof location && (Ye = location.href);
+
+  if (Ye) {
+    var ot = (Ye = Ye.split("#")[0].split("?")[0]).lastIndexOf("/");
+    -1 !== ot && (Ye = Ye.substr(0, ot + 1));
+  } else {
+    if ("undefined" == typeof process || !process.cwd) throw new TypeError("No environment baseURI");
+    Ye = "file://" + (et ? "/" : "") + process.cwd(), et && (Ye = Ye.replace(/\\/g, "/"));
+  }
+
+  "/" !== Ye[Ye.length - 1] && (Ye += "/");
+  var it = "_" == new Error(0, "_").fileName,
+      at = Promise.resolve();
+  i.prototype.constructor = i, i.prototype.import = function (e, r) {
+    if ("string" != typeof e) throw new TypeError("Loader import method must be passed a module key string");
+    var n = this;
+    return at.then(function () {
+      return n[ut](e, r);
+    }).then(a).catch(function (n) {
+      throw t(n, "Loading " + e + (r ? " from " + r : ""));
+    });
+  };
+  var st = i.resolve = e("resolve"),
+      ut = i.resolveInstantiate = e("resolveInstantiate");
+  i.prototype[ut] = function (e, t) {
+    var r = this;
+    return r.resolve(e, t).then(function (e) {
+      return r.registry.get(e);
+    });
+  }, i.prototype.resolve = function (e, r) {
+    var n = this;
+    return at.then(function () {
+      return n[st](e, r);
+    }).then(s).catch(function (n) {
+      throw t(n, "Resolving " + e + (r ? " to " + r : ""));
+    });
+  };
+  var lt = "undefined" != typeof Symbol && Symbol.iterator,
+      ct = e("registry");
+  lt && (u.prototype[Symbol.iterator] = function () {
+    return this.entries()[Symbol.iterator]();
+  }, u.prototype.entries = function () {
+    var e = this[ct];
+    return o(Object.keys(e).map(function (t) {
+      return [t, e[t]];
+    }));
+  }), u.prototype.keys = function () {
+    return o(Object.keys(this[ct]));
+  }, u.prototype.values = function () {
+    var e = this[ct];
+    return o(Object.keys(e).map(function (t) {
+      return e[t];
+    }));
+  }, u.prototype.get = function (e) {
+    return this[ct][e];
+  }, u.prototype.set = function (e, t) {
+    if (!(t instanceof l)) throw new Error("Registry must be set with an instance of Module Namespace");
+    return this[ct][e] = t, this;
+  }, u.prototype.has = function (e) {
+    return Object.hasOwnProperty.call(this[ct], e);
+  }, u.prototype.delete = function (e) {
+    return !!Object.hasOwnProperty.call(this[ct], e) && (delete this[ct][e], !0);
+  };
+  var ft = e("baseObject");
+  l.prototype = Object.create(null), "undefined" != typeof Symbol && Symbol.toStringTag && Object.defineProperty(l.prototype, Symbol.toStringTag, {
+    value: "Module"
+  });
+  var dt = e("register-internal");
+  f.prototype = Object.create(i.prototype), f.prototype.constructor = f;
+  var pt = f.instantiate = e("instantiate");
+  f.prototype[f.resolve = i.resolve] = function (e, t) {
+    return n(e, t || Ye);
+  }, f.prototype[pt] = function (e, t) {}, f.prototype[i.resolveInstantiate] = function (e, t) {
+    var r = this,
+        n = this[dt],
+        o = this.registry[ct];
+    return p(r, e, t, o, n).then(function (e) {
+      if (e instanceof l) return e;
+      var t = e.linkRecord;
+
+      if (!t) {
+        if (e.module) return e.module;
+        throw e.evalError;
+      }
+
+      return w(r, e, 0, o, n).then(function () {
+        return k(r, e, t, o, n, void 0);
+      });
+    });
+  }, f.prototype.register = function (e, t, r) {
+    var n = this[dt];
+    void 0 === r ? n.lastRegister = [e, t, void 0] : (n.records[e] || d(n, e, void 0)).registration = [t, r, void 0];
+  }, f.prototype.registerDynamic = function (e, t, r, n) {
+    var o = this[dt];
+    "string" != typeof e ? o.lastRegister = [e, t, r] : (o.records[e] || d(o, e, void 0)).registration = [t, r, n];
+  }, x.prototype.import = function (e) {
+    return this.loader.trace && this.loader.loads[this.key].dynamicDeps.push(e), this.loader.import(e, this.key);
+  };
+  var gt = {};
+  Object.freeze && Object.freeze(gt);
+  var ht,
+      mt,
+      vt = Promise.resolve(),
+      yt = new l({}),
+      bt = e("loader-config"),
+      wt = e("metadata"),
+      xt = "undefined" == typeof window && "undefined" != typeof self && "undefined" != typeof importScripts,
+      kt = !1,
+      Et = !1;
+
+  if (Qe && function () {
+    var e = document.createElement("link").relList;
+
+    if (e && e.supports) {
+      Et = !0;
+
+      try {
+        kt = e.supports("preload");
+      } catch (e) {}
+    }
+  }(), Qe) {
+    var Ot = window.onerror;
+
+    window.onerror = function (e, t) {
+      Ot && Ot.apply(this, arguments);
+    };
+  }
+
+  var St,
+      jt,
+      _t = /(?:^\uFEFF?|[^$_a-zA-Z\xA0-\uFFFF."'])require\s*\(\s*("[^"\\]*(?:\\.[^"\\]*)*"|'[^'\\]*(?:\\.[^'\\]*)*'|`[^`\\]*(?:\\.[^`\\]*)*`)\s*\)/g,
+      Pt = "undefined" != typeof XMLHttpRequest,
+      Mt = jt = "undefined" != typeof self && void 0 !== self.fetch ? function (e, t, r, n) {
+    if ("file:///" === e.substr(0, 8)) {
+      if (Pt) return N(e, t, 0, n);
+      throw new Error("Unable to fetch file URLs in this environment.");
+    }
+
+    e = e.replace(/#/g, "%23");
+    var o = {
+      headers: {
+        Accept: "application/x-es-module, */*"
+      }
+    };
+    return r && (o.integrity = r), t && ("string" == typeof t && (o.headers.Authorization = t), o.credentials = "include"), fetch(e, o).then(function (e) {
+      if (e.ok) return n ? e.arrayBuffer() : e.text();
+      throw new Error("Fetch error: " + e.status + " " + e.statusText);
+    });
+  } : Pt ? N :  true && "undefined" != typeof process ? function (e, t, r, n) {
+    return "file:///" != e.substr(0, 8) ? Promise.reject(new Error('Unable to fetch "' + e + '". Only file URLs of the form file:/// supported running in Node.')) : (St = St || __webpack_require__(/*! fs */ "../../node_modules/node-libs-browser/mock/empty.js"), e = et ? e.replace(/\//g, "\\").substr(8) : e.substr(7), new Promise(function (t, r) {
+      St.readFile(e, function (e, o) {
+        if (e) return r(e);
+        if (n) t(o);else {
+          var i = o + "";
+          "\uFEFF" === i[0] && (i = i.substr(1)), t(i);
+        }
+      });
+    }));
+  } : function () {
+    throw new Error("No fetch method is defined for this environment.");
+  },
+      Rt = {},
+      Ct = ["browser", "node", "dev", "build", "production", "default"],
+      Lt = /#\{[^\}]+\}/,
+      At = ["browserConfig", "nodeConfig", "devConfig", "buildConfig", "productionConfig"],
+      It = "undefined" != typeof Buffer;
+
+  try {
+    It && "YQ==" !== new Buffer("a").toString("base64") && (It = !1);
+  } catch (e) {
+    It = !1;
+  }
+
+  var Ft,
+      Kt,
+      Dt,
+      Ut,
+      qt = "\n//# sourceMappingURL=data:application/json;base64,",
+      Tt = 0,
+      zt = !1;
+  Qe && "undefined" != typeof document && document.getElementsByTagName && (window.chrome && window.chrome.extension || navigator.userAgent.match(/^Node\.js/) || (zt = !0));
+  var Nt;
+  "undefined" != typeof window && "undefined" != typeof document && window.location && (Nt = location.protocol + "//" + location.hostname + (location.port ? ":" + location.port : ""));
+  var Jt,
+      $t,
+      Bt,
+      Wt,
+      Gt = /(^|[^\\])(\/\*([\s\S]*?)\*\/|([^:]|^)\/\/(.*)$)/gm,
+      Ht = /("[^"\\\n\r]*(\\.[^"\\\n\r]*)*"|'[^'\\\n\r]*(\\.[^'\\\n\r]*)*')/g,
+      Zt = ["_g", "sessionStorage", "localStorage", "clipboardData", "frames", "frameElement", "external", "mozAnimationStartTime", "webkitStorageInfo", "webkitIndexedDB", "mozInnerScreenY", "mozInnerScreenX"],
+      Xt = "(?:^|[^$_a-zA-Z\\xA0-\\uFFFF.])",
+      Yt = "\\s*\\(\\s*(\"([^\"]+)\"|'([^']+)')\\s*\\)",
+      Qt = /\(([^\)]*)\)/,
+      Vt = /^\s+|\s+$/g,
+      er = {},
+      tr = !1,
+      rr = !1,
+      nr = (Qe || xt) && "undefined" != typeof navigator && navigator.userAgent && !navigator.userAgent.match(/MSIE (9|10).0/);
+   false || "undefined" == typeof process || process.browser || (Wt = require);
+  var or,
+      ir = "undefined" != typeof self ? "self" : "global",
+      ar = /(^\s*|[}\);\n]\s*)(import\s*(['"]|(\*\s+as\s+)?(?!type)([^"'\(\)\n; ]+)\s*from\s*['"]|\{)|export\s+\*\s+from\s+["']|export\s*(\{|default|function|class|var|const|let|async\s+function))/,
+      sr = /^(\s*\/\*[^\*]*(\*(?!\/)[^\*]*)*\*\/|\s*\/\/[^\n]*|\s*"[^"]+"\s*;?|\s*'[^']+'\s*;?)*\s*/,
+      ur = /(?:^\uFEFF?|[^$_a-zA-Z\xA0-\uFFFF.])define\s*\(\s*("[^"]+"\s*,\s*|'[^']+'\s*,\s*)?\s*(\[(\s*(("[^"]+"|'[^']+')\s*,|\/\/.*\r?\n|\/\*(.|\s)*?\*\/))*(\s*("[^"]+"|'[^']+')\s*,?)?(\s*(\/\/.*\r?\n|\/\*(.|\s)*?\*\/))*\s*\]|function\s*|{|[_$a-zA-Z\xA0-\uFFFF][_$a-zA-Z0-9\xA0-\uFFFF]*\))/,
+      lr = /(?:^\uFEFF?|[^$_a-zA-Z\xA0-\uFFFF.])(exports\s*(\[['"]|\.)|module(\.exports|\['exports'\]|\["exports"\])\s*(\[['"]|[=,\.]))/,
+      cr = /^\#\!.*/,
+      fr = /^(\s*\/\*[^\*]*(\*(?!\/)[^\*]*)*\*\/|\s*\/\/[^\n]*|\s*"[^"]+"\s*;?|\s*'[^']+'\s*;?)+/,
+      dr = /\/\*[^\*]*(\*(?!\/)[^\*]*)*\*\/|\/\/[^\n]*|"[^"]+"\s*;?|'[^']+'\s*;?/g;
+  if ("undefined" == typeof Promise) throw new Error("SystemJS needs a Promise polyfill.");
+
+  if ("undefined" != typeof document) {
+    var pr = document.getElementsByTagName("script"),
+        gr = pr[pr.length - 1];
+    document.currentScript && (gr.defer || gr.async) && (gr = document.currentScript), or = gr && gr.src;
+  } else if ("undefined" != typeof importScripts) try {
+    throw new Error("_");
+  } catch (e) {
+    e.stack.replace(/(?:at|@).*(http.+):[\d]+:[\d]+/, function (e, t) {
+      or = t;
+    });
+  } else  true && (or = __filename);
+
+  var hr;
+  (He.prototype = Object.create(f.prototype)).constructor = He, He.prototype[He.resolve = f.resolve] = He.prototype.normalize = function (e, t) {
+    var r = this[bt],
+        n = J(),
+        o = $(this, r, t),
+        i = this;
+    return Promise.resolve().then(function () {
+      var r = e.lastIndexOf("#?");
+      if (-1 === r) return Promise.resolve(e);
+      var n = ce.call(i, e.substr(r + 2));
+      return fe.call(i, n, t, !0).then(function (t) {
+        return t ? e.substr(0, r) : "@empty";
+      });
+    }).then(function (e) {
+      var a = Q(r.pluginFirst, e);
+      return a ? (n.pluginKey = a.plugin, Promise.all([Z.call(i, r, a.argument, o && o.pluginArgument || t, n, o, !0), i.resolve(a.plugin, t)]).then(function (e) {
+        if (n.pluginArgument = e[0], n.pluginKey = e[1], n.pluginArgument === n.pluginKey) throw new Error("Plugin " + n.pluginArgument + " cannot load itself, make sure it is excluded from any wildcard meta configuration via a custom loader: false rule.");
+        return V(r.pluginFirst, e[0], e[1]);
+      })) : Z.call(i, r, e, o && o.pluginArgument || t, n, o, !1);
+    }).then(function (e) {
+      return de.call(i, e, t, o);
+    }).then(function (e) {
+      return Y.call(i, r, e, n), n.pluginKey || !n.load.loader ? e : i.resolve(n.load.loader, e).then(function (t) {
+        return n.pluginKey = t, n.pluginArgument = e, e;
+      });
+    }).then(function (e) {
+      return i[wt][e] = n, e;
+    });
+  }, He.prototype.load = function (e, t) {
+    return M.call(this[bt], "System.load is deprecated."), this.import(e, t);
+  }, He.prototype.decanonicalize = He.prototype.normalizeSync = He.prototype.resolveSync = W, He.prototype[He.instantiate = f.instantiate] = function (e, t) {
+    var r = this,
+        n = this[bt];
+    return (qe(n, this, e) || vt).then(function () {
+      if (!t()) {
+        var o = r[wt][e];
+
+        if ("@node/" === e.substr(0, 6)) {
+          if (!r._nodeRequire) throw new TypeError("Error loading " + e + ". Can only load node core modules in Node.");
+          return r.registerDynamic([], !1, function () {
+            return C.call(r, e.substr(6), r.baseURL);
+          }), void t();
+        }
+
+        return o.load.scriptLoad ? !o.load.pluginKey && nr || (o.load.scriptLoad = !1, M.call(n, 'scriptLoad not supported for "' + e + '"')) : !1 !== o.load.scriptLoad && !o.load.pluginKey && nr && (o.load.deps || o.load.globals || !("system" === o.load.format || "register" === o.load.format || "global" === o.load.format && o.load.exports) || (o.load.scriptLoad = !0)), o.load.scriptLoad ? new Promise(function (n, i) {
+          if ("amd" === o.load.format && tt.define !== r.amdDefine) throw new Error("Loading AMD with scriptLoad requires setting the global `" + ir + ".define = SystemJS.amdDefine`");
+          D(e, o.load.crossOrigin, o.load.integrity, function () {
+            if (!t()) {
+              o.load.format = "global";
+              var e = o.load.exports && Ce(o.load.exports);
+              r.registerDynamic([], !1, function () {
+                return De(o, e), e;
+              }), t();
+            }
+
+            n();
+          }, i);
+        }) : Ue(r, e, o).then(function () {
+          return Te(r, e, o, t, n.wasm);
+        });
+      }
+    }).then(function (t) {
+      return delete r[wt][e], t;
+    });
+  }, He.prototype.config = function (e, t) {
+    var r = this,
+        o = this[bt];
+
+    if ("warnings" in e && (o.warnings = e.warnings), "wasm" in e && (o.wasm = "undefined" != typeof WebAssembly && e.wasm), ("production" in e || "build" in e) && Ze.call(r, !!e.production, !!(e.build || hr && hr.build)), !t) {
+      var i;
+      pe(r, e, function (e) {
+        i = i || e.baseURL;
+      }), (i = i || e.baseURL) && (o.baseURL = n(i, Ye) || n("./" + i, Ye), "/" !== o.baseURL[o.baseURL.length - 1] && (o.baseURL += "/")), e.paths && L(o.paths, e.paths), pe(r, e, function (e) {
+        e.paths && L(o.paths, e.paths);
+      });
+
+      for (var a in o.paths) {
+        -1 !== o.paths[a].indexOf("*") && (M.call(o, "Path config " + a + " -> " + o.paths[a] + " is no longer supported as wildcards are deprecated."), delete o.paths[a]);
+      }
+    }
+
+    if (e.defaultJSExtensions && M.call(o, "The defaultJSExtensions configuration option is deprecated.\n  Use packages defaultExtension instead.", !0), "boolean" == typeof e.pluginFirst && (o.pluginFirst = e.pluginFirst), e.map) for (var a in e.map) {
+      var s = e.map[a];
+
+      if ("string" == typeof s) {
+        var u = G.call(r, o, s, void 0, !1, !1);
+        "/" === u[u.length - 1] && ":" !== a[a.length - 1] && "/" !== a[a.length - 1] && (u = u.substr(0, u.length - 1)), o.map[a] = u;
+      } else {
+        m = (m = G.call(r, o, "/" !== a[a.length - 1] ? a + "/" : a, void 0, !0, !0)).substr(0, m.length - 1);
+        var l = o.packages[m];
+        l || ((l = o.packages[m] = {
+          defaultExtension: void 0,
+          main: void 0,
+          format: void 0,
+          meta: void 0,
+          map: void 0,
+          packageConfig: void 0,
+          configured: !1
+        }).defaultExtension = ""), ve(l, {
+          map: s
+        }, m, !1, o);
+      }
+    }
+
+    if (e.packageConfigPaths) {
+      for (var c = [], f = 0; f < e.packageConfigPaths.length; f++) {
+        var d = e.packageConfigPaths[f],
+            p = Math.max(d.lastIndexOf("*") + 1, d.lastIndexOf("/")),
+            g = G.call(r, o, d.substr(0, p), void 0, !1, !1);
+        c[f] = g + d.substr(p);
+      }
+
+      o.packageConfigPaths = c;
+    }
+
+    if (e.bundles) for (var a in e.bundles) {
+      for (var h = [], f = 0; f < e.bundles[a].length; f++) {
+        h.push(r.normalizeSync(e.bundles[a][f]));
+      }
+
+      o.bundles[a] = h;
+    }
+    if (e.packages) for (var a in e.packages) {
+      if (a.match(/^([^\/]+:)?\/\/$/)) throw new TypeError('"' + a + '" is not a valid package name.');
+      var m = G.call(r, o, "/" !== a[a.length - 1] ? a + "/" : a, void 0, !0, !0);
+      m = m.substr(0, m.length - 1), ve(o.packages[m] = o.packages[m] || {
+        defaultExtension: void 0,
+        main: void 0,
+        format: void 0,
+        meta: void 0,
+        map: void 0,
+        packageConfig: void 0,
+        configured: !1
+      }, e.packages[a], m, !1, o);
+    }
+    if (e.depCache) for (var a in e.depCache) {
+      o.depCache[r.normalizeSync(a)] = [].concat(e.depCache[a]);
+    }
+    if (e.meta) for (var a in e.meta) {
+      if ("*" === a[0]) L(o.meta[a] = o.meta[a] || {}, e.meta[a]);else {
+        var v = G.call(r, o, a, void 0, !0, !0);
+        L(o.meta[v] = o.meta[v] || {}, e.meta[a]);
+      }
+    }
+    "transpiler" in e && (o.transpiler = e.transpiler);
+
+    for (var y in e) {
+      -1 === mr.indexOf(y) && -1 === At.indexOf(y) && (r[y] = e[y]);
+    }
+
+    pe(r, e, function (e) {
+      r.config(e, !0);
+    });
+  }, He.prototype.getConfig = function (e) {
+    if (e) {
+      if (-1 !== mr.indexOf(e)) return he(this[bt], e);
+      throw new Error('"' + e + '" is not a valid configuration name. Must be one of ' + mr.join(", ") + ".");
+    }
+
+    for (var t = {}, r = 0; r < mr.length; r++) {
+      var n = mr[r],
+          o = he(this[bt], n);
+      void 0 !== o && (t[n] = o);
+    }
+
+    return t;
+  }, He.prototype.global = tt, He.prototype.import = function () {
+    return f.prototype.import.apply(this, arguments).then(function (e) {
+      return "__useDefault" in e ? e.__useDefault : e;
+    });
+  };
+
+  for (var mr = ["baseURL", "map", "paths", "packages", "packageConfigPaths", "depCache", "meta", "bundles", "transpiler", "warnings", "pluginFirst", "production", "wasm"], vr = "undefined" != typeof Proxy, yr = 0; yr < mr.length; yr++) {
+    !function (e) {
+      Object.defineProperty(He.prototype, e, {
+        get: function get() {
+          var t = he(this[bt], e);
+          return vr && "object" == _typeof(t) && (t = new Proxy(t, {
+            set: function set(t, r) {
+              throw new Error("Cannot set SystemJS." + e + '["' + r + '"] directly. Use SystemJS.config({ ' + e + ': { "' + r + '": ... } }) rather.');
+            }
+          })), t;
+        },
+        set: function set(t) {
+          throw new Error("Setting `SystemJS." + e + "` directly is no longer supported. Use `SystemJS.config({ " + e + ": ... })`.");
+        }
+      });
+    }(mr[yr]);
+  }
+
+  He.prototype.delete = function (e) {
+    return Xe(this, "delete"), this.registry.delete(e);
+  }, He.prototype.get = function (e) {
+    return Xe(this, "get"), this.registry.get(e);
+  }, He.prototype.has = function (e) {
+    return Xe(this, "has"), this.registry.has(e);
+  }, He.prototype.set = function (e, t) {
+    return Xe(this, "set"), this.registry.set(e, t);
+  }, He.prototype.newModule = function (e) {
+    return new l(e);
+  }, He.prototype.isModule = function (e) {
+    return void 0 === ht && (ht = "undefined" != typeof Symbol && !!Symbol.toStringTag), e instanceof l || ht && "[object Module]" == Object.prototype.toString.call(e);
+  }, He.prototype.register = function (e, t, r) {
+    return "string" == typeof e && (e = B.call(this, this[bt], e)), f.prototype.register.call(this, e, t, r);
+  }, He.prototype.registerDynamic = function (e, t, r, n) {
+    return "string" == typeof e && (e = B.call(this, this[bt], e)), f.prototype.registerDynamic.call(this, e, t, r, n);
+  }, He.prototype.version = "0.21.0 Dev";
+  var br = new He();
+  (Qe || xt) && (tt.SystemJS = tt.System = br),  true && module.exports && (module.exports = br);
+}();
+/* WEBPACK VAR INJECTION */}.call(this, __webpack_require__(/*! ./../../buffer/index.js */ "../../node_modules/buffer/index.js").Buffer, __webpack_require__(/*! ./../../process/browser.js */ "../../node_modules/process/browser.js"), __webpack_require__(/*! ./../../webpack/buildin/global.js */ "../../node_modules/webpack/buildin/global.js"), "/index.js"))
+
+/***/ }),
+
 /***/ "../../node_modules/webpack/buildin/global.js":
 /*!***********************************!*\
   !*** (webpack)/buildin/global.js ***!
@@ -18592,6 +15876,2691 @@ module.exports = function (module) {
 
 /***/ }),
 
+/***/ "../../webio/dist/DomNode.js":
+/*!****************************************************************************!*\
+  !*** /home/travigd/Trash/WebIO-throwaway-2/packages/webio/dist/DomNode.js ***!
+  \****************************************************************************/
+/*! no static exports found */
+/***/ (function(module, exports, __webpack_require__) {
+
+"use strict";
+
+
+var __extends = this && this.__extends || function () {
+  var _extendStatics = function extendStatics(d, b) {
+    _extendStatics = Object.setPrototypeOf || {
+      __proto__: []
+    } instanceof Array && function (d, b) {
+      d.__proto__ = b;
+    } || function (d, b) {
+      for (var p in b) {
+        if (b.hasOwnProperty(p)) d[p] = b[p];
+      }
+    };
+
+    return _extendStatics(d, b);
+  };
+
+  return function (d, b) {
+    _extendStatics(d, b);
+
+    function __() {
+      this.constructor = d;
+    }
+
+    d.prototype = b === null ? Object.create(b) : (__.prototype = b.prototype, new __());
+  };
+}();
+
+var __rest = this && this.__rest || function (s, e) {
+  var t = {};
+
+  for (var p in s) {
+    if (Object.prototype.hasOwnProperty.call(s, p) && e.indexOf(p) < 0) t[p] = s[p];
+  }
+
+  if (s != null && typeof Object.getOwnPropertySymbols === "function") for (var i = 0, p = Object.getOwnPropertySymbols(s); i < p.length; i++) {
+    if (e.indexOf(p[i]) < 0) t[p[i]] = s[p[i]];
+  }
+  return t;
+};
+
+var __importDefault = this && this.__importDefault || function (mod) {
+  return mod && mod.__esModule ? mod : {
+    "default": mod
+  };
+};
+
+Object.defineProperty(exports, "__esModule", {
+  value: true
+});
+
+var debug_1 = __importDefault(__webpack_require__(/*! debug */ "../../node_modules/debug/src/browser.js"));
+
+var debug = debug_1.default("WebIO:DomNode");
+
+var Node_1 = __importDefault(__webpack_require__(/*! ./Node */ "../../webio/dist/Node.js"));
+
+var events_1 = __webpack_require__(/*! ./events */ "../../webio/dist/events.js");
+
+var createNode_1 = __importDefault(__webpack_require__(/*! ./createNode */ "../../webio/dist/createNode.js"));
+
+exports.DOM_NODE_TYPE = "DOM";
+
+var WebIODomNode =
+/** @class */
+function (_super) {
+  __extends(WebIODomNode, _super);
+
+  function WebIODomNode(nodeData, options) {
+    var _this = _super.call(this, nodeData, options) || this;
+
+    _this.eventListeners = {};
+    debug("Creating WebIODomNode", {
+      nodeData: nodeData,
+      options: options,
+      node: _this
+    });
+    _this.element = WebIODomNode.createElement(nodeData);
+
+    _this.applyProps(nodeData.props); // Recursively construct children.
+
+
+    _this.children = nodeData.children.map(function (nodeData) {
+      if (typeof nodeData === "string") {
+        return nodeData;
+      }
+
+      return createNode_1.default(nodeData, {
+        webIO: _this.webIO,
+        scope: _this.scope
+      });
+    }); // Append childrens' elements to this node's element.
+
+    for (var _i = 0, _a = _this.children; _i < _a.length; _i++) {
+      var child = _a[_i];
+
+      if (typeof child === "string") {
+        _this.element.appendChild(document.createTextNode(child));
+      } else {
+        _this.element.appendChild(child.element);
+      }
+    }
+
+    return _this;
+  }
+
+  WebIODomNode.createElement = function (data) {
+    var _a = data.instanceArgs,
+        namespace = _a.namespace,
+        tag = _a.tag;
+
+    switch (namespace.toLocaleLowerCase()) {
+      case "html"
+      /* HTML */
+      :
+        return document.createElement(tag);
+
+      case "http://www.w3.org/2000/svg"
+      /* SVG */
+      :
+      case "svg"
+      /* SVG_SHORTHAND */
+      :
+        return document.createElementNS("http://www.w3.org/2000/svg"
+        /* SVG */
+        , tag);
+
+      default:
+        throw new Error("Unknown DOM namespace: " + namespace + ".");
+    }
+  };
+  /**
+   * Apply "props" to the underlying DOM element.
+   *
+   * @param props - The props to apply.
+   */
+
+
+  WebIODomNode.prototype.applyProps = function (props) {
+    debug("applyProps", props);
+
+    var style = props.style,
+        events = props.events,
+        attributes = props.attributes,
+        attributesNS = props.attributesNS,
+        setInnerHtml = props.setInnerHtml,
+        rest = __rest(props, ["style", "events", "attributes", "attributesNS", "setInnerHtml"]);
+
+    style && this.applyStyles(style);
+    events && this.applyEvents(events);
+    attributes && this.applyAttributes(attributes);
+    attributesNS && this.applyAttributesNS(attributesNS);
+    setInnerHtml && this.setInnerHTML(setInnerHtml);
+    this.applyMiscellaneousProps(rest);
+  };
+  /**
+   * Apply all props that don't have special meaning.
+   *
+   * This should really be refactored so that all these "miscellaneous" props
+   * are delivered in a separate object (e.g. have props.miscProps on the same
+   * level as props.style and props.events et al.).
+   * @param props - The object of miscellaneous props and their values.
+   */
+
+
+  WebIODomNode.prototype.applyMiscellaneousProps = function (props) {
+    debug("applyMiscellaneousProps", props);
+
+    for (var _i = 0, _a = Object.keys(props); _i < _a.length; _i++) {
+      var propName = _a[_i];
+      this.element[propName] = props[propName];
+    }
+  };
+
+  WebIODomNode.prototype.applyStyles = function (styles) {
+    if (!styles) {
+      return;
+    }
+
+    for (var _i = 0, _a = Object.keys(styles); _i < _a.length; _i++) {
+      var attributeName = _a[_i];
+      this.element.style[attributeName] = styles[attributeName];
+    }
+  };
+  /**
+   * Apply (add/remove) event listeners to the underlying DOM element.
+   *
+   * @param events - A map object from event names to event listeners. If an
+   *    event name is specified (e.g. `click`) that didn't exist before, the
+   *    associated handler (e.g. `events["click"]`) is added as a listener; if
+   *    the event name has already been specified (even if the listener function
+   *    changed!), then nothing happens; if the event name is absent (or null) in
+   *    the map, then any previously setup listeners (if any) are removed.
+   */
+
+
+  WebIODomNode.prototype.applyEvents = function (events) {
+    debug("applyEvents", events);
+
+    for (var _i = 0, _a = Object.keys(events); _i < _a.length; _i++) {
+      var eventName = _a[_i];
+      var oldListener = this.eventListeners[eventName];
+      var newListenerSource = events[eventName];
+      var newListener = newListenerSource && events_1.createWebIOEventListener(this.element, newListenerSource, {
+        scope: this.scope,
+        webIO: this.webIO
+      });
+
+      if (oldListener && !newListener) {
+        // We want to just remove the old listener.
+        this.element.removeEventListener(eventName, oldListener);
+        delete this.eventListeners[eventName];
+      } else if (!oldListener && newListener) {
+        debug("addEventListener(" + eventName + ", ...)");
+        this.element.addEventListener(eventName, newListener);
+        this.eventListeners[eventName] = newListener;
+      } // If the listener is just changed, we don't really handle that.
+
+    }
+  };
+  /**
+   * Apply DOM attributes to the underlying DOM element.
+   *
+   * @param attributes - The map of attributes to apply.
+   */
+
+
+  WebIODomNode.prototype.applyAttributes = function (attributes) {
+    for (var _i = 0, _a = Object.keys(attributes); _i < _a.length; _i++) {
+      var key = _a[_i];
+      var value = attributes[key];
+
+      if (value === null) {
+        this.element.removeAttribute(key);
+      } else {
+        this.element.setAttribute(key, value);
+      }
+    }
+  };
+  /**
+   * Apply namespaced DOM attributes to the underlying DOM element.
+   *
+   * @param attributes - The `{attributeName: {namespace, value}}` map to apply.
+   */
+
+
+  WebIODomNode.prototype.applyAttributesNS = function (attributes) {
+    for (var _i = 0, _a = Object.keys(attributes); _i < _a.length; _i++) {
+      var key = _a[_i];
+      var _b = attributes[key],
+          namespace = _b.namespace,
+          value = _b.value;
+
+      if (value === null) {
+        this.element.removeAttributeNS(namespace, key);
+      } else {
+        this.element.setAttributeNS(namespace, key, value);
+      }
+    }
+  };
+  /**
+   * Set the value associated with the node's element.
+   *
+   * This generally only works with `<input />` elements.
+   *
+   * @param value
+   * @throws Will throw an error if the element doesn't have a `value` attribute.
+   */
+
+
+  WebIODomNode.prototype.setValue = function (value) {
+    if ("value" in this.element) {
+      // If the value hasn't changed, don't re-set it.
+      if (this.element.value !== value) {
+        this.element.value = value;
+      }
+    } else {
+      throw new Error("Cannot set value on an HTMLElement that doesn't support it.");
+    }
+  };
+
+  return WebIODomNode;
+}(Node_1.default);
+
+exports.default = WebIODomNode;
+
+/***/ }),
+
+/***/ "../../webio/dist/IFrame.js":
+/*!***************************************************************************!*\
+  !*** /home/travigd/Trash/WebIO-throwaway-2/packages/webio/dist/IFrame.js ***!
+  \***************************************************************************/
+/*! no static exports found */
+/***/ (function(module, exports, __webpack_require__) {
+
+"use strict";
+
+
+var __extends = this && this.__extends || function () {
+  var _extendStatics = function extendStatics(d, b) {
+    _extendStatics = Object.setPrototypeOf || {
+      __proto__: []
+    } instanceof Array && function (d, b) {
+      d.__proto__ = b;
+    } || function (d, b) {
+      for (var p in b) {
+        if (b.hasOwnProperty(p)) d[p] = b[p];
+      }
+    };
+
+    return _extendStatics(d, b);
+  };
+
+  return function (d, b) {
+    _extendStatics(d, b);
+
+    function __() {
+      this.constructor = d;
+    }
+
+    d.prototype = b === null ? Object.create(b) : (__.prototype = b.prototype, new __());
+  };
+}();
+
+var __awaiter = this && this.__awaiter || function (thisArg, _arguments, P, generator) {
+  return new (P || (P = Promise))(function (resolve, reject) {
+    function fulfilled(value) {
+      try {
+        step(generator.next(value));
+      } catch (e) {
+        reject(e);
+      }
+    }
+
+    function rejected(value) {
+      try {
+        step(generator["throw"](value));
+      } catch (e) {
+        reject(e);
+      }
+    }
+
+    function step(result) {
+      result.done ? resolve(result.value) : new P(function (resolve) {
+        resolve(result.value);
+      }).then(fulfilled, rejected);
+    }
+
+    step((generator = generator.apply(thisArg, _arguments || [])).next());
+  });
+};
+
+var __generator = this && this.__generator || function (thisArg, body) {
+  var _ = {
+    label: 0,
+    sent: function sent() {
+      if (t[0] & 1) throw t[1];
+      return t[1];
+    },
+    trys: [],
+    ops: []
+  },
+      f,
+      y,
+      t,
+      g;
+  return g = {
+    next: verb(0),
+    "throw": verb(1),
+    "return": verb(2)
+  }, typeof Symbol === "function" && (g[Symbol.iterator] = function () {
+    return this;
+  }), g;
+
+  function verb(n) {
+    return function (v) {
+      return step([n, v]);
+    };
+  }
+
+  function step(op) {
+    if (f) throw new TypeError("Generator is already executing.");
+
+    while (_) {
+      try {
+        if (f = 1, y && (t = op[0] & 2 ? y["return"] : op[0] ? y["throw"] || ((t = y["return"]) && t.call(y), 0) : y.next) && !(t = t.call(y, op[1])).done) return t;
+        if (y = 0, t) op = [op[0] & 2, t.value];
+
+        switch (op[0]) {
+          case 0:
+          case 1:
+            t = op;
+            break;
+
+          case 4:
+            _.label++;
+            return {
+              value: op[1],
+              done: false
+            };
+
+          case 5:
+            _.label++;
+            y = op[1];
+            op = [0];
+            continue;
+
+          case 7:
+            op = _.ops.pop();
+
+            _.trys.pop();
+
+            continue;
+
+          default:
+            if (!(t = _.trys, t = t.length > 0 && t[t.length - 1]) && (op[0] === 6 || op[0] === 2)) {
+              _ = 0;
+              continue;
+            }
+
+            if (op[0] === 3 && (!t || op[1] > t[0] && op[1] < t[3])) {
+              _.label = op[1];
+              break;
+            }
+
+            if (op[0] === 6 && _.label < t[1]) {
+              _.label = t[1];
+              t = op;
+              break;
+            }
+
+            if (t && _.label < t[2]) {
+              _.label = t[2];
+
+              _.ops.push(op);
+
+              break;
+            }
+
+            if (t[2]) _.ops.pop();
+
+            _.trys.pop();
+
+            continue;
+        }
+
+        op = body.call(thisArg, _);
+      } catch (e) {
+        op = [6, e];
+        y = 0;
+      } finally {
+        f = t = 0;
+      }
+    }
+
+    if (op[0] & 5) throw op[1];
+    return {
+      value: op[0] ? op[1] : void 0,
+      done: true
+    };
+  }
+};
+
+var __importDefault = this && this.__importDefault || function (mod) {
+  return mod && mod.__esModule ? mod : {
+    "default": mod
+  };
+};
+
+Object.defineProperty(exports, "__esModule", {
+  value: true
+});
+
+var debug_1 = __importDefault(__webpack_require__(/*! debug */ "../../node_modules/debug/src/browser.js"));
+
+var debug = debug_1.default("WebIO:IFrame");
+
+var Node_1 = __importDefault(__webpack_require__(/*! ./Node */ "../../webio/dist/Node.js"));
+
+var setInnerHTML_1 = __importDefault(__webpack_require__(/*! ./setInnerHTML */ "../../webio/dist/setInnerHTML.js"));
+
+exports.IFRAME_NODE_TYPE = "IFrame";
+/**
+ * A WebIO IFrame node.
+ *
+ * This renders WebIO content within a (mostly) isolate IFrame. Both the IFrame
+ * and the parent page share the same WebIO instance.
+ *
+ * IMPORANT: IFrames have **huge** overhead on a browser page because they
+ * require a whole new page context (it's pretty much the same as opening a
+ * new tab). Using many IFrames will result in huge memory usage.
+ *
+ * NOTE: We don't have a good way to style IFrames such that they're exactly the
+ * size of the content within them. RIP.
+ */
+
+var WebIOIFrame =
+/** @class */
+function (_super) {
+  __extends(WebIOIFrame, _super);
+
+  function WebIOIFrame(iframeData, options) {
+    var _this = _super.call(this, iframeData, options) || this;
+
+    _this.children = null;
+    debug("Creating new WebIOIFrame.", iframeData);
+    var iframe = _this.element = document.createElement("iframe");
+    iframe.className = "webio-iframe";
+    iframe.src = "about:blank";
+    iframe.frameBorder = "0";
+    iframe.scrolling = "no";
+    iframe.height = "100%";
+    iframe.width = "100%";
+    iframe.style.display = "block";
+    var innerHTML = iframeData.instanceArgs.innerHTML;
+
+    iframe.onload = function () {
+      return _this.initializeIFrame(innerHTML);
+    };
+
+    return _this;
+  }
+  /**
+   * Initialize the IFrame after the onload event has been fired.
+   * @param innerHTML
+   */
+
+
+  WebIOIFrame.prototype.initializeIFrame = function (innerHTML) {
+    return __awaiter(this, void 0, void 0, function () {
+      var iframe, iframeWindow, iframeDocument, baseTag;
+      return __generator(this, function (_a) {
+        iframe = this.element;
+        iframeWindow = iframe.contentWindow;
+        iframeDocument = iframe.contentDocument; // Set WebIO window global.
+
+        iframeWindow.WebIO = this.webIO;
+        baseTag = document.createElement("base");
+        baseTag.href = document.baseURI;
+        iframeDocument.head.appendChild(baseTag); // Apply some styling.
+        // It seems that there's not an easy way to get the iframe to have the
+        // "correct" size (i.e. exactly the size of its contents, as if it were
+        // just a normal <div> element). This currently doesn't really work.
+
+        iframeDocument.body.style.cssText = "\n      margin: 0;\n      padding: 0;\n      height: 100%;\n    "; // Set inner html of body.
+
+        setInnerHTML_1.default(iframeDocument.body, innerHTML);
+        return [2
+        /*return*/
+        ];
+      });
+    });
+  };
+
+  return WebIOIFrame;
+}(Node_1.default);
+
+exports.default = WebIOIFrame;
+
+/***/ }),
+
+/***/ "../../webio/dist/Node.js":
+/*!*************************************************************************!*\
+  !*** /home/travigd/Trash/WebIO-throwaway-2/packages/webio/dist/Node.js ***!
+  \*************************************************************************/
+/*! no static exports found */
+/***/ (function(module, exports, __webpack_require__) {
+
+"use strict";
+
+
+var __importDefault = this && this.__importDefault || function (mod) {
+  return mod && mod.__esModule ? mod : {
+    "default": mod
+  };
+};
+
+Object.defineProperty(exports, "__esModule", {
+  value: true
+});
+
+var setInnerHTML_1 = __importDefault(__webpack_require__(/*! ./setInnerHTML */ "../../webio/dist/setInnerHTML.js"));
+/**
+ * A high-level "point-of-entry" under which WebIO "things" are rendered.
+ *
+ * A `WebIONode` has a root DOM element and some functionality for managing the
+ * attributes (DOM attributes, CSS styles, event listeners, etc.) that are
+ * applied to it.
+ */
+
+
+var WebIONode =
+/** @class */
+function () {
+  function WebIONode(nodeData, options) {
+    this.nodeData = nodeData;
+    var scope = options.scope,
+        webIO = options.webIO;
+    this.scope = scope;
+    this.webIO = webIO;
+  }
+  /**
+   * Set the innerHTML of the node's DOM element.
+   */
+
+
+  WebIONode.prototype.setInnerHTML = function (html) {
+    setInnerHTML_1.default(this.element, html);
+  };
+
+  return WebIONode;
+}();
+
+exports.default = WebIONode;
+
+/***/ }),
+
+/***/ "../../webio/dist/Observable.js":
+/*!*******************************************************************************!*\
+  !*** /home/travigd/Trash/WebIO-throwaway-2/packages/webio/dist/Observable.js ***!
+  \*******************************************************************************/
+/*! no static exports found */
+/***/ (function(module, exports, __webpack_require__) {
+
+"use strict";
+
+
+var __importDefault = this && this.__importDefault || function (mod) {
+  return mod && mod.__esModule ? mod : {
+    "default": mod
+  };
+};
+
+Object.defineProperty(exports, "__esModule", {
+  value: true
+});
+
+var debug_1 = __importDefault(__webpack_require__(/*! debug */ "../../node_modules/debug/src/browser.js"));
+
+var debug = debug_1.default("WebIO:Observable");
+/**
+ * A logical "observable" entity.
+ *
+ * An observable has a name (which is unique to a given scope), an id (which is
+ * unique to a given process), and a value, as well as a set of subscribers.
+ *
+ * Note that a single observable value might have more than one
+ * `WebIOObservable` instances (they will have the same id, and possibly even
+ * the same name, but exist in different scopes). If one of these observables
+ * changes, it is **not** the responsibility of the `WebIOObservable` to update
+ * any others. Typically, this update is done by syncing the value back to Julia
+ * and letting Julia issue updates for the other observables who live in other
+ * scopes.
+ *
+ */
+
+var WebIOObservable =
+/** @class */
+function () {
+  function WebIOObservable(name, _a, scope) {
+    var id = _a.id,
+        value = _a.value,
+        sync = _a.sync;
+    this.scope = scope;
+    /**
+     * An array of active subscriber/listener functions. These are evoked when
+     * the value of the observable changes.
+     */
+
+    this.subscribers = [];
+    this.name = name;
+    this.id = id;
+    this.value = value;
+    this.sync = sync;
+    this.webIO.registerObservable(this);
+  }
+
+  Object.defineProperty(WebIOObservable.prototype, "webIO", {
+    get: function get() {
+      return this.scope.webIO;
+    },
+    enumerable: true,
+    configurable: true
+  });
+  /**
+   * Set the value of the observable, optionally synchronizing it with
+   * Julia/WebIO.
+   *
+   * @param newValue - The value to be stored within the observable.
+   * @param sync - If `true`, send the new value to Julia/WebIO. This should
+   *    always be `false` if the new value originated from Julia/WebIO itself.
+   */
+
+  WebIOObservable.prototype.setValue = function (newValue, sync) {
+    if (sync === void 0) {
+      sync = true;
+    }
+
+    debug("Setting value of observable (" + this.name + "/" + this.id + ").", newValue);
+    this.value = newValue;
+    this.notifySubscribers();
+
+    if (sync) {
+      this.syncValue();
+    }
+  };
+  /**
+   * Synchronize the value stored within this observable with Julia/WebIO.
+   *
+   * This overwrites the value stored in Julia/WebIO. This method is called
+   * automatically when using `setValue` with `sync=true` (the default).
+   */
+
+
+  WebIOObservable.prototype.syncValue = function () {
+    this.webIO.reconcileObservables(this);
+    return this.scope.send({
+      type: "command",
+      command: "update_observable"
+      /* UPDATE_OBSERVABLE */
+      ,
+      scope: this.scope.id,
+      id: this.id,
+      name: this.name,
+      value: this.value
+    });
+  };
+  /**
+   * Register a new subscriber.
+   *
+   * @example
+   *    declare const obs: Observable<number>;
+   *    // We store a reference to listener so that we may give pass it to
+   *    // unsubscribe later.
+   *    const listener = (value: number) => {
+   *      console.log(`obs got ${value}!`);
+   *    };
+   *    obs.subscribe(listener);
+   *    // Later...
+   *    obs.unsubscribe(listener);
+   *
+   * @param subscriber - A function that is called every time the value of the
+   *    observable is called; the function is given the current value of the
+   *    observable.
+   */
+
+
+  WebIOObservable.prototype.subscribe = function (subscriber) {
+    debug("Attaching subscriber in Observable(" + this.name + "/" + this.id + ").", this, subscriber);
+    this.subscribers.push(subscriber);
+  };
+  /**
+   * Deregister an existing subscriber.
+   *
+   * Note: this method requires that the reference to the original subscriber
+   *    function is retained (so that it can be used here).
+   *
+   * @param subscriber
+   */
+
+
+  WebIOObservable.prototype.unsubscribe = function (subscriber) {
+    var index = this.subscribers.indexOf(subscriber);
+
+    if (index != -1) {
+      this.subscribers.splice(index, 1);
+    }
+  };
+  /**
+   * Call each of the registered subscribers with the current value of the
+   * observable.
+   */
+
+
+  WebIOObservable.prototype.notifySubscribers = function () {
+    var _this = this;
+
+    this.subscribers.forEach(function (subscriber) {
+      debug("Notifying subscriber in Observable(" + _this.name + "/" + _this.id + ").");
+      subscriber(_this.value);
+    });
+  };
+
+  return WebIOObservable;
+}();
+
+exports.default = WebIOObservable;
+
+/***/ }),
+
+/***/ "../../webio/dist/ObservableNode.js":
+/*!***********************************************************************************!*\
+  !*** /home/travigd/Trash/WebIO-throwaway-2/packages/webio/dist/ObservableNode.js ***!
+  \***********************************************************************************/
+/*! no static exports found */
+/***/ (function(module, exports, __webpack_require__) {
+
+"use strict";
+
+
+var __extends = this && this.__extends || function () {
+  var _extendStatics = function extendStatics(d, b) {
+    _extendStatics = Object.setPrototypeOf || {
+      __proto__: []
+    } instanceof Array && function (d, b) {
+      d.__proto__ = b;
+    } || function (d, b) {
+      for (var p in b) {
+        if (b.hasOwnProperty(p)) d[p] = b[p];
+      }
+    };
+
+    return _extendStatics(d, b);
+  };
+
+  return function (d, b) {
+    _extendStatics(d, b);
+
+    function __() {
+      this.constructor = d;
+    }
+
+    d.prototype = b === null ? Object.create(b) : (__.prototype = b.prototype, new __());
+  };
+}();
+
+var __importDefault = this && this.__importDefault || function (mod) {
+  return mod && mod.__esModule ? mod : {
+    "default": mod
+  };
+};
+
+Object.defineProperty(exports, "__esModule", {
+  value: true
+});
+
+var debug_1 = __importDefault(__webpack_require__(/*! debug */ "../../node_modules/debug/src/browser.js"));
+
+var debug = debug_1.default("WebIO:ObservableNode");
+
+var Node_1 = __importDefault(__webpack_require__(/*! ./Node */ "../../webio/dist/Node.js"));
+
+var createNode_1 = __importDefault(__webpack_require__(/*! ./createNode */ "../../webio/dist/createNode.js"));
+
+exports.OBSERVABLE_NODE_TYPE = "ObservableNode";
+/**
+ * A special type of node/observable that contains a node.
+ */
+
+var WebIOObservableNode =
+/** @class */
+function (_super) {
+  __extends(WebIOObservableNode, _super);
+
+  function WebIOObservableNode(schema, context) {
+    var _this = _super.call(this, schema, context) || this;
+
+    _this.observable = null;
+    _this.children = null;
+
+    _this.onObservableUpdate = function () {
+      _this.mountObservable();
+    };
+
+    debug("Creating WebIODomNode", {
+      schema: schema,
+      context: context
+    });
+    _this.element = document.createElement("div");
+    _this.element.className = "webio-observable-node";
+
+    _this.element.setAttribute("data-webio-observable-name", schema.instanceArgs.name);
+
+    try {
+      if (!context.scope) {
+        throw new Error("Cannot render ObservableNode that has no parent scope.");
+      }
+
+      _this.observable = _this.scope.getObservable(schema.instanceArgs.name);
+
+      _this.mountObservable();
+
+      _this.scope.promises.connected.then(function () {
+        return _this.observable.subscribe(_this.onObservableUpdate);
+      });
+    } catch (e) {
+      _this.node = null;
+      _this.element.innerHTML = "<strong>Caught exception while trying to render ObservableNode: " + e.message + "</strong>";
+    }
+
+    return _this;
+  }
+
+  WebIOObservableNode.prototype.mountObservable = function () {
+    if (!this.observable) {
+      throw new Error("Cannot mount null observable.");
+    }
+
+    debug("Mounting node within WebIOObservableNode.", {
+      nodeSchema: this.observable.value
+    });
+    var newNode = createNode_1.default(this.observable.value, {
+      webIO: this.webIO,
+      scope: this.scope
+    });
+
+    if (this.node) {
+      this.element.replaceChild(newNode.element, this.node.element);
+    } else {
+      this.element.appendChild(newNode.element);
+    }
+
+    this.node = newNode;
+  };
+
+  return WebIOObservableNode;
+}(Node_1.default);
+
+exports.default = WebIOObservableNode;
+
+/***/ }),
+
+/***/ "../../webio/dist/Scope.js":
+/*!**************************************************************************!*\
+  !*** /home/travigd/Trash/WebIO-throwaway-2/packages/webio/dist/Scope.js ***!
+  \**************************************************************************/
+/*! no static exports found */
+/***/ (function(module, exports, __webpack_require__) {
+
+"use strict";
+
+
+var __extends = this && this.__extends || function () {
+  var _extendStatics = function extendStatics(d, b) {
+    _extendStatics = Object.setPrototypeOf || {
+      __proto__: []
+    } instanceof Array && function (d, b) {
+      d.__proto__ = b;
+    } || function (d, b) {
+      for (var p in b) {
+        if (b.hasOwnProperty(p)) d[p] = b[p];
+      }
+    };
+
+    return _extendStatics(d, b);
+  };
+
+  return function (d, b) {
+    _extendStatics(d, b);
+
+    function __() {
+      this.constructor = d;
+    }
+
+    d.prototype = b === null ? Object.create(b) : (__.prototype = b.prototype, new __());
+  };
+}();
+
+var __awaiter = this && this.__awaiter || function (thisArg, _arguments, P, generator) {
+  return new (P || (P = Promise))(function (resolve, reject) {
+    function fulfilled(value) {
+      try {
+        step(generator.next(value));
+      } catch (e) {
+        reject(e);
+      }
+    }
+
+    function rejected(value) {
+      try {
+        step(generator["throw"](value));
+      } catch (e) {
+        reject(e);
+      }
+    }
+
+    function step(result) {
+      result.done ? resolve(result.value) : new P(function (resolve) {
+        resolve(result.value);
+      }).then(fulfilled, rejected);
+    }
+
+    step((generator = generator.apply(thisArg, _arguments || [])).next());
+  });
+};
+
+var __generator = this && this.__generator || function (thisArg, body) {
+  var _ = {
+    label: 0,
+    sent: function sent() {
+      if (t[0] & 1) throw t[1];
+      return t[1];
+    },
+    trys: [],
+    ops: []
+  },
+      f,
+      y,
+      t,
+      g;
+  return g = {
+    next: verb(0),
+    "throw": verb(1),
+    "return": verb(2)
+  }, typeof Symbol === "function" && (g[Symbol.iterator] = function () {
+    return this;
+  }), g;
+
+  function verb(n) {
+    return function (v) {
+      return step([n, v]);
+    };
+  }
+
+  function step(op) {
+    if (f) throw new TypeError("Generator is already executing.");
+
+    while (_) {
+      try {
+        if (f = 1, y && (t = op[0] & 2 ? y["return"] : op[0] ? y["throw"] || ((t = y["return"]) && t.call(y), 0) : y.next) && !(t = t.call(y, op[1])).done) return t;
+        if (y = 0, t) op = [op[0] & 2, t.value];
+
+        switch (op[0]) {
+          case 0:
+          case 1:
+            t = op;
+            break;
+
+          case 4:
+            _.label++;
+            return {
+              value: op[1],
+              done: false
+            };
+
+          case 5:
+            _.label++;
+            y = op[1];
+            op = [0];
+            continue;
+
+          case 7:
+            op = _.ops.pop();
+
+            _.trys.pop();
+
+            continue;
+
+          default:
+            if (!(t = _.trys, t = t.length > 0 && t[t.length - 1]) && (op[0] === 6 || op[0] === 2)) {
+              _ = 0;
+              continue;
+            }
+
+            if (op[0] === 3 && (!t || op[1] > t[0] && op[1] < t[3])) {
+              _.label = op[1];
+              break;
+            }
+
+            if (op[0] === 6 && _.label < t[1]) {
+              _.label = t[1];
+              t = op;
+              break;
+            }
+
+            if (t && _.label < t[2]) {
+              _.label = t[2];
+
+              _.ops.push(op);
+
+              break;
+            }
+
+            if (t[2]) _.ops.pop();
+
+            _.trys.pop();
+
+            continue;
+        }
+
+        op = body.call(thisArg, _);
+      } catch (e) {
+        op = [6, e];
+        y = 0;
+      } finally {
+        f = t = 0;
+      }
+    }
+
+    if (op[0] & 5) throw op[1];
+    return {
+      value: op[0] ? op[1] : void 0,
+      done: true
+    };
+  }
+};
+
+var __rest = this && this.__rest || function (s, e) {
+  var t = {};
+
+  for (var p in s) {
+    if (Object.prototype.hasOwnProperty.call(s, p) && e.indexOf(p) < 0) t[p] = s[p];
+  }
+
+  if (s != null && typeof Object.getOwnPropertySymbols === "function") for (var i = 0, p = Object.getOwnPropertySymbols(s); i < p.length; i++) {
+    if (e.indexOf(p[i]) < 0) t[p[i]] = s[p[i]];
+  }
+  return t;
+};
+
+var __importDefault = this && this.__importDefault || function (mod) {
+  return mod && mod.__esModule ? mod : {
+    "default": mod
+  };
+};
+
+Object.defineProperty(exports, "__esModule", {
+  value: true
+});
+
+var debug_1 = __importDefault(__webpack_require__(/*! debug */ "../../node_modules/debug/src/browser.js"));
+
+var debug = debug_1.default("WebIO:Scope");
+
+var Node_1 = __importDefault(__webpack_require__(/*! ./Node */ "../../webio/dist/Node.js"));
+
+var Observable_1 = __importDefault(__webpack_require__(/*! ./Observable */ "../../webio/dist/Observable.js"));
+
+var utils_1 = __webpack_require__(/*! ./utils */ "../../webio/dist/utils.js");
+
+var events_1 = __webpack_require__(/*! ./events */ "../../webio/dist/events.js");
+
+var createNode_1 = __importDefault(__webpack_require__(/*! ./createNode */ "../../webio/dist/createNode.js"));
+
+var imports_1 = __webpack_require__(/*! ./imports */ "../../webio/dist/imports.js");
+
+exports.SCOPE_NODE_TYPE = "Scope";
+
+var WebIOScope =
+/** @class */
+function (_super) {
+  __extends(WebIOScope, _super);
+
+  function WebIOScope(schema, context) {
+    var _this = _super.call(this, schema, context) || this;
+
+    _this.children = null;
+    debug("Creating new WebIOScope.", schema);
+    _this.element = document.createElement("div");
+    _this.element.className = "webio-scope";
+
+    _this.element.setAttribute("data-webio-scope-id", schema.instanceArgs.id);
+
+    var _a = schema.instanceArgs,
+        id = _a.id,
+        _b = _a.observables,
+        observables = _b === void 0 ? {} : _b,
+        _c = _a.handlers,
+        handlers = _c === void 0 ? {} : _c;
+    _this.id = id; // Create WebIOObservables.
+
+    _this.observables = {};
+    Object.keys(observables).forEach(function (name) {
+      var observable = new Observable_1.default(name, observables[name], _this);
+      _this.observables[name] = observable;
+      observable.subscribe(function (value) {
+        return _this.evokeObservableHandlers(name, value);
+      });
+    });
+    _this.handlers = {}; // TODO: refactor registerScope as described elsewhere
+
+    _this.webIO.registerScope(_this); // TODO: this following is super messy and needs to be refactored.
+
+    /**
+     * The issue here is that we need to have this.promises hooked up before
+     * we create children... and we have to do the imports **after** we create
+     * the children. There's definitely a cleaner way to do this but my brain
+     * is a little bit fried right now.
+     *
+     * Currently, we just have a "dummy promise" that we create and then
+     * "manually" resolve **after** the imports are done, so that
+     * `this.promises` is set when we call `initialize` -- which we need since
+     * `initialize` creates children which might in turn (e.g. in the case of
+     * {@link WebIOObservableNode}) rely on `this.promises`.
+     */
+
+
+    var resolveImportsLoaded;
+    var rejectImportsLoaded;
+    var importsLoadedPromise = new Promise(function (resolve, reject) {
+      resolveImportsLoaded = resolve;
+      rejectImportsLoaded = reject;
+    });
+    _this.promises = {
+      connected: _this.webIO.connected.then(function () {
+        return _this;
+      }),
+      importsLoaded: importsLoadedPromise
+    }; // This is super messy and should be refactored.
+    // We must do `setupScope` after imports are loaded (see pull #217).
+
+    _this.initialize(schema).then(function () {
+      var args = [];
+
+      for (var _i = 0; _i < arguments.length; _i++) {
+        args[_i] = arguments[_i];
+      }
+
+      return resolveImportsLoaded(args);
+    }).then(function () {
+      return _this.setupScope();
+    }).catch(function () {
+      var args = [];
+
+      for (var _i = 0; _i < arguments.length; _i++) {
+        args[_i] = arguments[_i];
+      }
+
+      return rejectImportsLoaded(args);
+    });
+
+    return _this;
+  }
+
+  Object.defineProperty(WebIOScope.prototype, "dom", {
+    get: function get() {
+      return this.element;
+    },
+    enumerable: true,
+    configurable: true
+  });
+  /**
+   * Perform asynchronous initialization tasks.
+   */
+
+  WebIOScope.prototype.initialize = function (schema) {
+    return __awaiter(this, void 0, void 0, function () {
+      var _a, _b, handlers, imports, systemJSConfig, _c, preDependencies, _d, _promises, restHandlers, resources, _e, _i, _f, child, importsLoadedHandlers, handlers_1, callbacks;
+
+      var _this = this;
+
+      return __generator(this, function (_g) {
+        switch (_g.label) {
+          case 0:
+            _a = schema.instanceArgs, _b = _a.handlers, handlers = _b === void 0 ? {} : _b, imports = _a.imports, systemJSConfig = _a.systemjs_options;
+            _c = handlers.preDependencies, preDependencies = _c === void 0 ? [] : _c, _d = handlers._promises, _promises = _d === void 0 ? {} : _d, restHandlers = __rest(handlers, ["preDependencies", "_promises"]);
+            preDependencies.map(function (functionString) {
+              return events_1.createWebIOEventListener(_this, functionString, {
+                scope: _this,
+                webIO: _this.webIO
+              });
+            }).forEach(function (handler) {
+              return handler.call(_this);
+            }); // Map the function strings into handlers which have `this` bound to the scope's
+            // element and which have access to the _webIOScope resources variable (via closure).
+
+            Object.keys(restHandlers).forEach(function (observableName) {
+              _this.handlers[observableName] = handlers[observableName].map(function (handlerString) {
+                return events_1.createWebIOEventListener(_this, handlerString, {
+                  scope: _this,
+                  webIO: _this.webIO
+                });
+              });
+            });
+            if (!imports) return [3
+            /*break*/
+            , 2];
+            return [4
+            /*yield*/
+            , imports_1.importBlock(imports, systemJSConfig)];
+
+          case 1:
+            _e = _g.sent();
+            return [3
+            /*break*/
+            , 3];
+
+          case 2:
+            _e = null;
+            _g.label = 3;
+
+          case 3:
+            resources = _e; // Create children WebIONodes.
+
+            debug("Creating children for scope (id: " + this.id + ").");
+            this.children = schema.children.map(function (nodeData) {
+              if (typeof nodeData === "string") {
+                return nodeData;
+              }
+
+              return createNode_1.default(nodeData, {
+                webIO: _this.webIO,
+                scope: _this
+              });
+            }); // Append children elements to our element.
+
+            for (_i = 0, _f = this.children; _i < _f.length; _i++) {
+              child = _f[_i];
+
+              if (typeof child === "string") {
+                this.element.appendChild(document.createTextNode(child));
+              } else {
+                this.element.appendChild(child.element);
+              }
+            }
+
+            importsLoadedHandlers = _promises.importsLoaded;
+
+            if (resources && importsLoadedHandlers) {
+              debug("Invoking importsLoaded handlers for scope (" + this.id + ").", {
+                scope: this,
+                importsLoadedHandlers: importsLoadedHandlers,
+                resources: resources
+              });
+              handlers_1 = importsLoadedHandlers.map(function (handler) {
+                return events_1.createWebIOEventListener(_this, handler, {
+                  scope: _this,
+                  webIO: _this.webIO
+                });
+              }); // `as any` is necessary because createWebIOEventListener normally returns
+              // a function which is expected to be an event listener... but this is
+              // kind of a special case of that.
+
+              handlers_1.forEach(function (handler) {
+                return handler.apply(void 0, resources);
+              });
+            }
+
+            if (schema.instanceArgs.mount_callbacks) {
+              callbacks = schema.instanceArgs.mount_callbacks.map(function (src) {
+                return events_1.createWebIOEventListener(_this, src, {
+                  scope: _this,
+                  webIO: _this.webIO
+                });
+              });
+              callbacks.forEach(function (callback) {
+                return callback();
+              });
+            } // This isn't super clean, but this function is used to create the
+            // importsLoaded promise, so we need to return the promises.
+            // TODO: refactor this
+
+
+            return [2
+            /*return*/
+            , resources];
+        }
+      });
+    });
+  };
+
+  WebIOScope.prototype.getLocalObservable = function (observableName) {
+    // Only return a "local" observable
+    var obs = this.observables[observableName];
+
+    if (!obs) {
+      throw new Error("Scope(id=" + this.id + ") has no observable named \"" + observableName + "\".");
+    }
+
+    return obs;
+  };
+
+  WebIOScope.prototype.getObservable = function (observable) {
+    if (typeof observable === "string" || observable.scope === this.id) {
+      return this.getLocalObservable(utils_1.getObservableName(observable));
+    } // Otherwise, let the root WebIO instance find the correct scope and
+    // observable.
+
+
+    return this.webIO.getObservable(observable);
+  };
+
+  WebIOScope.prototype.getObservableValue = function (observable) {
+    return this.getObservable(observable).value;
+  };
+  /**
+   * Update an observable within the scope.
+   * @param observable - The name (or specifier) of the observable to modify.
+   * @param value - The value to set the observable to.
+   * @param sync - Whether or not to sync the value to Julia. This should always be
+   *    false if the update originated from Julia and is just being propogated into
+   *    the browser.
+   */
+
+
+  WebIOScope.prototype.setObservableValue = function (observable, value, sync) {
+    if (sync === void 0) {
+      sync = true;
+    }
+
+    debug("WebIOScope¬setObservableValue", {
+      scope: this,
+      observable: observable,
+      value: value,
+      sync: sync
+    });
+    var observableName = utils_1.getObservableName(observable);
+
+    if (!(observableName in this.observables)) {
+      throw new Error("Scope(id=" + this.id + ") has no observable named \"" + observableName + "\".");
+    }
+
+    debug("Setting Observable (name: " + observableName + ") to \"" + value + "\" in WebIOScope (id: " + this.id + ").");
+    this.observables[observableName].setValue(value, sync);
+  };
+  /**
+   * Send a message to the WebIO Julia machinery.
+   *
+   * Sets the scope id if not specified.
+   */
+
+
+  WebIOScope.prototype.send = function (message) {
+    return this.webIO.send(message);
+  };
+  /**
+   * Evoke the listeners for an observable with the current value of
+   * that observable.
+   *
+   * @param name - The name of the observable whose listeners should be evoked.
+   * @param value - The current value of the observable.
+   */
+
+
+  WebIOScope.prototype.evokeObservableHandlers = function (name, value) {
+    var _this = this;
+
+    var listeners = this.handlers[name] || [];
+    debug("Evoking " + listeners.length + " observable handlers for observable \"" + name + "\".");
+    listeners.forEach(function (listener) {
+      listener.call(_this, value, _this);
+    });
+  };
+  /**
+   * Send the setup-scope message.
+   *
+   * This informs Julia/WebIO that we want to listen to changes associated
+   * with this scope.
+   */
+
+
+  WebIOScope.prototype.setupScope = function () {
+    return this.send({
+      type: "command",
+      command: "setup_scope"
+      /* SETUP_SCOPE */
+      ,
+      scope: this.id
+    });
+  };
+
+  return WebIOScope;
+}(Node_1.default);
+
+exports.default = WebIOScope;
+
+/***/ }),
+
+/***/ "../../webio/dist/WebIO.js":
+/*!**************************************************************************!*\
+  !*** /home/travigd/Trash/WebIO-throwaway-2/packages/webio/dist/WebIO.js ***!
+  \**************************************************************************/
+/*! no static exports found */
+/***/ (function(module, exports, __webpack_require__) {
+
+"use strict";
+
+
+var __assign = this && this.__assign || function () {
+  __assign = Object.assign || function (t) {
+    for (var s, i = 1, n = arguments.length; i < n; i++) {
+      s = arguments[i];
+
+      for (var p in s) {
+        if (Object.prototype.hasOwnProperty.call(s, p)) t[p] = s[p];
+      }
+    }
+
+    return t;
+  };
+
+  return __assign.apply(this, arguments);
+};
+
+var __awaiter = this && this.__awaiter || function (thisArg, _arguments, P, generator) {
+  return new (P || (P = Promise))(function (resolve, reject) {
+    function fulfilled(value) {
+      try {
+        step(generator.next(value));
+      } catch (e) {
+        reject(e);
+      }
+    }
+
+    function rejected(value) {
+      try {
+        step(generator["throw"](value));
+      } catch (e) {
+        reject(e);
+      }
+    }
+
+    function step(result) {
+      result.done ? resolve(result.value) : new P(function (resolve) {
+        resolve(result.value);
+      }).then(fulfilled, rejected);
+    }
+
+    step((generator = generator.apply(thisArg, _arguments || [])).next());
+  });
+};
+
+var __generator = this && this.__generator || function (thisArg, body) {
+  var _ = {
+    label: 0,
+    sent: function sent() {
+      if (t[0] & 1) throw t[1];
+      return t[1];
+    },
+    trys: [],
+    ops: []
+  },
+      f,
+      y,
+      t,
+      g;
+  return g = {
+    next: verb(0),
+    "throw": verb(1),
+    "return": verb(2)
+  }, typeof Symbol === "function" && (g[Symbol.iterator] = function () {
+    return this;
+  }), g;
+
+  function verb(n) {
+    return function (v) {
+      return step([n, v]);
+    };
+  }
+
+  function step(op) {
+    if (f) throw new TypeError("Generator is already executing.");
+
+    while (_) {
+      try {
+        if (f = 1, y && (t = op[0] & 2 ? y["return"] : op[0] ? y["throw"] || ((t = y["return"]) && t.call(y), 0) : y.next) && !(t = t.call(y, op[1])).done) return t;
+        if (y = 0, t) op = [op[0] & 2, t.value];
+
+        switch (op[0]) {
+          case 0:
+          case 1:
+            t = op;
+            break;
+
+          case 4:
+            _.label++;
+            return {
+              value: op[1],
+              done: false
+            };
+
+          case 5:
+            _.label++;
+            y = op[1];
+            op = [0];
+            continue;
+
+          case 7:
+            op = _.ops.pop();
+
+            _.trys.pop();
+
+            continue;
+
+          default:
+            if (!(t = _.trys, t = t.length > 0 && t[t.length - 1]) && (op[0] === 6 || op[0] === 2)) {
+              _ = 0;
+              continue;
+            }
+
+            if (op[0] === 3 && (!t || op[1] > t[0] && op[1] < t[3])) {
+              _.label = op[1];
+              break;
+            }
+
+            if (op[0] === 6 && _.label < t[1]) {
+              _.label = t[1];
+              t = op;
+              break;
+            }
+
+            if (t && _.label < t[2]) {
+              _.label = t[2];
+
+              _.ops.push(op);
+
+              break;
+            }
+
+            if (t[2]) _.ops.pop();
+
+            _.trys.pop();
+
+            continue;
+        }
+
+        op = body.call(thisArg, _);
+      } catch (e) {
+        op = [6, e];
+        y = 0;
+      } finally {
+        f = t = 0;
+      }
+    }
+
+    if (op[0] & 5) throw op[1];
+    return {
+      value: op[0] ? op[1] : void 0,
+      done: true
+    };
+  }
+};
+
+var __importDefault = this && this.__importDefault || function (mod) {
+  return mod && mod.__esModule ? mod : {
+    "default": mod
+  };
+};
+
+var __importStar = this && this.__importStar || function (mod) {
+  if (mod && mod.__esModule) return mod;
+  var result = {};
+  if (mod != null) for (var k in mod) {
+    if (Object.hasOwnProperty.call(mod, k)) result[k] = mod[k];
+  }
+  result["default"] = mod;
+  return result;
+};
+
+Object.defineProperty(exports, "__esModule", {
+  value: true
+}); // import isArray from "is-array";
+// import arrayEqual from "array-equal";
+
+var debug_1 = __importDefault(__webpack_require__(/*! debug */ "../../node_modules/debug/src/browser.js"));
+
+var createNode_1 = __importStar(__webpack_require__(/*! ./createNode */ "../../webio/dist/createNode.js"));
+
+var imports_1 = __webpack_require__(/*! ./imports */ "../../webio/dist/imports.js");
+
+var events_1 = __webpack_require__(/*! ./events */ "../../webio/dist/events.js");
+
+var log = debug_1.default("WebIO");
+
+var WebIO =
+/** @class */
+function () {
+  function WebIO() {
+    var _this = this;
+    /**
+     * A map from `scopeId` to the corresponding {@link WebIOScope} instance.
+     */
+
+
+    this.scopes = {};
+    /**
+     * A map from `observableId` to an array of corresponding
+     * {@link WebIOObservable} instances. We have an array of these instances
+     * since an observable may appear within several different scopes. Also note
+     * that we identify observables by id here, rather than by name, since the
+     * name may be different in different scopes; the ids are usually of the form
+     * `obs_123`.
+     */
+
+    this.observables = {}; // Re-export from imports.ts
+
+    this.importResource = imports_1.importResource;
+    this.importBlock = imports_1.importBlock; // We have to use the !-postfix on {resolve,reject}Connected because TypeScript
+    // thinks that the body of the promise below isn't immediately executed (it is).
+
+    this.connected = new Promise(function (resolve, reject) {
+      _this.resolveConnected = resolve;
+      _this.rejectConnected = reject;
+    });
+  }
+  /**
+   * Dispatch a message into the WebIO JavaScript machinery.
+   *
+   * The message usually comes from the comm (e.g. WebSocket) that WebIO is
+   * using to communicate.
+   *
+   * @param message - The message to dispatch.
+   */
+
+
+  WebIO.prototype.dispatch = function (message) {
+    switch (message.type) {
+      case "request":
+        return this.dispatchRequest(message);
+
+      case "command":
+        return this.dispatchCommand(message);
+
+      case "response":
+        throw new Error("Dispatching responses in the frontend is not implemented.");
+    }
+
+    throw new Error("Unknown message type: " + message.type + ".");
+  };
+
+  WebIO.prototype.dispatchCommand = function (message) {
+    log("Dispatching command (command: " + message.command + ").", message);
+
+    switch (message.command) {
+      case "update_observable"
+      /* UPDATE_OBSERVABLE */
+      :
+        {
+          var scope = this.scopes[message.scope];
+
+          if (!scope) {
+            throw new Error("WebIO has no such scope: (id " + message.scope + ").");
+          }
+
+          scope.setObservableValue(message.name, message.value, false);
+          return;
+        }
+
+      default:
+        {
+          // TODO: see notes in interface definition of WebIOMessage
+          throw new Error("Unknown command: " + message.command); // const {scope: scopeId, command} = message;
+          // const scope = this.scopes[scopeId];
+          // if (!scope) {
+          //   throw new Error(`WebIO has no such scope (id: ${scopeId}).`);
+          // }
+        }
+    }
+  };
+
+  WebIO.prototype.dispatchRequest = function (message) {
+    return __awaiter(this, void 0, void 0, function () {
+      var _a, scope, result;
+
+      return __generator(this, function (_b) {
+        switch (_b.label) {
+          case 0:
+            log("dispatchRequest: " + message.request);
+            _a = message.request;
+
+            switch (_a) {
+              case "eval"
+              /* EVAL */
+              :
+                return [3
+                /*break*/
+                , 1];
+            }
+
+            return [3
+            /*break*/
+            , 5];
+
+          case 1:
+            scope = this.getScope(message.scope);
+            result = events_1.evalWithWebIOContext(scope, message.expression, {
+              webIO: this,
+              scope: scope
+            });
+            if (!(result instanceof Promise)) return [3
+            /*break*/
+            , 3];
+            log("Eval expression returned a promise, awaiting promise.");
+            return [4
+            /*yield*/
+            , result];
+
+          case 2:
+            result = _b.sent();
+            _b.label = 3;
+
+          case 3:
+            return [4
+            /*yield*/
+            , this.send({
+              type: "response",
+              request: message.request,
+              requestId: message.requestId,
+              result: result
+            })];
+
+          case 4:
+            return [2
+            /*return*/
+            , _b.sent()];
+
+          case 5:
+            throw new Error("Unknown request type: " + message.request + ".");
+        }
+      });
+    });
+  };
+  /**
+   * Set the send callback that WebIO will use.
+   *
+   * This method, when called for the first time, will also resolve the WebIO
+   * connected promise and send any messages that are waiting.
+   */
+
+
+  WebIO.prototype.setSendCallback = function (sendCallback) {
+    log("Setting WebIO sendCallback.");
+    this.sendCallback = sendCallback;
+    this.resolveConnected();
+  };
+  /**
+   * A method called by scopes to register themselves so that messages
+   * can be routed appropriately.
+   *
+   * @todo This should probably be changed so that this method is used to
+   *    create a new `WebIOScope` and have it registered then instead of
+   *    asking the scope to register itself.
+   *    tl;dr; change
+   *    `scope = new WebIOScope(...); webIO.registerScope(scope)`
+   *    to `scope = webio.createScope(...);`.
+   *
+   * @param scope
+   */
+
+
+  WebIO.prototype.registerScope = function (scope) {
+    log("Registering WebIO scope (id: " + scope.id + ").");
+    this.scopes[scope.id] = scope;
+  };
+  /**
+   * A method called by observables to register themselves. This is used to
+   * ensure that observables are in a consistent state within the browser.
+   * @param observable
+   */
+
+
+  WebIO.prototype.registerObservable = function (observable) {
+    var id = observable.id;
+    log("Registering WebIO observable (id: " + observable.id + ").");
+
+    if (!this.observables[id]) {
+      this.observables[id] = [];
+    }
+
+    this.observables[observable.id].push(observable);
+  };
+  /**
+   * Ensure that all observable instances have the value off the
+   * `sourceObservable`.
+   *
+   * @param sourceObservable - The observable whose values are synchronized with
+   *    all other registered observables of the same id.
+   */
+
+
+  WebIO.prototype.reconcileObservables = function (sourceObservable) {
+    var id = sourceObservable.id,
+        name = sourceObservable.name,
+        value = sourceObservable.value;
+    var observables = this.observables[id] || [];
+    log("Reconciling " + observables.length + " observables (id: " + id + ").");
+
+    if (observables.length < 1) {
+      console.warn("Tried to reconcile observables (id: " + id + ", name: " + name + ") but we don't know" + "about any observables with that id.");
+      return;
+    }
+
+    for (var _i = 0, observables_1 = observables; _i < observables_1.length; _i++) {
+      var observable = observables_1[_i]; // Don't re-set the value of the observable that triggered the
+      // reconciliation.
+
+      if (observable === sourceObservable) continue;
+      log("Reconciling observable \"" + observable.name + "\" in scope \"" + observable.scope.id + "\".");
+      observable.setValue(value, false);
+    }
+  };
+
+  ;
+  /**
+   * Send a message to the WebIO Julia machinery.
+   *
+   * Sets `type: "message"` before passing to the send callback.
+   */
+
+  WebIO.prototype.send = function (message) {
+    return __awaiter(this, void 0, void 0, function () {
+      return __generator(this, function (_a) {
+        switch (_a.label) {
+          case 0:
+            return [4
+            /*yield*/
+            , this.connected];
+
+          case 1:
+            _a.sent();
+
+            log("Sending WebIO message:", message);
+            log("sendCallback:", this.sendCallback);
+            return [2
+            /*return*/
+            , this.sendCallback(__assign({
+              type: "message"
+            }, message))];
+        }
+      });
+    });
+  };
+  /**
+   * Mount a WebIO node into the specified element.
+   *
+   * This method overwrites the content of the element.
+   *
+   * @param element - The element to be replaced with the WebIO node.
+   * @param nodeSchema - The data associated with the WebIO node.
+   */
+
+
+  WebIO.prototype.mount = function (element, nodeSchema) {
+    if (!element) {
+      console.error("WebIO cannot mount node into element.", {
+        element: element,
+        nodeData: nodeSchema
+      });
+      throw new Error("WebIO cannot mount node into element.");
+    }
+
+    log("Mounting WebIO node.", {
+      nodeData: nodeSchema,
+      element: element
+    });
+    var node = createNode_1.default(nodeSchema, {
+      webIO: this
+    }); // Reset the contents of the node we're mounting into.
+
+    element.innerHTML = "";
+    element.classList.add("webio-mountpoint"); // Temporary hack for @piever
+    // https://github.com/JuliaGizmos/WebIO.jl/pull/211#issuecomment-429672805
+
+    element.classList.add("interactbulma");
+    element.appendChild(node.element);
+  };
+
+  WebIO.prototype.getScope = function (scopeId) {
+    var scope = this.scopes[scopeId];
+
+    if (!scope) {
+      throw new Error("WebIO has no scope (id: " + scopeId + ").");
+    }
+
+    return scope;
+  };
+  /**
+   * Get an {@link WebIOObservable} object.
+   *
+   * @throws Will throw an error if the scope does not exist or there is no
+   *    such observable within the scope.
+   */
+
+
+  WebIO.prototype.getObservable = function (_a) {
+    var scope = _a.scope,
+        name = _a.name;
+    return this.getScope(scope).getLocalObservable(name);
+  };
+  /**
+   * Get the value of some observable.
+   *
+   * @deprecated This method is a shim for old WebIO functionally which relied
+   * on a global WebIO instance.
+   *
+   * @throws Will throw an error if the scope does not exist or there is no
+   *    such observable within the scope.
+   */
+
+
+  WebIO.prototype.getval = function (_a) {
+    var scope = _a.scope,
+        name = _a.name;
+    return this.getScope(scope).getObservableValue(name);
+  };
+  /**
+   * Set the value of some observable.
+   *
+   * @deprecated This method is a shim for old WebIO functionally which relied
+   * on a global WebIO instance.
+   *
+   * @throws Will throw an error if the scope does not exist or there is no
+   *    such observable within the scope.
+   */
+
+
+  WebIO.prototype.setval = function (_a, value, sync) {
+    var scope = _a.scope,
+        name = _a.name;
+
+    if (sync === void 0) {
+      sync = true;
+    }
+
+    return this.getScope(scope).setObservableValue(name, value, sync);
+  };
+  /**
+   * A reference to {@link NODE_CLASSES} to allow for extension.
+   */
+
+
+  WebIO.NODE_CLASSES = createNode_1.NODE_CLASSES;
+  return WebIO;
+}();
+
+exports.default = WebIO;
+
+/***/ }),
+
+/***/ "../../webio/dist/createNode.js":
+/*!*******************************************************************************!*\
+  !*** /home/travigd/Trash/WebIO-throwaway-2/packages/webio/dist/createNode.js ***!
+  \*******************************************************************************/
+/*! no static exports found */
+/***/ (function(module, exports, __webpack_require__) {
+
+"use strict";
+
+
+var __importStar = this && this.__importStar || function (mod) {
+  if (mod && mod.__esModule) return mod;
+  var result = {};
+  if (mod != null) for (var k in mod) {
+    if (Object.hasOwnProperty.call(mod, k)) result[k] = mod[k];
+  }
+  result["default"] = mod;
+  return result;
+};
+
+Object.defineProperty(exports, "__esModule", {
+  value: true
+});
+
+var _a;
+
+var DomNode_1 = __importStar(__webpack_require__(/*! ./DomNode */ "../../webio/dist/DomNode.js"));
+
+var Scope_1 = __importStar(__webpack_require__(/*! ./Scope */ "../../webio/dist/Scope.js"));
+
+var IFrame_1 = __importStar(__webpack_require__(/*! ./IFrame */ "../../webio/dist/IFrame.js"));
+
+var ObservableNode_1 = __importStar(__webpack_require__(/*! ./ObservableNode */ "../../webio/dist/ObservableNode.js"));
+/**
+ * Map from node type to node class.
+ *
+ * The node class should extends WebIONode and take the same arguments in its
+ * constructor.
+ */
+
+
+exports.NODE_CLASSES = (_a = {}, _a[DomNode_1.DOM_NODE_TYPE] = DomNode_1.default, _a[Scope_1.SCOPE_NODE_TYPE] = Scope_1.default, _a[IFrame_1.IFRAME_NODE_TYPE] = IFrame_1.default, _a[ObservableNode_1.OBSERVABLE_NODE_TYPE] = ObservableNode_1.default, _a);
+/**
+* Create a new WebIO node (a scope or a DOM node).
+* @param schema
+* @param context
+*/
+
+var createNode = function createNode(schema, context) {
+  var NodeClass = exports.NODE_CLASSES[schema.nodeType];
+
+  if (NodeClass) {
+    // We need any here to tell TypeScript that NodeClass isn't an abstract
+    // class (because WebIONode **is** an abstract class but we will only have
+    // subclasses in our NODE_CLASSES map).
+    return new NodeClass(schema, context);
+  }
+
+  throw new Error("Unknown WebIO node type: " + schema.nodeType + ".");
+};
+
+exports.default = createNode;
+
+/***/ }),
+
+/***/ "../../webio/dist/events.js":
+/*!***************************************************************************!*\
+  !*** /home/travigd/Trash/WebIO-throwaway-2/packages/webio/dist/events.js ***!
+  \***************************************************************************/
+/*! no static exports found */
+/***/ (function(module, exports, __webpack_require__) {
+
+"use strict";
+
+
+var __importDefault = this && this.__importDefault || function (mod) {
+  return mod && mod.__esModule ? mod : {
+    "default": mod
+  };
+};
+
+Object.defineProperty(exports, "__esModule", {
+  value: true
+});
+
+var debug_1 = __importDefault(__webpack_require__(/*! debug */ "../../node_modules/debug/src/browser.js"));
+
+var log = debug_1.default("WebIO:events");
+/**
+ * Create a WebIO event listener.
+ *
+ * This function returns an event listener function that will operate in the
+ * correct WebIO scope (i.e. WebIO will refer to the right instance and `this`
+ * will be bound to the DOM node specified).
+ *
+ * Note that we use _webIO-prefixed variable names to avoid any possible clashes
+ * with user-code.
+ *
+ * @param _webIOThis - the DOM node that `this` should be bound to.
+ * @param _webIOListenerSource - the source (preferably as a string) of the listener
+ *    function; if not a string, the function will be converted to a string and
+ *    then re-eval'd to ensure that WebIO and this refer to the correct objects.
+ * @param _webIOContext - the context handler should be evaluated in.
+ */
+
+exports.createWebIOEventListener = function (_webIOThis, _webIOListenerSource, _webIOContext) {
+  var WebIO = _webIOContext.webIO,
+      _webIOScope = _webIOContext.scope;
+  log("Creating event listener.", {
+    context: _webIOThis,
+    scope: _webIOScope,
+    source: _webIOListenerSource
+  }); // Wrap the source in parens so that eval returns the function instance
+  // (so that eval treats it as an expression rather than a top-level function
+  // declaration).
+
+  return eval("(" + _webIOListenerSource + ")").bind(_webIOThis);
+};
+
+exports.evalWithWebIOContext = function (_webIOThis, _webIOListenerSource, _webIOContext) {
+  var WebIO = _webIOContext.webIO,
+      _webIOScope = _webIOContext.scope;
+
+  var _wrappedFunction = function _wrappedFunction() {
+    return eval("" + _webIOListenerSource);
+  };
+
+  return _wrappedFunction.apply(_webIOThis);
+};
+
+/***/ }),
+
+/***/ "../../webio/dist/imports.js":
+/*!****************************************************************************!*\
+  !*** /home/travigd/Trash/WebIO-throwaway-2/packages/webio/dist/imports.js ***!
+  \****************************************************************************/
+/*! no static exports found */
+/***/ (function(module, exports, __webpack_require__) {
+
+"use strict";
+
+
+var __awaiter = this && this.__awaiter || function (thisArg, _arguments, P, generator) {
+  return new (P || (P = Promise))(function (resolve, reject) {
+    function fulfilled(value) {
+      try {
+        step(generator.next(value));
+      } catch (e) {
+        reject(e);
+      }
+    }
+
+    function rejected(value) {
+      try {
+        step(generator["throw"](value));
+      } catch (e) {
+        reject(e);
+      }
+    }
+
+    function step(result) {
+      result.done ? resolve(result.value) : new P(function (resolve) {
+        resolve(result.value);
+      }).then(fulfilled, rejected);
+    }
+
+    step((generator = generator.apply(thisArg, _arguments || [])).next());
+  });
+};
+
+var __generator = this && this.__generator || function (thisArg, body) {
+  var _ = {
+    label: 0,
+    sent: function sent() {
+      if (t[0] & 1) throw t[1];
+      return t[1];
+    },
+    trys: [],
+    ops: []
+  },
+      f,
+      y,
+      t,
+      g;
+  return g = {
+    next: verb(0),
+    "throw": verb(1),
+    "return": verb(2)
+  }, typeof Symbol === "function" && (g[Symbol.iterator] = function () {
+    return this;
+  }), g;
+
+  function verb(n) {
+    return function (v) {
+      return step([n, v]);
+    };
+  }
+
+  function step(op) {
+    if (f) throw new TypeError("Generator is already executing.");
+
+    while (_) {
+      try {
+        if (f = 1, y && (t = op[0] & 2 ? y["return"] : op[0] ? y["throw"] || ((t = y["return"]) && t.call(y), 0) : y.next) && !(t = t.call(y, op[1])).done) return t;
+        if (y = 0, t) op = [op[0] & 2, t.value];
+
+        switch (op[0]) {
+          case 0:
+          case 1:
+            t = op;
+            break;
+
+          case 4:
+            _.label++;
+            return {
+              value: op[1],
+              done: false
+            };
+
+          case 5:
+            _.label++;
+            y = op[1];
+            op = [0];
+            continue;
+
+          case 7:
+            op = _.ops.pop();
+
+            _.trys.pop();
+
+            continue;
+
+          default:
+            if (!(t = _.trys, t = t.length > 0 && t[t.length - 1]) && (op[0] === 6 || op[0] === 2)) {
+              _ = 0;
+              continue;
+            }
+
+            if (op[0] === 3 && (!t || op[1] > t[0] && op[1] < t[3])) {
+              _.label = op[1];
+              break;
+            }
+
+            if (op[0] === 6 && _.label < t[1]) {
+              _.label = t[1];
+              t = op;
+              break;
+            }
+
+            if (t && _.label < t[2]) {
+              _.label = t[2];
+
+              _.ops.push(op);
+
+              break;
+            }
+
+            if (t[2]) _.ops.pop();
+
+            _.trys.pop();
+
+            continue;
+        }
+
+        op = body.call(thisArg, _);
+      } catch (e) {
+        op = [6, e];
+        y = 0;
+      } finally {
+        f = t = 0;
+      }
+    }
+
+    if (op[0] & 5) throw op[1];
+    return {
+      value: op[0] ? op[1] : void 0,
+      done: true
+    };
+  }
+};
+
+var __importDefault = this && this.__importDefault || function (mod) {
+  return mod && mod.__esModule ? mod : {
+    "default": mod
+  };
+};
+
+var _this = this;
+
+Object.defineProperty(exports, "__esModule", {
+  value: true
+});
+
+var systemjs_1 = __importDefault(__webpack_require__(/*! systemjs */ "../../node_modules/systemjs/dist/system.js"));
+
+var debug_1 = __importDefault(__webpack_require__(/*! debug */ "../../node_modules/debug/src/browser.js"));
+
+var debug = debug_1.default("WebIO:imports");
+var URL_PROTOCOL_REGEX = /[A-Za-z]+:\/\//;
+
+var isRelativeUrl = function isRelativeUrl(url) {
+  return !(URL_PROTOCOL_REGEX.test(url) || url.startsWith("//"));
+};
+
+var _lastImportNumber = 0;
+
+var uniqueImportName = function uniqueImportName() {
+  return "import_" + (_lastImportNumber += 1);
+};
+
+exports.importJSUrl = function (name, url) {
+  var _a, _b;
+
+  debug("Importing JavaScript resource (" + name + ") from url (" + url + ").");
+  systemjs_1.default.config({
+    paths: (_a = {}, _a[name] = url, _a),
+    meta: (_b = {}, _b[name] = {
+      authorization: isRelativeUrl(url)
+    }, _b)
+  });
+  return systemjs_1.default.import(url);
+};
+
+exports.importJS = function (importData) {
+  debug("Importing JavaScript resource.", importData);
+  var url = importData.url,
+      blob = importData.blob;
+  var name = importData.name || uniqueImportName();
+
+  if (blob) {
+    throw new Error("Importing JS blob is not yet implemented.");
+  } else if (url) {
+    return exports.importJSUrl(name, url);
+  } else {
+    throw new Error("One of blob or url must be specified in call to importJS.");
+  }
+};
+/**
+ * Import some href/url in a `<link />` tag.
+ * @param url
+ */
+
+
+exports.importLink = function (url, options) {
+  if (document.querySelector("link[data-webio-import=\"" + url + "\"]")) {
+    debug("CSS resource (${url}) is already imported."); // This actually has a slight race condition where if the import actually
+    // is still loading, we'll resolve immediately. Probably(?) not a big deal.
+
+    return Promise.resolve();
+  }
+
+  return new Promise(function (resolve, reject) {
+    var link = document.createElement("link"); // Apply options
+
+    var rel = options.rel,
+        type = options.type,
+        media = options.media;
+    rel && (link.rel = rel);
+    type && (link.type = type);
+    media && (link.media = media);
+    link.href = url;
+    link.setAttribute("async", "");
+
+    link.onload = function () {
+      return resolve();
+    };
+
+    link.onerror = function () {
+      link.remove();
+      reject();
+    };
+
+    document.head.appendChild(link);
+  });
+};
+
+exports.importCSS = function (importData) {
+  debug("Importing CSS resource.", importData);
+  var url = importData.url,
+      blob = importData.blob;
+
+  if (url) {
+    return exports.importLink(url, {
+      rel: "stylesheet",
+      type: "text/css",
+      media: "all"
+    });
+  } else if (blob) {
+    throw new Error("Imports CSS blob is not yet implemented.");
+  } else {
+    throw new Error("One of blob or url must be specified in call to importCSS.");
+  }
+};
+
+exports.importSyncBlock = function (importData) {
+  return __awaiter(_this, void 0, void 0, function () {
+    var results, _i, _a, importItem, _b, _c;
+
+    return __generator(this, function (_d) {
+      switch (_d.label) {
+        case 0:
+          debug("Importing synchronous block.", importData);
+          results = [];
+          _i = 0, _a = importData.data;
+          _d.label = 1;
+
+        case 1:
+          if (!(_i < _a.length)) return [3
+          /*break*/
+          , 4];
+          importItem = _a[_i];
+          _c = (_b = results).push;
+          return [4
+          /*yield*/
+          , exports.importResource(importItem)];
+
+        case 2:
+          _c.apply(_b, [_d.sent()]);
+
+          _d.label = 3;
+
+        case 3:
+          _i++;
+          return [3
+          /*break*/
+          , 1];
+
+        case 4:
+          return [2
+          /*return*/
+          , results];
+      }
+    });
+  });
+};
+
+exports.importAsyncBlock = function (importData) {
+  return __awaiter(_this, void 0, void 0, function () {
+    return __generator(this, function (_a) {
+      debug("Importing asynchronous block.", importData);
+      return [2
+      /*return*/
+      , Promise.all(importData.data.map(exports.importResource))];
+    });
+  });
+};
+/**
+ * Import a _thing_.
+ * @param importData
+ */
+
+
+exports.importResource = function (importData) {
+  switch (importData.type) {
+    case "js"
+    /* JS */
+    :
+      return exports.importJS(importData);
+
+    case "css"
+    /* CSS */
+    :
+      return exports.importCSS(importData);
+
+    default:
+      throw new Error("Importing resource of type \"" + importData.type + "\" not supported.");
+  }
+};
+
+exports.importBlock = function (importData, config) {
+  if (config) {
+    systemjs_1.default.config(config);
+  }
+
+  switch (importData.type) {
+    case "sync_block"
+    /* SYNC_BLOCK */
+    :
+      return exports.importSyncBlock(importData);
+
+    case "async_block"
+    /* ASYNC_BLOCK */
+    :
+      return exports.importAsyncBlock(importData);
+
+    default:
+      throw new Error("Cannot import unknown block type: " + importData.type + ".");
+  }
+};
+
+console.warn("WebIO is registering SystemJS window global.");
+window.SystemJS = systemjs_1.default;
+
+if (systemjs_1.default._nodeRequire) {
+  // Fixes https://github.com/systemjs/systemjs/issues/1817
+  // SystemJS basically will try to detect if it should use NodeJS's built-in
+  // require to load things if it can, but because Webpack (sometimes, depending
+  // on the settings/target I think?) defines `require`, SystemJS can get
+  // confused. When it gets confused, it tries to use Webpack's require (which
+  // then complains since the things we're trying to load dynamically weren't
+  // loaded by Webpack). This is our hack to un-confuse SystemJS.
+  console.warn("Monkey-patchings SystemJS._nodeRequire to undefined.");
+  systemjs_1.default._nodeRequire = undefined;
+}
+
+/***/ }),
+
+/***/ "../../webio/dist/index.js":
+/*!**************************************************************************!*\
+  !*** /home/travigd/Trash/WebIO-throwaway-2/packages/webio/dist/index.js ***!
+  \**************************************************************************/
+/*! no static exports found */
+/***/ (function(module, exports, __webpack_require__) {
+
+"use strict";
+
+
+function __export(m) {
+  for (var p in m) {
+    if (!exports.hasOwnProperty(p)) exports[p] = m[p];
+  }
+}
+
+Object.defineProperty(exports, "__esModule", {
+  value: true
+});
+
+var WebIO_1 = __webpack_require__(/*! ./WebIO */ "../../webio/dist/WebIO.js");
+
+exports.default = WebIO_1.default;
+
+__export(__webpack_require__(/*! ./DomNode */ "../../webio/dist/DomNode.js"));
+
+__export(__webpack_require__(/*! ./IFrame */ "../../webio/dist/IFrame.js"));
+
+__export(__webpack_require__(/*! ./Node */ "../../webio/dist/Node.js"));
+
+__export(__webpack_require__(/*! ./Observable */ "../../webio/dist/Observable.js"));
+
+__export(__webpack_require__(/*! ./ObservableNode */ "../../webio/dist/ObservableNode.js"));
+
+__export(__webpack_require__(/*! ./Scope */ "../../webio/dist/Scope.js"));
+
+__export(__webpack_require__(/*! ./WebIO */ "../../webio/dist/WebIO.js"));
+
+__export(__webpack_require__(/*! ./createNode */ "../../webio/dist/createNode.js"));
+
+__export(__webpack_require__(/*! ./events */ "../../webio/dist/events.js"));
+
+__export(__webpack_require__(/*! ./imports */ "../../webio/dist/imports.js"));
+
+__export(__webpack_require__(/*! ./message */ "../../webio/dist/message.js"));
+
+__export(__webpack_require__(/*! ./setInnerHTML */ "../../webio/dist/setInnerHTML.js"));
+
+__export(__webpack_require__(/*! ./utils */ "../../webio/dist/utils.js"));
+
+/***/ }),
+
+/***/ "../../webio/dist/message.js":
+/*!****************************************************************************!*\
+  !*** /home/travigd/Trash/WebIO-throwaway-2/packages/webio/dist/message.js ***!
+  \****************************************************************************/
+/*! no static exports found */
+/***/ (function(module, exports, __webpack_require__) {
+
+"use strict";
+
+
+Object.defineProperty(exports, "__esModule", {
+  value: true
+});
+
+/***/ }),
+
+/***/ "../../webio/dist/setInnerHTML.js":
+/*!*********************************************************************************!*\
+  !*** /home/travigd/Trash/WebIO-throwaway-2/packages/webio/dist/setInnerHTML.js ***!
+  \*********************************************************************************/
+/*! no static exports found */
+/***/ (function(module, exports, __webpack_require__) {
+
+"use strict";
+
+
+Object.defineProperty(exports, "__esModule", {
+  value: true
+});
+/**
+ * Set the `innerHTML` attribute of a DOM element.
+ *
+ * This method will guarantee the execution of `<script />`s which is not done
+ * by simply setting `element.innerHTML = ...`.
+ *
+ * @param element - The DOM element whose `innerHTML` will be set.
+ * @param html - The HTML string to use; any special HTML characters (`<`, `>`, `&`, etc.)
+ *    should be &-escaped as appropriate (e.g. to set the displayed text to "foo&bar",
+ *    `html` should be `foo&amp;bar`).
+ */
+
+var setInnerHTML = function setInnerHTML(element, html) {
+  // In the original WebIO, we like to replace </script> with </_script> because the whole shebang
+  // is executed inside a <script></script> block (and we don't want to close it too early).
+  html = html.replace(/<\/_script>/g, "</script>");
+  element.innerHTML = html; // If the HTML contained any <script> tags, these are NOT executed when we assign the DOM
+  // innerHTML attribute, so we have to find-and-replace them to force them to execute.
+  // We do this weird array coercion because getElementsByTagName returns a
+  // HTMLCollection object, which updates as the contents of element update
+  // (creating an infinite loop).
+
+  var scripts = Array.from(element.getElementsByTagName("script"));
+  scripts.forEach(function (oldScript) {
+    var newScript = document.createElement("script"); // Copy all attributes.
+    // Unfortunately, attributes is a NamedNodeMap which doesn't have very
+    // ES6-like methods of manipulation
+
+    for (var i = 0; i < oldScript.attributes.length; ++i) {
+      var _a = oldScript.attributes[i],
+          name_1 = _a.name,
+          value = _a.value;
+      newScript.setAttribute(name_1, value);
+    } // Copy script content
+
+
+    newScript.appendChild(document.createTextNode(oldScript.innerHTML)); // Replace inside DOM
+
+    oldScript.parentNode.replaceChild(newScript, oldScript);
+  });
+};
+
+exports.default = setInnerHTML;
+
+/***/ }),
+
+/***/ "../../webio/dist/utils.js":
+/*!**************************************************************************!*\
+  !*** /home/travigd/Trash/WebIO-throwaway-2/packages/webio/dist/utils.js ***!
+  \**************************************************************************/
+/*! no static exports found */
+/***/ (function(module, exports, __webpack_require__) {
+
+"use strict";
+
+
+Object.defineProperty(exports, "__esModule", {
+  value: true
+});
+
+exports.getObservableName = function (specifier) {
+  if (typeof specifier === "string") {
+    return specifier;
+  }
+
+  return specifier.name;
+};
+
+/***/ }),
+
 /***/ "./blink.ts":
 /*!******************!*\
   !*** ./blink.ts ***!
@@ -18601,7 +18570,7 @@ module.exports = function (module) {
 
 "use strict";
 __webpack_require__.r(__webpack_exports__);
-/* harmony import */ var _webio_webio__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! @webio/webio */ "../../node_modules/@webio/webio/dist/index.js");
+/* harmony import */ var _webio_webio__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! @webio/webio */ "../../webio/dist/index.js");
 /* harmony import */ var _webio_webio__WEBPACK_IMPORTED_MODULE_0___default = /*#__PURE__*/__webpack_require__.n(_webio_webio__WEBPACK_IMPORTED_MODULE_0__);
 
 

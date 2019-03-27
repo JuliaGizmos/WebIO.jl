@@ -1,11 +1,11 @@
 {
   "packages": [
-    "webio",
+    "blink-provider",
+    "generic-http-provider",
     "jupyter-lab-provider",
     "jupyter-notebook-provider",
-    "blink-provider",
     "mux-provider",
-    "generic-http-provider"
+    "webio"
   ],
-  "version": "1.0.0"
+  "version": "1.0.2"
 }

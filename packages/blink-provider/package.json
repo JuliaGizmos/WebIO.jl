@@ -5,7 +5,7 @@
   "author": "Travis DePrato",
   "license": "MIT",
   "dependencies": {
-    "@webio/webio": "1.0.0"
+    "@webio/webio": "file:../webio"
   },
   "scripts": {
     "build": "webpack-cli",
@@ -13,5 +13,6 @@
   },
   "devDependencies": {
     "webpack-cli": "^3.3.0"
-  }
+  },
+  "version": "1.0.2"
 }
