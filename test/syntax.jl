@@ -1,3 +1,4 @@
+using Test
 using WebIO
 
 @testset "JSString Interpolations" begin
@@ -16,5 +17,10 @@ using WebIO
         script = "<script>$js_log</script>"
         @test script == """<script>console.log("Hello!");</script>"""
     end
-end
 
+    @testset "@js_str Escapes Correctly" begin
+        @test js"this.\$refs".s == "this.\$refs"
+        @test js"foo\$".s == "foo\$"
+        @test js"\$('div.my-id')".s == "\$('div.my-id')"
+    end
+end

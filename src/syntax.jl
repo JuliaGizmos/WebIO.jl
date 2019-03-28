@@ -55,27 +55,99 @@ end
 # Required to allow JSStrings to interpolate into normal strings correctly.
 Base.print(io::IO, x::JSString) = print(io, x.s)
 
-function str_interpolate(s, i0 = firstindex(s))
+"""
+    iterate_interpolations(s[, i])
+
+Advance the iterator to obtain the next string or expression to be interpolated. If no parts
+remain (where a part is either a string literal or an interpolation), return nothing; otherwise,
+return a tuple with either a string or an `Expr` and the new iteration state.
+
+# Examples
+See `test/syntax.jl`.
+"""
+function iterate_interpolations(s, i=firstindex(s))
+    # Notation:
+    # i0 - start index
+    # l - last index (length)
+    # i - current index (while iterating character-by-character)
+    # c - the most recently iterated character
+    # prev_c - the character before that (for checking for `\`)
+    # j - the end of the current chunk of string literal (when set)
+
+    i0 = i
     l = lastindex(s)
-    strs = []
-    prev_c = '_'
-    while i0 <= l
-        c, i = iterate(s, i0)
-        while !(prev_c != '\\' && c == '$') && i <= l
-            prev_c = c
-            c, i = iterate(s, i)
-        end
-        if i0 <= i
-            j = c == '$' ? prevind(s, prevind(s, i)) : prevind(s, i)
-            push!(strs, s[i0:j])
-        end
-        if i <= l
-            expr, i = Meta.parse(s, i, greedy=false, raise=false)
-            push!(strs, expr)
-        end
-        i0 = i
+
+    # Return nothing if we're past the end.
+    if i0 > l
+        return nothing
     end
-    strs
+
+    # Get the initial character (we have to handle the first character specially).
+    c, i = iterate(s, i0)
+
+    # Special case: when the first character is a $, it's an interpolation, so we return the
+    # `Expr` of the interpolated _thing_.
+    # For example, if `s` is `$foo</script>` (and `i` is 1), we should return `:foo`.
+    if c == '$'
+        # Note: at this point, `i` is after the `$`, so we parse `foo</script>` and return `foo`
+        return Meta.parse(s, i, greedy=false, raise=false)
+    end
+
+    # Iterate over characters, stopping when we hit a `$` or run iterate through end of the string.
+    prev_c = '\0'
+    while (c != '$') && i <= l
+        prev_c = c
+        c, i = iterate(s, i)
+    end
+
+    # If we have `\$`, we **don't** want to interpolate.
+    if c == '$' && prev_c == '\\'
+        # Suppose the string is `this.\$refs = $myvar`. We don't want to interpolate a variable
+        # named refs, but we do want to interpolate `myvar`. We set up indices j and k as follows.
+        # t h i s . \ $ r e f s ␣ = ␣ \ $ m y v a r
+        # i0      j     i           k             l
+        # We form the string as s[i0:j] * "$" * s[i:k].
+        # We get k by continuing to iterate, starting at position i (which is past the $ and thus
+        # treated like a literal string).
+        j = prevind(s, i, 3)
+        # If we're at the end of the string, `iterate_interpolations` returns `nothing`.
+        next_s, k = i < l ? iterate_interpolations(s, i) : ("", i)
+        return (s[i0:j] * "\$" * next_s), k
+    end
+
+    # We don't have a preceeding backslash, so we **do** want to interpolate the **next** piece.
+    # We do this by returning the current chunk of string literal and setting the iteration pointer
+    # to the `$` so that the next call to `iterate_interpolations` knows to return an `Expr`.
+    if c == '$'
+        # Suppose s is `alert($thing)`.
+        # Indices:           j i
+        # We get j by shifting back twice (once so that s[i] == '$', and again so that s[i] == '(').
+        # We also shift the position of the iterator back one so that the next call will have the
+        # string beginning with the $ and will thus start interpolating.
+        j = prevind(s, i, 2)
+        return s[i0:j], prevind(s, i)
+    end
+
+    # If we get here, we're at the end of the string and we didn't find any interpolations or
+    # escapes; so just return the rest of the string.
+    return s[i0:prevind(s, i)], i
+end
+
+"""
+    map_interpolations(f, s)
+
+Map over all of the interpolations in a given string. The items that are mapped are either strings
+or `Expr`s (depending on whether or the the item was a string literal or an interpolation).
+"""
+function map_interpolations(f::Function, s)
+    items = []
+    iter_state = iterate_interpolations(s)
+    while (iter_state != nothing)
+        item, i = iter_state
+        push!(items, item)
+        iter_state = iterate_interpolations(s, i)
+    end
+    return map(f, items)
 end
 
 """
@@ -93,8 +165,20 @@ Print Javascript code to `io` that constructs the equivalent of `x`.
 showjs(io, x::Any) = JSON.show_json(io, JSEvalSerialization(), x)
 showjs(io, x::AbstractString) = write(io, JSON.json(x))
 
+"""
+    @js_str(s)
+
+Create a `JSString` using a string literal and perform interpolations from Julia.
+
+# Examples
+```julia-repl
+julia> mystr = "foo"; mydict = Dict("foo" => "bar", "spam" => "eggs");
+julia> println(js"const myStr = \$mystr; const myObject = \$mydict;")
+const myStr = "foo"; const myObject = {"spam":"eggs","foo":"bar"};
+```
+"""
 macro js_str(s)
-    writes = map(str_interpolate(s)) do x
+    writes = map_interpolations(s) do x
         if isa(x, AbstractString)
             # If x is a string, it was specified in the js"..." literal so let it
             # through as-is.
