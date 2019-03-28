@@ -1,5 +1,6 @@
 using AssetRegistry
 using Sockets
+using WebIO
 
 struct IJuliaConnection <: AbstractConnection
     comm::IJulia.CommManager.Comm
@@ -44,13 +45,12 @@ function main()
     script_id = "webio-setup-$(rand(UInt64))"
     warning_div_id = "webio-warning-$(rand(UInt64))"
     warning_text = "Loading WebIO Jupyter extension on an ad-hoc basis. Consider enabling the WebIO nbextension for a stabler experience (this should happen automatically when building WebIO)."
-    display(HTML("""
-        <script id="$(script_id)">
+    setup_script = js"""
         // Immediately-invoked-function-expression to avoid global variables.
         (function() {
-            var warning_div = document.getElementById("$(warning_div_id)");
+            var warning_div = document.getElementById($(warning_div_id));
             var hide = function () {
-                var script = document.getElementById("$(script_id)");
+                var script = document.getElementById($(script_id));
                 var parent = script && script.parentElement;
                 var grandparent = parent && parent.parentElement;
                 if (grandparent) {
@@ -72,11 +72,11 @@ function main()
                     hide();
                     return;
                 }
-                console.warn($(jsexpr(warning_text)));
-                require([$(jsexpr(bundle))], function (webIOModule) {
+                console.warn($warning_text);
+                require([$bundle], function (webIOModule) {
                     webIOModule.load_ipython_extension();
                 });
-                warning_div.innerHTML = $(jsexpr("<strong>$(warning_text)</strong>"));
+                warning_div.innerHTML = $("<strong>$(warning_text)</strong>");
             } else if (window.location.pathname.includes("/lab")) {
                 // Guessing JupyterLa
                 console.log("Jupyter Lab detected; make sure the @webio/jupyter-lab-provider labextension is installed.");
@@ -84,6 +84,10 @@ function main()
                 return;
             }
         })();
+        """
+    display(HTML("""
+        <script>
+        $(setup_script)
         </script>
         <div
             id="$(warning_div_id)"
@@ -93,7 +97,8 @@ function main()
             Unable to load WebIO. Please make sure WebIO works for your Jupyter client.
             <!-- TODO: link to installation docs. -->
         </div>
-    """))
+        """
+    ))
 end
 
 WebIO.setup_provider(::Val{:ijulia}) = main() # calling setup_provider(Val(:ijulia)) will display the setup javascript
