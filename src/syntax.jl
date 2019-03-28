@@ -52,6 +52,9 @@ struct JSString
     s::String
 end
 
+# Required to allow JSStrings to interpolate into normal strings correctly.
+Base.print(io::IO, x::JSString) = print(io, x.s)
+
 function str_interpolate(s, i0 = firstindex(s))
     l = lastindex(s)
     strs = []
@@ -76,16 +79,16 @@ function str_interpolate(s, i0 = firstindex(s))
 end
 
 """
-`tojs(x)`
+    tojs(x)
 
 Returns a JSString object that constructs the same object as `x`
 """
 tojs(x) = x
 
 """
-`showjs(io, x)`
+    showjs(io, x)
 
-print to `io` javascript code that constructs the equivalent of `x` in JS
+Print Javascript code to `io` that constructs the equivalent of `x`.
 """
 showjs(io, x::Any) = JSON.show_json(io, JSEvalSerialization(), x)
 showjs(io, x::AbstractString) = write(io, JSON.json(x))
