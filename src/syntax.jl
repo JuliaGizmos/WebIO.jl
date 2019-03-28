@@ -56,6 +56,24 @@ end
 Base.print(io::IO, x::JSString) = print(io, x.s)
 
 """
+    Interpolator(s)
+
+An iterator that yields _interpolation chunks (_i.e._ a string if the chunk was a string literal and
+an `Expr` if the chunk was an interpolation).
+
+# Examples
+"""
+struct Interpolator{S<:AbstractString}
+    s::S
+end
+
+Base.iterate(
+    interp::Interpolator,
+    i=firstindex(interp.s)
+) = iterate_interpolations(interp.s, i)
+Base.IteratorSize(::Interpolator) = Base.SizeUnknown()
+
+"""
     iterate_interpolations(s[, i])
 
 Advance the iterator to obtain the next string or expression to be interpolated. If no parts
@@ -134,23 +152,6 @@ function iterate_interpolations(s, i=firstindex(s))
 end
 
 """
-    map_interpolations(f, s)
-
-Map over all of the interpolations in a given string. The items that are mapped are either strings
-or `Expr`s (depending on whether or the the item was a string literal or an interpolation).
-"""
-function map_interpolations(f::Function, s)
-    items = []
-    iter_state = iterate_interpolations(s)
-    while (iter_state != nothing)
-        item, i = iter_state
-        push!(items, item)
-        iter_state = iterate_interpolations(s, i)
-    end
-    return map(f, items)
-end
-
-"""
     tojs(x)
 
 Returns a JSString object that constructs the same object as `x`
@@ -178,7 +179,7 @@ const myStr = "foo"; const myObject = {"spam":"eggs","foo":"bar"};
 ```
 """
 macro js_str(s)
-    writes = map_interpolations(s) do x
+    writes = map(Interpolator(s)) do x
         if isa(x, AbstractString)
             # If x is a string, it was specified in the js"..." literal so let it
             # through as-is.
