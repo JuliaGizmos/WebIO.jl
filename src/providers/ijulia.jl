@@ -1,5 +1,6 @@
 using AssetRegistry
 using Sockets
+using WebIO
 
 struct IJuliaConnection <: AbstractConnection
     comm::IJulia.CommManager.Comm
@@ -72,11 +73,11 @@ function main()
                     hide();
                     return;
                 }
-                console.warn($(jsexpr(warning_text)));
-                require([$(jsexpr(bundle))], function (webIOModule) {
+                console.warn($(showjs(warning_text)));
+                require([$(showjs(bundle))], function (webIOModule) {
                     webIOModule.load_ipython_extension();
                 });
-                warning_div.innerHTML = $(jsexpr("<strong>$(warning_text)</strong>"));
+                warning_div.innerHTML = $(showjs("<strong>$(warning_text)</strong>"));
             } else if (window.location.pathname.includes("/lab")) {
                 // Guessing JupyterLa
                 console.log("Jupyter Lab detected; make sure the @webio/jupyter-lab-provider labextension is installed.");
