@@ -232,9 +232,6 @@ class WebIO {
     // Reset the contents of the node we're mounting into.
     element.innerHTML = "";
     element.classList.add("webio-mountpoint");
-    // Temporary hack for @piever
-    // https://github.com/JuliaGizmos/WebIO.jl/pull/211#issuecomment-429672805
-    element.classList.add("interactbulma");
 
     element.appendChild(node.element);
   }
