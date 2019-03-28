@@ -22,5 +22,23 @@ using WebIO
         @test js"this.\$refs".s == "this.\$refs"
         @test js"foo\$".s == "foo\$"
         @test js"\$('div.my-id')".s == "\$('div.my-id')"
+
+        @test js"'foo\\bar'".s == "'foo\\bar'"
+
+        foo = "foo"
+        @test js"\\$foo".s == "\\\"foo\""
+
+        # See note about Julia and weirdness with escaping when quotes are involved.
+        @test js"""console.log("\\")""".s == """console.log(\"\\\")"""
+        @test js"""console.log(\"\\\")""".s == """console.log(\"\\\")"""
+        @test js"""foo = '\\\\'""".s == raw"""foo = '\\'"""
+    end
+
+    @testset "@js_str interpolates JSStrings correctly" begin
+        myfunc = js"alert";
+        @test js"$myfunc(123)".s == "alert(123)"
+
+        myvalue = js"a + 1"
+        @test js"x = $myvalue".s == "x = a + 1"
     end
 end

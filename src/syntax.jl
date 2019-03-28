@@ -67,10 +67,7 @@ struct Interpolator{S<:AbstractString}
     s::S
 end
 
-Base.iterate(
-    interp::Interpolator,
-    i=firstindex(interp.s)
-) = iterate_interpolations(interp.s, i)
+Base.iterate(interp::Interpolator, args...) = iterate_interpolations(interp.s, args...)
 Base.IteratorSize(::Interpolator) = Base.SizeUnknown()
 
 """
@@ -87,10 +84,12 @@ function iterate_interpolations(s, i=firstindex(s))
     # Notation:
     # i0 - start index
     # l - last index (length)
-    # i - current index (while iterating character-by-character)
     # c - the most recently iterated character
-    # prev_c - the character before that (for checking for `\`)
-    # j - the end of the current chunk of string literal (when set)
+    # i - current index (while iterating character-by-character)
+    #     note: this is actually the index of the character **after** c
+    # j - the end of the current "chunk" of string literal (when set)
+    # escape_next - true if we should escape the next character
+    # escape_current - true if c was preceded by an escape
 
     i0 = i
     l = lastindex(s)
@@ -111,15 +110,22 @@ function iterate_interpolations(s, i=firstindex(s))
         return Meta.parse(s, i, greedy=false, raise=false)
     end
 
+    escape_next = (c == '\\')
+    escape_current = false
+
     # Iterate over characters, stopping when we hit a `$` or run iterate through end of the string.
-    prev_c = '\0'
     while (c != '$') && i <= l
-        prev_c = c
         c, i = iterate(s, i)
+        if escape_next
+            escape_current = true
+            break
+        elseif c == '\\'
+            escape_next = true
+        end
     end
 
     # If we have `\$`, we **don't** want to interpolate.
-    if c == '$' && prev_c == '\\'
+    if c == '$' && escape_current
         # Suppose the string is `this.\$refs = $myvar`. We don't want to interpolate a variable
         # named refs, but we do want to interpolate `myvar`. We set up indices j and k as follows.
         # t h i s . \ $ r e f s ␣ = ␣ \ $ m y v a r
@@ -131,6 +137,25 @@ function iterate_interpolations(s, i=firstindex(s))
         # If we're at the end of the string, `iterate_interpolations` returns `nothing`.
         next_s, k = i < l ? iterate_interpolations(s, i) : ("", i)
         return (s[i0:j] * "\$" * next_s), k
+    end
+
+    if escape_current
+        # Julia's string literal escaping logic gets wonky when quotes are involved.
+        # For example, `console.log("\\")` gets passed to us as `console.log("\")`
+        # whereas `foo = '\\\\'` gets passed to us exactly as written. The issue seems to be that
+        # whenever quotes are involved, it eagerly consumes the backslashes in a weird way; but the
+        # upshot of this is that if a user ever writes `\"`, it gets passed to as as just `"`, so
+        # if we ever see `\"`, we know that the user actually wrote `\\"`.
+        if c == '"'
+            # j is the index of the quote (_i.e._ s[j] = '"')
+            j = prevind(s, i)
+            # We get the next chunk of string...
+            next_s, k = i < l ? iterate_interpolations(s, i) : ("", i)
+            # And then concatenate it.
+            return s[i0:j] * next_s, k
+        end
+        j = prevind(s, i, 3)
+        return s[i0:j] * "$c", i
     end
 
     # We don't have a preceeding backslash, so we **do** want to interpolate the **next** piece.
@@ -183,7 +208,7 @@ macro js_str(s)
         if isa(x, AbstractString)
             # If x is a string, it was specified in the js"..." literal so let it
             # through as-is.
-            :(write(io, $(esc(x))))
+            :(write(io, $(x)))
         else
             # Otherwise, it's some kind of interpolation so we need to generate a
             # JavaScript representation of whatever it is/whatever it evaluates to.
