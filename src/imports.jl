@@ -1,13 +1,82 @@
-export Sync
+export Asset, Async, Sync 
+
+struct Asset
+    filetype::String
+    name::Union{Nothing, String}
+    url::String
+end
+
+Asset(name, url) = Asset(getextension(url), name, url)
+Asset(url) = Asset(nothing, url)
+Asset(x::Pair) = Asset(x[1], x[2])
+Asset(x::Asset) = x
+function Asset(x::Dict)
+    # TODO: deprecate this method
+    x1 = Dict(string(k) => v for (k, v) in x)
+    if haskey(x, "url")
+        key = "url"
+    else
+        error("Dict import specification doesn't have key :url")
+    end
+
+    if haskey(x1, "type")
+        return Asset(x1["type"], get(x1, "name", nothing),x1["url"])
+    else
+        return Asset(x1["type"], get(x1, "name", nothing),x1["url"])
+    end
+end
+
+function JSON.lower(asset::Asset)
+    Dict(
+         "type" => asset.filetype,
+         "url"  => dep2url(asset.url),
+         "name" => asset.name,
+    )
+end
+
+function tojs(asset::Asset)
+    return js"WebIO.importResource($(JSON.lower(asset)))"
+end
+
+# Adding assets to scopes
+import!(scope::Scope, x) = push!(scope.imports, Asset(x))
 
 struct Sync
-    xs::AbstractArray
+    imports::AbstractArray
+end
+struct Async
+    imports::AbstractArray
+end
+
+# This allow js"await $(Async([....]))" on a tree of assets!
+function tojs(asset::Union{Async,Sync})
+    return js"WebIO.importBlock($(lowerassets(asset)))"
+end
+
+# The output of lowerassets is initially sent with the Scope
+# this should trigger loading of the assets before onmount callbacks
+lowerassets(x) = JSON.lower(Asset(x))
+lowerassets(x::Asset) = JSON.lower(x)
+lowerassets(x::Async) = Dict(
+    "type" => "async_block",
+    "data" => map(lowerassets, x.imports),
+)
+lowerassets(x::AbstractArray) = lowerassets(Async(x))
+lowerassets(x::Sync) = Dict(
+    "type"=>"sync_block",
+    "data" => map(lowerassets, x.imports),
+)
+
+
+## Utilities
+
+function getextension(x)
+    lowercase(last(split(first(split(x, "?")), ".")))
 end
 
 function islocal(x)
     !any(startswith.(x, ("//", "https://", "http://", "ftp://")))
 end
-
 
 function path2url(path::AbstractString)
     if startswith(path, "/pkg/")
@@ -46,53 +115,9 @@ function dep2url(dep::AbstractString)
     islocal(dep) || return dep
     query_parts = split(dep, "?") # remove anything after ?
     file_path = first(query_parts)
-    query_part = length(query_parts) == 2 ? query_parts[2] : ""
+    query_part = length(query_parts) >= 2 ? "?" * query_parts[2] : ""
     url = path2url(file_path)
     return string(baseurl[], url, query_part)
-end
-
-
-function lowerdeps(name, imp)
-    url = dep2url(imp)
-    extension = split(url, '.')[end]
-    if !(extension in ("js", "css", "html"))
-        error("WebIO can't load dependency of unknown type $url")
-    end
-    return Dict{String,Any}(
-        "type" => extension,
-        "name" => name,
-        "url" => url
-    )
-end
-
-lowerdeps(x::String) = lowerdeps(nothing, x)
-lowerdeps(x::Pair) = lowerdeps(x[1], x[2])
-function lowerdeps(x::Dict)
-    if haskey(x, "url")
-        key = "url"
-    elseif haskey(x, :url)
-        key = :url
-    else
-        error("Dict import specification doesn't have key :url")
-    end
-
-    url = x[key]
-    dict = lowerdeps(nothing, url)
-    x1 = copy(x)
-    x1[key] = dict["url"]
-    x1
-end
-
-lowerdeps(xs::AbstractArray) = Dict(
-    "type" => "async_block",
-    "data" => map(lowerdeps, xs),
-)
-
-lowerdeps(x::Sync) = Dict("type"=>"sync_block",
-                          "data" => map(lowerdeps, x.xs))
-
-function import!(scope, x)
-    push!(scope.imports, x)
 end
 
 Base.@deprecate adddeps!(scope, x) import!(scope, x)

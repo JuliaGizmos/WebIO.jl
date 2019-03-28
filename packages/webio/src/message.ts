@@ -1,4 +1,52 @@
-export interface WebIOMessage {
+export type WebIORequest = EvalRequest;
+export type WebIOResponse = EvalResponse;
+
+export type WebIOCommand = (
+  UpdateObservableMessage
+  | SetupScopeMessage
+);
+
+export interface RequestBase {
+  type: "request";
+  scope: string;
+  request: WebIORequestType;
+  requestId: string;
+}
+
+export interface ResponseBase {
+  type: "response";
+  request: WebIORequestType;
+  requestId: string;
+}
+
+export interface CommandBase {
+  type: "command";
+  scope: string;
+  command: WebIOCommandType;
+}
+
+export interface EvalRequest extends RequestBase {
+  request: WebIORequestType.EVAL;
+  expression: string;
+}
+export interface EvalResponse extends ResponseBase {
+  request: WebIORequestType.EVAL;
+  result: any;
+}
+
+export interface UpdateObservableMessage<T = any> extends CommandBase {
+  command: WebIOCommandType.UPDATE_OBSERVABLE;
+  id: string;
+  name: string;
+  value: T;
+}
+
+export interface SetupScopeMessage extends CommandBase {
+  command: WebIOCommandType.SETUP_SCOPE;
+  scope: string;
+}
+
+export interface TypeUnsafeWebIOMessage {
   /**
    * The id of the scope that the message is associated with.
    */
@@ -25,7 +73,7 @@ export interface WebIOMessage {
    *    which is also more inline with how data is normally transmitted as
    *    a JSON object rather than a string.
    */
-  command: WebIOCommand | string;
+  command: WebIOCommandType;
 
   /**
    * The data associated with the command.
@@ -33,10 +81,13 @@ export interface WebIOMessage {
   data: any;
 }
 
-
-export const enum WebIOCommand {
-  SETUP_SCOPE = "_setup_scope",
-  EVAL = "Basics.eval",
+export const enum WebIORequestType {
+  EVAL = "eval",
 }
 
-export type WebIOWireMessage = WebIOMessage & {type: "message"};
+export const enum WebIOCommandType {
+  SETUP_SCOPE = "setup_scope",
+  UPDATE_OBSERVABLE = "update_observable",
+}
+
+export type WebIOMessage = WebIORequest | WebIOCommand | WebIOResponse;

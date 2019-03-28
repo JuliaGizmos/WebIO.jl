@@ -23,7 +23,7 @@ const WEBIO_METADATA_KEY = "@webio";
 /**
  * The current WebIO instance.
  */
-let webIO = null;
+export let webIO = null;
 
 /**
  * Get WebIO metadata embedded within the notebook.
@@ -114,6 +114,7 @@ export const initializeWebIO = (force = false) => {
   window.WebIO = webIO;
 
   const commManager = Jupyter.notebook.kernel.comm_manager;
+  commManager.unregister_target("webio_comm");
   commManager.register_target("webio_comm", () => {});
   const comm = commManager.new_comm(
     "webio_comm", // target_name
@@ -135,8 +136,6 @@ export const initializeWebIO = (force = false) => {
     lastCommId: comm.comm_id,
     lastKernelId: Jupyter.notebook.kernel.id,
   });
-
-  rerenderWebIOCells();
 };
 
 /**
@@ -150,6 +149,11 @@ export const initializeWebIO = (force = false) => {
  */
 const appendWebIONode = function (data, metadata, element) {
   debug("Rendering WebIO MIME type (called by Jupyter).", data);
+
+  if (webIO === null) {
+    debug("Initializing WebIO");
+    initializeWebIO();
+  }
 
   // Set metadata attributes if not already set.
   metadata[WEBIO_NODE_MIME] = metadata[WEBIO_NODE_MIME] || {};
@@ -242,35 +246,7 @@ export const load_ipython_extension = () => {
     return setTimeout(load_ipython_extension, INITIALIZATION_DEBOUNCE);
   }
   initializeJupyterOutputType();
-
-  // Initialize WebIO and re-initialize every time the kernel is restarted/ready.
-  // This `comm_info` thing is an enormous hack around the fact that we can't
-  // figure out if the kernel is ready when the extension is loaded; it
-  // usually ISN'T if the notebook is cold (being opened for the first time) and
-  // usually IS if the notebook already has a kernel attached. We need it to be
-  // ready when we initialize WebIO so that the comm is in place appropriately
-  // ... or something? I don't exactly remember why.
-  // comm_info gets information (that we then ignore) about open comms of the
-  // specified target (here, it's "" because we don't care) then calls a
-  // callback function with the result; this ensures that the kernel is
-  // initialized and ready when we run initializeWebIO.
-  // TODO: rewrite the above now that we use send_shell_message
-  Jupyter.notebook.kernel.send_shell_message(
-    "kernel_info_request",
-    {},
-    {
-      shell: {
-        reply: () => {
-          debug("Initializing WebIO (got kernel_info_reply).");
-          initializeWebIO();
-        },
-      },
-    },
-  );
-  Jupyter.notebook.events.on("kernel_ready.Kernel", () => {
-    debug("Initializing WebIO (got kernel_ready.Kernel event).");
-    initializeWebIO();
-  });
+  rerenderWebIOCells();
 
   // Mark the kernelId as null so that when we restart, we're forced to
   // re-create the WebIO instance.
@@ -278,6 +254,7 @@ export const load_ipython_extension = () => {
     "kernel_killed.Session kernel_restarting.Kernel",
     () => {
       setWebIOMetadata();
+      webIO = null;
     },
   );
 };

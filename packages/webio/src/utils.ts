@@ -16,7 +16,7 @@
  * }
  * ```
  */
-export type OptionalKeys<T, K> = Pick<T, Exclude<keyof T, K>> & Partial<T>
+export type OptionalKeys<T, K extends keyof T> = Pick<T, Exclude<keyof T, K>> & Partial<Pick<T, K>>
 
 export type ObservableGlobalSpecifier = {name: string, scope:string};
 /**

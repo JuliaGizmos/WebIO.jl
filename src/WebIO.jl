@@ -12,13 +12,14 @@ abstract type AbstractConnection end
 
 include("util.jl")
 include("node.jl")
-include("observable.jl")
 include("syntax.jl")
+include("observable.jl")
 include("scope.jl")
 include("render.jl")
 include("connection.jl")
 include("iframe.jl")
 include("devsetup.jl")
+include("rpc.jl")
 
 
 """

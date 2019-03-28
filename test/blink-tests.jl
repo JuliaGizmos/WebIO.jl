@@ -23,12 +23,25 @@ function with_timeout(f::Function, timeout)
     take!(c)
 end
 
-@testset "Blink mocks" begin
-    # open window and wait for it to initialize
-    # w = Window(Dict(:show => true))
-    # Blink.opentools(w)
-    w = Window(Dict(:show => false))
+"""
+    open_window()
 
+Open a window, optionally showing it when the BLINK_DEBUG environment variable
+is set (to allow for seeing what happens in the Electron console).
+"""
+function open_window()
+    if haskey(ENV, "BLINK_DEBUG")
+        w = Window(Dict(:show => true))
+        opentools(w)
+        return w
+    end
+    return Window(Dict(:show => false))
+end
+
+# IMPORTANT: Cannot open Window's inside of @testsets.
+# See https://github.com/JunoLab/Blink.jl/pull/193 for information.
+w = open_window()
+@testset "Blink mocks" begin
     body!(w, dom"div"("hello, blink"))
     sleep(5) # wait for it to render.
 
@@ -106,9 +119,8 @@ end
     end
 end
 
+window = open_window()
 @testset "SVG/Namespaces" begin
-    window = Window(Dict(:show => false))
-
     n = 10
     color = "yellow"
     h, w = 100, 100
@@ -140,8 +152,8 @@ end
 
 WebIO.register_renderable(ExampleRenderableType)
 
+w = open_window()
 @testset "register_renderable" begin
-    w = Window(Dict(:show => false))
     body!(w, ExampleRenderableType())
     @test example_renderable_was_rendered
 end

@@ -9,6 +9,7 @@ export Scope,
        setobservable!,
        on, onjs,
        evaljs,
+       onmount,
        onimport,
        ondependencies,
        adddeps!,
@@ -96,15 +97,16 @@ mutable struct Scope
     observs::Dict{String, Tuple{AbstractObservable, Union{Nothing,Bool}}} # bool marks if it is synced
     private_obs::Set{String}
     systemjs_options
-    imports
-
+    imports::AbstractArray
     # A collection of handler functions associated with various observables in
     # this scope. Of the form
     # "observable-name" => ["array", "of", "JS", "strings"]
-    # where each JS-string is a function that is evoked when the observable
+    # where each JS-string is a function that is invoked when the observable
     # changes.
     jshandlers
     pool::ConnectionPool
+
+    mount_callbacks::Vector{JSString}
 end
 
 const scopes = Dict{String, Scope}()
@@ -116,13 +118,22 @@ function Scope(id::String=newid("scope");
         private_obs::Set{String}=Set{String}(),
         dependencies=nothing,
         systemjs_options=nothing,
-        imports=[],
-        jshandlers::Dict=Dict()
+        imports=nothing,
+        jshandlers::Dict=Dict(),
+        mount_callbacks::Vector{JSString}=Vector{JSString}(),
     )
 
     if dependencies !== nothing
-        @warn("dependencies key word argument is deprecated, use imports instead")
+        @warn("dependencies keyword argument is deprecated, use WebAsset instead.", maxlog=1)
         imports = dependencies
+    end
+
+    if imports !== nothing
+        imports = map(Asset, imports)
+    end
+
+    if imports === nothing
+        imports = []
     end
 
     if haskey(scopes, id)
@@ -131,7 +142,7 @@ function Scope(id::String=newid("scope");
 
     pool = ConnectionPool(outbox)
 
-    scopes[id] = Scope(id, dom, observs, private_obs, systemjs_options, imports, jshandlers, pool)
+    scopes[id] = Scope(id, dom, observs, private_obs, systemjs_options, imports, jshandlers, pool, mount_callbacks)
 end
 Base.@deprecate Scope(id::AbstractString; kwargs...) Scope(; id=id, kwargs...)
 
@@ -237,8 +248,9 @@ function JSON.lower(x::Scope)
     Dict(
         "id" => x.id,
         "systemjs_options" => x.systemjs_options,
-        "imports" => lowerdeps(x.imports),
+        "imports" => lowerassets(x.imports),
         "handlers" => x.jshandlers,
+        "mount_callbacks" => x.mount_callbacks,
         "observables" => obs_dict)
 end
 
@@ -246,57 +258,62 @@ function render(s::Scope)
     node(s, s.dom)
 end
 
-function send(ctx::Scope, key, data)
-    command_data = Dict(
+"""
+    send_command(scope, command[, "key" => "value", ...])
+
+Send a command message for a scope. A command is essentially a fire-and-forget
+style message; no response or acknowledgement is expected.
+"""
+function send_command(scope::Scope, command, data::Pair...)
+    message = Dict(
       "type" => "command",
-      "scope" => ctx.id,
-      "command" => key,
-      "data" => data,
+      "command" => command,
+      "scope" => scope.id,
+      data...
     )
-    send(ctx.pool, command_data)
+    send(scope.pool, message)
     nothing
 end
 
+"""
+Send a command to update the frontend's value for an observable.
+"""
+send_update_observable(scope::Scope, name::AbstractString, value) = send_command(
+    scope,
+    "update_observable",
+    "name" => name,
+    "value" => value,
+)
+
+send_request(scope::Scope, request, data::Pair...) = send_request(scope.pool, request, "scope" => scope.id, data...)
+
 macro evaljs(ctx, expr)
     @warn("@evaljs is deprecated, use evaljs function instead")
-    :(send($(esc(ctx)), "Basics.eval", $(esc(expr))))
+    :(send_request($(esc(ctx)), "eval", "expression" => $(esc(expr))))
 end
 
 function evaljs(ctx, expr)
-    send(ctx, "Basics.eval", expr)
+    send_request(ctx, "eval", "expression" => expr)
 end
 
-function onimport(scope::Scope, f)
-    promise_name = "importsLoaded"
-    jshandlers = scope.jshandlers
-    if !haskey(jshandlers, "_promises")
-        jshandlers["_promises"] = Dict()
-    end
-    if !haskey(jshandlers["_promises"], promise_name)
-        jshandlers["_promises"][promise_name] = []
-    end
-    push!(jshandlers["_promises"][promise_name], f)
+function onmount(scope::Scope, f::JSString)
+    push!(scope.mount_callbacks, f)
+    return scope
 end
+
+function onimport(scope::Scope, f::JSString)
+    onmount(scope, js"""
+        function () {
+            var handler = ($(f));
+            ($(Async(scope.imports))).then((imports) => handler.apply(this, imports));
+        }
+        """)
+end
+
+onmount(scope::Scope, f) = onmount(scope, JSString(f))
+onimport(scope::Scope, f) = onimport(scope, JSString(f))
 
 Base.@deprecate ondependencies(ctx, jsf) onimport(ctx, jsf)
-
-const waiting_messages = Dict{String, Condition}()
-
-function send_sync(ctx::Scope, key, data)
-    msgid = string(rand(UInt128))
-    command_data = Dict(
-      "type" => "command",
-      "scope" => ctx.id,
-      "messageId" => msgid,
-      "command" => key,
-      "data" => data,
-      "sync" => true,
-    )
-    cond = Condition()
-    waiting_messages[msgid] = cond
-    send(ctx.outbox, command_data)
-    wait(cond)
-end
 
 """
 A callable which updates the frontend
@@ -342,7 +359,7 @@ function ensure_sync(ctx, key)
     ob = ctx.observs[key][1]
     # have at most one synchronizing handler per observable
     if !any(x->isa(x, SyncCallback) && x.ctx==ctx, listeners(ob))
-        f = SyncCallback(ctx, (msg) -> send(ctx, key, msg))
+        f = SyncCallback(ctx, (msg) -> send_update_observable(ctx, key, msg))
         on(SyncCallback(ctx, f), ob)
     end
 end

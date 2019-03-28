@@ -49,17 +49,41 @@ function install_ijulia_config()
     @label jsondone
 end
 
+function get_jupyter_datadir()
+    try
+        return readline(open(`jupyter --data-dir`))
+    catch (e)
+        # Is there a way to use Conda.jl if it's installed?
+        @warn "Didn't detect Jupyter."
+    end
+
+    # Try guessing based on OS
+    # https://jupyter.readthedocs.io/en/latest/projects/jupyter-directories.html
+    if Sys.iswindows()
+        # Is this right?
+        return joinpath(homedir(), "%APPDATA%", "jupyter")
+    elseif Sys.isapple()
+        return joinpath(homedir(), "Library", "Jupyter")
+    else
+        # Maybe need to check XDG_DATA_HOME environment variable?
+        return joinpath(homedir(), ".local", "share", "jupyter")
+    end
+end
+
 """
 Install the Jupyter WebIO notebook extension.
 """
 function install_webio_nbextension()
-    extension_dir = joinpath(homedir() , ".local", "share", "jupyter", "nbextensions")
+    extension_dir = joinpath(get_jupyter_datadir(), "nbextensions")
     mkpath(extension_dir)
+
+    # I think the config dir is always ~/.jupyter, even on Windows.
     config_dir = joinpath(homedir(), ".jupyter", "nbconfig")
     mkpath(config_dir)
     config_file_json = joinpath(config_dir, "notebook.json")
 
     # Copy the nbextension files.
+    @info "Copying WebIO nbextension files to $(extension_dir)."
     cp(
         joinpath(@__DIR__, "../packages/jupyter-notebook-provider/dist"),
         joinpath(extension_dir, "webio"),

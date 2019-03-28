@@ -58,11 +58,17 @@ function main()
                 }
                 warning_div.style.display = "none";
             };
-            if (window.require && require.defined) {
+            if (typeof Jupyter !== "undefined") {
+                console.log("WebIO detected Jupyter notebook environment.");
                 // Jupyter notebook.
-                if (require.defined("nbextensions/webio/main")
-                        || require.defined($(jsexpr(bundle)))) {
+                var extensions = (
+                    Jupyter
+                    && Jupyter.notebook.config.data
+                    && Jupyter.notebook.config.data.load_extensions
+                );
+                if (extensions && extensions["webio/main"]) {
                     // Extension already loaded.
+                    console.log("Jupyter WebIO nbextension detected; not loading ad-hoc.");
                     hide();
                     return;
                 }
@@ -72,8 +78,10 @@ function main()
                 });
                 warning_div.innerHTML = $(jsexpr("<strong>$(warning_text)</strong>"));
             } else if (window.location.pathname.includes("/lab")) {
-                // Guessing JupyterLab
-                warning_div.innerHTML = "WebIO does not support JupyterLab yet.";
+                // Guessing JupyterLa
+                console.log("Jupyter Lab detected; make sure the @webio/jupyter-lab-provider labextension is installed.");
+                hide();
+                return;
             }
         })();
         </script>

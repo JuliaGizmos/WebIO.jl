@@ -123,6 +123,7 @@ function Base.show(io::IO, m::MIME"text/html", x::Node)
                 WebIO.mount(
                     document.querySelector('[data-webio-mountpoint="$(mountpoint_id)"]'),
                     $(escape_json(x)),
+                    window,
                 );
             } else {
                 document

@@ -1,0 +1,15 @@
+{
+  "extends": "../tsconfig.json",
+  "compilerOptions": {
+    "outDir": "dist",
+    "rootDir": "src",
+    "target": "es5",
+    /*
+     * JupyterLab doesn't use strict null checks, which we want to use, so
+     * we skip the checking of those libraries (otherwise we get lots of
+     * errors to the tune of 'xxx | undefined is not assignable to xxx'
+     */
+    "skipLibCheck": true,
+  },
+  "include": ["src/*"]
+}

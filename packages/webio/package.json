@@ -4,14 +4,22 @@
   "repository": "https://github.com/JuliaGizmos/WebIO.jl",
   "author": "Travis DePrato",
   "license": "MIT",
-  "version": "1.0.0",
-  "main": "src/",
+  "version": "1.0.2",
+  "main": "dist/index.js",
+  "browser": "dist/index.js",
+  "types": "dist/index.d.ts",
   "dependencies": {
+    "@types/debug": "^4.1.2",
     "@types/systemjs": "^0.20.6",
-    "systemjs": "^0.20.19"
+    "debug": "^4.1.1",
+    "systemjs": "0.21.0"
   },
   "devDependencies": {
-    "webpack-cli": "^3.1.2"
+    "typescript": "^3.3.4000"
   },
-  "scripts": {}
+  "scripts": {
+    "build": "tsc -p .",
+    "build-prod": "npm run build",
+    "prepack": "npm run build"
+  }
 }

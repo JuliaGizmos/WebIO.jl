@@ -126,7 +126,7 @@ const isRelativeUrl = (url: string) => {
 let _lastImportNumber = 0;
 const uniqueImportName = () => `import_${_lastImportNumber += 1}`;
 
-const importJSUrl = (name: string, url: string) => {
+export const importJSUrl = (name: string, url: string) => {
   debug(`Importing JavaScript resource (${name}) from url (${url}).`);
   SystemJS.config({
     paths: {
@@ -159,7 +159,7 @@ export const importJS = (importData: JSImport): any => {
  * Import some href/url in a `<link />` tag.
  * @param url
  */
-const importLink = (url: string, options: {rel?: string, type?: string, media?: string}) => {
+export const importLink = (url: string, options: {rel?: string, type?: string, media?: string}) => {
   if (document.querySelector(`link[data-webio-import="${url}"]`)) {
     debug("CSS resource (${url}) is already imported.");
     // This actually has a slight race condition where if the import actually
@@ -250,3 +250,14 @@ export const importBlock = (importData: BlockImport, config?: SystemJSConfig) =>
 
 console.warn("WebIO is registering SystemJS window global.");
 (window as any).SystemJS = SystemJS;
+if (SystemJS._nodeRequire) {
+  // Fixes https://github.com/systemjs/systemjs/issues/1817
+  // SystemJS basically will try to detect if it should use NodeJS's built-in
+  // require to load things if it can, but because Webpack (sometimes, depending
+  // on the settings/target I think?) defines `require`, SystemJS can get
+  // confused. When it gets confused, it tries to use Webpack's require (which
+  // then complains since the things we're trying to load dynamically weren't
+  // loaded by Webpack). This is our hack to un-confuse SystemJS.
+  console.warn("Monkey-patchings SystemJS._nodeRequire to undefined.");
+  (SystemJS as any)._nodeRequire = undefined;
+}

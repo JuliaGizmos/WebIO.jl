@@ -1,0 +1,32 @@
+{
+  "name": "@webio/jupyter-lab-provider",
+  "description": "JupyterLab extension to enable WebIO interactivity.",
+  "repository": "https://github.com/JuliaGizmos/WebIO.jl",
+  "author": "Travis DePrato",
+  "license": "MIT",
+  "main": "dist/labextension.js",
+  "version": "1.0.2",
+  "dependencies": {
+    "@jupyterlab/application": "^0.19.1",
+    "@jupyterlab/docmanager": "^0.19.1",
+    "@jupyterlab/docregistry": "^0.19.1",
+    "@jupyterlab/notebook": "^0.19.2",
+    "@jupyterlab/rendermime-interfaces": "^1.2.1",
+    "@jupyterlab/services": "^3.2.1",
+    "@phosphor/messaging": "^1.2.2",
+    "@phosphor/widgets": "^1.6.0",
+    "@types/debug": "^4.1.2",
+    "@webio/webio": "file:../webio",
+    "debug": "^4.1.1"
+  },
+  "scripts": {
+    "build": "tsc -p .",
+    "build-prod": "tsc -p ."
+  },
+  "jupyterlab": {
+    "extension": true
+  },
+  "files": [
+    "dist/*"
+  ]
+}
