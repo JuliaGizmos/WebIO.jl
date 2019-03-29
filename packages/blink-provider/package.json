@@ -11,8 +11,5 @@
     "build": "webpack-cli",
     "build-prod": "webpack-cli -p"
   },
-  "devDependencies": {
-    "webpack-cli": "^3.3.0"
-  },
   "version": "1.0.2"
 }
