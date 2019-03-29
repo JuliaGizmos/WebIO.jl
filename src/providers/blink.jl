@@ -12,7 +12,8 @@ struct BlinkConnection <: WebIO.AbstractConnection
     page::Blink.Page
 end
 
-function Blink.body!(p::Blink.Page, x::Union{Node, Scope, AbstractWidget})
+Blink.body!(p::Blink.Page, x::AbstractWidget) = Blink.body!(p, Widgets.render(x))
+function Blink.body!(p::Blink.Page, x::Union{Node, Scope})
     wait(p)
 
     bs = AssetRegistry.register(blinksetup)
@@ -26,7 +27,8 @@ function Blink.body!(p::Blink.Page, x::Union{Node, Scope, AbstractWidget})
     Blink.body!(p, stringmime(MIME"text/html"(), x))
 end
 
-function Blink.body!(p::Blink.Window, x::Union{Node, Scope, AbstractWidget})
+Blink.body!(p::Blink.Window, x::AbstractWidget) = Blink.body!(p, Widgets.render(x))
+function Blink.body!(p::Blink.Window, x::Union{Node, Scope})
     Blink.body!(p.content, x)
 end
 

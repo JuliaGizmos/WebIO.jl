@@ -142,7 +142,6 @@ end
 
 Base.show(io::IO, m::MIME"text/html", x::Observable) = show(io, m, WebIO.render(x))
 Base.show(io::IO, m::WEBIO_NODE_MIME, x::Union{Observable, AbstractWidget}) = show(io, m, WebIO.render(x))
-Base.show(io::IO, m::MIME"text/html", x::AbstractWidget) = show(io, m, WebIO.render(x))
 
 ### Utility
 

@@ -171,4 +171,4 @@ function render(obs::Observable)
     return WebIO.render(scope)
 end
 
-render(w::AbstractWidget) = render(Widgets.layout(w)(w))
+render(w::AbstractWidget) = render(Widgets.render(w))
