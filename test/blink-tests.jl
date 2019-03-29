@@ -32,6 +32,7 @@ is set (to allow for seeing what happens in the Electron console).
 function open_window()
     if haskey(ENV, "BLINK_DEBUG")
         w = Window(Dict(:show => true))
+        @js w localStorage.debug = "*"
         opentools(w)
         return w
     end

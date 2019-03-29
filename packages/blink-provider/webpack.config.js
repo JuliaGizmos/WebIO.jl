@@ -19,10 +19,4 @@ module.exports = merge(baseConfig, {
       "systemjs": "systemjs/dist/system",
     }
   },
-
-  externals: {
-    "base/js/namespace": "base/js/namespace",
-    "notebook/js/outputarea": "notebook/js/outputarea",
-    "jquery": "jquery",
-  }
 });

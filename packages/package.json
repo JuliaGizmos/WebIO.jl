@@ -2,10 +2,8 @@
   "name": "root",
   "private": true,
   "scripts": {
-    "bootstrap": "lerna bootstrap --hoist",
     "build": "lerna run build",
-    "build-prod": "lerna run build-prod",
-    "postinstall": "npm run bootstrap"
+    "build-prod": "lerna run build-prod"
   },
   "devDependencies": {
     "@babel/core": "^7.4.0",
@@ -19,5 +17,13 @@
     "webpack": "^4.29.6",
     "webpack-cli": "^3.3.0",
     "webpack-merge": "^4.2.1"
+  },
+  "dependencies": {
+    "@webio/blink-provider": "file:blink-provider",
+    "@webio/generic-http-provider": "file:generic-http-provider",
+    "@webio/jupyter-lab-provider": "file:jupyter-lab-provider",
+    "@webio/jupyter-notebook-provider": "file:jupyter-notebook-provider",
+    "@webio/mux-provider": "file:mux-provider",
+    "@webio/webio": "file:webio"
   }
 }
