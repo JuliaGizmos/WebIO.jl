@@ -1,7 +1,7 @@
-// import isArray from "is-array";
-// import arrayEqual from "array-equal";
 import debug from "debug";
-import {WebIOCommand, WebIOCommandType, WebIOMessage, WebIORequest, WebIORequestType} from "./message";
+import uuid from "uuid/v4";
+
+import {WebIOCommand, WebIOCommandType, WebIOMessage, WebIORequest, WebIORequestType, WebIOResponse} from "./message";
 import {WebIODomElement, WebIONodeSchema} from "./Node";
 import WebIOScope from "./Scope";
 import createNode, {NODE_CLASSES} from "./createNode";
@@ -9,6 +9,7 @@ import {ObservableGlobalSpecifier} from "./utils";
 import WebIOObservable from "./Observable";
 import {importResource, importBlock} from "./imports";
 import {evalWithWebIOContext} from "./events";
+import Future from "./Future";
 
 const log = debug("WebIO");
 
@@ -46,6 +47,14 @@ class WebIO {
   private sendCallback?: WebIOSendCallback;
 
   /**
+   * A map of in-flight requests.
+   *
+   * Keys are `requestId`s and the values are {@link Future}s that (should be)
+   * ultimately resolved with the corresponding {@link WebIOResponse}.
+   */
+  private requestFutures: Map<string, Future<WebIOResponse>> = new Map();
+
+  /**
    * A reference to {@link NODE_CLASSES} to allow for extension.
    */
   static readonly NODE_CLASSES = NODE_CLASSES;
@@ -74,13 +83,13 @@ class WebIO {
       case "command":
         return this.dispatchCommand(message);
       case "response":
-        throw new Error(`Dispatching responses in the frontend is not implemented.`);
+        return this.dispatchResponse(message);
     }
 
     throw new Error(`Unknown message type: ${(message as any).type}.`);
   }
 
-  dispatchCommand(message: WebIOCommand) {
+  private dispatchCommand(message: WebIOCommand) {
     log(`Dispatching command (command: ${message.command}).`, message);
     switch (message.command) {
       case WebIOCommandType.UPDATE_OBSERVABLE: {
@@ -104,7 +113,7 @@ class WebIO {
     }
   }
 
-  async dispatchRequest(message: WebIORequest) {
+  private async dispatchRequest(message: WebIORequest) {
     log(`dispatchRequest: ${message.request}`);
     switch (message.request) {
       case WebIORequestType.EVAL: {
@@ -125,6 +134,17 @@ class WebIO {
     }
 
     throw new Error(`Unknown request type: ${message.request}.`);
+  }
+
+  private dispatchResponse(message: WebIOResponse) {
+    const {request, requestId} = message;
+    log(`dispatchResponse: ${request}`);
+    const future = this.requestFutures.get(requestId);
+    if (!future) {
+      throw new Error(`Received response for unknown requestId: ${requestId}.`);
+    }
+    this.requestFutures.delete(requestId);
+    future.resolve(message);
   }
 
   /**
@@ -212,6 +232,47 @@ class WebIO {
     log(`sendCallback:`, this.sendCallback);
     return this.sendCallback!({type: "message", ...message});
   }
+
+  async sendRequest<T extends WebIORequestType>(message: WebIORequest<T>): Promise<WebIOResponse<T>> {
+    message.type = message.type || "request";
+    message.requestId = message.requestId || uuid();
+    const {type, request, requestId} = message;
+    if (type !== "request" || !request) {
+      throw new Error("Malformed request.");
+    }
+    if (this.requestFutures.has(requestId)) {
+      throw new Error(`Duplicate request id: ${requestId}.`);
+    }
+
+    const future = new Future<WebIOResponse<T>>();
+    this.requestFutures.set(requestId, future);
+    await this.send(message);
+    return await future;
+  }
+
+  async RPC(rpcId: string, args: any[]): Promise<unknown> {
+    const result = await this.sendRequest<WebIORequestType.RPC>({
+      type: "request",
+      request: WebIORequestType.RPC,
+      requestId: uuid(),
+      rpcId,
+      arguments: args,
+    });
+    if ("exception" in result) {
+      throw new Error(result.exception);
+    }
+    return result.result;
+  }
+
+  /**
+   * Curried RPC function.
+   *
+   * @example
+   * const rpc = WebIO.getRPC("myRpc");
+   * await rpc(1, 2, 3);
+   * await rpc(4, 5, 6);
+   */
+  getRPC = (rpcId: string) => (...args: any[]) => this.RPC(rpcId, args);
 
   /**
    * Mount a WebIO node into the specified element.

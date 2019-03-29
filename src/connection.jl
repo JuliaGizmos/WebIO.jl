@@ -127,12 +127,12 @@ end
 
 function dispatch_request(conn::AbstractConnection, data)
     request_id = get(data, "requestId", nothing)
+    request_type = get(data, "request", nothing)
     if request_id === nothing
         @error("Request message (request=$(repr(request_type))) is missing requestId.")
         return
     end
     try
-        request_type = get(data, "request", nothing)
         handler = get(request_handlers, request_type, nothing)
         if handler === nothing
             error("Unknown request type (request=$(repr(request_type))).")
