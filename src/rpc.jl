@@ -1,3 +1,5 @@
+export RPC
+
 """
     RPC(function; <keyword arguments>)
 
@@ -5,10 +7,22 @@ A function wrapper that can be used to allow Javascript code to call
     user-defined Julia functions.
 
 # Examples
+```julia
+my_add = RPC((x, y) -> x + y)
+my_mult = RPC() do x, y
+    x * y
+end
+my_abs = RPC(abs)
+
+# Create an onClick event handler.
+onclick = js\"""
+async function handleClick(event) {
+    console.log(await \$my_add(1, 2), await \$my_mult(3, 4), await \$my_abs(-5));
+}
+\"""
+dom"button"("Use RPCs!", events=Dict("click" => onclick))
+```
 """
-
-export RPC
-
 struct RPC
     func::Function
     id::String
