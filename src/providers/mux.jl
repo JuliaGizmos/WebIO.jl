@@ -50,8 +50,8 @@ end
 
 Base.isopen(p::WebSockConnection) = isopen(p.sock)
 
-
-function Mux.Response(o::Union{Node, Scope, AbstractWidget})
+Mux.Response(o::AbstractWidget) = Mux.Response(Widgets.render(o))
+function Mux.Response(o::Union{Node, Scope})
     key = AssetRegistry.register(joinpath(@__DIR__, "..", "..", "packages/mux-provider/dist"))
     Mux.Response(
         """
