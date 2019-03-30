@@ -10,6 +10,11 @@ using Logging
 
 abstract type AbstractConnection end
 
+"""
+The filesystem path where the WebIO frontend packages lives.
+"""
+const packagepath = normpath(joinpath(@__DIR__, "..", "packages"))
+
 include("util.jl")
 include("node.jl")
 include("syntax.jl")
@@ -17,9 +22,9 @@ include("observable.jl")
 include("scope.jl")
 include("render.jl")
 include("connection.jl")
-include("iframe.jl")
 include("devsetup.jl")
 include("rpc.jl")
+include("iframe.jl")
 
 
 """
@@ -32,11 +37,6 @@ setup_provider(s::Union{Symbol, AbstractString}) = setup_provider(Val(Symbol(s))
 export setup_provider
 
 const baseurl = Ref{String}("")
-
-"""
-The filesystem path where the WebIO frontend packages lives.
-"""
-const packagepath = normpath(joinpath(@__DIR__, "..", "packages"))
 
 """
 A union of all WebIO renderable types.
