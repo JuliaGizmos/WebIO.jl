@@ -7,5 +7,4 @@ deps/build.log
 *.ipynb_checkpoints
 *.js.map
 
-/packages/webio/dist/
-/packages/jupyter-lab-provider/dist/
+dist/
