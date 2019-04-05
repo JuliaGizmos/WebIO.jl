@@ -1,4 +1,4 @@
-import debug from "debug";
+import createLogger from "debug";
 import uuid from "uuid/v4";
 
 import {WebIOCommand, WebIOCommandType, WebIOMessage, WebIORequest, WebIORequestType, WebIOResponse} from "./message";
@@ -11,7 +11,7 @@ import {importResource, importBlock} from "./imports";
 import {evalWithWebIOContext} from "./events";
 import Future from "./Future";
 
-const log = debug("WebIO");
+const debug = createLogger("WebIO");
 
 export type WebIOSendCallback = (message: WebIOMessage) => void; // TODO: void?
 
@@ -54,6 +54,8 @@ class WebIO {
    */
   private requestFutures: Map<string, Future<WebIOResponse>> = new Map();
 
+  private dispatchListeners: Array<WebIO["dispatch"]> = [];
+
   /**
    * A reference to {@link NODE_CLASSES} to allow for extension.
    */
@@ -77,6 +79,14 @@ class WebIO {
    * @param message - The message to dispatch.
    */
   dispatch(message: WebIOMessage) {
+    this.dispatchListeners.forEach((handler) => {
+      try {
+        handler(message)
+      } catch (e) {
+        console.error(e);
+        console.error(`Unhandled error in dispatchListener: ${e}.`);
+      }
+    });
     switch (message.type) {
       case "request":
         return this.dispatchRequest(message);
@@ -90,12 +100,13 @@ class WebIO {
   }
 
   private dispatchCommand(message: WebIOCommand) {
-    log(`Dispatching command (command: ${message.command}).`, message);
+    debug(`Dispatching command (command: ${message.command}).`, message);
     switch (message.command) {
       case WebIOCommandType.UPDATE_OBSERVABLE: {
         const scope = this.scopes[message.scope];
         if (!scope) {
-          throw new Error(`WebIO has no such scope: (id ${message.scope}).`)
+          debug(`WebIO has no such scope: (id ${message.scope}).`);
+          return;
         }
         scope.setObservableValue(message.name, message.value, false);
         return;
@@ -114,13 +125,13 @@ class WebIO {
   }
 
   private async dispatchRequest(message: WebIORequest) {
-    log(`dispatchRequest: ${message.request}`);
+    debug(`dispatchRequest: ${message.request}`);
     switch (message.request) {
       case WebIORequestType.EVAL: {
         const scope = this.getScope(message.scope);
         let result = evalWithWebIOContext(scope, message.expression, {webIO: this, scope});
         if (result instanceof Promise) {
-          log(`Eval expression returned a promise, awaiting promise.`);
+          debug(`Eval expression returned a promise, awaiting promise.`);
           result = await result;
         }
 
@@ -138,10 +149,11 @@ class WebIO {
 
   private dispatchResponse(message: WebIOResponse) {
     const {request, requestId} = message;
-    log(`dispatchResponse: ${request}`);
+    debug(`dispatchResponse: ${request}`);
     const future = this.requestFutures.get(requestId);
     if (!future) {
-      throw new Error(`Received response for unknown requestId: ${requestId}.`);
+      debug(`Received response for unknown requestId: ${requestId}.`);
+      return;
     }
     this.requestFutures.delete(requestId);
     future.resolve(message);
@@ -154,7 +166,7 @@ class WebIO {
    * connected promise and send any messages that are waiting.
    */
   setSendCallback(sendCallback: WebIOSendCallback) {
-    log(`Setting WebIO sendCallback.`);
+    debug(`Setting WebIO sendCallback.`);
     this.sendCallback = sendCallback;
     this.resolveConnected();
   }
@@ -173,7 +185,7 @@ class WebIO {
    * @param scope
    */
   registerScope(scope: WebIOScope) {
-    log(`Registering WebIO scope (id: ${scope.id}).`);
+    debug(`Registering WebIO scope (id: ${scope.id}).`);
     this.scopes[scope.id] = scope;
   }
 
@@ -184,7 +196,7 @@ class WebIO {
    */
   registerObservable(observable: WebIOObservable) {
     const {id} = observable;
-    log(`Registering WebIO observable (id: ${observable.id}).`);
+    debug(`Registering WebIO observable (id: ${observable.id}).`);
     if (!this.observables[id]) {
       this.observables[id] = [];
     }
@@ -201,7 +213,7 @@ class WebIO {
   reconcileObservables(sourceObservable: WebIOObservable) {
     const {id, name, value} = sourceObservable;
     const observables = this.observables[id] || [];
-    log(`Reconciling ${observables.length} observables (id: ${id}).`);
+    debug(`Reconciling ${observables.length} observables (id: ${id}).`);
 
     if (observables.length < 1) {
       console.warn(
@@ -216,7 +228,7 @@ class WebIO {
       // reconciliation.
       if (observable === sourceObservable) continue;
 
-      log(`Reconciling observable "${observable.name}" in scope "${observable.scope.id}".`);
+      debug(`Reconciling observable "${observable.name}" in scope "${observable.scope.id}".`);
       observable.setValue(value, false);
     }
   };
@@ -228,8 +240,8 @@ class WebIO {
    */
   async send(message: WebIOMessage) {
     await this.connected;
-    log(`Sending WebIO message:`, message);
-    log(`sendCallback:`, this.sendCallback);
+    debug(`Sending WebIO message:`, message);
+    debug(`sendCallback:`, this.sendCallback);
     return this.sendCallback!({type: "message", ...message});
   }
 
@@ -287,7 +299,7 @@ class WebIO {
       console.error("WebIO cannot mount node into element.", {element, nodeData: nodeSchema});
       throw new Error(`WebIO cannot mount node into element.`);
     }
-    log("Mounting WebIO node.", {nodeData: nodeSchema, element});
+    debug("Mounting WebIO node.", {nodeData: nodeSchema, element});
     const node = createNode(nodeSchema, {webIO: this});
 
     // Reset the contents of the node we're mounting into.
@@ -339,6 +351,18 @@ class WebIO {
    */
   setval({scope, name}: ObservableGlobalSpecifier, value: any, sync: boolean = true) {
     return this.getScope(scope).setObservableValue(name, value, sync);
+  }
+
+  addDispatchListener(listener: WebIO["dispatch"]) {
+    this.dispatchListeners.push(listener);
+  }
+
+  removeDispatchListener(listener: WebIO["dispatch"]) {
+    const index = this.dispatchListeners.indexOf(listener);
+    if (index === -1) {
+      return;
+    }
+    this.dispatchListeners = this.dispatchListeners.splice(index, 1);
   }
 
   // Re-export from imports.ts

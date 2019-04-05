@@ -3,6 +3,8 @@ const debug = createLogger("WebIO:IFrame");
 
 import WebIONode, {WebIONodeSchema, WebIONodeContext} from "./Node";
 import setInnerHTML from "./setInnerHTML";
+import Future from "./Future";
+import WebIO from "./WebIO";
 
 export const IFRAME_NODE_TYPE = "IFrame";
 
@@ -14,6 +16,7 @@ export interface IFrameNodeSchema extends WebIONodeSchema {
 
   instanceArgs: {
     innerHTML: string;
+    bundleURL: string;
   }
 }
 
@@ -34,6 +37,8 @@ class WebIOIFrame extends WebIONode {
   readonly element: HTMLIFrameElement;
   children: null = null;
 
+  private dispatchListener?: WebIO["dispatch"] = undefined;
+
   constructor(
     iframeData: IFrameNodeSchema,
     options: WebIONodeContext,
@@ -51,24 +56,22 @@ class WebIOIFrame extends WebIONode {
     iframe.width = "100%";
     iframe.style.display = "block";
 
-    const {innerHTML} = iframeData.instanceArgs;
-    iframe.onload = () => this.initializeIFrame(innerHTML);
+    const {innerHTML, bundleURL} = iframeData.instanceArgs;
+    iframe.onload = () => this.initializeIFrame(innerHTML, bundleURL);
   }
 
   /**
    * Initialize the IFrame after the onload event has been fired.
    * @param innerHTML
+   * @param bundleURL
    */
-  async initializeIFrame(innerHTML: string) {
+  async initializeIFrame(innerHTML: string, bundleURL: string) {
     const iframe = this.element;
 
     // This method requires that onload has been fired which means that window
     // and document are defined (hence the `!` operator).
     const iframeWindow = iframe.contentWindow!;
     const iframeDocument = iframe.contentDocument!;
-
-    // Set WebIO window global.
-    (iframeWindow as any).WebIO = this.webIO;
 
     // Add <base> tag to tell IFrame to load relative resources from the same
     // place that the current page is.
@@ -86,8 +89,46 @@ class WebIOIFrame extends WebIONode {
       height: 100%;
     `;
 
+    // Inject the WebIO generic HTTP bundle script and wait for it to load.
+    (iframeWindow as any)._webIOSkipWebSocket = true;
+    const webIOScript = iframeDocument.createElement("script");
+    webIOScript.src = bundleURL;
+    iframeDocument.body.appendChild(webIOScript);
+    await this.waitForWebIO(iframeWindow);
+
+    const iframeWebIO: WebIO = (iframeWindow as any).WebIO;
+
+    // Setup message into and out of the IFrame's WebIO
+    this.dispatchListener = iframeWebIO.dispatch.bind(iframeWebIO);
+    iframeWebIO.setSendCallback(this.webIO.send.bind(this.webIO));
+    this.webIO.addDispatchListener(this.dispatchListener);
+
+    // TODO/MEMORY LEAK:
+    // There doesn't seem to be a way to detect when the current element is
+    // removed from the DOM. I couldn't get the MutationObserver API to work,
+    // and it seems like it would require a listener on `document.body` for it
+    // to work anyway (and a separate event listener for every WebIO tree).
+
     // Set inner html of body.
     setInnerHTML(iframeDocument.body, innerHTML);
+  }
+
+  /**
+   * Poll the IFrame for the WebIO global.
+   * @param iframeWindow
+   * @param interval
+   */
+  private waitForWebIO(iframeWindow: Window, interval: number = 100) {
+    const future = new Future<WebIO>();
+    const wait = () => {
+      if (typeof (iframeWindow as any).WebIO === "undefined") {
+        debug(`IFrame doesn't have WebIO, waiting ${interval}ms...`);
+        return setTimeout(wait, interval);
+      }
+      future.resolve((iframeWindow as any).WebIO);
+    };
+    wait();
+    return future;
   }
 }
 

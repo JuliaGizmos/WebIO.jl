@@ -6,6 +6,7 @@ import WebIO from "@webio/webio";
 declare global {
   interface Window {
     _webIOWebSocketURL?: string;
+    _webIOSkipWebSocket?: boolean;
   }
 }
 
@@ -61,12 +62,21 @@ export const connectWebIOToWebSocket = (
 };
 
 
-const genericHTTPEntrypoint = async () => {
+const genericHTTPEntrypoint = () => {
   const webIO = new WebIO();
   // We do window as any to allow defining new members.
   (window as any).WebIO = webIO;
-  await connectWebIOToWebSocket(webIO);
-  log("Connected WebIO to WebSocket.")
+  // We allow a way to escape normal WebSocket setup in case the calling code
+  // wants to do it themselves.
+  // This is used when setting up IFrames where we just manually set the send
+  // callback after loading the WebIO JavaScript.
+  if (window._webIOSkipWebSocket) {
+    log(`Not connecting to WebIO WebSocket.`);
+    return;
+  }
+  connectWebIOToWebSocket(webIO).then(() => {
+    log("Connected WebIO to WebSocket.")
+  });
 };
 
 genericHTTPEntrypoint();

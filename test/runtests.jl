@@ -2,6 +2,9 @@ using WebIO
 using Test
 using Sockets
 
+# Always bundle first so we're testing against latest version of WebIO JS.
+include("bundling.jl")
+
 import WebIO: DOM, instanceof
 @testset "node" begin
 
@@ -79,4 +82,3 @@ include("blink-tests.jl")
 include("util-tests.jl")
 include("ijulia-tests.jl")
 include("syntax.jl")
-include("bundling.jl")
