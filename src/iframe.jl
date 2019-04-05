@@ -5,11 +5,11 @@ mutable struct IFrame
     bundleURL::AbstractString
 end
 
-const iframe_bundle_key = AssetRegistry.register(normpath(joinpath(
+iframe_bundle_key() = AssetRegistry.register(normpath(joinpath(
     WebIO.packagepath, "generic-http-provider", "dist", "generic-http.js"
 )))
 
 iframe(content) = node(IFrame(
     stringmime("text/html", content),
-    string(WebIO.baseurl[], iframe_bundle_key),
+    string(WebIO.baseurl[], iframe_bundle_key()),
 ))
