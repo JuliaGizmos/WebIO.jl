@@ -1,44 +1,12 @@
-export RPC
+# A map from `hash(f)` to `f`.
+# This is used to lookup the function when we get a request from the frontend.
+registered_rpcs = Dict{UInt, Function}()
 
-"""
-    RPC(function; <keyword arguments>)
-
-A function wrapper that can be used to allow Javascript code to call
-    user-defined Julia functions.
-
-# Examples
-```julia
-my_add = RPC((x, y) -> x + y)
-my_mult = RPC() do x, y
-    x * y
+function tojs(f::Function)
+    h = hash(f)
+    registered_rpcs[h] = f
+    return js"WebIO.getRPC($(string(h)))"
 end
-my_abs = RPC(abs)
-
-# Create an onClick event handler.
-onclick = js\"""
-async function handleClick(event) {
-    console.log(await \$my_add(1, 2), await \$my_mult(3, 4), await \$my_abs(-5));
-}
-\"""
-dom"button"("Use RPCs!", events=Dict("click" => onclick))
-```
-"""
-struct RPC
-    func::Function
-    id::String
-
-    function RPC(func::Function; id::String=newid("rpc"))
-        rpc = new(func, id)
-        registered_rpcs[id] = rpc
-        rpc
-    end
-end
-
-(rpc::RPC)(args...; kwargs...) = rpc.func(args...; kwargs...)
-
-registered_rpcs = Dict{String, RPC}()
-
-tojs(rpc::RPC) = js"WebIO.getRPC($(rpc.id))"
 
 """
     handle_rpc_request(request)
@@ -49,9 +17,14 @@ the provided arguments and returns the result.
 """
 function handle_rpc_request(request::Dict)
     rpc_id = get(request, "rpcId", nothing)
-    rpc = get(registered_rpcs, rpc_id, nothing)
+    rpc_hash = try parse(UInt, rpc_id) catch nothing end
+    rpc = get(registered_rpcs, rpc_hash, nothing)
     if rpc === nothing
-        error("No such RPC (rpcId=$(repr(rpc_id))).")
+        # This generally shouldn't happen; the only instance where it could is if RPC's are inovoked
+        # "manually" (i.e. via `WebIO.rpc("foo", ["args"])`)
+        return Dict(
+            "exception" => "UnknownRPCError: no such rpc (rpcId=$(repr(rpc_id))).",
+        )
     end
 
     arguments = get(request, "arguments", [])

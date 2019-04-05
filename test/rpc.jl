@@ -2,20 +2,15 @@ using Test
 using Blink
 using WebIO
 
-w = Window(Dict(:show => true))
-opentools(w)
-# Prime Blink and let WebIO load.
-# body!(w, dom"div"())
-# sleep(5)
+if !(@isdefined DummyConnection)
+    include("./test-utils.jl")
+end
+
+w = open_window()
 
 @testset "RPCs work as expected" begin
     x = Ref{Any}(nothing)
-    setx = RPC() do newx
-        x[] = newx
-    end
-
-    setx(4)
-    @test x[] == 4
+    setx(newx) = x[] = newx
 
     onclick = js"""
     async function() {
@@ -38,7 +33,7 @@ opentools(w)
         wascalled = Ref(false)
         @js w window.lastException = nothing
 
-        throwjuliaerror = RPC() do x
+        function throwjuliaerror(x)
             wascalled[] = true
             error(x)
         end
@@ -63,7 +58,7 @@ opentools(w)
     @testset "Invalid method invocations raise errors" begin
         wascalled = Ref(false)
         @js w window.lastException = nothing
-        takes3args = RPC() do x, y, z
+        function takes3args(x, y, z)
             wascalled[] = true
             return x + y + z
         end
@@ -83,5 +78,66 @@ opentools(w)
         # Should not have actually been invoked at all.
         @test wascalled[] == false
         @test occursin("no method matching", @js w window.lastException)
+    end
+end
+
+
+@testset "RPC Request Handler" begin
+    c = DummyConnection()
+    # Force the split function to be inserted into the RPC map.
+    js"$split"
+
+    WebIO.dispatch(c, Dict(
+        "type" => "request",
+        "request" => "rpc",
+        "requestId" => "foo",
+        "rpcId" => string(hash(split)),
+        "arguments" => ["foo bar"],
+    ))
+    r = take!(c)
+    @test r["requestId"] == "foo"
+    @test !haskey(r, "exception")
+    @test r["result"] == ["foo", "bar"]
+
+    WebIO.dispatch(c, Dict(
+        "type" => "request",
+        "request" => "rpc",
+        "requestId" => "bar",
+        "rpcId" => string(hash(split)),
+        "arguments" => [123],
+    ))
+    r = take!(c)
+    @test r["requestId"] == "bar"
+    @test haskey(r, "exception")
+    @test occursin("no method matching", r["exception"])
+    @test !haskey(r, "result")
+
+    WebIO.dispatch(c, Dict(
+        "type" => "request",
+        "request" => "rpc",
+        "requestId" => "bar",
+        "rpcId" => string(hash(split)),
+        "arguments" => [123],
+    ))
+    r = take!(c)
+    @test r["requestId"] == "bar"
+    @test haskey(r, "exception")
+    @test occursin("no method matching", r["exception"])
+    @test !haskey(r, "result")
+
+    @testset "Exception is returned when using unknown RPC" begin
+    # unknown rpc
+        WebIO.dispatch(c, Dict(
+            "type" => "request",
+            "request" => "rpc",
+            "requestId" => "bar",
+            "rpcId" => "1234",
+            "arguments" => [123],
+        ))
+        r = take!(c)
+        @test r["requestId"] == "bar"
+        @test haskey(r, "exception")
+        @test occursin("unknown rpc", r["exception"])
+        @test !haskey(r, "result")
     end
 end
