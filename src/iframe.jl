@@ -18,7 +18,14 @@ Content is typically a WebIO node, but may be anything with a `text/html` MIME
 representation. The IFrame itself is wrapped in a scope to allow for mount
 callbacks.
 """
-iframe(content) = Scope()(node(IFrame(
-    stringmime("text/html", content),
-    string(WebIO.baseurl[], iframe_bundle_key()),
-)))
+function iframe(content)
+    ifr = IFrame(
+        stringmime("text/html", content),
+        string(WebIO.baseurl[], iframe_bundle_key()),
+    )
+    # We wrap the IFrame in a div for historical reasons (notably, MeshCat.jl
+    # tries to set attributes on the div when rendering its visualizer); this
+    # is definitely an implementation detail but we can avoid breaking things
+    # at any rate.
+    return Scope(dom=node(:div, node(ifr)))
+end
