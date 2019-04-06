@@ -44,6 +44,8 @@ addconnection!(pool::ConnectionPool, c::AbstractConnection) = put!(pool.new_conn
 send(pool::ConnectionPool, msg) = put!(pool.outbox, msg)
 
 """
+    ensure_connection(pool::ConnectionPool)
+
 Ensure that the pool has at least one connection, potentially blocking
 the current task until that is the case.
 """
@@ -55,6 +57,8 @@ function ensure_connection(pool::ConnectionPool)
         push!(pool.connections, take!(pool.new_connections))
     end
 end
+
+Base.wait(pool::ConnectionPool) = ensure_connection(pool)
 
 function process_messages(pool::ConnectionPool)
     while true
@@ -147,6 +151,7 @@ end
 Base.@deprecate Scope(id::AbstractString; kwargs...) Scope(; id=id, kwargs...)
 
 (w::Scope)(arg) = (w.dom = arg; w)
+Base.wait(scope::Scope) = ensure_connection(scope.pool)
 
 function Observables.on(f, w::Scope, key)
     key = string(key)
