@@ -1,2 +1,4 @@
-**/dist/** binary
+dist/** binary
+dist/** linguist-generated=true
 package-lock.json binary
+package-lock.json linguist-generated=true
