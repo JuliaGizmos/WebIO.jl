@@ -1,8 +1,17 @@
 """
     render(x::MyType)
 
-Generic function that defines how a Julia object is rendered. Should return a
-`Node` object.
+Generic function that defines how a Julia object is rendered.
+Should return a `Node` object.
+
+# Examples
+```julia
+struct MyPlot
+    s::Scope
+end
+
+WebIO.render(p::MyPlot) = WebIO.render(p.s)
+```
 """
 function render end
 render(x::Union{Node, String}) = x
@@ -76,12 +85,6 @@ end
 
 htmlstring(val::AbstractString) = val
 
-render_internal(child) = render(child)
-render_internal(child::Observable) = render_internal(observable_to_scope(child))
-render_internal(child::Node) = JSON.lower(child)
-render_internal(child::Scope) = render_internal(node(child, child.dom))
-# Do we need a render_internal(::Widget)?
-
 """
 Wrap an observable in a scope to enable "live updating."
 
@@ -100,10 +103,8 @@ function observable_to_scope(obs::Observable)
 
     # Do we need separate code paths for Scope/Widget and Node?
     if isa(obs[], Scope) || isa(obs[], AbstractWidget)
-        output = Observable(scope, "obs-scope", render_internal(obs[]))
-        map!(output, obs) do value
-            return render_internal(value)
-        end
+        output = Observable(scope, "obs-scope", render(obs[]))
+        map!(render, output, obs)
         ensure_sync(scope, "obs-scope")
         scope.dom = node(ObservableNode(output.id, "obs-scope"))
         return scope
@@ -172,3 +173,5 @@ function render(obs::Observable)
 end
 
 render(w::AbstractWidget) = render(Widgets.render(w))
+
+@deprecate render_internal render
