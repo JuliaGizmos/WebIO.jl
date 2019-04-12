@@ -79,9 +79,11 @@ function JSON.lower(n::Node)
         "type" => "node",
         "nodeType" => nodetype(n),
         "instanceArgs" => JSON.lower(n.instanceof),
-        "children" => map!(render_internal,
-                           Vector{Any}(undef, length(children(n))),
-                           children(n)),
+        "children" => map!(
+            render,
+            Vector{Any}(undef, length(children(n))),
+            children(n),
+        ),
         "props" => props(n),
     )
     return result

@@ -382,7 +382,7 @@ function onjs(ob::AbstractObservable, f)
 end
 
 function Base.show(io::IO, ::WEBIO_NODE_MIME, x::Scope)
-    write(io, JSON.json(render_internal(x)))
+    write(io, JSON.json(render(x)))
 end
 function Base.show(io::IO, m::MIME"text/html", x::Scope)
     show(io, m, render(x))
