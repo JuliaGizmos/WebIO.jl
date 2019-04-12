@@ -27,5 +27,13 @@ function iframe(content)
     # tries to set attributes on the div when rendering its visualizer); this
     # is definitely an implementation detail but we can avoid breaking things
     # at any rate.
-    return Scope(dom=node(:div, node(ifr)))
+    dom = node(
+        :div,
+        node(ifr),
+        style=Dict(
+            :display => "inherit",
+            :margin => "inherit",
+        ),
+    )
+    return Scope(dom=dom)
 end
