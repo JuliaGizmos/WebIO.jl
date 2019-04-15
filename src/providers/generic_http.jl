@@ -80,23 +80,20 @@ function WebIOServer(
         baseurl::String = "127.0.0.1", http_port::Int = 8081,
         verbose = false, singleton = true,
         websocket_route = "/webio_websocket/",
-        logger = devnull,
         server_kw_args...
     )
     # TODO test if actually still running, otherwise restart even if singleton
     if !singleton || !isassigned(singleton_instance)
-        handler = HTTP.HandlerFunction() do req
+        function handler(req)
             response = default_response(req)
             response !== missing && return response
             return serve_assets(req)
         end
-        wshandler = WebSockets.WebsocketHandler() do req, sock
+        function wshandler(req, sock)
             req.target == websocket_route && websocket_handler(sock)
         end
-        server = WebSockets.ServerWS(handler, wshandler, logger; server_kw_args...)
-        server_task = with_logger(NullLogger()) do
-            @async WebSockets.serve(server, baseurl, http_port, verbose)
-        end
+        server = WebSockets.ServerWS(handler, wshandler; server_kw_args...)
+        server_task = @async WebSockets.serve(server, baseurl, http_port, verbose)
         singleton_instance[] = WebIOServer(server, server_task)
     end
     return singleton_instance[]
