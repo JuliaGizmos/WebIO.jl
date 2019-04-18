@@ -61,7 +61,7 @@ function get_jupyter_datadir()
     # https://jupyter.readthedocs.io/en/latest/projects/jupyter-directories.html
     if Sys.iswindows()
         # Is this right?
-        return joinpath(homedir(), "%APPDATA%", "jupyter")
+        return joinpath("%APPDATA%", "jupyter")
     elseif Sys.isapple()
         return joinpath(homedir(), "Library", "Jupyter")
     else
