@@ -16,6 +16,8 @@ const bundle_key = AssetRegistry.register(normpath(joinpath(
     WebIO.packagepath, "generic-http-provider", "dist", "generic-http.js"
 )))
 
+include("mime_types.jl")
+
 """
 Serve an asset from the asset registry.
 """
@@ -23,9 +25,17 @@ function serve_assets(req)
     if haskey(AssetRegistry.registry, req.target)
         filepath = AssetRegistry.registry[req.target]
         if isfile(filepath)
+            mime = get(
+                known_mimetypes,
+                splitext(filepath)[2],
+                "application/octet-stream"
+            )
             return HTTP.Response(
                 200,
-                [],
+                [
+                    "Access-Control-Allow-Origin" => "*",
+                    "Content-Type" => mime
+                ],
                 body = read(filepath)
             )
         end
