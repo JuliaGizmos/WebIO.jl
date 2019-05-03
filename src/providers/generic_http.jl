@@ -18,6 +18,8 @@ const bundle_key = AssetRegistry.register(normpath(joinpath(
 
 include("mime_types.jl")
 
+extension(f) = last(splitext(f))[2:end]
+
 """
 Serve an asset from the asset registry.
 """
@@ -27,7 +29,7 @@ function serve_assets(req)
         if isfile(filepath)
             mime = get(
                 known_mimetypes,
-                splitext(filepath)[2],
+                extension(filepath),
                 "application/octet-stream"
             )
             return HTTP.Response(
