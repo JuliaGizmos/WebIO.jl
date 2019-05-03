@@ -20,14 +20,17 @@ include("mime_types.jl")
 
 extension(f) = last(splitext(f))[2:end]
 
+
+const requests = []
 """
 Serve an asset from the asset registry.
 """
 function serve_assets(req)
+    push!(requests, req)
     if haskey(AssetRegistry.registry, req.target)
         filepath = AssetRegistry.registry[req.target]
         if isfile(filepath)
-            headers = Pair{String, String}[]
+            headers = ["Access-Control-Allow-Origin" => "*"]
             if haskey(known_mimetypes, extension(filepath))
                 mime = known_mimetypes[extension(filepath)]
                 push!(headers, "Content-Type" => mime)
