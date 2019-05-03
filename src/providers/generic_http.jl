@@ -27,17 +27,13 @@ function serve_assets(req)
     if haskey(AssetRegistry.registry, req.target)
         filepath = AssetRegistry.registry[req.target]
         if isfile(filepath)
-            mime = get(
-                known_mimetypes,
-                extension(filepath),
-                "application/octet-stream"
-            )
+            headers = Pair{String, String}[]
+            if haskey(known_mimetypes, extension(filepath))
+                mime = known_mimetypes[extension(filepath)]
+                push!(headers, "Content-Type" => mime)
+            end
             return HTTP.Response(
-                200,
-                [
-                    "Access-Control-Allow-Origin" => "*",
-                    "Content-Type" => mime
-                ],
+                200, headers,
                 body = read(filepath)
             )
         end
