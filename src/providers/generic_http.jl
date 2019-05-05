@@ -68,11 +68,11 @@ function serve_app(req)
             <!doctype html><html><head>
             <meta charset="UTF-8"></head><body>
         \"\"\")
-        show(io, MIME"application/webio"(), app[])
+        show(io, WebIO.WEBIO_APPLICATION_MIME(), app[])
         print(io, "</body></html>")
     end
 end
-server = WebIO.WebIOServer(serve_app, logger = stdout, verbose = true)
+server = WebIO.WebIOServer(serve_app, verbose = true)
 ```
 """
 function WebIOServer(
