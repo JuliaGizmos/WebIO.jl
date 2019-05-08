@@ -112,9 +112,12 @@ function WebIOServer(
         wait_time = 5; start = time() # wait for max 5 s
         while time() - start < wait_time
             # Block as long as our server doesn't actually serve the bundle
-            resp = WebSockets.HTTP.get(bundle_url)
-            resp.status == 200 && break
-            sleep(0.1)
+            try
+                resp = WebSockets.HTTP.get(bundle_url)
+                resp.status == 200 && break
+                sleep(0.1)
+            catch e
+            end
         end
     end
     return singleton_instance[]
