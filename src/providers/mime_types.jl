@@ -1006,3 +1006,13 @@ const known_mimetypes = Dict([
     "xo" => "application/vnd.olpc-sugar",
     ("curl", "text/vnd.curl")
 ])
+
+extension(f) = last(splitext(f))[2:end]
+
+function file_mimetype(filepath)
+    get(
+        known_mimetypes,
+        extension(filepath),
+        "application/octet-stream"
+    )
+end
