@@ -100,6 +100,16 @@ function WebIOServer(
         server = WebSockets.ServerWS(handler, wshandler; server_kw_args...)
         server_task = @async WebSockets.serve(server, baseurl, http_port, verbose)
         singleton_instance[] = WebIOServer(server, server_task)
+        bundle_url = get(ENV, "WEBIO_BUNDLE_URL") do
+            string("http://", baseurl, ":", http_port, WebIO.baseurl[], bundle_key)
+        end
+        wait_time = 5; start = time() # wait for max 5 s
+        while time() - start < wait_time
+            # Block as long as our server doesn't actually serve the bundle
+            resp = WebSockets.HTTP.get(bundle_url)
+            resp.status == 200 && break
+            sleep(0.001)
+        end
     end
     return singleton_instance[]
 end
