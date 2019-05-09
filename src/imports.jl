@@ -93,7 +93,7 @@ function path2url(path::AbstractString)
         while true
             if AssetRegistry.isregistered(cur_path) && isdir(cur_path)
                 key = AssetRegistry.getkey(cur_path)
-                url = key * "/" * replace(path, cur_path => "")
+                url = key * "/" * replace(replace(path, cur_path => ""), r"^\/"=>"")
                 return url
             end
             cur_path1 = dirname(cur_path)
