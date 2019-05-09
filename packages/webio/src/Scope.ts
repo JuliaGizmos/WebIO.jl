@@ -3,6 +3,7 @@ import createLogger from "debug";
 const debug = createLogger("WebIO:Scope");
 
 import WebIONode, {WebIONodeSchema, WebIONodeContext} from "./Node";
+import WebIODomNode from "./DomNode";
 import WebIOObservable, {ObservableData} from "./Observable";
 import {getObservableName, ObservableSpecifier, OptionalKeys} from "./utils";
 import {WebIOCommandType, WebIOMessage} from "./message";
@@ -123,6 +124,9 @@ class WebIOScope extends WebIONode {
     this.element = document.createElement("div");
     this.element.className = "webio-scope";
     this.element.setAttribute("data-webio-scope-id",  schema.instanceArgs.id);
+    if (schema.props) {
+      WebIODomNode.applyProps.apply(this, schema.props);
+    }
 
     const {id, observables = {}, handlers = {}} = schema.instanceArgs;
     this.id = id;
