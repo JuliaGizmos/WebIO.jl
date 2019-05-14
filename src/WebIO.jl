@@ -7,6 +7,7 @@ using Base64: stringmime
 import Widgets
 import Widgets: node, AbstractWidget
 using Logging
+using UUIDs
 
 abstract type AbstractConnection end
 
