@@ -46,7 +46,6 @@ function send_request(conn, request, data::Pair...)
         catch e
             @warn "error while sending request" exception=e
         finally
-            println("deleting $request_id")
             delete!(pending_requests, request_id)
         end
     end
