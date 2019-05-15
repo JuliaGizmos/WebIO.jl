@@ -24,6 +24,7 @@
     "@webio/jupyter-lab-provider": "file:jupyter-lab-provider",
     "@webio/jupyter-notebook-provider": "file:jupyter-notebook-provider",
     "@webio/mux-provider": "file:mux-provider",
-    "@webio/webio": "file:webio"
+    "@webio/webio": "file:webio",
+    "cbor-js": "^0.1.0"
   }
 }

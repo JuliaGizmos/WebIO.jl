@@ -3,18 +3,34 @@ import AssetRegistry, JSON
 using WebIO
 using .WebSockets: is_upgrade, upgrade, writeguarded
 using .WebSockets: HTTP
+using CBOR
 
+# TODO implement custom encoding for other types as well
+function CBOR.encode(io::CBOR.Encoder, jss::JSString)
+    CBOR.encode(io, string(jss))
+end
 
 struct WSConnection{T} <: WebIO.AbstractConnection
     sock::T
 end
 
-Sockets.send(p::WSConnection, data) = writeguarded(p.sock, JSON.json(data))
+function Sockets.send(p::WSConnection, data)
+    try
+        # TODO implement byte io for p.sock
+        # so that we can write directly to sock
+        # TODO, is that even better, or is buffered
+        # writing preferred (as in materializing the whole thing first)
+        write(p.sock, CBOR.encode(data))
+    catch e
+        @warn "Error in send: " exception=e
+    end
+end
 Base.isopen(p::WSConnection) = isopen(p.sock)
 
 const bundle_key = AssetRegistry.register(normpath(joinpath(
     WebIO.packagepath, "generic-http-provider", "dist", "generic-http.js"
 )))
+
 
 include("mime_types.jl")
 
@@ -41,10 +57,13 @@ end
 function websocket_handler(ws)
     conn = WSConnection(ws)
     while isopen(ws)
-        data, success = WebSockets.readguarded(ws)
-        !success && break
-        msg = JSON.parse(String(data))
-        WebIO.dispatch(conn, msg)
+        try
+            bytes = read(ws)
+            msg = CBOR.decode(bytes)
+            WebIO.dispatch(conn, msg)
+        catch e
+            @warn "error" exception=e
+        end
     end
 end
 

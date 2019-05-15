@@ -6,3 +6,4 @@ AssetRegistry
 Requires
 Compat 0.59
 Widgets 0.5.1
+CBOR

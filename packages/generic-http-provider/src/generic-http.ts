@@ -2,6 +2,7 @@ import debug from "debug";
 const log = debug("WebIO:generic-http-provider");
 
 import WebIO from "@webio/webio";
+var CBOR = require("cbor-js");
 
 declare global {
   interface Window {
@@ -9,6 +10,7 @@ declare global {
     _webIOSkipWebSocket?: boolean;
   }
 }
+
 
 /**
  * Get the standard url of the WebIO WebSocket.
@@ -36,10 +38,10 @@ export const connectWebIOToWebSocket = (
 ) => {
   return new Promise<void>((resolve, reject) => {
     const webSocket = new WebSocket(wsUrl);
-
+    webSocket.binaryType = "arraybuffer";
     webSocket.onopen = () => {
       webIO.setSendCallback((msg: any) => {
-        webSocket.send(JSON.stringify(msg));
+        webSocket.send(CBOR.encode(msg));
       });
       resolve();
     };
@@ -55,7 +57,7 @@ export const connectWebIOToWebSocket = (
     };
 
     webSocket.onmessage = ({data}) => {
-      const message = JSON.parse(data);
+      const message = CBOR.decode(data);
       webIO.dispatch(message);
     }
   })
