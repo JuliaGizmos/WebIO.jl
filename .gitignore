@@ -1,3 +1,5 @@
+Manifest.toml
+
 .*~
 .*.sw?
 yarn.lock
