@@ -1,4 +1,3 @@
-using Base: @get!
 using JSON
 
 include("./jupyterdirs.jl")
@@ -67,8 +66,8 @@ function install_notebook_config()
 
     # Magic to safely access nested JSON objects and set them to empty objects
     # if they don't exist yet.
-    app_config = @get! config_json "NotebookApp" config_json["NotebookApp"]=Dict()
-    extensions_config = @get! app_config "nbserver_extensions" app_config["nbserver_extensions"]=Dict()
+    app_config = get!(config_json, "NotebookApp", Dict())
+    extensions_config = get!(app_config, "nbserver_extensions", Dict())
     extensions_config["jlstaticserve"] = true
 
     # Defer writing until both files until the end to avoid inconsistent state.
