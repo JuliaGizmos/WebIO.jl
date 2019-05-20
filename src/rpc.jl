@@ -1,6 +1,6 @@
 # A map from `hash(f)` to `f`.
 # This is used to lookup the function when we get a request from the frontend.
-registered_rpcs = Dict{UInt, Function}()
+const registered_rpcs = Dict{UInt, Function}()
 
 function tojs(f::Function)
     h = hash(f)

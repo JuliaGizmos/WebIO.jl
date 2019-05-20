@@ -6,7 +6,7 @@ using .WebSockets: HTTP
 using CBOR
 
 # TODO implement custom encoding for other types as well
-function CBOR.encode(io::CBOR.Encoder, jss::JSString)
+function CBOR.encode(io::IO, jss::JSString)
     CBOR.encode(io, string(jss))
 end
 
