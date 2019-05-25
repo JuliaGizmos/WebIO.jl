@@ -84,23 +84,14 @@ function process_messages(pool::ConnectionPool)
     end
 end
 
-
-"""
-    Scope(id; kwargs...)
-
-An object which can send and receive messages.
-
-Fields:
-- `id::String`: A unique ID
-- `imports`: An array of js/html/css assets to load
-  before rendering the contents of a scope.
-"""
 mutable struct Scope
     id::AbstractString
     dom::Any
     observs::Dict{String, Tuple{AbstractObservable, Union{Nothing,Bool}}} # bool marks if it is synced
     private_obs::Set{String}
     systemjs_options
+    # This should be an array of scopes, but there currently exist some circular
+    # relationships between imports and scopes.
     imports::AbstractArray
     # A collection of handler functions associated with various observables in
     # this scope. Of the form
@@ -115,7 +106,28 @@ end
 
 const scopes = Dict{String, Scope}()
 
-function Scope(id::String=newid("scope");
+"""
+    Scope([id]; <keyword arguments>)
+
+An object which can send and receive messages.
+
+# Arguments
+- `id`: The unique id of the scope.
+- `dom`: The underlying DOM node that will be rendered when the scope is
+    displayed in the browser.
+- `imports`: An collection of `Asset`s to load (see `Asset` documentation for
+    more documentation) when the scope is mounted. If the entry is not an
+    `Asset` then it should be an argument to construct an `Asset`.
+
+# Examples
+```julia
+myscope = Scope(
+    id="myscope",
+    imports=[Asset("foo.js"), "bar.css", "spam" => "spam.js"],
+)
+"""
+function Scope(;
+        id::String=newid("scope"),
         dom=dom"span"(),
         outbox::Channel=Channel{Any}(Inf),
         observs::Dict=Dict(),
@@ -132,13 +144,7 @@ function Scope(id::String=newid("scope");
         imports = dependencies
     end
 
-    if imports !== nothing
-        imports = map(Asset, imports)
-    end
-
-    if imports === nothing
-        imports = []
-    end
+    imports = (imports == nothing) ? [] : [Asset(i) for i in imports]
 
     if haskey(scopes, id)
         @warn("A scope by the id $id already exists. Overwriting.")
