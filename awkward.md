@@ -1,3 +1,0 @@
-- Do we need to use the DOM? Can we just output HTML? We don't have diff-patch so far, and it doens't look like we need it?
-- dom"div"() is bad for the eye
-- `@tags div, em, ul, li` may be a good idea to steal from Documenter

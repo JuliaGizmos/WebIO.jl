@@ -1,8 +1,14 @@
-.*~
-.*.sw?
+# Julia
+Manifest.toml
+deps/build.log
+
+# JavaScript
 yarn.lock
 node_modules
-*.pyc
-deps/build.log
-*.ipynb_checkpoints
 *.js.map
+
+# Miscellaneous
+.*~
+.*.sw?
+*.pyc
+*.ipynb_checkpoints

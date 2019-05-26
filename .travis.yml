@@ -25,7 +25,7 @@ matrix:
 
 script:
   - if [[ -a .git/shallow ]]; then git fetch --unshallow; fi
-  - $TESTCMD -e 'using Pkg; Pkg.clone(pwd()); Pkg.build("WebIO"); Pkg.test("WebIO"; coverage=true)'
+  - $TESTCMD -e 'using Pkg; Pkg.build(); Pkg.test("WebIO"; coverage=true)'
 after_success:
   # push coverage results to Coveralls
   - julia -e 'import Pkg; Pkg.add("Coverage"); using Coverage; Coveralls.submit(Coveralls.process_folder())'
