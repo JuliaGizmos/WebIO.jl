@@ -1,4 +1,6 @@
-export Asset, Async, Sync 
+using JSON
+
+export Asset, Async, Sync
 
 struct Asset
     filetype::String
@@ -34,12 +36,10 @@ function JSON.lower(asset::Asset)
     )
 end
 
+
 function tojs(asset::Asset)
     return js"WebIO.importResource($(JSON.lower(asset)))"
 end
-
-# Adding assets to scopes
-import!(scope::Scope, x) = push!(scope.imports, Asset(x))
 
 struct Sync
     imports::AbstractArray
@@ -119,5 +119,3 @@ function dep2url(dep::AbstractString)
     url = path2url(file_path)
     return string(baseurl[], url, query_part)
 end
-
-Base.@deprecate adddeps!(scope, x) import!(scope, x)

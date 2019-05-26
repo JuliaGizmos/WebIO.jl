@@ -9,23 +9,23 @@ import Widgets: node, AbstractWidget
 using Logging
 using UUIDs
 
-abstract type AbstractConnection end
-
 """
 The filesystem path where the WebIO frontend packages lives.
 """
 const packagepath = normpath(joinpath(@__DIR__, "..", "packages"))
 
 include("util.jl")
-include("node.jl")
+include("connection.jl")
 include("syntax.jl")
+include("asset.jl")
+include("node.jl")
+include("iframe.jl")
 include("observable.jl")
 include("scope.jl")
 include("render.jl")
-include("connection.jl")
-include("devsetup.jl")
+include("messaging.jl")
 include("rpc.jl")
-include("iframe.jl")
+include("devsetup.jl")
 
 
 """
