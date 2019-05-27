@@ -16,6 +16,8 @@ const bundle_key = AssetRegistry.register(normpath(joinpath(
     WebIO.packagepath, "generic-http-provider", "dist", "generic-http.js"
 )))
 
+include("../../deps/mimetypes.jl")
+
 """
 Serve an asset from the asset registry.
 """
@@ -25,7 +27,10 @@ function serve_assets(req)
         if isfile(filepath)
             return HTTP.Response(
                 200,
-                [],
+                [
+                    "Access-Control-Allow-Origin" => "*",
+                    "Content-Type" => file_mimetype(filepath)
+                ],
                 body = read(filepath)
             )
         end
@@ -95,6 +100,25 @@ function WebIOServer(
         server = WebSockets.ServerWS(handler, wshandler; server_kw_args...)
         server_task = @async WebSockets.serve(server, baseurl, http_port, verbose)
         singleton_instance[] = WebIOServer(server, server_task)
+        bundle_url = get(ENV, "WEBIO_BUNDLE_URL") do
+            webio_base = WebIO.baseurl[]
+            base = if startswith(webio_base, "http") # absolute url
+                webio_base
+            else # relative url
+                string("http://", baseurl, ":", http_port, WebIO.baseurl[])
+            end
+            string(base, bundle_key)
+        end
+        wait_time = 5; start = time() # wait for max 5 s
+        while time() - start < wait_time
+            # Block as long as our server doesn't actually serve the bundle
+            try
+                resp = WebSockets.HTTP.get(bundle_url)
+                resp.status == 200 && break
+                sleep(0.1)
+            catch e
+            end
+        end
     end
     return singleton_instance[]
 end

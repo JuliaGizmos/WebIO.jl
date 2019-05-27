@@ -23,7 +23,7 @@ Each request has a unique id. This is generated automatically. The client should
     deadlock which will freeze the kernel indefinitely.
 """
 function send_request(conn, request, data::Pair...)
-    request_id = string(rand(UInt64))
+    request_id = string(UUIDs.uuid1())
     if haskey(pending_requests, request_id)
         error("Cannot register duplicate request id: $(request_id).")
     end
@@ -41,9 +41,13 @@ function send_request(conn, request, data::Pair...)
     # future when we get a response (this avoids orphaning responses that we
     # don't actually need).
     return @async begin
-        result = fetch(future)
-        delete!(pending_requests, request_id)
-        result
+        try
+            result = fetch(future)
+        catch e
+            @warn "error while sending request" exception=e
+        finally
+            delete!(pending_requests, request_id)
+        end
     end
 end
 
