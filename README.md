@@ -8,112 +8,81 @@ WebIO provides a simple abstraction for displaying and interacting with content.
 
 - [Juno](http://junolab.org) - The hottest Julia IDE
 - [IJulia](https://github.com/JuliaLang/IJulia.jl) - Jupyter notebooks for Julia
-- [Blink](https://github.com/JunoLab/Blink.jl) - An [Electron](http://electron.atom.io/) wrapper you can use to make Desktop apps
+- [Blink](https://github.com/JunoLab/Blink.jl) - An [Electron](http://electron.atom.io/) wrapper to make desktop apps
 - [Mux](https://github.com/JuliaWeb/Mux.jl) - A web server framework
-
-Scopes once created with WebIO will work on any of these front-ends.
-
-People using WebIO
-------------------
-
-This is a non-comprehensive list of websites using WebIO:
-
-+ [Julia Tetris](http://juliatetris.com)
-
-If you want your page listed here, please open an [issue](https://github.com/JuliaGizmos/WebIO.jl/issues/new).
 
 Getting started
 ---------------
 
-To install WebIO, run:
-
-```julia
-Pkg.clone("https://github.com/shashi/WebIO.jl.git")
-Pkg.build("WebIO") # this will set up the IJulia server plugin
-
-using WebIO
-```
+#### Installation
+To install WebIO, simply `Pkg.add("WebIO")`.
 
 If you want to use WebIO in Jupyter Lab, you need to install the WebIO extension for Jupyter Lab.
 
 ```julia
-cd(Pkg.dir("WebIO", "assets"))
-;jupyter labextension install webio
+cd(joinpath(dirname(pathof(WebIO)), "..", "packages"))
+;jupyter labextension install ./jupyter-lab-provider
 ;jupyter labextension enable webio/jupyterlab_entry
 ```
 
-**Development setup** if you want to edit the javascript files in this repository, you will need to setup ways to build them. It's made easy for you:
-```julia
-pkg"add NodeJS"
-using WebIO
-WebIO.bundlejs() # run every time you update a file
-```
+### Displaying content
 
-### Getting things to display
+First, load the front end package (e.g. Blink or Mux; IJulia and Atom are already loaded if you are using those frontends). Then run `using WebIO` to load this package.
 
-First, load the front end package (e.g. Blink or Mux; IJulia and Atom packages are already loaded when you are using them). Then run `using WebIO` to load this package.
-
-- On **IJulia** or **Jupyter Lab**
-Whenever a code cell returns a `WebIO.Node` object, IJulia will render it. For example,
+#### Using IJulia (Jupyter Notebook and JupyterLab)
+Whenever a code cell returns a WebIO object, it will be rendered as rich HTML. For example,
 
 ```julia
 In[*]: node(:div, "Hello, World")
 ```
 
-The `node` (lowercase) function is a helper function which provides a convenient way to construct `WebIO.Node` objects.
-
-- On **Blink**
-
-Set the content of a window to WebIO.Node using `body!` to render it.
+#### Using Blink
+Set the content of a window to WebIO node using `body!`.
 
 ```julia
 w = Blink.Window()
 body!(w, dom"div"("Hello, World"))
 ```
 
-- On **Mux**
-
+#### Using Mux
 Return the WebIO Node from a web app to render it. Use `webio_serve` to serve the application.
-
 ```julia
 function myapp(req) # an "App" takes a request, returns the output
-    node(:div, "Hello, World!")
+    return node(:div, "Hello, World!")
 end
 
 webio_serve(page("/", req -> myapp(req)))
 ```
 
-- Generic **HTTP**
-
-You can use the generic HTTP provider for any app - without the need to rely on WebIO.
+#### Using Generic HTTP
+You can use the generic HTTP provider for any app.
 
 ```julia
-
-# You can just create your own display function
-function Base.display(d::MyWebDisplay, m::MIME"application/webio", app)
+# Create your own display function
+function Base.display(d::MyWebDisplay, m::WebIO.WEBIO_APPLICATION_MIME, app)
     println(d.io, "outer html")
-    # calling show will make sure a server is running and serves dependencies
+    # Calling show will make sure a server is running and serves dependencies
     # from AssetRegistry and a websocket connection gets established.
     show(d.io, m, app) #<- prints the html + scripts webio needs to work into io
     println(d.io, "close outer html")
 end
+
 # You can customize the server via the following environment variables:
 
-ENV["JULIA_WEBIO_BASEURL"] = "url/to/base/route" # e.g. if you have a proxy
-
-url = ENV["WEBIO_SERVER_HOST_URL"] = "127.0.0.1" # the url you want the server to listen on
-http_port = ENV["WEBIO_HTTP_PORT"] = "8081" # the port you want the server to listen on
-# the url that the websocket connects to:
-ENV["WEBIO_WEBSOCKT_URL"] = string(url, ":", http_port, "/webio_websocket/")
-
+# The base URL where your app lives (e.g. if used behind a proxy server)
+ENV["JULIA_WEBIO_BASEURL"] = "url/to/base/route"
+# The host (e.g. hostname or IP address) that the server will listen on
+host = ENV["WEBIO_SERVER_HOST_URL"] = "127.0.0.1"
+# The port that the HTTP server will listen on
+port = ENV["WEBIO_HTTP_PORT"] = "8081"
+# The url that the websocket connects to
+ENV["WEBIO_WEBSOCKT_URL"] = string(host, ":", port, "/webio_websocket/")
 ```
-
 
 Composing content
 ------------------
 
-Let's say you want to display the following HTML:
-
+Suppose we want to display the following HTML.
 ```html
 <ul class="my-list">
     <li>get milk</li>
@@ -121,65 +90,63 @@ Let's say you want to display the following HTML:
 </ul>
 ```
 
-You can create a nested Node object:
-
+We can nest nodes inside of each other to accomplish this.
 ```julia
 node(:ul,
     node(:li, "get milk"),
-    node(:li, "make a pie"), attributes=Dict(:class => "my-list"))
+    node(:li, "make a pie"),
+    attributes=Dict(:class => "my-list"),
+)
 ```
 
-`attributes` keyword argument sets the attributes of the HTML element.
+The `attributes` keyword argument sets the attributes of the HTML element (via the [`setAttribute`](https://developer.mozilla.org/en-US/docs/Web/API/Element/setAttribute) browser function). Any other keyword argument is set as the property of the [DOM node](https://developer.mozlla.org/en-US/docs/Web/API/Document_Object_Model/Introduction) itself.
 
-Any other keyword argument to `DOM` is set as the property of the [DOM object](https://developer.mozilla.org/en-US/docs/Web/API/Document_Object_Model/Introduction) of the HTML element via JavaScript.
+**N.B.** Attribute values should be strings (or `nothing`, in which case the attribute is deleted). Attribute keys are specified with the name as would be written in HTML (e.g. `class` for the CSS class name) whereas properties are specified as the name in the browser DOM API (e.g. `className`). This is because one writes
+```html
+<p class="important">Don't stuff beans up your nose!</p>
+```
+whereas the DOM API would be
+```js
+myParagraph = document.createElement("p");
+myParagraph.className = "important";
+// Or, equivalently...
+myParagraph.setAttribute("class", "important");
+```
 
-For example,
-
+For example, the following are equivalent.
 ```julia
 node(:ul, className="my-list")
+node(:ul, attributes=Dict(:class => "my-list"))
 ```
 
-does the equivalent of the following in JavaScript:
 
-```js
-var element = document.createNode("ul")
-element.className = "my-list"
-// then adds inserts it to the document wherever it is displayed
-```
-
-Some DOM properties can themselves be objects, you can set them using Julia dictionaries:
-
+Some DOM attributes (most importantly, `style`) can be specified as Julia dictionaries.
 ```julia
-node(:div, "Hello, World",
-     style=Dict(:backgroundColor => "black",
-                :color => "white",
-                :padding => "12px"))
+node(
+    :div,
+    "Hello, World",
+    style=Dict(
+        :backgroundColor => "black",
+        :color => "white",
+        :padding => "12px",
+   )
+)
 ```
 
-does the equivalent of
-
-```js
-var element = document.createNode("div")
-element.style.backgroundColor = "black"
-element.style.color = "white"
-element.style.padding = "12px"
-```
-
-This is in turn equivalent to:
-
-```html
-<div style="background-color: black; color: white; padding: 12px">
-```
-
-and hence also equivalent to:
-```html
-node(:div, attributes=Dict(:style => "background-color: black; color: white; padding: 12px"))
+This is equivalent to this snippet using `attributes`.
+```julia
+node(
+    :div,
+    "Hello, World",
+    attributes=Dict(
+        :style => "background-color: black; color: white; padding: 12px",
+    ),
+)
 ```
 
 ### The `dom""` macro
 
-The `dom""` [*string macro*](http://docs.julialang.org/en/release-0.4/manual/metaprogramming/#non-standard-string-literals) can be used to simplify the syntax of creating DOM Nodes. The syntax for the macro is:
-
+The `dom""` string macro can be used to simplify the syntax of creating DOM Nodes. The syntax for the macro is
 ```julia
 dom"div.<class>#<id>[<attr>=<value>,...]"(children...; props...)
 ```
@@ -188,35 +155,30 @@ And is equivalent to:
 
 ```julia
 node(:div, children..., className="<class>", id="<id>",
-     attributes=Dict(attr1=>val1, attr2=>val2...); props...)
+     attributes=Dict(:attr1 => val1, :attr2 => val2...); props...)
 ```
 
-Everything except the tag ('div' in the example) is optional. So,
-
+Everything except the tag ("`div`" in the example) is optional. So,
 `dom"div"`, `dom"div.class1"`, `dom"div.class1.class2"`, `dom"div#my-id"`,
-`dom"input.check[type=checkbox]"` are all valid invocations.
+`dom"input.check[type=checkbox]"` are all valid.
 
-WebIO.render
+WebIO.render (Rendering Custom Objects)
 ------------
 
-WebIO exports `WebIO.render` generic function which can be extended to define how to render something into WebIO's DOM. Think of it as a better version of `show(io::IO, m::MIME"text/html", x)`. Whenever an object is used as an argument to `node`, this `render` function will be called to create the `Node` object to display.
+WebIO exports `WebIO.render` function which can be extended to define how to render a Julia object into the DOM. Think of it as a better version of `show(io::IO, m::MIME"text/html", x)`. Whenever an object is used as an argument to `node`, this `render` function will be called to create the `Node` object to display.
 
-For example, a TodoItem type like:
-
+For example, given the type
 ```julia
 struct TodoItem
     description::String
     done::Bool
 end
 ```
-
-Could have a render method that looks like this:
+we could have a render method that looks like
 
 ```julia
-import WebIO.render
-
-function render(todoitem::TodoItem)
-    dom"div.todo-item"(
+function WebIO.render(todoitem::TodoItem)
+    return dom"div.todo-item"(
         dom"input[type=checkbox]"(checked=todoitem.done),
         todoitem.description,
         style=Dict("display" => "flex", "flex-direction" => "horizontal"),
@@ -224,35 +186,36 @@ function render(todoitem::TodoItem)
 end
 ```
 
-A todo list which contains a vector of `TodoItem`s and possibly a `title` field,
-
+If we have a todo list,
 ```julia
 struct TodoList
     title::String
     items::Vector{TodoItem}
 end
 
-mylist = TodoList("My todo list",
-    [TodoItem("Make my first WebIO widget", false),
-     TodoItem("Make a pie", false)])
-
+mylist = TodoList(
+    "My todo list",
+    [
+        TodoItem("Make my first WebIO widget", false),
+        TodoItem("Make a pie", false),
+    ],
+)
 ```
-
-Can render itself like:
-
+we can render it via
 ```julia
-function render(list::TodoList)
-    dom"div"(
+function WebIO.render(list::TodoList)
+    return dom"div"(
         dom"h2"(list.title),
         dom"div.todo-list"(
-            list.items... # each element will be rendered using WebIO.render
-        )
+            WebIO.render.(list.items)...
+        ),
     )
 end
 ```
 
-## Executing JavaScript
+Always remember to recursively `WebIO.render` any _child_ elements if necessary.
 
+## Executing JavaScript
 Event handlers can be set up by passing a dict as the `events` keyword argument to `node`, (and hence `dom"foo"`). For example,
 
 ```julia
@@ -439,3 +402,12 @@ clock_obs = Observable(timestr())
 end
 clock_obs
 ```
+
+People using WebIO
+------------------
+
+This is a non-comprehensive list of websites using WebIO:
+
++ [Julia Tetris](http://juliatetris.com)
+
+If you want your page listed here, please open an [issue](https://github.com/JuliaGizmos/WebIO.jl/issues/new).
