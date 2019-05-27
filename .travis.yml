@@ -6,7 +6,7 @@ matrix:
       julia: 0.7
       env: TESTCMD="xvfb-run julia"
     - os: linux
-      julia: 1.0
+      julia: 1.1
       env: TESTCMD="xvfb-run julia"
     - os: linux
       julia: nightly
@@ -15,13 +15,26 @@ matrix:
       julia: 0.7
       env: TESTCMD="julia"
     - os: osx
-      julia: 1.0
+      julia: 1.1
       env: TESTCMD="julia"
     - os: osx
       julia: nightly
       env: TESTCMD="julia"
   allow_failures:
     - julia: nightly
+
+jobs:
+  include:
+    - stage: "Documentation"
+      julia: 1.1
+      os: linux
+      script:
+        - julia --project=docs/ -e '
+            using Pkg;
+            Pkg.develop(PackageSpec(path=pwd()));
+            Pkg.instantiate();
+          '
+        - julia --project=docs/ docs/make.jl
 
 script:
   - if [[ -a .git/shallow ]]; then git fetch --unshallow; fi
