@@ -14,6 +14,19 @@ The filesystem path where the WebIO frontend packages lives.
 """
 const packagepath = normpath(joinpath(@__DIR__, "..", "packages"))
 
+"""
+The MIME type for WebIO nodes.
+
+This is used when serializing a WebIO node tree to a frontend.
+For example, when using Jupyter, the frontend will render the serialized JSON
+via this MIME bundle rather than using the data sent as `text/html`.
+"""
+const WEBIO_NODE_MIME = MIME"application/vnd.webio.node+json"
+Base.Multimedia.istextmime(::WEBIO_NODE_MIME) = true
+
+const WEBIO_APPLICATION_MIME = MIME"application/vnd.webio.application+html"
+Base.Multimedia.istextmime(::WEBIO_APPLICATION_MIME) = true
+
 include("util.jl")
 include("connection.jl")
 include("syntax.jl")
