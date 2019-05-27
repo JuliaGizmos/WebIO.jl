@@ -16,7 +16,7 @@ const bundle_key = AssetRegistry.register(normpath(joinpath(
     WebIO.packagepath, "generic-http-provider", "dist", "generic-http.js"
 )))
 
-include("mime_types.jl")
+include("../../deps/mimetypes.jl")
 
 """
 Serve an asset from the asset registry.
