@@ -4,31 +4,66 @@ using JSON
 import FunctionalCollections: append
 export Node, node, instanceof, props
 
-const WEBIO_NODE_MIME = MIME"application/vnd.webio.node+json"
-Base.Multimedia.istextmime(::WEBIO_NODE_MIME) = true
+"""
+    Node(instanceof, children...; props...)
+    Node(instanceof, children, props)
 
-const WEBIO_APPLICATION_MIME = MIME"application/vnd.webio.application+html"
-Base.Multimedia.istextmime(::WEBIO_APPLICATION_MIME) = true
+The building block of WebIO.
+A `Node` is simply a wrapper around an _instance_ (some Julia object) together
+with some child nodes and additional properties.
 
+The most common type of `Node` is a DOM node. These can be constructed just by
+specifying a symbol as the `instanceof` (they are promoted to an instance of
+`WebIO.DOM` under the hood).
+```jldoctest
+julia> Node(:div, Node(:p, "I am a paragraph!", class="important"))
+(div
+  (p { class="important" }
+    "I am a paragraph!"))
+```
+
+Nodes with custom (non-`DOM`) instances should have a corresponding
+`WebIO.render` method defined.
+"""
 struct Node{T}
-    instanceof::T # if this changes the node must be *replaced*
-
+    instanceof::T
     children::PersistentVector{Any}
     props::Dict{Symbol, Any}
 
-    _descendants_count::Int
-
+    # This needs to be an inner constructor to enforce the promotion of the
+    # instanceof attribute.
+    function Node(instanceof, children::AbstractVector, props::AbstractDict)
+        instanceof = promote_instanceof(instanceof)
+        return new{typeof(instanceof)}(
+            promote_instanceof(instanceof),
+            _pvec(children),
+            kwargs2props(props),
+        )
+    end
 end
 
-function Node(instanceof, children::AbstractVector, props::AbstractDict)
-    inst = promote_instanceof(instanceof)
-    Node{typeof(inst)}(inst, _pvec(children), kwargs2props(props), descendants_count(children))
+function Node(instanceof, children...; props...)
+    return Node(instanceof, collect(Any, children), Dict(props...))
 end
 
-function node(instanceof, children...; props...)
-    Node(instanceof, PersistentVector{Any}(collect(children)), Dict(props))
-end
+# Can/should this be deprecated?
+# The relationship between this and Widgets.jl doesn't make very much sense
+# (WebIO extends `node` from Widgets but Widgets essentially relies on this
+# implentation for things like `Widgets.div`).
+node(args...; kwargs...) = Node(args...; kwargs...)
 
+"""
+    promote_instanceof(x)
+
+Promotes an `instanceof` (when constructing a new `Node`) to the appropriate
+type.
+
+# Examples
+```jldoctest
+julia> repr(WebIO.promote_instanceof(:div))
+"WebIO.DOM(:html, :div)"
+```
+"""
 promote_instanceof(x) = x
 promote_instanceof(s::Symbol) = DOM(:html, s)
 promote_instanceof(s::AbstractString) = promote_instanceof(Symbol(s))
@@ -36,11 +71,18 @@ promote_instanceof(s::AbstractString) = promote_instanceof(Symbol(s))
 nodetype(n::Node) = typename(n.instanceof)
 typename(n::T) where {T} = string(T.name.name)
 
-function kwargs2props(propkwargs)
-    props = Dict{Symbol,Any}(propkwargs)
-    props # XXX IJulia/JSON bug? kernel seems to crash if this is a String not a Dict (which is obviously silly but still, it shouldn't crash the IJulia kernel)
-end
+"""
+    kwargs2props(kwargs)
 
+Convert keyword arguments (à la `kwargs...`) to a `props` dict.
+"""
+kwargs2props(kwargs) = Dict{Symbol, Any}(kwargs)
+
+"""
+    DOM(namespace, tag)
+
+An instance (for `Node.instanceof`) that represents a specific DOM node type.
+"""
 struct DOM
     namespace::Symbol
     tag::Symbol
@@ -56,8 +98,7 @@ setinstanceof(n::Node, instanceof) = Node(instanceof, n.children, n.props)
 props(n::Node) = n.props
 setprops(n::Node, props) = Node(n.instanceof, n.children, props)
 
-######## modifying an element #######
-
+# Modifications
 export append, setchild, withchild, withlastchild, mergeprops
 
 append(n::Node, cs) = setchildren(n, append(children(n), cs))
@@ -72,8 +113,7 @@ function mergeprops(n::Node, p, ps...)
     setprops(n, out)
 end
 
-####### Rendering to HTML ########
-
+# Rendering as HTML
 function JSON.lower(n::Node)
     result = Dict{String, Any}(
         "type" => "node",
@@ -88,24 +128,6 @@ function JSON.lower(n::Node)
     )
     return result
 end
-
-"""
-Escape characters for a "safe" representation of JSON.
-
-In particular, we escape '/' characters to avoid the presence of "</" (and
-especially "</script>") which cause the browser to break out of the current
-<script /> tag.
-"""
-function escape_json(s::String)
-    # Replace all "/" with "\/"'s.
-    # This prevents the browser from interpreting "</" as a close tag; since
-    # everything within the string is JSON, any appearances of "/" should be
-    # within strings and when the JSON is parsed, the "\/"'s will be interpreted
-    # as just normal "/"'s.
-    return replace(s, "/" => "\\/")
-end
-
-escape_json(x::Any) = escape_json(JSON.json(x))
 
 function Base.show(io::IO, m::MIME"text/html", x::Node)
     mountpoint_id = rand(UInt64)
@@ -145,48 +167,23 @@ end
 Base.show(io::IO, m::MIME"text/html", x::Observable) = show(io, m, WebIO.render(x))
 Base.show(io::IO, m::WEBIO_NODE_MIME, x::Union{Observable, AbstractWidget}) = show(io, m, WebIO.render(x))
 
-### Utility
-
-descendants_count(t::String) = 0
-descendants_count(el::Node) = el._descendants_count
-function descendants_count(v::AbstractArray)
-    s = 0
-    for i in 1:length(v)
-        @inbounds s +=_count(v[i])
-    end
-    s
-end
-_count(t) = 1
-_count(el::Node) = el._descendants_count + 1
-
-## Element extension syntax
-
+# Element extension syntax
 (n::Node)(x, args...) = append(n, (x, args...))
 (n::Node)(props::AbstractDict...) = mergeprops(n, props...)
 (n::Node)(;kwargs...) = mergeprops(n, kwargs)
 (n::Node)(args...; kwargs...) = n(args...)(;kwargs...)
 
-
-## Pretty printing
-
-function showindent(io, level)
-    for i=1:level
-        write(io, "  ")
-    end
-end
+# Pretty printing
+showindent(io, level) = write(io, repeat("  ", level))
 
 function Base.show(io::IO, ::MIME"text/plain", el::Node)
     _show(io, el)
 end
 
 function showprops(io, dict)
-    write(io, "{")
-    write(io, ' ')
+    write(io, "{ ")
     for (k,v) in dict
-        print(io, k)
-        write(io, '=')
-        show(io, v)
-        write(io, ' ')
+        print(io, k, "=", repr(v), " ")
     end
     write(io, "}")
 end

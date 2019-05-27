@@ -1,3 +1,5 @@
+using JSON
+
 export @dom_str, @js, @js_str
 
 # adapted from Hiccup.jl
