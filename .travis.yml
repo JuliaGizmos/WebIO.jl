@@ -1,30 +1,27 @@
 # Documentation: http://docs.travis-ci.com/user/languages/julia/
 language: julia
-matrix:
-  include:
-    - os: linux
-      julia: 0.7
-      env: TESTCMD="xvfb-run julia"
-    - os: linux
-      julia: 1.1
-      env: TESTCMD="xvfb-run julia"
-    - os: linux
-      julia: nightly
-      env: TESTCMD="xvfb-run julia"
-    - os: osx
-      julia: 0.7
-      env: TESTCMD="julia"
-    - os: osx
-      julia: 1.1
-      env: TESTCMD="julia"
-    - os: osx
-      julia: nightly
-      env: TESTCMD="julia"
-  allow_failures:
-    - julia: nightly
 
 jobs:
   include:
+    - os: linux
+      julia: 0.7
+      env: TESTCMD="xvfb-run julia"
+    - os: linux
+      julia: 1.1
+      env: TESTCMD="xvfb-run julia"
+    - os: linux
+      julia: nightly
+      env: TESTCMD="xvfb-run julia"
+    - os: osx
+      julia: 0.7
+      env: TESTCMD="julia"
+    - os: osx
+      julia: 1.1
+      env: TESTCMD="julia"
+    - os: osx
+      julia: nightly
+      env: TESTCMD="julia"
+
     - stage: "Documentation"
       julia: 1.1
       os: linux
@@ -35,6 +32,8 @@ jobs:
             Pkg.instantiate();
           '
         - julia --project=docs/ docs/make.jl
+      name: "HTML Documentation"
+      after_success: skip
 
 script:
   - if [[ -a .git/shallow ]]; then git fetch --unshallow; fi
