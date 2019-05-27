@@ -6,6 +6,7 @@ deps/build.log
 yarn.lock
 node_modules
 *.js.map
+lerna-debug.log
 
 # Miscellaneous
 .*~

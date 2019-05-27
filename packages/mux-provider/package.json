@@ -1,4 +1,5 @@
 {
+  "private": true,
   "name": "@webio/mux-provider",
   "description": "Blink provider for WebIO.",
   "repository": "https://github.com/JuliaGizmos/WebIO.jl",
@@ -13,5 +14,5 @@
     "build": "webpack-cli",
     "build-prod": "webpack-cli -p"
   },
-  "version": "1.0.2"
+  "version": "0.8.2"
 }
