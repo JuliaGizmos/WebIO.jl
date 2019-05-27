@@ -31,5 +31,5 @@ makedocs(
 )
 
 deploydocs(
-    repo="git@github.com:JuliaGizmos/WebIO.jl.git",
+    repo="github.com/JuliaGizmos/WebIO.jl.git",
 )
