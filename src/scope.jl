@@ -107,7 +107,7 @@ end
 const scopes = Dict{String, Scope}()
 
 """
-    Scope([id]; <keyword arguments>)
+    Scope(<keyword arguments>)
 
 An object which can send and receive messages.
 
@@ -123,8 +123,10 @@ An object which can send and receive messages.
 ```julia
 myscope = Scope(
     id="myscope",
+    dom=node(:p, "I'm a little scope!"),
     imports=[Asset("foo.js"), "bar.css", "spam" => "spam.js"],
 )
+```
 """
 function Scope(;
         id::String=newid("scope"),
