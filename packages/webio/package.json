@@ -20,5 +20,8 @@
     "build": "tsc -p .",
     "build-prod": "npm run build",
     "prepack": "npm run build"
+  },
+  "devDependencies": {
+    "typescript": "^3.3.4000"
   }
 }

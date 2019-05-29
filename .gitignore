@@ -7,6 +7,7 @@ yarn.lock
 node_modules
 *.js.map
 lerna-debug.log
+package-lock.json
 
 # Miscellaneous
 .*~
