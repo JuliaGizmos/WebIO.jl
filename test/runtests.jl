@@ -3,7 +3,7 @@ using Test
 using Sockets
 
 # Always bundle first so we're testing against latest version of WebIO JS.
-#include("bundling.jl")
+include("bundling.jl")
 
 import WebIO: DOM, instanceof
 @testset "node" begin
