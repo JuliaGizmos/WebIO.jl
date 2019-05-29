@@ -118,7 +118,7 @@ function observable_to_scope(obs::Observable)
         )
         map!(output, obs) do value
             if !isa(value, Node)
-                @warn "A rendered observable (scope.id=$(scope.id), obs.id=$(obs.id)) changed from a WebIO node to $(typeof(value))."
+                @warn "A rendered observable (scopeid=$(scopeid(scope)), obs.id=$(obs.id)) changed from a WebIO node to $(typeof(value))."
                 return nothing
             end
             return value

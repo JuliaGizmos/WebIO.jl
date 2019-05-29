@@ -87,17 +87,12 @@ end
 function dispatch_command(conn::AbstractConnection, data)
     # first, check if the message is one of the administrative ones
     cmd = data["command"]
-    scopeid = data["scope"]
+    scope = lookup_scope(data["scope"])
     if cmd == "setup_scope" || cmd == "_setup_scope"
         if cmd == "_setup_scope"
             @warn("Client used deprecated command: _setup_scope.", maxlog=1)
         end
-        if haskey(scopes, scopeid)
-            scope = scopes[scopeid]
-            addconnection!(scope.pool, conn)
-        else
-            log(conn, "Client says it has unknown scope $scopeid", "warn")
-        end
+        addconnection!(scope.pool, conn)
     elseif cmd == "update_observable"
         if !haskey(data, "name")
             @error "update_observable message missing \"name\" key."
@@ -105,19 +100,10 @@ function dispatch_command(conn::AbstractConnection, data)
         elseif !haskey(data, "value")
             @error "update_observable message missing \"value\" key."
             return
-        elseif !haskey(scopes, scopeid)
-            @error "update_observable message received for unknown scope ($scopeid)."
-            return
         end
-        scope = scopes[scopeid]
         dispatch(scope, data["name"], data["value"])
     else
         @warn "Implicit observable update command is deprecated."
-        if !haskey(scopes, scopeid)
-            @warn("Message $data received for unknown scope $scopeid")
-            return
-        end
-        scope = scopes[scopeid]
         dispatch(scope, cmd, data["data"])
     end
 end
