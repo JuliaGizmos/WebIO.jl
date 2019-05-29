@@ -1,4 +1,3 @@
-using FunctionalCollections
 using Random: MersenneTwister
 using UUIDs
 
@@ -8,8 +7,6 @@ const newid = let rng = MersenneTwister()
     end
 end
 
-_pvec(x::PersistentVector) = x
-_pvec(x::AbstractArray) = pvec(x)
 
 # b can be array of pairs / kwargs etc.
 function recmerge!(a, b, f=recmerge!)

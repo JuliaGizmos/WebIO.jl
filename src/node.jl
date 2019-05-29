@@ -1,7 +1,5 @@
-using FunctionalCollections
 using JSON
 
-import FunctionalCollections: append
 export Node, node, instanceof, props
 
 """
@@ -27,7 +25,7 @@ Nodes with custom (non-`DOM`) instances should have a corresponding
 """
 struct Node{T}
     instanceof::T
-    children::PersistentVector{Any}
+    children::Vector{Any}
     props::Dict{Symbol, Any}
 
     # This needs to be an inner constructor to enforce the promotion of the
@@ -36,7 +34,7 @@ struct Node{T}
         instanceof = promote_instanceof(instanceof)
         return new{typeof(instanceof)}(
             promote_instanceof(instanceof),
-            _pvec(children),
+            convert(Vector{Any}, children),
             kwargs2props(props),
         )
     end
@@ -92,7 +90,7 @@ end
 export children, setchildren, instanceof, setinstanceof, props, setprops
 
 children(n::Node) = n.children
-setchildren(n::Node, children) = Node(n.instanceof, PersistentVector{Any}(collect(children)), n.props)
+setchildren(n::Node, children) = Node(n.instanceof, collect(children), n.props)
 instanceof(n::Node) = n.instanceof
 setinstanceof(n::Node, instanceof) = Node(instanceof, n.children, n.props)
 props(n::Node) = n.props
@@ -101,8 +99,8 @@ setprops(n::Node, props) = Node(n.instanceof, n.children, props)
 # Modifications
 export append, setchild, withchild, withlastchild, mergeprops
 
-append(n::Node, cs) = setchildren(n, append(children(n), cs))
-setchild(n::Node, i, c) = setchildren(n, assoc(children(n), i, c))
+append(n::Node, cs) = setchildren(n, append!(copy(children(n)), cs))
+setchild(n::Node, i, c) = setchildren(n, setindex!(copy(children(n)), c, i))
 withchild(f, n::Node, i) = setchild(n, i, f(children(n)[i]))
 withlastchild(f, n::Node) = setchild(n, length(children(n)), f(children(n)[i]))
 function mergeprops(n::Node, p, ps...)
