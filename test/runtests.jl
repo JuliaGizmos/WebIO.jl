@@ -1,11 +1,11 @@
 using WebIO
 using Test
 using Sockets
+import WebIO: DOM, instanceof
 
 # Always bundle first so we're testing against latest version of WebIO JS.
 include("bundling.jl")
 
-import WebIO: DOM, instanceof
 @testset "node" begin
 
     @test dom"div"().children == []
