@@ -13,7 +13,7 @@ end
 @testset "Jupyter setup" begin
     # We need conda-forge for node.
     Conda.add_channel("conda-forge")
-    Conda.add.(["jupyterlab", "node"])
+    Conda.add.(["jupyterlab", "nodejs"])
 
     # Remove path to make sure that we can find Conda if nothing else exists.
     oldpath = ENV["PATH"]
