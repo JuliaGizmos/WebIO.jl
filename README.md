@@ -15,7 +15,7 @@ People using WebIO
 ------------------
 
 This is a non-comprehensive list of projects using WebIO:
-+ [Interact.jl](https://github.com/JuliaGizmos/Interact.jl/issues)
++ [Interact.jl](https://github.com/JuliaGizmos/Interact.jl)
 + [Julia Tetris](http://juliatetris.com)
 
 If you want your page listed here, please open an [issue](https://github.com/JuliaGizmos/WebIO.jl/issues/new).
