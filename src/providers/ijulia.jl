@@ -2,6 +2,8 @@ using AssetRegistry
 using Sockets
 using WebIO
 
+include("../../deps/jupyter.jl")
+
 struct IJuliaConnection <: AbstractConnection
     comm::IJulia.CommManager.Comm
 end
