@@ -53,9 +53,17 @@ mutable struct Scope
             systemjs_options, imports, jshandlers, pool,
             mount_callbacks
         )
-        register!(scope)
+        register_scope!(scope)
         return scope
     end
+end
+
+function Base.getproperty(scope::Scope, property::Symbol)
+    if property === :id
+        Base.depwarn("Accessing scope.id is deprecated; use scopeid(scope) instead.", :webio_scope_id)
+        return scopeid(scope)
+    end
+    return getfield(scope, property)
 end
 
 # Need to use String for correct json javascript serialization -.-
@@ -63,11 +71,11 @@ scopeid(x::Scope) = string(objectid(x))
 
 const global_scope_registry = Dict{String, Scope}()
 
-function register!(scope::Scope)
+function register_scope!(scope::Scope)
     global_scope_registry[scopeid(scope)] = scope
 end
 
-function deregister!(scope::Scope)
+function deregister_scope!(scope::Scope)
     delete!(global_scope_registry, scopeid(scope))
 end
 
