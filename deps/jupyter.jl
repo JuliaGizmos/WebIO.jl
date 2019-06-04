@@ -129,8 +129,9 @@ Jupyter Lab and WebIO.
 """
 function install_jupyter_labextension(jupyter::Cmd=find_jupyter_cmd())
     install_jupyter_serverextension()
-    run(`$jupyter labextension link $WEBIO_CORE_PACKAGE_PATH`)
-    run(`$jupyter labextension install $JUPYTER_LAB_PROVIDER_PATH`)
+    run(`$jupyter labextension link --no-build $WEBIO_CORE_PACKAGE_PATH`)
+    run(`$jupyter labextension install --no-build $JUPYTER_LAB_PROVIDER_PATH`)
+    run(`$jupyter lab build`)
 end
 
 
