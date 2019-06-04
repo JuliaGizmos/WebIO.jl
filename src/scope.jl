@@ -17,27 +17,73 @@ export Scope,
 import Compat.Sockets: send
 import Observables: Observable, AbstractObservable, listeners
 
+# bool marks if it is synced
+const ObsDict = Dict{String, Tuple{AbstractObservable, Union{Nothing,Bool}}}
+
 mutable struct Scope
-    id::AbstractString
     dom::Any
-    observs::Dict{String, Tuple{AbstractObservable, Union{Nothing,Bool}}} # bool marks if it is synced
+    observs::ObsDict
     private_obs::Set{String}
-    systemjs_options
+    systemjs_options::Any
     # This should be an array of scopes, but there currently exist some circular
     # relationships between imports and scopes.
-    imports::AbstractArray
+    imports::Vector{Asset}
     # A collection of handler functions associated with various observables in
     # this scope. Of the form
     # "observable-name" => ["array", "of", "JS", "strings"]
     # where each JS-string is a function that is invoked when the observable
     # changes.
-    jshandlers
+    jshandlers::Any
     pool::ConnectionPool
 
     mount_callbacks::Vector{JSString}
+
+    function Scope(
+            dom::Any,
+            observs::ObsDict, # bool marks if it is synced
+            private_obs::Set{String},
+            systemjs_options::Any,
+            imports::Vector{Asset},
+            jshandlers::Any,
+            pool::ConnectionPool,
+            mount_callbacks::Vector{JSString}
+        )
+        scope = new(
+            dom, observs, private_obs,
+            systemjs_options, imports, jshandlers, pool,
+            mount_callbacks
+        )
+        register_scope!(scope)
+        return scope
+    end
 end
 
-const scopes = Dict{String, Scope}()
+function Base.getproperty(scope::Scope, property::Symbol)
+    if property === :id
+        Base.depwarn("Accessing scope.id is deprecated; use scopeid(scope) instead.", :webio_scope_id)
+        return scopeid(scope)
+    end
+    return getfield(scope, property)
+end
+
+# Need to use String for correct json javascript serialization -.-
+scopeid(x::Scope) = string(objectid(x))
+
+const global_scope_registry = Dict{String, Scope}()
+
+function register_scope!(scope::Scope)
+    global_scope_registry[scopeid(scope)] = scope
+end
+
+function deregister_scope!(scope::Scope)
+    delete!(global_scope_registry, scopeid(scope))
+end
+
+function lookup_scope(uuid::String)
+    get(global_scope_registry, uuid) do
+        error("Could not find scope $(uuid)")
+    end
+end
 
 """
     Scope(<keyword arguments>)
@@ -62,34 +108,23 @@ myscope = Scope(
 ```
 """
 function Scope(;
-        id::String=newid("scope"),
-        dom=dom"span"(),
-        outbox::Channel=Channel{Any}(Inf),
-        observs::Dict=Dict(),
-        private_obs::Set{String}=Set{String}(),
-        dependencies=nothing,
-        systemjs_options=nothing,
-        imports=nothing,
-        jshandlers::Dict=Dict(),
-        mount_callbacks::Vector{JSString}=Vector{JSString}(),
+        id::String = "scope",
+        dom = dom"span"(),
+        outbox::Channel = Channel{Any}(Inf),
+        observs::Dict = ObsDict(),
+        private_obs::Set{String} = Set{String}(),
+        systemjs_options = nothing,
+        imports = Asset[],
+        jshandlers::Dict = Dict(),
+        mount_callbacks::Vector{JSString} = JSString[],
     )
-
-    if dependencies !== nothing
-        @warn("dependencies keyword argument is deprecated, use WebAsset instead.", maxlog=1)
-        imports = dependencies
-    end
-
-    imports = (imports == nothing) ? [] : [Asset(i) for i in imports]
-
-    if haskey(scopes, id)
-        @warn("A scope by the id $id already exists. Overwriting.")
-    end
-
+    imports = Asset[Asset(i) for i in imports]
     pool = ConnectionPool(outbox)
-
-    scopes[id] = Scope(id, dom, observs, private_obs, systemjs_options, imports, jshandlers, pool, mount_callbacks)
+    return Scope(
+        dom, observs, private_obs, systemjs_options,
+        imports, jshandlers, pool, mount_callbacks
+    )
 end
-Base.@deprecate Scope(id::AbstractString; kwargs...) Scope(; id=id, kwargs...)
 
 (w::Scope)(arg) = (w.dom = arg; w)
 Base.wait(scope::Scope) = ensure_connection(scope.pool)
@@ -123,7 +158,7 @@ const observ_id_dict = WeakKeyDict()
 function setobservable!(ctx, key, obs; sync=nothing)
     key = string(key)
     if haskey(ctx.observs, key)
-        @warn("An observable named $key already exists in scope $(ctx.id).
+        @warn("An observable named $key already exists in scope $(scopeid(ctx)).
              Overwriting.")
     end
 
@@ -171,13 +206,11 @@ function Observable(ctx::Scope, key, val::T; sync=nothing) where {T}
     Observable{T}(ctx, key, val; sync=sync)
 end
 
-const Observ = Observable
-
-function JSON.lower(x::Scope)
+function JSON.lower(scope::Scope)
     obs_dict = Dict()
-    for (k, ob_) in x.observs
+    for (k, ob_) in scope.observs
         ob, sync = ob_
-        if k in x.private_obs
+        if k in scope.private_obs
             continue
         end
         if sync === nothing
@@ -185,17 +218,20 @@ function JSON.lower(x::Scope)
             # other than the JS back edge
             sync = any(f-> !isa(f, SyncCallback), listeners(ob))
         end
-        obs_dict[k] = Dict("sync" => sync,
-             "value" => ob[],
-             "id" => obsid(ob))
+        obs_dict[k] = Dict(
+            "sync" => sync,
+            "value" => ob[],
+            "id" => obsid(ob)
+        )
     end
     Dict(
-        "id" => x.id,
-        "systemjs_options" => x.systemjs_options,
-        "imports" => lowerassets(x.imports),
-        "handlers" => x.jshandlers,
-        "mount_callbacks" => x.mount_callbacks,
-        "observables" => obs_dict)
+        "id" => scopeid(scope),
+        "systemjs_options" => scope.systemjs_options,
+        "imports" => lowerassets(scope.imports),
+        "handlers" => scope.jshandlers,
+        "mount_callbacks" => scope.mount_callbacks,
+        "observables" => obs_dict
+    )
 end
 
 function render(s::Scope)
@@ -210,10 +246,10 @@ style message; no response or acknowledgement is expected.
 """
 function send_command(scope::Scope, command, data::Pair...)
     message = Dict(
-      "type" => "command",
-      "command" => command,
-      "scope" => scope.id,
-      data...
+        "type" => "command",
+        "command" => command,
+        "scope" => scopeid(scope),
+        data...
     )
     send(scope.pool, message)
     nothing
@@ -229,7 +265,9 @@ send_update_observable(scope::Scope, name::AbstractString, value) = send_command
     "value" => value,
 )
 
-send_request(scope::Scope, request, data::Pair...) = send_request(scope.pool, request, "scope" => scope.id, data...)
+function send_request(scope::Scope, request, data::Pair...)
+    send_request(scope.pool, request, "scope" => scopeid(scope), data...)
+end
 
 macro evaljs(ctx, expr)
     @warn("@evaljs is deprecated, use evaljs function instead")
@@ -276,14 +314,16 @@ function set_nosync(ob, val)
 end
 
 const lifecycle_commands = ["scope_created"]
+
 function dispatch(ctx, key, data)
     if haskey(ctx.observs, string(key))
         # this message has come from the browser
         # so don't update the browser back!
         set_nosync(ctx.observs[key][1], data)
     else
-        key ∈ lifecycle_commands ||
-            @warn("$key does not have a handler for scope id $(ctx.id)")
+        if !(key in lifecycle_commands)
+            @warn("$key does not have a handler for scope id $(scopeid(ctx))")
+        end
     end
 end
 

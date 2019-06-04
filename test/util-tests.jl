@@ -2,7 +2,7 @@ using Test
 using WebIO
 using Random
 
-using WebIO: kebab2camel, camel2kebab, newid
+using WebIO: kebab2camel, camel2kebab
 
 @testset "kebabs and camels" begin
     kebabstrs = ["vue-instance-17-node-18", "bum-two-three", "silly nanny", "nanny"]
@@ -18,20 +18,3 @@ using WebIO: kebab2camel, camel2kebab, newid
         @test camelstrs[i] == kebabstrs[i] || camelstrs[i] == kebab_also_trues[i]
     end
 end
-
-@testset "Scope ID uniqueness" begin
-    prefix = ""
-    # Verify that sequential IDs are not the same
-    for i in 1:100
-        @test newid(prefix) != newid(prefix)
-    end
-
-    # Verify that resetting the global random seed does not result in
-    # scopes with the same ID
-    Random.seed!(1)
-    id1 = newid(prefix)
-    Random.seed!(1)
-    id2 = newid(prefix)
-    @test id1 != id2
-end
-

@@ -1,16 +1,14 @@
 using FunctionalCollections
-using Random: MersenneTwister
-using UUIDs
-
-const newid = let rng = MersenneTwister()
-    function(prefix)
-        string(prefix, '-', uuid4(rng))
-    end
-end
-
+using Random
 _pvec(x::PersistentVector) = x
 _pvec(x::AbstractArray) = pvec(x)
 
+const newid = let rng = MersenneTwister()
+    function (prefix)
+        Base.depwarn("newid(prefix) is deprecated. Scopes don't need this anymore. To get the scope's id, use scopeid(scope)", :newid)
+        string(prefix, '-', uuid4(rng))
+    end
+end
 # b can be array of pairs / kwargs etc.
 function recmerge!(a, b, f=recmerge!)
     for (k, v) in b
