@@ -1,0 +1,29 @@
+<!DOCTYPE html>
+<html lang="en"><head><meta charset="UTF-8"/><meta name="viewport" content="width=device-width, initial-scale=1.0"/><title>Extending WebIO · WebIO</title><link href="https://cdnjs.cloudflare.com/ajax/libs/normalize/4.2.0/normalize.min.css" rel="stylesheet" type="text/css"/><link href="https://fonts.googleapis.com/css?family=Lato|Roboto+Mono" rel="stylesheet" type="text/css"/><link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.6.3/css/font-awesome.min.css" rel="stylesheet" type="text/css"/><link href="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/9.12.0/styles/default.min.css" rel="stylesheet" type="text/css"/><script>documenterBaseURL=".."</script><script src="https://cdnjs.cloudflare.com/ajax/libs/require.js/2.2.0/require.min.js" data-main="../assets/documenter.js"></script><script src="../siteinfo.js"></script><script src="../../versions.js"></script><link href="../assets/documenter.css" rel="stylesheet" type="text/css"/></head><body><nav class="toc"><h1>WebIO</h1><select id="version-selector" onChange="window.location.href=this.value" style="visibility: hidden"></select><form class="search" id="search-form" action="../search/"><input id="search-query" name="q" type="text" placeholder="Search docs"/></form><ul><li><a class="toctext" href="../">WebIO.jl</a></li><li><a class="toctext" href="../gettingstarted/">Getting Started</a></li><li><span class="toctext">API Reference</span><ul><li><a class="toctext" href="../api/about/">About This Reference</a></li><li><a class="toctext" href="../api/node/">Nodes</a></li><li><a class="toctext" href="../api/scope/">Scopes</a></li><li><a class="toctext" href="../api/render/">Render</a></li><li><a class="toctext" href="../api/asset/">Assets</a></li><li><a class="toctext" href="../api/jsstring/">JSString</a></li><li><a class="toctext" href="../api/observable/">Observables</a></li></ul></li><li><span class="toctext">Providers</span><ul><li><a class="toctext" href="../providers/ijulia/">IJulia</a></li><li><a class="toctext" href="../providers/blink/">Blink</a></li><li><a class="toctext" href="../providers/mux/">Blink</a></li></ul></li><li class="current"><a class="toctext" href>Extending WebIO</a><ul class="internal"><li><a class="toctext" href="#Rendering-Custom-Objects-1">Rendering Custom Objects</a></li></ul></li></ul></nav><article id="docs"><header><nav><ul><li><a href>Extending WebIO</a></li></ul><a class="edit-page" href="https://github.com/JuliaGizmos/WebIO.jl/blob/master/docs/src/extending.md"><span class="fa"></span> Edit on GitHub</a></nav><hr/><div id="topbar"><span>Extending WebIO</span><a class="fa fa-bars" href="#"></a></div></header><h1><a class="nav-anchor" id="Extending-WebIO-1" href="#Extending-WebIO-1">Extending WebIO</a></h1><h2><a class="nav-anchor" id="Rendering-Custom-Objects-1" href="#Rendering-Custom-Objects-1">Rendering Custom Objects</a></h2><p>WebIO defines the <a href="../api/render/#WebIO.render"><code>WebIO.render</code></a> function which can be extended to render any Julia type into the DOM. Think of it as a better version of <code>show(io::IO, m::MIME&quot;text/html&quot;, x)</code> (where the output is a tree of <a href="../api/node/#WebIO.Node"><code>Node</code></a>&#39;s instead of an HTML string).</p><h3><a class="nav-anchor" id="Learning-By-Example-1" href="#Learning-By-Example-1">Learning By Example</a></h3><p>Suppose we want to teach WebIO how to render our to-do list type. Given a <code>TodoItem</code> like</p><pre><code class="language-julia">struct TodoItem
+    description::String
+    done::Bool
+end</code></pre><p>we might define a <code>render</code> method such as</p><pre><code class="language-julia">function WebIO.render(todoitem::TodoItem)
+    return dom&quot;div.todo-item&quot;(
+        dom&quot;input[type=checkbox]&quot;(checked=todoitem.done),
+        todoitem.description,
+        style=Dict(&quot;display&quot; =&gt; &quot;flex&quot;, &quot;flex-direction&quot; =&gt; &quot;horizontal&quot;),
+    )
+end</code></pre><p>If we have a to-do list that looks like</p><pre><code class="language-julia">struct TodoList
+    title::String
+    items::Vector{TodoItem}
+end
+
+mylist = TodoList(
+    &quot;My todo list&quot;,
+    [
+        TodoItem(&quot;Make my first WebIO widget&quot;, false),
+        TodoItem(&quot;Make a pie&quot;, false),
+    ],
+)</code></pre><p>we can define <code>render</code> as</p><pre><code class="language-julia">function WebIO.render(list::TodoList)
+    return dom&quot;div&quot;(
+        dom&quot;h2&quot;(list.title),
+        dom&quot;div.todo-list&quot;(
+            WebIO.render.(list.items)...
+        ),
+    )
+end</code></pre><p>Always remember to recursively <code>WebIO.render</code> any <em>child</em> elements if necessary.</p><footer><hr/><a class="previous" href="../providers/mux/"><span class="direction">Previous</span><span class="title">Blink</span></a></footer></article></body></html>
