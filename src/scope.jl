@@ -66,8 +66,17 @@ function Base.getproperty(scope::Scope, property::Symbol)
     return getfield(scope, property)
 end
 
-# Need to use String for correct json javascript serialization -.-
-scopeid(x::Scope) = string(objectid(x))
+"""
+    scopeid(scope)
+
+Get a unique identifier for the specified scope.
+This is the identifier that is used to reference scopes when communicating
+between Julia and the Browser.
+
+This defers to `Base.objectid` under the hood, though is cast to a string for
+mostly historical reasons.
+"""
+scopeid(scope::Scope) = string(objectid(scope))
 
 const global_scope_registry = Dict{String, Scope}()
 
@@ -91,24 +100,21 @@ end
 An object which can send and receive messages.
 
 # Arguments
-- `id`: The unique id of the scope.
-- `dom`: The underlying DOM node that will be rendered when the scope is
-    displayed in the browser.
-- `imports`: An collection of `Asset`s to load (see `Asset` documentation for
+- `dom`: The DOM node that will be rendered when the scope is displayed in the
+    browser.
+- `imports`: An collection of `Asset`s to load (see [`Asset`](@ref) for
     more documentation) when the scope is mounted. If the entry is not an
     `Asset` then it should be an argument to construct an `Asset`.
 
 # Examples
 ```julia
 myscope = Scope(
-    id="myscope",
     dom=node(:p, "I'm a little scope!"),
     imports=[Asset("foo.js"), "bar.css", "spam" => "spam.js"],
 )
 ```
 """
 function Scope(;
-        id::String = "scope",
         dom = dom"span"(),
         outbox::Channel = Channel{Any}(Inf),
         observs::Dict = ObsDict(),
@@ -117,13 +123,30 @@ function Scope(;
         imports = Asset[],
         jshandlers::Dict = Dict(),
         mount_callbacks::Vector{JSString} = JSString[],
+        # Deprecated
+        id=nothing,
     )
+    if id !== nothing
+        Base.depwarn(
+            "`Scope(; id, kwargs...)` is deprecated, "
+                * "use `Scope(kwargs...)` instead.",
+            :webio_scope_id_keyword_arg,
+        )
+    end
     imports = Asset[Asset(i) for i in imports]
     pool = ConnectionPool(outbox)
     return Scope(
         dom, observs, private_obs, systemjs_options,
         imports, jshandlers, pool, mount_callbacks
     )
+end
+
+function Scope(id; kwargs...)
+    Base.depwarn(
+        "Scope(id; kwargs...) is deprecated, use Scope(kwargs...) instead.",
+        :webio_scope_id_positional_arg,
+    )
+    return Scope(kwargs...)
 end
 
 (w::Scope)(arg) = (w.dom = arg; w)
