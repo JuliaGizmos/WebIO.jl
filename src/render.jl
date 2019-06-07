@@ -174,4 +174,144 @@ end
 
 render(w::AbstractWidget) = render(Widgets.render(w))
 
+function JSON.lower(n::Node)
+    result = Dict{String, Any}(
+        "type" => "node",
+        "nodeType" => nodetype(n),
+        "instanceArgs" => JSON.lower(n.instanceof),
+        "children" => map!(
+            render,
+            Vector{Any}(undef, length(children(n))),
+            children(n),
+        ),
+        "props" => props(n),
+    )
+    return result
+end
+
+function Base.show(io::IO, m::MIME"text/html", x::Node)
+    mountpoint_id = rand(UInt64)
+    # Is there any way to only include the `require`-guard below for IJulia?
+    # I think IJulia defines their own ::IO type.
+    write(
+        io,
+        """
+        <div
+            class="webio-mountpoint"
+            data-webio-mountpoint="$(mountpoint_id)"
+        >
+            <script>
+            if (window.require && require.defined && require.defined("nbextensions/webio/main")) {
+                console.log("Jupyter WebIO extension detected, not mounting.");
+            } else if (window.WebIO) {
+                WebIO.mount(
+                    document.querySelector('[data-webio-mountpoint="$(mountpoint_id)"]'),
+                    $(escape_json(x)),
+                    window,
+                );
+            } else {
+                document
+                    .querySelector('[data-webio-mountpoint="$(mountpoint_id)"]')
+                    .innerHTML = '<strong>WebIO not detected.</strong>';
+            }
+            </script>
+        </div>
+        """
+    )
+end
+
+"""
+    @register_renderable <method declaration>
+    @register_renderable MyType
+
+Register a type as renderable by WebIO.
+This enables your type to be displayed in the appropriate WebIO frontends
+(e.g. Jupyter) without any additional work.
+
+This macro may be called either with the definition of a `WebIO.render` method
+for your type or just on the type alone (assuming a `WebIO.render` method has
+already been defined).
+
+# Examples
+```julia
+struct ScatterPlot
+    x::Vector{Float64}
+    y::Vector{Float64}
+end
+
+# All of the following are equivalent
+WebIO.@register_renderable function WebIO.render(x::ScatterPlot)
+    # Construct the scatter plot using DOM primitives...
+    return node(...)
+end
+
+WebIO.@register_renderable WebIO.render(x::ScatterPlot) = node(...)
+
+function WebIO.render(x::ScatterPlot)
+    ...
+end
+WebIO.@register_renderable ScatterPlot
+```
+"""
+macro register_renderable(ex::Union{Symbol, Expr})
+    if isa(ex, Symbol) || ex.head == :(.)
+        # Allow `@register_renderable MyModule.MyType` syntax
+        return register_renderable_helper(ex)
+    end
+
+    # This is true if using `render(x) = ...` syntax
+    is_short_form_def = (
+        ex.head == :(=)
+        && isa(ex.args[1], Expr) && ex.args[1].head == :call
+        && isa(ex.args[2], Expr) && ex.args[2].head == :block
+    )
+    if ex.head != :function && !is_short_form_def
+        error("Invalid expression (must be a method definition).")
+    end
+
+    call = ex.args[1]
+    is_valid_call = (
+        (call.args[1] == :render || call.args[1] == :(WebIO.render))
+        && (length(call.args) == 2)
+        && (isa(call.args[2], Expr))
+        && (call.args[2].head == :(::))
+    )
+    if !is_valid_call
+        error("Invalid expression (must be a method definition for WebIO.render).")
+    end
+
+    typename = call.args[2].args[2]
+    return Expr(
+        :block,
+        esc(ex),
+        register_renderable_helper(typename),
+    )
+end
+
+function register_renderable_helper(typename::Union{Symbol, Expr})::Expr
+    return :(
+        begin
+            function Base.show(
+                    io::IO,
+                    m::Union{MIME"text/html", WEBIO_NODE_MIME},
+                    x::$(esc(typename)),
+            )
+                return Base.show(io, m, WebIO.render(x))
+            end
+        end
+    )
+end
+
+function Base.show(io::IO, m::WEBIO_NODE_MIME, node::Node)
+    write(io, JSON.json(node))
+end
+
+function Base.show(io::IO, m::MIME"text/html", x::Observable)
+    show(io, m, WebIO.render(x))
+end
+
+function Base.show(io::IO, m::WEBIO_NODE_MIME, x::Union{Observable, AbstractWidget})
+    show(io, m, WebIO.render(x))
+end
+
 @deprecate render_internal render
