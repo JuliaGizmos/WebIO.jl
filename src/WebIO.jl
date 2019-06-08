@@ -15,6 +15,11 @@ The filesystem path where the WebIO frontend packages lives.
 const packagepath = normpath(joinpath(@__DIR__, "..", "packages"))
 
 """
+The path of the main WebIO JavaScript bundle file.
+"""
+const bundlepath = normpath(joinpath(packagepath, "webio", "dist", "index.js"))
+
+"""
 The MIME type for WebIO nodes.
 
 This is used when serializing a WebIO node tree to a frontend.
@@ -84,6 +89,15 @@ function __init__()
         include(joinpath("providers", "mux.jl"))
     end
     @require Blink="ad839575-38b3-5650-b840-f874b8c74a25" begin
+        # The latest version of Blink defines their own WebIO integration
+        # (after https://github.com/JunoLab/Blink.jl/pull/201).
+        if isdefined(Blink.AtomShell, :initwebio!)
+            return
+        end
+        Base.depwarn(
+            "Please upgrade Blink for a smoother integration with WebIO.",
+            :webio_blink_upgrade,
+        )
         include(joinpath("providers", "blink.jl"))
     end
     @require IJulia="7073ff75-c697-5162-941a-fcdaad2a7d2a" begin
