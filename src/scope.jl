@@ -146,7 +146,7 @@ function Scope(id; kwargs...)
         "Scope(id; kwargs...) is deprecated, use Scope(kwargs...) instead.",
         :webio_scope_id_positional_arg,
     )
-    return Scope(kwargs...)
+    return Scope(; kwargs...)
 end
 
 (w::Scope)(arg) = (w.dom = arg; w)
