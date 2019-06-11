@@ -51,6 +51,8 @@ Known labextensions:
         @webio/webio: /home/user/.julia/dev/WebIO/packages/webio
 ```
 
+> **Note:** You may see a line such as ``Build recommended, please run `jupyter lab build` ``. If that's the case, run `jupyter lab build` in your terminal to include WebIO in your JupyterLab extensions.
+
 If the WebIO extension isn't present, then simply fire up Julia and install it.
 This can either be done by running `Pkg.build("WebIO")` or by running
 ```julia
