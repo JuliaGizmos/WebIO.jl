@@ -23,6 +23,7 @@ using Test
         myinstance_html = sprint(show, MIME("text/html"), myinstance)
         @test occursin("Hello, world!", myinstance_json)
         @test occursin("Hello, world!", myinstance_html)
+        @test MyType in WebIO.renderable_types
     end
 
     @testset "@register_renderable with do-block syntax" begin
@@ -40,6 +41,24 @@ using Test
         myinstance_html = sprint(show, MIME("text/html"), myinstance)
         @test occursin("Hello, world!", myinstance_json)
         @test occursin("Hello, world!", myinstance_html)
+    end
+
+    @testset "@register_renderable multiple dispatch" begin
+        # This test is meant to make sure that the methods generated refer to
+        # the correct types.
+        TypeAName, TypeBName = gensym("TypeA"), gensym("TypeB")
+        @eval struct $TypeAName end
+        @eval struct $TypeBName end
+        TypeA, TypeB = (@eval $TypeAName, @eval $TypeBName)
+        @eval @WebIO.register_renderable($TypeA) do typea
+            return "Type A"
+        end
+        @eval @WebIO.register_renderable($TypeB) do typeb
+            return "Type B"
+        end
+
+        @test WebIO.render(TypeA()) == "Type A"
+        @test WebIO.render(TypeB()) == "Type B"
     end
 
     @testset "@register_renderable with invalid syntax" begin

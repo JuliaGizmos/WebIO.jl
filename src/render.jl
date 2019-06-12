@@ -269,6 +269,10 @@ macro register_renderable(f::Expr, typename)
         end
         f_args = f_args.args[1]
     end
+    if !isa(f_args, Expr) || f_args.head != :(::)
+        # Add type annotation so that we define WebIO.render(x::MyType)
+        f_args = Expr(:(::), f_args, typename)
+    end
     f_body = f.args[2]
 
     render_method_expr = Expr(
