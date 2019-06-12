@@ -25,12 +25,12 @@ using Test
         @test occursin("Hello, world!", myinstance_html)
     end
 
-    @testset "@register_renderable for method def (function keyword)" begin
+    @testset "@register_renderable with do-block syntax" begin
         MyTypeName = gensym()
         @eval struct $MyTypeName dom::WebIO.Node end
 
         MyType = @eval $MyTypeName
-        @eval WebIO.@register_renderable function WebIO.render(x::$MyTypeName)
+        @eval @WebIO.register_renderable($MyType) do x
             return x.dom
         end
 
@@ -42,19 +42,17 @@ using Test
         @test occursin("Hello, world!", myinstance_html)
     end
 
-    @testset "@register_renderable for method def (one-line syntax)" begin
+    @testset "@register_renderable with invalid syntax" begin
+        # Yay for parentheses hell!
+        @test_throws Exception @eval @WebIO.register_renderable(NotReal)
+
         MyTypeName = gensym()
-        @eval struct $MyTypeName dom::WebIO.Node end
-
-        MyType = @eval $MyTypeName
-        @eval WebIO.@register_renderable WebIO.render(x::$MyTypeName) = x.dom
-
-        @test hasmethod(show, (IO, WebIO.WEBIO_NODE_MIME, MyType))
-        myinstance = MyType(node(:p, "Hello, world!"))
-        myinstance_json = sprint(show, WebIO.WEBIO_NODE_MIME(), myinstance)
-        myinstance_html = sprint(show, MIME("text/html"), myinstance)
-        @test occursin("Hello, world!", myinstance_json)
-        @test occursin("Hello, world!", myinstance_html)
+        @eval struct $MyTypeName end
+        @test_throws Exception @eval(
+            @WebIO.register_renderable($MyTypeName) do arg1, arg2
+                return node(:p, foo)
+            end
+        )
     end
 
 end

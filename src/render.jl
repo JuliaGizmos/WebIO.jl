@@ -20,23 +20,6 @@ render(::Nothing) = ""
 render(x::Any) =
     dom"div"(; setInnerHtml=richest_html(x))
 
-const renderable_types = Type[]
-"""
-    `WebIO.register_renderable(MyType::Type)`
-
-Registers that a WebIO.render method is available for instances of `MyType`.
-Allows WebIO to hook into the display machinery of backends such as Atom and
-IJulia to display the WebIO rendered version of the type as appropriate.
-
-Also defines a `Base.show(io::IO, m::MIME"text/html", x::MyType)` as
-`Base.show(io, m, WebIO.render(x))`
-"""
-function register_renderable(::Type{T}) where T
-    @eval Base.show(io::IO, m::MIME"text/html", x::$T) = Base.show(io, m, WebIO.render(x))
-    push!(renderable_types, T)
-    return true
-end
-
 """
 Called after a provider is setup
 """
@@ -221,16 +204,34 @@ function Base.show(io::IO, m::MIME"text/html", x::Node)
 end
 
 """
-    @register_renderable <method declaration>
-    @register_renderable MyType
+A vector of types that are renderable by WebIO.
+
+This exists because for some providers, we need to create some methods when
+certain providers are initialized to allow those providers to display custom
+types.
+This will be removed in the (hopefully near-term) future as we remove providers
+out from WebIO and into the appropriate packages.
+"""
+const renderable_types = Type[]
+
+"""
+    @register_renderable(MyType)
+    @register_renderable(MyType) do
+        # Render definition
+    end
 
 Register a type as renderable by WebIO.
 This enables your type to be displayed in the appropriate WebIO frontends
 (e.g. Jupyter) without any additional work.
 
-This macro may be called either with the definition of a `WebIO.render` method
-for your type or just on the type alone (assuming a `WebIO.render` method has
-already been defined).
+This macro may be called either with just the type that you wish to mark as
+renderable or with the body of the [`WebIO.render`](@ref) method using do-block
+syntax.
+The do-block syntax requires parentheses around the typename and must be invoked
+as `@WebIO.register_renderable` (**not** `WebIO.@register_renderable).
+
+This macro also defines a method for `Base.show` with the `text/html` MIME so
+you should not need to define your own.
 
 # Examples
 ```julia
@@ -239,67 +240,87 @@ struct ScatterPlot
     y::Vector{Float64}
 end
 
-# All of the following are equivalent
-WebIO.@register_renderable function WebIO.render(x::ScatterPlot)
+# Do-block syntax
+@WebIO.register_renderable(ScatterPlot) do plot
     # Construct the scatter plot using DOM primitives...
     return node(...)
 end
 
-WebIO.@register_renderable WebIO.render(x::ScatterPlot) = node(...)
-
-function WebIO.render(x::ScatterPlot)
-    ...
-end
-WebIO.@register_renderable ScatterPlot
+# Type name syntax
+WebIO.render(plot::ScatterPlot) = node(...)
+@WebIO.register_renderable ScatterPlot
 ```
 """
-macro register_renderable(ex::Union{Symbol, Expr})
-    if isa(ex, Symbol) || ex.head == :(.)
-        # Allow `@register_renderable MyModule.MyType` syntax
-        return register_renderable_helper(ex)
-    end
-
-    # This is true if using `render(x) = ...` syntax
-    is_short_form_def = (
-        ex.head == :(=)
-        && isa(ex.args[1], Expr) && ex.args[1].head == :call
-        && isa(ex.args[2], Expr) && ex.args[2].head == :block
-    )
-    if ex.head != :function && !is_short_form_def
-        error("Invalid expression (must be a method definition).")
-    end
-
-    call = ex.args[1]
-    is_valid_call = (
-        (call.args[1] == :render || call.args[1] == :(WebIO.render))
-        && (length(call.args) == 2)
-        && (isa(call.args[2], Expr))
-        && (call.args[2].head == :(::))
-    )
-    if !is_valid_call
-        error("Invalid expression (must be a method definition for WebIO.render).")
-    end
-
-    typename = call.args[2].args[2]
-    return Expr(
-        :block,
-        esc(ex),
-        register_renderable_helper(typename),
-    )
+macro register_renderable(typename)
+    return register_renderable_macro_helper(esc(typename))
 end
 
-function register_renderable_helper(typename::Union{Symbol, Expr})::Expr
+macro register_renderable(f::Expr, typename)
+    # Do-blocks are passed into macros as -> expressions.
+    if f.head != :(->)
+        error("Invalid syntax for `WebIO.@register_renderable`.")
+    end
+
+    f_args = f.args[1]
+    if f_args.head == :tuple
+        # Remap `(foo::Foo, )` to `foo::Foo`
+        if length(f_args.args) != 1
+            error("Do-block for `WebIO.@register_renderable` must take exactly one argument.")
+        end
+        f_args = f_args.args[1]
+    end
+    f_body = f.args[2]
+
+    render_method_expr = Expr(
+        :(=),
+        Expr(
+            :call,
+            :(WebIO.render),
+            esc(f_args),
+        ),
+        esc(f_body),
+    )
+
+    result_expr = register_renderable_macro_helper(esc(typename))
+    push!(result_expr.args, render_method_expr)
+    return result_expr
+end
+
+function register_renderable_macro_helper(
+        typename::Union{Symbol, Expr, Type}
+)::Expr
     return :(
         begin
+            push!(renderable_types, $typename)
             function Base.show(
                     io::IO,
                     m::Union{MIME"text/html", WEBIO_NODE_MIME},
-                    x::$(esc(typename)),
+                    x::$typename,
             )
                 return Base.show(io, m, WebIO.render(x))
             end
         end
     )
+end
+
+"""
+    register_renderable(MyType)
+
+This function is deprecated. Please use [`WebIO.@register_renderable`](@ref)
+instead.
+
+This function was deprecated because it contained too much *magic* (since
+*magic* is firmly within the domain of macros).
+In particular, this function resorts to `eval`-ing new method definitions for
+the types passed into it which is not what a normal function is supposed to do.
+"""
+function register_renderable(::Type{T}) where T
+    Base.depwarn(
+        "`WebIO.register_renderable(Type)` is deprecated; use the "
+            * "`@WebIO.register_renderable Type` macro instead.",
+        :webio_register_renderable_function,
+    )
+    @eval $(register_renderable_macro_helper(T))
 end
 
 function Base.show(io::IO, m::WEBIO_NODE_MIME, node::Node)
