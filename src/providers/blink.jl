@@ -1,3 +1,7 @@
+# This is deprecated and will be removed soon.
+# WebIO+Blink integration is now implemented in Blink.jl.
+# https://github.com/JunoLab/Blink.jl/pull/201
+
 using AssetRegistry
 using Base64: stringmime
 
