@@ -60,18 +60,4 @@ using Test
         @test WebIO.render(TypeA()) == "Type A"
         @test WebIO.render(TypeB()) == "Type B"
     end
-
-    @testset "@register_renderable with invalid syntax" begin
-        # Yay for parentheses hell!
-        @test_throws Exception @eval @WebIO.register_renderable(NotReal)
-
-        MyTypeName = gensym()
-        @eval struct $MyTypeName end
-        @test_throws Exception @eval(
-            @WebIO.register_renderable($MyTypeName) do arg1, arg2
-                return node(:p, foo)
-            end
-        )
-    end
-
 end

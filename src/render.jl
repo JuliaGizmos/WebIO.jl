@@ -266,34 +266,10 @@ macro register_renderable(typename)
 end
 
 macro register_renderable(f::Expr, typename)
-    # Do-blocks are passed into macros as -> expressions.
-    if f.head != :(->)
-        error("Invalid syntax for `WebIO.@register_renderable`.")
+    render_method_expr = quote
+        local f = $(esc(f))
+        WebIO.render(x::$(esc(typename))) = f(x)
     end
-
-    f_args = f.args[1]
-    if f_args.head == :tuple
-        # Remap `(foo::Foo, )` to `foo::Foo`
-        if length(f_args.args) != 1
-            error("Do-block for `WebIO.@register_renderable` must take exactly one argument.")
-        end
-        f_args = f_args.args[1]
-    end
-    if !isa(f_args, Expr) || f_args.head != :(::)
-        # Add type annotation so that we define WebIO.render(x::MyType)
-        f_args = Expr(:(::), f_args, typename)
-    end
-    f_body = f.args[2]
-
-    render_method_expr = Expr(
-        :(=),
-        Expr(
-            :call,
-            :(WebIO.render),
-            esc(f_args),
-        ),
-        esc(f_body),
-    )
 
     result_expr = register_renderable_macro_helper(esc(typename))
     push!(result_expr.args, render_method_expr)
@@ -303,18 +279,16 @@ end
 function register_renderable_macro_helper(
         typename::Union{Symbol, Expr, Type}
 )::Expr
-    return :(
-        begin
-            push!(renderable_types, $typename)
-            function Base.show(
-                    io::IO,
-                    m::Union{MIME"text/html", WEBIO_NODE_MIME},
-                    x::$typename,
-            )
-                return Base.show(io, m, WebIO.render(x))
-            end
+    return quote
+        push!(renderable_types, $typename)
+        function Base.show(
+                io::IO,
+                m::Union{MIME"text/html", WEBIO_NODE_MIME},
+                x::$typename,
+        )
+            return Base.show(io, m, WebIO.render(x))
         end
-    )
+    end
 end
 
 """
