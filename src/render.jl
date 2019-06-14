@@ -227,8 +227,13 @@ This enables your type to be displayed in the appropriate WebIO frontends
 This macro may be called either with just the type that you wish to mark as
 renderable or with the body of the [`WebIO.render`](@ref) method using do-block
 syntax.
-The do-block syntax requires parentheses around the typename and must be invoked
-as `@WebIO.register_renderable` (**not** `WebIO.@register_renderable).
+
+The do-block syntax requires parentheses around the typename.
+Additionally, due to inconsistencies in the way macros are resolved, the
+do-block syntax must be invoked using `@WebIO.register_renderable`
+(**not** `WebIO.@register_renderable`).
+If the `@WebIO.register_renderable` syntax looks ugly, it might be preferable
+to directly import the macro and use it without qualifying its name.
 
 This macro also defines a method for `Base.show` with the `text/html` MIME so
 you should not need to define your own.
@@ -241,10 +246,15 @@ struct ScatterPlot
 end
 
 # Do-block syntax
+# Note that the `@` comes before `WebIO`
 @WebIO.register_renderable(ScatterPlot) do plot
     # Construct the scatter plot using DOM primitives...
     return node(...)
 end
+
+# Do-block syntax with explicit import
+using WebIO: @register_renderable
+@register_renderable(ScatterPlot) do plot ... end
 
 # Type name syntax
 WebIO.render(plot::ScatterPlot) = node(...)
