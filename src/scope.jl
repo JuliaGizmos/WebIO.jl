@@ -60,7 +60,10 @@ end
 
 function Base.getproperty(scope::Scope, property::Symbol)
     if property === :id
-        Base.depwarn("Accessing scope.id is deprecated; use scopeid(scope) instead.", :webio_scope_id)
+        Base.depwarn(
+            "Accessing `scope.id` is deprecated, use `scopeid(scope)` instead.",
+            :webio_scope_id,
+        )
         return scopeid(scope)
     end
     return getfield(scope, property)
@@ -146,7 +149,7 @@ function Scope(id; kwargs...)
         "Scope(id; kwargs...) is deprecated, use Scope(kwargs...) instead.",
         :webio_scope_id_positional_arg,
     )
-    return Scope(kwargs...)
+    return Scope(; kwargs...)
 end
 
 (w::Scope)(arg) = (w.dom = arg; w)

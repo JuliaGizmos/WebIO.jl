@@ -1,6 +1,6 @@
 name = "WebIO"
 uuid = "0f1e0344-ec1d-5b48-a673-e5cf874b6c29"
-version = "0.8.4"
+version = "0.8.5"
 license = "MIT"
 
 [deps]
