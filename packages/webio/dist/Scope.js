@@ -75,7 +75,12 @@ var WebIOScope = /** @class */ (function (_super) {
         var _this = _super.call(this, schema, context) || this;
         _this.children = null;
         debug("Creating new WebIOScope.", schema);
-        _this.element = document.createElement("div");
+        // This is necessary so that scopes that wrap inline elements will actually
+        // be inline elements.
+        // This technically violates HTML standards, (because we might have a block
+        // element within this span) but, it works in all of the browsers so it's
+        // whatever.
+        _this.element = document.createElement("span");
         _this.element.className = "webio-scope";
         _this.element.setAttribute("data-webio-scope-id", schema.instanceArgs.id);
         var _a = schema.instanceArgs, id = _a.id, _b = _a.observables, observables = _b === void 0 ? {} : _b, _c = _a.handlers, handlers = _c === void 0 ? {} : _c;
