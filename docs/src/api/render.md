@@ -6,6 +6,7 @@ See the [Extending WebIO](@ref) documentation for more information.
 
 ## Internal API
 ```@docs
+WebIO.@register_renderable
 WebIO.register_renderable
 WebIO.render
 ```
