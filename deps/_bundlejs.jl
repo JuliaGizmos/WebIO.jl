@@ -1,26 +1,39 @@
-using NodeJS
+# Avoid namespace pollution with let
+let
+    package_dir = dirname(@__DIR__)
+    isdev = basename(dirname(package_dir)) == "dev"
 
-# Wrap in useless try/catch to avoid namespace pollution
-try
-    isdev = basename(dirname(dirname(dirname(@__FILE__)))) == "dev"
-    if haskey(ENV, "CI") || isdev
-        cd(joinpath(dirname(@__FILE__), "..", "packages")) do
-            npm = NodeJS.npm_cmd()
+    # NodeJS isn't a hard requirement of WebIO, but is needed to build packages,
+    # so we need to install it in CI.
+    if haskey(ENV, "CI")
+        isdev = true
+        @info "CI detected, installing NodeJS..."
 
-            run(`$npm install --scripts-prepend-node-path=auto --unsafe-perm`)
-            if haskey(ENV, "WEBIO_WEBPACK_ARGS")
-                args = [ENV["WEBIO_WEBPACK_ARGS"]]
-            else
-                args =[]
-            end
-            run(`$npm run build-prod --scripts-prepend-node-path=auto --unsafe-perm -- $args`)
-        end
-    else
-        @warn(
-            "Can't build WebIO JS when not checkout out for development. "
-            * "Try running Pkg.dev(\"WebIO\") if you want to rebuild JS."
-        )
+        using Pkg
+        Pkg.add("NodeJS")
     end
-catch
-    rethrow()
+
+    # Don't build packages outside of a dev environment (or CI).
+    if !isdev
+        @warn(
+            "Can't build WebIO JS when not checked out for development. "
+            * "Run `Pkg.dev(\"WebIO\")` if you want to build JS."
+        )
+        return
+    end
+
+    # Build the dang packages!
+    cd(joinpath(dirname(@__FILE__), "..", "packages")) do
+        npm = NodeJS.npm_cmd()
+
+        run(`$npm install --scripts-prepend-node-path=auto --unsafe-perm`)
+
+        args = (
+            haskey(ENV, "WEBIO_WEBPACK_ARGS")
+            ? [ENV["WEBIO_WEBPACK_ARGS"]]
+            : []
+        )
+        run(`$npm run build-prod --scripts-prepend-node-path=auto --unsafe-perm -- $args`)
+    end
+    end
 end

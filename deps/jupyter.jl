@@ -1,12 +1,12 @@
-const WEBIO_CORE_PACKAGE_PATH = normpath(joinpath(
-    @__DIR__, "..", "packages", "webio",
-))
-const JUPYTER_LAB_PROVIDER_PATH = normpath(joinpath(
-    @__DIR__, "..", "packages", "jupyter-lab-provider",
-))
-const JUPYTER_NOTEBOOK_PROVIDER_PATH = normpath(joinpath(
-    @__DIR__, "..", "packages", "jupyter-notebook-provider",
-))
+# const WEBIO_CORE_PACKAGE_PATH = normpath(joinpath(
+#     @__DIR__, "..", "packages", "webio",
+# ))
+# const JUPYTER_LAB_PROVIDER_PATH = normpath(joinpath(
+#     @__DIR__, "..", "packages", "jupyter-lab-provider",
+# ))
+# const JUPYTER_NOTEBOOK_PROVIDER_PATH = normpath(joinpath(
+#     @__DIR__, "..", "packages", "jupyter-notebook-provider",
+# ))
 
 const CONFIG_BEGIN_MARKER = "###JULIA-WEBIO-CONFIG-BEGIN"
 const CONFIG_END_MARKER = "###JULIA-WEBIO-CONFIG-END"
