@@ -3,6 +3,7 @@ Manifest.toml
 deps/build.log
 
 # JavaScript
+dist
 yarn.lock
 node_modules
 *.js.map
