@@ -12,11 +12,9 @@ end
 Sockets.send(p::WSConnection, data) = writeguarded(p.sock, JSON.json(data))
 Base.isopen(p::WSConnection) = isopen(p.sock)
 
-const bundle_key = AssetRegistry.register(normpath(joinpath(
-    WebIO.packagepath, "generic-http-provider", "dist", "generic-http.js"
-)))
+const bundle_key = AssetRegistry.register(GENERIC_HTTP_BUNDLE_PATH)
 
-include("../../deps/mimetypes.jl")
+include(joinpath(@__DIR__, "..", "..", "deps", "mimetypes.jl"))
 
 """
 Serve an asset from the asset registry.

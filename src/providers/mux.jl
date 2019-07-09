@@ -51,18 +51,18 @@ end
 Base.isopen(p::WebSockConnection) = isopen(p.sock)
 
 Mux.Response(o::AbstractWidget) = Mux.Response(Widgets.render(o))
-function Mux.Response(o::Union{Node, Scope})
-    key = AssetRegistry.register(joinpath(@__DIR__, "..", "..", "packages/mux-provider/dist"))
+function Mux.Response(content::Union{Node, Scope})
+    script_url = AssetRegistry.register(MUX_BUNDLE_PATH)
     Mux.Response(
         """
         <!doctype html>
         <html>
           <head>
             <meta charset="UTF-8">
-            <script src="$(WebIO.baseurl[])$key/mux.js"></script>
+            <script src="$(WebIO.baseurl[])$(script_url)"></script>
           </head>
           <body>
-            $(stringmime(MIME"text/html"(), o))
+            $(stringmime(MIME("text/html"), content))
           </body>
         </html>
         """

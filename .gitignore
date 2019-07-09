@@ -1,6 +1,7 @@
 # Julia
 Manifest.toml
 deps/build.log
+deps/bundles
 
 # JavaScript
 dist
@@ -9,6 +10,7 @@ node_modules
 *.js.map
 lerna-debug.log
 package-lock.json
+*.tgz
 
 # Miscellaneous
 .*~

@@ -4,13 +4,11 @@ include("./bundlepaths.jl")
 include("./jupyter.jl")
 
 download_js_bundles()
-install_jupyter_nbextension()
-try
-    install_jupyter_labextension()
-catch exc
-    @warn(
-        "Unable to install Jupyter Lab extension; make sure jupyter is in your "
-        * "PATH and rebuild WebIO if you want to use Jupyter Lab.",
-        exception=exc,
-    )
-end
+
+# See https://github.com/JuliaGizmos/WebIO.jl/issues/314 for the rational behind
+# why we're not installing Jupyter packages by default anymore.
+@warn(
+    "WebIO no longer Jupyter extensions automatically; please run "
+    * "`WebIO.install_jupyter_notebook()` or `WebIO.install_jupyter_lab()` if "
+    * "needed."
+)
