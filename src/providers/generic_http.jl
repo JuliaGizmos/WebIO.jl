@@ -12,6 +12,12 @@ end
 Sockets.send(p::WSConnection, data) = writeguarded(p.sock, JSON.json(data))
 Base.isopen(p::WSConnection) = isopen(p.sock)
 
+if !isfile(GENERIC_HTTP_BUNDLE_PATH)
+    error(
+        "Unable to find WebIO JavaScript bundle for generic HTTP provider; "
+        * "try rebuilding WebIO (via `Pkg.build(\"WebIO\")`)."
+    )
+end
 const bundle_key = AssetRegistry.register(GENERIC_HTTP_BUNDLE_PATH)
 
 include(joinpath(@__DIR__, "..", "..", "deps", "mimetypes.jl"))

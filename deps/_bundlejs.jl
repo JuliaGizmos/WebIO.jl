@@ -6,7 +6,6 @@ end
 
 # Avoid namespace pollution with let
 let
-    @info BUNDLES_PATH
     package_dir = dirname(@__DIR__)
 
     # NodeJS isn't a hard requirement of WebIO, but is needed to build packages,
@@ -45,12 +44,21 @@ let
     @info "Building packages..." cmd=build_cmd
     run(build_cmd)
 
+    if isdir(BUNDLES_PATH)
+        rm(BUNDLES_PATH, recursive=true)
+    end
+    mkdir(BUNDLES_PATH)
+
     # Copy important things to the right place
     core_bundle_out = joinpath(package_dir, "webio", "dist", "webio.bundle.js")
+    if !isfile(core_bundle_out)
+        @error "Cannot find WebIO core bundle: $core_bundle_out"
+        error("WebIO core bundle was not built properly!")
+    end
     @info "Copying $(core_bundle_out) to $(CORE_BUNDLE_PATH)..."
     cp(core_bundle_out, CORE_BUNDLE_PATH; force=true)
 
     generic_http_bundle_out = joinpath(package_dir, "generic-http-provider", "dist", "generic-http.bundle.js")
-    @info "Copying $(core_bundle_out) to $(CORE_BUNDLE_PATH)..."
-    cp(core_bundle_out, CORE_BUNDLE_PATH; force=true)
+    @info "Copying $(generic_http_bundle_out) to $(GENERIC_HTTP_BUNDLE_PATH)..."
+    cp(generic_http_bundle_out, GENERIC_HTTP_BUNDLE_PATH; force=true)
 end

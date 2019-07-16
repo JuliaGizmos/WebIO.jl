@@ -6,7 +6,7 @@ mutable struct IFrame
 end
 
 iframe_bundle_key() = AssetRegistry.register(normpath(joinpath(
-    WebIO.packagepath, "generic-http-provider", "dist", "generic-http.js"
+    GENERIC_HTTP_BUNDLE_PATH
 )))
 
 """

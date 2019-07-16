@@ -17,8 +17,8 @@
     "uuid": "^3.3.2"
   },
   "scripts": {
-    "build": "tsc -p .",
-    "build-prod": "npm run build",
+    "build": "tsc -p . && webpack",
+    "build-prod": "npm run build && webpack -p",
     "prepack": "npm run build"
   },
   "devDependencies": {
