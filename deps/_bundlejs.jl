@@ -61,4 +61,8 @@ let
     generic_http_bundle_out = joinpath(package_dir, "generic-http-provider", "dist", "generic-http.bundle.js")
     @info "Copying $(generic_http_bundle_out) to $(GENERIC_HTTP_BUNDLE_PATH)..."
     cp(generic_http_bundle_out, GENERIC_HTTP_BUNDLE_PATH; force=true)
+
+    nbextension_bundle_out = joinpath(package_dir, "jupyter-notebook-provider", "dist", "jupyter-notebook.bundle.js")
+    @info "Copying $(nbextension_bundle_out) to $(JUPYTER_NBEXTENSION_PATH)..."
+    cp(nbextension_bundle_out, JUPYTER_NBEXTENSION_PATH; force=true)
 end

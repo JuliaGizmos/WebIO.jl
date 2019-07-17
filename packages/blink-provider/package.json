@@ -1,5 +1,4 @@
 {
-  "private": true,
   "name": "@webio/blink-provider",
   "description": "Blink provider for WebIO.",
   "repository": "https://github.com/JuliaGizmos/WebIO.jl",
@@ -12,5 +11,6 @@
     "build": "webpack-cli",
     "build-prod": "webpack-cli -p"
   },
-  "version": "0.8.6"
+  "version": "0.8.6",
+  "main": "dist/blink.js"
 }

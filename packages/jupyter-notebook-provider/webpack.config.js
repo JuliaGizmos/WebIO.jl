@@ -11,7 +11,7 @@ module.exports = merge(baseConfig, {
     library: undefined,
     libraryTarget: "amd",
     path: path.resolve(__dirname, 'dist/'),
-    filename: '[name].js',
+    filename: 'jupyter-notebook.bundle.js',
   },
 
   resolve: {

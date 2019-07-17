@@ -45,7 +45,10 @@ include("scope.jl")
 include("render.jl")
 include("messaging.jl")
 include("rpc.jl")
+
+# Extra "non-core" functionality
 include("devsetup.jl")
+include("../deps/jupyter.jl")
 
 
 """

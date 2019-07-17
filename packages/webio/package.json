@@ -22,6 +22,7 @@
     "prepack": "npm run build"
   },
   "devDependencies": {
-    "typescript": "~3.3"
+    "typescript": "~3.3",
+    "webpack": "^4.35.3"
   }
 }

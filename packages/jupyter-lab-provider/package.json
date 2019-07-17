@@ -29,5 +29,8 @@
   "files": [
     "dist/*"
   ],
-  "gitHead": "f238f581711ae95e7625108db371240b13e260af"
+  "gitHead": "f238f581711ae95e7625108db371240b13e260af",
+  "devDependencies": {
+    "typescript": "~3.3"
+  }
 }

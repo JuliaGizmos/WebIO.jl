@@ -15,7 +15,7 @@ if haskey(ENV, "CI")
     @testset "Jupyter setup" begin
         # We need conda-forge for node.
         Conda.add_channel("conda-forge")
-        Conda.add.(["jupyterlab", "nodejs"])
+        Conda.add.(["jupyterlab=0.19", "nodejs"])
 
         # Remove path to make sure that we can find Conda if nothing else exists.
         oldpath = ENV["PATH"]
@@ -44,7 +44,7 @@ if haskey(ENV, "CI")
         @testset "Jupyter Notebook setup" begin
             WebIO.install_jupyter_nbextension()
             installed_extensions = read(`$conda_jupyter nbextension list`, String)
-            @test occursin("webio/main", installed_extensions)
+            @test occursin("webio", installed_extensions)
         end
 
         @testset "Jupyter serverextension setup" begin
