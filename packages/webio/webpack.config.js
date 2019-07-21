@@ -10,6 +10,8 @@ module.exports = merge(baseConfig, {
   output: {
     path: path.resolve(__dirname, 'dist/'),
     filename: 'webio.bundle.js',
+    library: "webio",
+    libraryTarget: "umd",
   },
 
   resolve: {
