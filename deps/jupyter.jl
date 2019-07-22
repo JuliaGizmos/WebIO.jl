@@ -162,13 +162,17 @@ Install the Jupyter Notebook extension (nbextension) for WebIO.
 This copies the nbextension code to the appropriate place and writes the
 appropriate configuration files.
 """
-function install_jupyter_nbextension(jupyter::Cmd=find_jupyter_cmd())
+function install_jupyter_nbextension(
+        jupyter::Cmd=find_jupyter_cmd();
+        nbextension_flags::Cmd=`--user`,
+)
     install_jupyter_serverextension()
 
     # Copy the nbextension files.
+
     @info "Installing Jupyter WebIO extension..."
-    run(`$jupyter nbextension install $JUPYTER_NBEXTENSION_PATH`)
-    run(`$jupyter nbextension enable $JUPYTER_NBEXTENSION_NAME`)
+    run(`$jupyter nbextension install $nbextension_flags $JUPYTER_NBEXTENSION_PATH`)
+    run(`$jupyter nbextension enable $nbextension_flags $JUPYTER_NBEXTENSION_NAME`)
 end
 
 ### BEGIN BORROWED CODE ###
