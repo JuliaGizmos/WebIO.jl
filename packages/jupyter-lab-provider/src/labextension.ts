@@ -1,15 +1,13 @@
 import debug from "debug";
-import {Panel, Widget} from "@phosphor/widgets";
-import {JupyterLabPlugin} from "@jupyterlab/application";
+import {Panel} from "@phosphor/widgets";
+import {JupyterFrontEndPlugin} from "@jupyterlab/application";
 import {DisposableDelegate, IDisposable} from "@phosphor/disposable";
 import {DocumentRegistry} from "@jupyterlab/docregistry";
 import {INotebookModel, NotebookPanel} from "@jupyterlab/notebook";
-import {IRenderMime} from "@jupyterlab/rendermime";
+import {IRenderMime, IRenderMimeRegistry} from "@jupyterlab/rendermime";
 import {Kernel} from "@jupyterlab/services";
 
 import WebIO from "@webio/webio";
-import {CodeCell} from "@jupyterlab/cells";
-import {JSONObject} from "@phosphor/coreutils";
 
 const log = debug("WebIO:jupyter-lab");
 const MIME_TYPE = "application/vnd.webio.node+json";
@@ -71,12 +69,12 @@ class WebIORenderer extends Panel implements IRenderMime.IRenderer, IDisposable 
   }
 
   async renderModel(model: IRenderMime.IMimeModel): Promise<void> {
-    console.warn("Setting window.lastWebIORenderer");
     // const metadata = model.metadata as WebIOOutputMetadata;
     // if (!metadata.kernelId) {
     //   // Do nothing; we set the model metadata which triggers a re-render.
     //   return this.setModelMetadata(model);
     // }
+    log("WebIORenderer¬renderModel");
     const {kernelId} = this.getModelMetadata(model);
     if (!kernelId) {
       return this.setModelMetadata(model);
@@ -84,7 +82,7 @@ class WebIORenderer extends Panel implements IRenderMime.IRenderer, IDisposable 
     const currentKernelId = (await this.webIOManager.getKernel()).id;
     if (kernelId !== currentKernelId) {
       log(
-        `WebIORenderer¬renderModel: output was generate for kernelId "${kernelId}", `
+        `WebIORenderer¬renderModel: output was generated for kernelId "${kernelId}", `
         + `but we're currently running using kernel "${currentKernelId}".`
       );
       const div = document.createElement("div");
@@ -161,6 +159,7 @@ class WebIONotebookManager {
   }
 
   async getKernel() {
+    log(`WebIONotebookManager¬getKernel`);
     // Make sure the kernel is ready before we try to connect to it.
     await this.context.session.ready;
     const {kernel} = this.context.session;
@@ -235,30 +234,38 @@ class WebIONotebookManager {
  */
 class WebIONotebookExtension implements DocumentRegistry.IWidgetExtension<NotebookPanel, INotebookModel> {
 
+  constructor(private args: {rendermime: IRenderMimeRegistry}) {}
+
   createNew(notebook: NotebookPanel, context: DocumentRegistry.IContext<INotebookModel>): IDisposable {
     log(`WebIONotebookExtension¬createNew`, notebook, context);
     const webIONotebookManager = new WebIONotebookManager(notebook, context);
 
-    notebook.rendermime.addFactory({
+    this.args.rendermime.addFactory({
       safe: false,
       mimeTypes: [MIME_TYPE],
       createRenderer: (options) => {
+        log("Creating WebIO renderer...");
         webIONotebookManager.connect();
         return new WebIORenderer(options, webIONotebookManager);
       },
     }, RENDERER_RANK);
 
     return new DisposableDelegate(() => {
-      notebook.rendermime.removeMimeType(MIME_TYPE);
+      log("Unregistering WebIO MIME renderer...");
+      this.args.rendermime.removeMimeType(MIME_TYPE);
     });
   }
 }
 
-const extension: JupyterLabPlugin<void>= {
+const extension: JupyterFrontEndPlugin<void>= {
   id: "@webio/jupyter-lab-provider:plugin",
-  activate: (app) => {
+  requires: [IRenderMimeRegistry],
+  activate: (app, rendermime: IRenderMimeRegistry) => {
     log(`Activating WebIO JupyterLab plugin.`);
-    app.docRegistry.addWidgetExtension("Notebook", new WebIONotebookExtension());
+    app.docRegistry.addWidgetExtension(
+      "Notebook",
+      new WebIONotebookExtension({rendermime}),
+    );
   },
   autoStart: true,
 };
