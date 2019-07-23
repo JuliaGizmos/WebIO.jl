@@ -5,11 +5,13 @@ const baseConfig = require('../webpack.config.js');
 module.exports = merge(baseConfig, {
   context: path.resolve(__dirname, "src"),
   entry: {
-    "mux": ["@babel/polyfill", "mux.ts"],
+    "webio": ["index.ts"]
   },
   output: {
     path: path.resolve(__dirname, 'dist/'),
-    filename: '[name].bundle.js',
+    filename: 'webio.bundle.js',
+    library: "webio",
+    libraryTarget: "umd",
   },
 
   resolve: {
@@ -19,10 +21,4 @@ module.exports = merge(baseConfig, {
       "systemjs": "systemjs/dist/system",
     }
   },
-
-  externals: {
-    "base/js/namespace": "base/js/namespace",
-    "notebook/js/outputarea": "notebook/js/outputarea",
-    "jquery": "jquery",
-  }
 });

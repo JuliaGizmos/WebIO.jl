@@ -1,12 +1,6 @@
-const WEBIO_CORE_PACKAGE_PATH = normpath(joinpath(
-    @__DIR__, "..", "packages", "webio",
-))
-const JUPYTER_LAB_PROVIDER_PATH = normpath(joinpath(
-    @__DIR__, "..", "packages", "jupyter-lab-provider",
-))
-const JUPYTER_NOTEBOOK_PROVIDER_PATH = normpath(joinpath(
-    @__DIR__, "..", "packages", "jupyter-notebook-provider",
-))
+if !(@isdefined BUNDLES_PATH)
+    include("./bundlepaths.jl")
+end
 
 const CONFIG_BEGIN_MARKER = "###JULIA-WEBIO-CONFIG-BEGIN"
 const CONFIG_END_MARKER = "###JULIA-WEBIO-CONFIG-END"
@@ -95,12 +89,17 @@ This will locate `jupyter` by searching the `PATH` environment variable and,
 if not found, tries to return Conda.jl's jupyter.
 If both of these approaches fail, an error is thrown.
 """
-function find_jupyter_cmd()::Cmd
-    jupyter = Sys.which("jupyter")
-    if jupyter !== nothing
-        return `$jupyter`
+function find_jupyter_cmd(; force_conda_jupyter::Bool=false)::Cmd
+    # Try to find the "system" Jupyter (unless we explicitly want to force
+    # using IJulia's Jupyter installation).
+    if !force_conda_jupyter
+        jupyter = Sys.which("jupyter")
+        if jupyter !== nothing
+            return `$jupyter`
+        end
     end
-    # Try to find Conda.jl's Jupyter.
+
+    # Try to find IJulia/Conda.jl's Jupyter.
     # This is a heuristic - it might be different. I'm not sure that there's
     # an easy way to load Conda.jl (I tried adding it to extras but no dice).
     conda_root = joinpath(first(Base.DEPOT_PATH), "conda", "3")
@@ -116,65 +115,64 @@ function find_jupyter_cmd()::Cmd
 end
 
 """
-    install_jupyter_labextension([jupyter])
+    install_jupyter_labextension([jupyter]; force_conda_jupyter=false)
 
 Install the Jupyter Lab extension for WebIO using the specified `jupyter`
 executable.
 The executable defaults to the first one found in the `PATH` or Jupyter
-installed via Conda.jl.
+installed via IJulia/Conda.jl.
+To force using Conda.jl's jupyter, specify the `force_conda_jupyter=true`
+keyword; this might be necessary if you launch Jupyter via IJulia in the Julia
+REPL.
 
 The [IJulia provider documentation](https://juliagizmos.github.io/WebIO.jl/latest/providers/ijulia/)
 provides some more information (and caveats) about the relationship between
 Jupyter Lab and WebIO.
 """
-function install_jupyter_labextension(jupyter::Cmd=find_jupyter_cmd())
+function install_jupyter_labextension(
+        jupyter::Union{Nothing, Cmd}=nothing;
+        force_conda_jupyter::Bool=false,
+        dev::Bool=isdev()
+)
+    if jupyter === nothing
+        jupyter = find_jupyter_cmd(; force_conda_jupyter=force_conda_jupyter)
+        @info(
+            "Using default Jupyter executable at $jupyter; to use a different "
+            * "executable, see the documentation by running "
+            * "`?WebIO.install_jupyter_labextension`."
+        )
+    end
     install_jupyter_serverextension()
-    run(`$jupyter labextension link --no-build $WEBIO_CORE_PACKAGE_PATH`)
-    run(`$jupyter labextension install --no-build $JUPYTER_LAB_PROVIDER_PATH`)
+    if dev
+        core_path = joinpath(PACKAGES_PATH, "webio")
+        lab_provider_path = joinpath(PACKAGES_PATH, "jupyter-lab-provider")
+        run(`$jupyter labextension link --no-build $core_path`)
+        run(`$jupyter labextension install --no-build $lab_provider_path`)
+    else
+        run(`$jupyter labextension install --no-build @webio/jupyter-lab-provider@$(WEBIO_VERSION)`)
+    end
     run(`$jupyter lab build`)
 end
 
 
 """
-    install_webio_nbextension()
+    install_webio_nbextension([jupyter])
 
 Install the Jupyter Notebook extension (nbextension) for WebIO.
-This copies the nbextension code to the appropriate place and wr9tes the
+This copies the nbextension code to the appropriate place and writes the
 appropriate configuration files.
 """
-function install_jupyter_nbextension()
+function install_jupyter_nbextension(
+        jupyter::Cmd=find_jupyter_cmd();
+        nbextension_flags::Cmd=`--user`,
+)
     install_jupyter_serverextension()
-    extensions_dir = jupyter_nbextensions_dir()
-    mkpath(extensions_dir)
-    extension_dir = joinpath(extensions_dir, "webio")
 
     # Copy the nbextension files.
-    @info "Copying WebIO nbextension files to $(extension_dir)."
-    cp(
-        joinpath(@__DIR__, "../packages/jupyter-notebook-provider/dist"),
-        extension_dir,
-        ; force=true
-    )
 
-    # Enable the notebook extension.
-    config_dir = jupyter_nbconfig_dir()
-    mkpath(config_dir)
-    config_file = joinpath(config_dir, "notebook.json")
-    config_data = try
-        isfile(config_file) ? JSON.parse(read(config_file, String)) : Dict()
-    catch exc
-        @error(
-            "Error parsing Jupyter config file $config_file - fix it and build "
-                * "again or delete it to enable WebIO.",
-            exception=exc,
-        )
-        error("Unable to parse Jupyter config file.")
-    end
-    config_data["load_extensions"] = get(config_data, "load_extensions", Dict())
-    config_data["load_extensions"]["webio/main"] = true
-    open(config_file, "w") do io
-        JSON.print(JSON.Writer.PrettyContext(io, 4), config_data)
-    end
+    @info "Installing Jupyter WebIO extension..."
+    run(`$jupyter nbextension install $nbextension_flags $JUPYTER_NBEXTENSION_PATH`)
+    run(`$jupyter nbextension enable $nbextension_flags $JUPYTER_NBEXTENSION_NAME`)
 end
 
 ### BEGIN BORROWED CODE ###

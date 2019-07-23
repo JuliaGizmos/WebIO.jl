@@ -1,26 +1,68 @@
-using NodeJS
+# This file is sometimes included as a standalone script, but we need some of
+# the values from bundlepaths.jl
+if !(@isdefined BUNDLES_PATH)
+    include("./bundlepaths.jl")
+end
 
-# Wrap in useless try/catch to avoid namespace pollution
-try
-    isdev = basename(dirname(dirname(dirname(@__FILE__)))) == "dev"
-    if haskey(ENV, "CI") || isdev
-        cd(joinpath(dirname(@__FILE__), "..", "packages")) do
-            npm = NodeJS.npm_cmd()
+# Avoid namespace pollution with let
+let
+    package_dir = dirname(@__DIR__)
 
-            run(`$npm install --scripts-prepend-node-path=auto --unsafe-perm`)
-            if haskey(ENV, "WEBIO_WEBPACK_ARGS")
-                args = [ENV["WEBIO_WEBPACK_ARGS"]]
-            else
-                args =[]
-            end
-            run(`$npm run build-prod --scripts-prepend-node-path=auto --unsafe-perm -- $args`)
-        end
-    else
-        @warn(
-            "Can't build WebIO JS when not checkout out for development. "
-            * "Try running Pkg.dev(\"WebIO\") if you want to rebuild JS."
-        )
+    # NodeJS isn't a hard requirement of WebIO, but is needed to build packages,
+    # so we need to install it in CI.
+    if isci()
+        @info "CI detected, installing NodeJS..."
+
+        using Pkg
+        Pkg.add("NodeJS")
     end
-catch
-    rethrow()
+
+    # Don't build packages outside of a dev environment (or CI).
+    if !isdev()
+        @warn(
+            "Can't build WebIO JS when not checked out for development. "
+            * "Run `Pkg.dev(\"WebIO\")` if you want to build JS."
+        )
+        return
+    end
+
+    # Build the dang packages!
+    using NodeJS
+    package_dir = normpath(joinpath(@__DIR__, "..", "packages"))
+    npm = `$(NodeJS.npm_cmd()) -C $(package_dir)`
+
+    install_cmd = `$npm install --scripts-prepend-node-path=auto --unsafe-perm`
+    @info "Installing NPM dependencies..." cmd=install_cmd
+    run(install_cmd)
+
+    args = (
+        haskey(ENV, "WEBIO_WEBPACK_ARGS")
+        ? [ENV["WEBIO_WEBPACK_ARGS"]]
+        : []
+    )
+    build_cmd = `$npm run build-prod --scripts-prepend-node-path=auto --unsafe-perm -- $args`
+    @info "Building packages..." cmd=build_cmd
+    run(build_cmd)
+
+    if isdir(BUNDLES_PATH)
+        rm(BUNDLES_PATH, recursive=true)
+    end
+    mkdir(BUNDLES_PATH)
+
+    # Copy important things to the right place
+    core_bundle_out = joinpath(package_dir, "webio", "dist", "webio.bundle.js")
+    if !isfile(core_bundle_out)
+        @error "Cannot find WebIO core bundle: $core_bundle_out"
+        error("WebIO core bundle was not built properly!")
+    end
+    @info "Copying $(core_bundle_out) to $(CORE_BUNDLE_PATH)..."
+    cp(core_bundle_out, CORE_BUNDLE_PATH; force=true)
+
+    generic_http_bundle_out = joinpath(package_dir, "generic-http-provider", "dist", "generic-http.bundle.js")
+    @info "Copying $(generic_http_bundle_out) to $(GENERIC_HTTP_BUNDLE_PATH)..."
+    cp(generic_http_bundle_out, GENERIC_HTTP_BUNDLE_PATH; force=true)
+
+    nbextension_bundle_out = joinpath(package_dir, "jupyter-notebook-provider", "dist", "jupyter-notebook.bundle.js")
+    @info "Copying $(nbextension_bundle_out) to $(JUPYTER_NBEXTENSION_PATH)..."
+    cp(nbextension_bundle_out, JUPYTER_NBEXTENSION_PATH; force=true)
 end

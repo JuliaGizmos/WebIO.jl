@@ -3,14 +3,16 @@
   "private": true,
   "scripts": {
     "build": "lerna run build",
-    "build-prod": "lerna run build-prod"
+    "build-prod": "lerna run build-prod",
+    "lerna": "lerna",
+    "prepare": "lerna bootstrap --hoist --strict"
   },
   "devDependencies": {
     "@babel/core": "^7.4.0",
     "@babel/polyfill": "^7.4.0",
     "@babel/preset-env": "^7.4.2",
     "babel-loader": "^8.0.5",
-    "lerna": "^3.13.1",
+    "lerna": "^3.16.2",
     "ts-loader": "^5.3.3",
     "typescript": "~3.3",
     "uglifyjs-webpack-plugin": "^2.1.2",

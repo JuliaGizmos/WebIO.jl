@@ -1,13 +1,16 @@
 # Julia
 Manifest.toml
 deps/build.log
+deps/bundles
 
 # JavaScript
+dist
 yarn.lock
 node_modules
 *.js.map
 lerna-debug.log
 package-lock.json
+*.tgz
 
 # Miscellaneous
 .*~

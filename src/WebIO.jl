@@ -9,6 +9,8 @@ import Widgets: node, AbstractWidget
 using Logging
 using UUIDs
 
+include("../deps/bundlepaths.jl")
+
 """
 The filesystem path where the WebIO frontend packages lives.
 """
@@ -17,7 +19,7 @@ const packagepath = normpath(joinpath(@__DIR__, "..", "packages"))
 """
 The path of the main WebIO JavaScript bundle file.
 """
-const bundlepath = normpath(joinpath(packagepath, "webio", "dist", "index.js"))
+const bundlepath = CORE_BUNDLE_PATH
 
 """
 The MIME type for WebIO nodes.
@@ -32,7 +34,6 @@ Base.Multimedia.istextmime(::WEBIO_NODE_MIME) = true
 const WEBIO_APPLICATION_MIME = MIME"application/vnd.webio.application+html"
 Base.Multimedia.istextmime(::WEBIO_APPLICATION_MIME) = true
 
-include("version.jl")
 include("util.jl")
 include("connection.jl")
 include("syntax.jl")
@@ -44,7 +45,10 @@ include("scope.jl")
 include("render.jl")
 include("messaging.jl")
 include("rpc.jl")
+
+# Extra "non-core" functionality
 include("devsetup.jl")
+include("../deps/jupyter.jl")
 
 
 """

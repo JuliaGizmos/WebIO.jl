@@ -44,7 +44,7 @@ if haskey(ENV, "CI")
         @testset "Jupyter Notebook setup" begin
             WebIO.install_jupyter_nbextension()
             installed_extensions = read(`$conda_jupyter nbextension list`, String)
-            @test occursin("webio/main", installed_extensions)
+            @test occursin("webio", installed_extensions)
         end
 
         @testset "Jupyter serverextension setup" begin

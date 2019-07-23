@@ -1,16 +1,22 @@
 {
-  "private": true,
   "name": "@webio/generic-http-provider",
   "description": "Generic HTTP provider for WebIO.",
   "repository": "https://github.com/JuliaGizmos/WebIO.jl",
   "author": "Travis DePrato",
   "license": "MIT",
   "dependencies": {
-    "@webio/webio": "file:../webio"
+    "@webio/webio": "^0.8.6",
+    "debug": "^4.1.1"
   },
   "scripts": {
     "build": "webpack-cli",
     "build-prod": "webpack-cli -p"
   },
-  "version": "0.8.3"
+  "version": "0.8.6",
+  "devDependencies": {
+    "webpack-cli": "^3.3.5"
+  },
+  "files": [
+    "dist/*"
+  ]
 }
