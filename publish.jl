@@ -1,3 +1,5 @@
+#!/usr/bin/env julia
+
 using Pkg
 using Pkg.TOML
 
@@ -11,7 +13,16 @@ if length(ARGS) == 0 || ARGS[1] == "bump"
     @info "Bumping WebIO version: $CURRENT_VERSION => $target_version"
 else
     target_version = VersionNumber(ARGS[1])
-    @info "Updating WebIO version: $CURRENT_VERSION => $target_version"
+    @info "Setting WebIO version: $CURRENT_VERSION => $target_version"
+end
+
+print("Continue with publishing [y/N]? ")
+let
+    confirmation = readline()
+    if lowercase(confirmation) != "y"
+        @info "Aborting."
+        exit(1)
+    end
 end
 
 const PACKAGES_DIR = normpath(joinpath(@__DIR__, "packages"))
@@ -22,3 +33,8 @@ run(`sh -c "rm -rf ./deps/bundles $(PACKAGES_DIR)/node_modules $(PACKAGES_DIR)/*
 # Build JS in prod mode.
 ENV["WEBIO_BUILD_PROD"] = true
 Pkg.test("WebIO")
+
+@info "Publishing NPM packages via Lerna..."
+cd(PACKAGES_DIR)
+lerna_args = split(get(ENV, "LERNA_ARGS", ""))
+run(`npm run lerna -- publish $lerna_args $target_version`)
