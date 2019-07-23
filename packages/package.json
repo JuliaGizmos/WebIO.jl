@@ -5,7 +5,7 @@
     "build": "lerna run build",
     "build-prod": "lerna run build-prod",
     "lerna": "lerna",
-    "postinstall": "lerna bootstrap --hoist --strict"
+    "prepare": "lerna bootstrap --hoist --strict"
   },
   "devDependencies": {
     "@babel/core": "^7.4.0",
