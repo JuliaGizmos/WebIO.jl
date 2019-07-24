@@ -1,10 +1,9 @@
-module WebIOServeTest
-    using WebIO
-    using Test
+using Test
+using WebIO
+using Mux
 
-    using Mux
-    # Test that webio_serve was defined
+@testset "Mux sanity"
     @test isdefined(WebIO, :webio_serve)
-    # Test that it was also exported
-    @test isdefined(WebIOServeTest, :webio_serve)
 end
+
+# TODO: real mux tests (possibly using Blink as a headless chrome)

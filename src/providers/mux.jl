@@ -52,7 +52,16 @@ Base.isopen(p::WebSockConnection) = isopen(p.sock)
 
 Mux.Response(o::AbstractWidget) = Mux.Response(Widgets.render(o))
 function Mux.Response(content::Union{Node, Scope})
-    script_url = AssetRegistry.register(MUX_BUNDLE_PATH)
+    script_url = try
+        AssetRegistry.register(MUX_BUNDLE_PATH)
+    catch exc
+        @error(
+            "Unable to register Mux bundle path: $MUX_BUNDLE_PATH.\n"
+                * "Try rebuilding WebIO.",
+            exception=exc,
+        )
+        rethrow()
+    end
     Mux.Response(
         """
         <!doctype html>

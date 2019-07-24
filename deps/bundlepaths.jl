@@ -52,4 +52,8 @@ function download_js_bundles()
     download_bundle("mux", MUX_BUNDLE_PATH, MUX_BUNDLE_URL)
     download_bundle("blink", BLINK_BUNDLE_PATH, BLINK_BUNDLE_URL)
     download_bundle("jupyter-notebook", JUPYTER_NBEXTENSION_PATH, JUPTYER_NBEXTENSION_URL)
+
+    # NOTE: we don't download JupyterLab files because that should just begin
+    # installed directly from npm (à la the
+    # `jupyter labextension install @webio/jupyter-lab-provider` command).
 end
