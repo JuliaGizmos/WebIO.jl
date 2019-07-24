@@ -35,12 +35,6 @@ run(`sh -c "rm -rf ./deps/bundles $(PACKAGES_DIR)/node_modules $(PACKAGES_DIR)/*
 ENV["WEBIO_BUILD_PROD"] = true
 Pkg.test("WebIO")
 
-@info "Writing Project.toml..."
-project = Dict(PROJECT)
-project["version"] = string(target_version)
-open(PROJECT_FILENAME, "w") do io
-    TOML.print(io, project)
-end
 @info "Publishing NPM packages via Lerna..."
 print("Please enter your NPM one-time-password (OTP): ")
 otp = readline()
@@ -54,3 +48,10 @@ download_packages_code = """
     WebIO.download_js_bundles()
     """
 run(`julia -e $download_packages_code`)
+
+@info "Writing Project.toml..."
+project = Dict(PROJECT)
+project["version"] = string(target_version)
+open(PROJECT_FILENAME, "w") do io
+    TOML.print(io, project)
+end
