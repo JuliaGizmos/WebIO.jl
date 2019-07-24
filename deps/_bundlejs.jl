@@ -69,4 +69,8 @@ let
     mux_bundle_out = joinpath(package_dir, "mux-provider", "dist", "mux.bundle.js")
     @info "Copying $(mux_bundle_out) to $(MUX_BUNDLE_PATH)..."
     cp(mux_bundle_out, MUX_BUNDLE_PATH; force=true)
+
+    blink_bundle_out = joinpath(package_dir, "blink-provider", "dist", "blink.bundle.js")
+    @info "Copying $(blink_bundle_out) to $(BLINK_BUNDLE_PATH)..."
+    cp(blink_bundle_out, BLINK_BUNDLE_PATH; force=true)
 end
