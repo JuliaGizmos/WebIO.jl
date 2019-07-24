@@ -2,8 +2,6 @@ using AssetRegistry
 using Sockets
 using WebIO
 
-include("../../deps/jupyter.jl")
-
 struct IJuliaConnection <: AbstractConnection
     comm::IJulia.CommManager.Comm
 end
@@ -41,9 +39,6 @@ function main()
         @warn "IJulia doesn't have register_mime; WebIO may not work as expected. Please upgrade to IJulia v1.13.0 or greater."
     end
 
-    key = AssetRegistry.register(joinpath(@__DIR__, "..", "..", "packages", "jupyter-notebook-provider", "dist"))
-    bundle = joinpath(key, "main.js")
-
     script_id = "webio-setup-$(rand(UInt64))"
     warning_div_id = "webio-warning-$(rand(UInt64))"
     warning_text = "Loading WebIO Jupyter extension on an ad-hoc basis. Consider enabling the WebIO nbextension for a stabler experience (this should happen automatically when building WebIO)."
@@ -75,9 +70,6 @@ function main()
                     return;
                 }
                 console.warn($warning_text);
-                require([$bundle], function (webIOModule) {
-                    webIOModule.load_ipython_extension();
-                });
                 warning_div.innerHTML = $("<strong>$(warning_text)</strong>");
             } else if (window.location.pathname.includes("/lab")) {
                 // Guessing JupyterLa
@@ -91,14 +83,16 @@ function main()
         <script>
         $(setup_script)
         </script>
-        <div
+        <p
             id="$(warning_div_id)"
             class="output_text output_stderr"
             style="padding: 1em; font-weight: bold;"
         >
             Unable to load WebIO. Please make sure WebIO works for your Jupyter client.
+            For troubleshooting, please see <a href="https://juliagizmos.github.io/WebIO.jl/latest/providers/ijulia/">
+            the WebIO/IJulia documentation</a>.
             <!-- TODO: link to installation docs. -->
-        </div>
+        </p>
         """
     ))
 end

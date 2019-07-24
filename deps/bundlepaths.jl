@@ -50,7 +50,6 @@ function download_js_bundles()
     download_bundle("core", CORE_BUNDLE_PATH, CORE_BUNDLE_URL)
     download_bundle("generic-http", GENERIC_HTTP_BUNDLE_PATH, GENERIC_HTTP_BUNDLE_URL)
     download_bundle("mux", MUX_BUNDLE_PATH, MUX_BUNDLE_URL)
-    download_bundle("blink", BLINK_BUNDLE_PATH, BLINK_BUNDLE_URL)
     download_bundle("jupyter-notebook", JUPYTER_NBEXTENSION_PATH, JUPTYER_NBEXTENSION_URL)
 
     # NOTE: we don't download JupyterLab files because that should just begin
