@@ -2,7 +2,7 @@ using Test
 using WebIO
 using Mux
 
-@testset "Mux sanity"
+@testset "Mux sanity" begin
     @test isdefined(WebIO, :webio_serve)
 end
 
