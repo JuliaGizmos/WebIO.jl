@@ -32,7 +32,7 @@ function ConnectionPool(
     pool = ConnectionPool(
         outbox,
         connections,
-        Channel{AbstractConnection}(NEW_CONNECTION_LIMIT),
+        Channel{AbstractConnection}(PENDING_CONNECTION_LIMIT),
     )
     @async process_messages(pool)
     return pool
