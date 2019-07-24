@@ -5,6 +5,7 @@ using Pkg.TOML
 
 const PROJECT_FILENAME = normpath(joinpath(@__DIR__, "Project.toml"))
 const PROJECT = TOML.parsefile(PROJECT_FILENAME)
+
 const CURRENT_VERSION = VersionNumber(PROJECT["version"])
 major, minor, patch = Int.(getfield.(CURRENT_VERSION, [:major, :minor, :patch]))
 
@@ -34,8 +35,22 @@ run(`sh -c "rm -rf ./deps/bundles $(PACKAGES_DIR)/node_modules $(PACKAGES_DIR)/*
 ENV["WEBIO_BUILD_PROD"] = true
 Pkg.test("WebIO")
 
+@info "Writing Project.toml..."
+project = Dict(PROJECT)
+project["version"] = string(target_version)
+open(PROJECT_FILENAME, "w") do io
+    TOML.print(io, project)
+end
 @info "Publishing NPM packages via Lerna..."
 print("Please enter your NPM one-time-password (OTP): ")
 otp = readline()
 cd(PACKAGES_DIR)
 run(`npm run lerna -- publish --otp $otp $target_version`)
+
+@info "Making sure package download works...")
+download_packages_code = """
+    using WebIO
+    rm(WebIO.BUNDLES_PATH, force=true)
+    WebIO.download_js_bundles()
+    """
+run(`julia -e $download_packages_code`)

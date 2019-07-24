@@ -4,6 +4,7 @@ const WEBIO_VERSION = let
     project_file = normpath(joinpath(@__DIR__, "..", "Project.toml"))
     project = TOML.parsefile(project_file)
     VersionNumber(project["version"])
+    v"0.8.7"
 end
 
 isci() = haskey(ENV, "CI")
@@ -50,7 +51,7 @@ function download_js_bundles()
     download_bundle("core", CORE_BUNDLE_PATH, CORE_BUNDLE_URL)
     download_bundle("generic-http", GENERIC_HTTP_BUNDLE_PATH, GENERIC_HTTP_BUNDLE_URL)
     download_bundle("mux", MUX_BUNDLE_PATH, MUX_BUNDLE_URL)
-    download_bundle("jupyter-notebook", JUPYTER_NBEXTENSION_PATH, JUPTYER_NBEXTENSION_URL)
+    download_bundle("jupyter-notebook", JUPYTER_NBEXTENSION_PATH, JUPYTER_NBEXTENSION_URL)
 
     # NOTE: we don't download JupyterLab files because that should just begin
     # installed directly from npm (à la the
