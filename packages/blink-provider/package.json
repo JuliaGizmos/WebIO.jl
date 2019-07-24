@@ -11,6 +11,6 @@
     "build": "webpack-cli",
     "build-prod": "webpack-cli -p"
   },
-  "version": "0.8.8",
+  "version": "0.8.7",
   "main": "dist/blink.js"
 }
