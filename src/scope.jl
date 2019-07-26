@@ -85,6 +85,8 @@ const global_scope_registry = Dict{String, Scope}()
 
 function register_scope!(scope::Scope)
     global_scope_registry[scopeid(scope)] = scope
+    for conn in connections(scope.pool)
+        conn_scope_map[]
 end
 
 function deregister_scope!(scope::Scope)
@@ -119,7 +121,7 @@ myscope = Scope(
 """
 function Scope(;
         dom = dom"span"(),
-        outbox::Channel = Channel{Any}(Inf),
+        outbox::Union{Channel, Nothing} = nothing,
         observs::Dict = ObsDict(),
         private_obs::Set{String} = Set{String}(),
         systemjs_options = nothing,
@@ -137,7 +139,7 @@ function Scope(;
         )
     end
     imports = Asset[Asset(i) for i in imports]
-    pool = ConnectionPool(outbox)
+    pool = outbox !== nothing ? ConnectionPool(outbox) : ConnectionPool()
     return Scope(
         dom, observs, private_obs, systemjs_options,
         imports, jshandlers, pool, mount_callbacks
