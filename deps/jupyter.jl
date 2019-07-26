@@ -169,10 +169,15 @@ function install_jupyter_nbextension(
     install_jupyter_serverextension()
 
     # Copy the nbextension files.
+    install_cmd = `$jupyter nbextension install $nbextension_flags $JUPYTER_NBEXTENSION_PATH`
+    @info "Installing Jupyter WebIO extension..." cmd=install_cmd
+    run(install_cmd)
 
-    @info "Installing Jupyter WebIO extension..."
-    run(`$jupyter nbextension install $nbextension_flags $JUPYTER_NBEXTENSION_PATH`)
-    run(`$jupyter nbextension enable $nbextension_flags $JUPYTER_NBEXTENSION_NAME`)
+    enable_cmd = `$jupyter nbextension enable $nbextension_flags $JUPYTER_NBEXTENSION_NAME`
+    @info "Enabling Jupyter WebIO extension..." cmd=enable_cmd
+    run(enable_cmd)
+
+    return nothing
 end
 
 ### BEGIN BORROWED CODE ###

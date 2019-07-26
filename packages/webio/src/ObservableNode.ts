@@ -32,7 +32,7 @@ export interface ObservableNodeSchema extends WebIONodeSchema {
  * A special type of node/observable that contains a node.
  */
 class WebIOObservableNode extends WebIONode {
-  readonly element: HTMLDivElement;
+  readonly element: HTMLElement;
   readonly observable: WebIOObservable<WebIONodeSchema> | null = null;
   scope!: WebIOScope;
   children: null = null;
@@ -42,7 +42,10 @@ class WebIOObservableNode extends WebIONode {
     super(schema, context);
     debug("Creating WebIODomNode", {schema, context});
 
-    this.element = document.createElement("div");
+    // NOTE: we make this a span so that it can be inline if the contained node
+    // is inline.
+    // See similar note in Scope.ts.
+    this.element = document.createElement("span");
     this.element.className = "webio-observable-node";
     this.element.setAttribute("data-webio-observable-name",  schema.instanceArgs.name);
 
