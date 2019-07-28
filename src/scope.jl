@@ -85,8 +85,6 @@ const global_scope_registry = Dict{String, Scope}()
 
 function register_scope!(scope::Scope)
     global_scope_registry[scopeid(scope)] = scope
-    for conn in connections(scope.pool)
-        conn_scope_map[]
 end
 
 function deregister_scope!(scope::Scope)
