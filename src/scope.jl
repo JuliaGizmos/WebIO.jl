@@ -119,7 +119,7 @@ myscope = Scope(
 """
 function Scope(;
         dom = dom"span"(),
-        outbox::Channel = Channel{Any}(Inf),
+        outbox::Union{Channel, Nothing} = nothing,
         observs::Dict = ObsDict(),
         private_obs::Set{String} = Set{String}(),
         systemjs_options = nothing,
@@ -137,7 +137,7 @@ function Scope(;
         )
     end
     imports = Asset[Asset(i) for i in imports]
-    pool = ConnectionPool(outbox)
+    pool = outbox !== nothing ? ConnectionPool(outbox) : ConnectionPool()
     return Scope(
         dom, observs, private_obs, systemjs_options,
         imports, jshandlers, pool, mount_callbacks

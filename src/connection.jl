@@ -12,6 +12,11 @@ haven't been moved from a `ConnectionPool`'s `new_connections` set to its
 const PENDING_CONNECTION_LIMIT = 32
 
 """
+The maximum number of messages to allow into the outbox.
+"""
+const DEFAULT_OUTBOX_LIMIT = 32
+
+"""
     ConnectionPool([outbox[, connections]])
 
 Manages the distribution of messages from the `outbox` channel to a set of
@@ -26,7 +31,7 @@ struct ConnectionPool
 end
 
 function ConnectionPool(
-        outbox::Channel = Channel{Any}(Inf),
+        outbox::Channel = Channel{Any}(DEFAULT_OUTBOX_LIMIT),
         connections=Set{AbstractConnection}(),
 )
     pool = ConnectionPool(
@@ -34,7 +39,18 @@ function ConnectionPool(
         connections,
         Channel{AbstractConnection}(PENDING_CONNECTION_LIMIT),
     )
-    @async process_messages(pool)
+
+    # Catch errors here, otherwise they are lost to the void.
+    @async try
+        process_messages(pool)
+    catch exc
+        @error(
+            "An error ocurred in the while processing messages from a "
+                * "ConnectionPool.",
+            exception=exc,
+        )
+    end
+
     return pool
 end
 
@@ -72,10 +88,14 @@ frontends.
 This function should be run as a task (it will block forever otherwise).
 """
 function process_messages(pool::ConnectionPool)
+    ensure_connection(pool)
     while true
-        ensure_connection(pool)
         msg = take!(pool.outbox)
         @sync begin
+            # This may result in sending to no connections, but we're okay with
+            # that because we'll just get the next value of the observable
+            # (messages are fire and forget - WebIO makes no guarantees that
+            # messages are ever actually delivered).
             for connection in pool.connections
                 @async send_message(pool, connection, msg)
             end
@@ -93,14 +113,13 @@ function send_message(
         pool::ConnectionPool,
         connection::AbstractConnection,
         msg,
-)::Bool
+)::Nothing
     try
         if isopen(connection)
             send(connection, msg)
-            return true
         else
+            @info "Connection is not open." connection
             delete!(pool.connections, connection)
-            return false
         end
     catch ex
         @error(
@@ -109,6 +128,7 @@ function send_message(
             exception=ex,
         )
         delete!(pool.connections, connection)
-        rethrow()
+    finally
+        return nothing
     end
 end

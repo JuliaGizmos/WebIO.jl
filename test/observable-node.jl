@@ -3,7 +3,7 @@ using Observables
 using Test
 using JSExpr
 
-@testset "Afljashfjlsahf" begin
+@testset "Observables with nodes" begin
     w = Scope()
     counter = Observable(w, "counter", 0)
     domnode = map(x -> dom"span"("Counter is $counter[]!"), counter)
