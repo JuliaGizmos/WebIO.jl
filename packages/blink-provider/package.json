@@ -5,12 +5,13 @@
   "author": "Travis DePrato",
   "license": "MIT",
   "dependencies": {
-    "@webio/webio": "file:../webio"
+    "@webio/webio": "^0.8.9"
   },
   "scripts": {
     "build": "webpack-cli",
     "build-prod": "webpack-cli -p"
   },
-  "version": "0.8.8",
-  "main": "dist/blink.js"
+  "version": "0.8.9",
+  "main": "dist/blink.js",
+  "gitHead": "a17bcee97d64897d0e9b429a8551f19eedc47091"
 }

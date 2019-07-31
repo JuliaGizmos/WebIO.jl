@@ -90,12 +90,12 @@ run(`git commit -m $commitmsg`)
 
 print("Please enter your NPM one-time-password (OTP): ")
 otp = readline()
-run(`$npm run lerna -- publish --no-git-reset --otp $otp from-package`)
+run(`$npm run lerna -- publish --otp $otp from-package`)
 
-@info "Making sure package download works...")
+@info "Making sure package download works..."
 download_packages_code = """
     using WebIO
-    rm(WebIO.BUNDLES_PATH, force=true)
+    rm(WebIO.BUNDLES_PATH, force=true, recursive=true)
     WebIO.download_js_bundles()
     """
 try

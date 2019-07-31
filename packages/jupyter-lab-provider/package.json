@@ -5,7 +5,7 @@
   "author": "Travis DePrato",
   "license": "MIT",
   "main": "dist/labextension.js",
-  "version": "0.8.8",
+  "version": "0.8.9",
   "dependencies": {
     "@jupyterlab/application": "^1.0.1",
     "@jupyterlab/docmanager": "^1.0.1",
@@ -16,7 +16,7 @@
     "@phosphor/messaging": "^1.2.2",
     "@phosphor/widgets": "^1.8.1",
     "@types/debug": "^4.1.2",
-    "@webio/webio": "^0.8.8",
+    "@webio/webio": "0.8.9",
     "debug": "^4.1.1"
   },
   "scripts": {
@@ -29,7 +29,7 @@
   "files": [
     "dist/*"
   ],
-  "gitHead": "f238f581711ae95e7625108db371240b13e260af",
+  "gitHead": "a17bcee97d64897d0e9b429a8551f19eedc47091",
   "devDependencies": {
     "typescript": "~3.3"
   }
