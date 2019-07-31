@@ -1,22 +1,66 @@
 #!/usr/bin/env julia
 
+const USAGE = """
+./publish.jl [--skip-tests] [version]
+
+Publish NPM packages at the specified version (after running tests). If version
+is specified, also updates the value in Project.toml.
+"""
+
 using Pkg
 using Pkg.TOML
+using LibGit2: GitRepo, branch, isdirty, tag_list
 
+const REPO = GitRepo(@__DIR__)
 const PROJECT_FILENAME = normpath(joinpath(@__DIR__, "Project.toml"))
 const PROJECT = TOML.parsefile(PROJECT_FILENAME)
 
-const CURRENT_VERSION = VersionNumber(PROJECT["version"])
-major, minor, patch = Int.(getfield.(CURRENT_VERSION, [:major, :minor, :patch]))
-
-if length(ARGS) == 0 || ARGS[1] == "bump"
-    target_version = VersionNumber("$(major).$(minor).$(patch + 1)")
-    @info "Bumping WebIO version: $CURRENT_VERSION => $target_version"
-else
-    target_version = VersionNumber(ARGS[1])
-    @info "Setting WebIO version: $CURRENT_VERSION => $target_version"
+if branch(REPO) != "master"
+    @error(
+        "The publish.jl script must be run on the master branch.\n"
+        * "Please `git checkout master && git pull` and re-run.",
+    )
+    exit(1)
 end
 
+if isdirty(REPO)
+    @error(
+        "The Git repository is dirty. Please make sure all changes are "
+        * "commmited and pushed to GitHub. To reset any changes (e.g. if "
+        * "publish.jl failed and left the repo dirty), run `git reset --hard`."
+    )
+    exit(1)
+end
+
+if !in("--skip-tests", ARGS)
+    @info "Running tests..."
+    # Build JS in prod mode.
+    ENV["WEBIO_BUILD_PROD"] = true
+    Pkg.test("WebIO")
+
+    # Running tests should not make the repo dirty.
+    @assert !isdirty(REPO)
+end
+
+if !isempty(ARGS) && !startswith(last(ARGS), "-")
+    version = last(ARGS)
+    @info "Setting WebIO version to $version..."
+    PROJECT["version"] = version
+    open(PROJECT_FILENAME, "w") do io
+        TOML.print(io, PROJECT)
+    end
+end
+
+const VERSION = VersionNumber(PROJECT["version"])
+if "v$(VERSION)" in tag_list(REPO)
+    @error(
+        "WebIO@$(VERSION) has already been tagged. Did you forget "
+        * "to increment the version before running this script?",
+    )
+    exit(1)
+end
+
+@info "Publishing WebIO@$(VERSION); this will upload packages to NPM."
 print("Continue with publishing [y/N]? ")
 let
     confirmation = readline()
@@ -30,16 +74,23 @@ const PACKAGES_DIR = normpath(joinpath(@__DIR__, "packages"))
 @info "Removing previous build artifacts..."
 run(`sh -c "rm -rf ./deps/bundles $(PACKAGES_DIR)/node_modules $(PACKAGES_DIR)/*/node_modules $(PACKAGES_DIR)/*/dist $(PACKAGES_DIR)/package-lock.json $(PACKAGES_DIR)/*/package-lock.json"`)
 
-@info "Running tests..."
-# Build JS in prod mode.
-ENV["WEBIO_BUILD_PROD"] = true
-Pkg.test("WebIO")
+const npm = `npm -C $PACKAGES_DIR`
 
-@info "Publishing NPM packages via Lerna..."
+@info "Building production (i.e. minified) JavaScript bundles..."
+run(`$npm install`)
+run(`$npm run lerna -- run build-prod`)
+
+@info "Setting NPM package versions to $VERSION..."
+run(`$npm run lerna -- version --no-git-tag-version --no-push --exact --force-publish="*" $VERSION`)
+
+commitmsg = "v$VERSION"
+@info "Creating git commit..."
+run(`git add .`)
+run(`git commit -m $commitmsg`)
+
 print("Please enter your NPM one-time-password (OTP): ")
 otp = readline()
-cd(PACKAGES_DIR)
-run(`npm run lerna -- publish --otp $otp $target_version`)
+run(`$npm run lerna -- publish --no-git-reset --otp $otp from-package`)
 
 @info "Making sure package download works...")
 download_packages_code = """
@@ -47,11 +98,22 @@ download_packages_code = """
     rm(WebIO.BUNDLES_PATH, force=true)
     WebIO.download_js_bundles()
     """
-run(`julia -e $download_packages_code`)
-
-@info "Writing Project.toml..."
-project = Dict(PROJECT)
-project["version"] = string(target_version)
-open(PROJECT_FILENAME, "w") do io
-    TOML.print(io, project)
+try
+    run(`julia -e $download_packages_code`)
+catch exc
+    @error(
+        "Oh no! Failed to download packages. Packages were already uploaded "
+        * "to NPM and can't be overwritten, so you might need to skip this "
+        * "version and bump the minor version once the issue is fixed.",
+        exception=exc
+    )
+    rethrow()
 end
+
+@info "Pushing to GitHub..."
+run(`git push`)
+
+@info(
+    "Success!\n"
+    * "Comment on the latest commit "
+)

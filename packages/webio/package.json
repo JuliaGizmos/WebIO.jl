@@ -18,8 +18,7 @@
   },
   "scripts": {
     "build": "tsc -p . && webpack",
-    "build-prod": "npm run build && webpack -p",
-    "prepack": "npm run build"
+    "build-prod": "npm run build && webpack -p"
   },
   "devDependencies": {
     "typescript": "~3.3",
