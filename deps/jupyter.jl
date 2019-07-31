@@ -5,6 +5,8 @@ end
 const CONFIG_BEGIN_MARKER = "###JULIA-WEBIO-CONFIG-BEGIN"
 const CONFIG_END_MARKER = "###JULIA-WEBIO-CONFIG-END"
 
+_tryrun(args...; kwargs...) = try run(args...; kwargs...) catch nothing end
+
 """
     install_notebook_config()
 
@@ -144,8 +146,8 @@ function install_jupyter_labextension(
     end
     install_jupyter_serverextension()
 
-    run(`$jupyter labextension unlink --no-build @webio/webio`)
-    run(`$jupyter labextension uninstall --no-build @webio/jupyter-lab-provider`)
+    _tryrun(`$jupyter labextension unlink --no-build @webio/webio`)
+    _tryrun(`$jupyter labextension uninstall --no-build @webio/jupyter-lab-provider`)
 
     if dev
         @info "Installing Jupyter labextension in dev mode..."
