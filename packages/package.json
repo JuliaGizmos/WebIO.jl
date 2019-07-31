@@ -4,8 +4,7 @@
   "scripts": {
     "build": "lerna run build",
     "build-prod": "lerna run build-prod",
-    "lerna": "lerna",
-    "prepare": "lerna bootstrap --hoist --strict"
+    "lerna": "lerna"
   },
   "devDependencies": {
     "@babel/core": "^7.4.0",

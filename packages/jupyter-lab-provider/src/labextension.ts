@@ -44,6 +44,8 @@ const RENDERER_RANK = 0;
 
 log("@webio/jupyter-lab-provider");
 
+log("foo");
+
 /**
  * A Jupyter renderer class that mounts a WebIO node.
  *
@@ -97,6 +99,11 @@ class WebIORenderer extends Panel implements IRenderMime.IRenderer, IDisposable 
     (window as any).lastWebIORenderer = this;
     this.lastModel = model;
     log(`WebIORenderer¬renderModel`, model.data[MIME_TYPE]);
+    const data = model.data[MIME_TYPE];
+    if (!data) {
+      console.error("WebIORenderer created for unsupported model:", model);
+      return;
+    }
     this.webIO.mount(this.node, model.data[MIME_TYPE] as any);
     return;
   }
@@ -233,38 +240,39 @@ class WebIONotebookManager {
  * {@link WebIORenderer} using this notebook-specific instance of {@link WebIO}.
  */
 class WebIONotebookExtension implements DocumentRegistry.IWidgetExtension<NotebookPanel, INotebookModel> {
-
-  constructor(private args: {rendermime: IRenderMimeRegistry}) {}
-
   createNew(notebook: NotebookPanel, context: DocumentRegistry.IContext<INotebookModel>): IDisposable {
     log(`WebIONotebookExtension¬createNew`, notebook, context);
     const webIONotebookManager = new WebIONotebookManager(notebook, context);
 
-    this.args.rendermime.addFactory({
-      safe: false,
-      mimeTypes: [MIME_TYPE],
-      createRenderer: (options) => {
-        log("Creating WebIO renderer...");
-        webIONotebookManager.connect();
-        return new WebIORenderer(options, webIONotebookManager);
+    log(`Registering rendermime factory for MIME: ${MIME_TYPE}.`);
+    const {rendermime} = notebook.content;
+    rendermime.addFactory(
+      {
+        safe: true,
+        mimeTypes: [MIME_TYPE],
+        createRenderer: (options) => {
+          log("Creating WebIO renderer...");
+          webIONotebookManager.connect();
+          return new WebIORenderer(options, webIONotebookManager);
+        },
       },
-    }, RENDERER_RANK);
+      RENDERER_RANK,
+    );
 
     return new DisposableDelegate(() => {
       log("Unregistering WebIO MIME renderer...");
-      this.args.rendermime.removeMimeType(MIME_TYPE);
+      rendermime.removeMimeType(MIME_TYPE);
     });
   }
 }
 
 const extension: JupyterFrontEndPlugin<void>= {
   id: "@webio/jupyter-lab-provider:plugin",
-  requires: [IRenderMimeRegistry],
-  activate: (app, rendermime: IRenderMimeRegistry) => {
+  activate: (app) => {
     log(`Activating WebIO JupyterLab plugin.`);
     app.docRegistry.addWidgetExtension(
       "Notebook",
-      new WebIONotebookExtension({rendermime}),
+      new WebIONotebookExtension(),
     );
   },
   autoStart: true,
