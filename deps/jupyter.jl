@@ -143,7 +143,12 @@ function install_jupyter_labextension(
         )
     end
     install_jupyter_serverextension()
+
+    run(`$jupyter labextension unlink --no-build @webio/webio`)
+    run(`$jupyter labextension uninstall --no-build @webio/jupyter-lab-provider`)
+
     if dev
+        @info "Installing Jupyter labextension in dev mode..."
         core_path = joinpath(PACKAGES_PATH, "webio")
         lab_provider_path = joinpath(PACKAGES_PATH, "jupyter-lab-provider")
         run(`$jupyter labextension link --no-build $core_path`)
