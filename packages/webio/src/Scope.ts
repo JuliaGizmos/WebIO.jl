@@ -104,7 +104,7 @@ export interface PromiseHandlers {
 class WebIOScope extends WebIONode {
 
   readonly id: string;
-  readonly element: HTMLDivElement;
+  readonly element: HTMLElement;
   children: Array<WebIONode | string> | null = null;
   handlers: ScopeListeners;
   observables: {[observableName: string]: WebIOObservable};
@@ -120,7 +120,12 @@ class WebIOScope extends WebIONode {
 
     debug("Creating new WebIOScope.", schema);
 
-    this.element = document.createElement("div");
+    // NOTE: we use a span here because we don't Scopes to always be block-level
+    // elements (e..g inline scopes should be a thing).
+    // This technically violates HTML standards, (because we might have a block
+    // element within this span) but, it works in all of the browsers so it's
+    // whatever.
+    this.element = document.createElement("span");
     this.element.className = "webio-scope";
     this.element.setAttribute("data-webio-scope-id",  schema.instanceArgs.id);
 
