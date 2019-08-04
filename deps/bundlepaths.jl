@@ -6,7 +6,13 @@ const WEBIO_VERSION = let
     VersionNumber(project["version"])
 end
 
-isci() = haskey(ENV, "CI")
+# Make sure that we're running tests for this repository, we don't want to do
+# extra steps when testing other packages.  For the time being we run tests only
+# on Travis, so isci() checks Travis-specific environment variables.
+function isci()
+    return get(ENV, "TRAVIS", "false") == "true" &&
+        split(get(ENV, "TRAVIS_REPO_SLUG", "Foo/Bar.jl"), '/')[2] == "WebIO.jl"
+end
 isdev() = isci() || basename(dirname(dirname(@__DIR__))) == "dev"
 
 const PACKAGES_PATH = normpath(joinpath(@__DIR__, "..", "packages"))
