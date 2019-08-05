@@ -5,13 +5,6 @@ export AbstractConnection
 abstract type AbstractConnection end
 
 """
-The number of connections that we allow to be in a "pending" state (_i.e._ that
-haven't been moved from a `ConnectionPool`'s `new_connections` set to its
-`connections` set).
-"""
-const PENDING_CONNECTION_LIMIT = 32
-
-"""
 The maximum number of messages to allow into the outbox.
 """
 const DEFAULT_OUTBOX_LIMIT = 32
@@ -27,7 +20,7 @@ are automatically removed from the pool.
 struct ConnectionPool
     outbox::Channel
     connections::Set{AbstractConnection}
-    new_connections::Channel{AbstractConnection}
+    condition::Condition
 end
 
 function ConnectionPool(
@@ -37,7 +30,7 @@ function ConnectionPool(
     pool = ConnectionPool(
         outbox,
         connections,
-        Channel{AbstractConnection}(PENDING_CONNECTION_LIMIT),
+        Condition(),
     )
 
     # Catch errors here, otherwise they are lost to the void.
@@ -54,8 +47,9 @@ function ConnectionPool(
     return pool
 end
 
-function addconnection!(pool::ConnectionPool, c::AbstractConnection)
-    put!(pool.new_connections, c)
+function addconnection!(pool::ConnectionPool, conn::AbstractConnection)
+    push!(pool.connections, conn)
+    notify(pool)
 end
 
 function Sockets.send(pool::ConnectionPool, msg)
@@ -70,14 +64,12 @@ current task until that is the case. Also processes incoming connections.
 """
 function ensure_connection(pool::ConnectionPool)
     if isempty(pool.connections)
-        wait(pool.new_connections)
-    end
-    while isready(pool.new_connections)
-        push!(pool.connections, take!(pool.new_connections))
+        wait(pool.condition)
     end
 end
 
 Base.wait(pool::ConnectionPool) = ensure_connection(pool)
+Base.notify(pool::ConnectionPool) = notify(pool.condition)
 
 """
     process_messages(pool)
