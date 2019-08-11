@@ -184,7 +184,7 @@ function Base.show(io::IO, m::MIME"text/html", x::Node)
             data-webio-mountpoint="$(mountpoint_id)"
         >
             <script>
-            if (window.require && require.defined && require.defined("nbextensions/webio/main")) {
+            if (window.require && require.defined && require.defined("nbextensions/$(JUPYTER_NBEXTENSION_NAME)")) {
                 console.log("Jupyter WebIO extension detected, not mounting.");
             } else if (window.WebIO) {
                 WebIO.mount(
@@ -195,7 +195,12 @@ function Base.show(io::IO, m::MIME"text/html", x::Node)
             } else {
                 document
                     .querySelector('[data-webio-mountpoint="$(mountpoint_id)"]')
-                    .innerHTML = '<strong>WebIO not detected.</strong>';
+                    .innerHTML = (
+                        '<strong>WebIO not detected. Please read ' +
+                        '<a href="https://juliagizmos.github.io/WebIO.jl/latest/troubleshooting/not-detected/">the troubleshooting guide</a> ' +
+                        'for more information on how to resolve this issue.' +
+                        '</strong>'
+                    );
             }
             </script>
         </div>
