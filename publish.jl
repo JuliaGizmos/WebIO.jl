@@ -1,11 +1,17 @@
 #!/usr/bin/env julia
 
 const USAGE = """
-./publish.jl [--skip-tests] [version]
+USAGE:
+./publish.jl [--skip-tests] version
 
-Publish NPM packages at the specified version (after running tests). If version
-is specified, also updates the value in Project.toml.
+Publish NPM packages at the specified version (after running tests), update
+the version in Project.toml, and upload to GitHub.
 """
+
+function errorwithusage()
+    @error USAGE
+    exit(1)
+end
 
 using Pkg
 using Pkg.TOML
@@ -32,6 +38,21 @@ if isdirty(REPO)
     exit(1)
 end
 
+const VERSION = let
+    if isempty(ARGS) || startswith(last(ARGS), "-")
+        errorwithusage()
+    end
+    VersionNumber(last(ARGS))
+end
+
+if "v$(VERSION)" in tag_list(REPO)
+    @error(
+        "WebIO@$(VERSION) has already been tagged. Did you forget "
+        * "to increment the version before running this script?",
+    )
+    exit(1)
+end
+
 if !in("--skip-tests", ARGS)
     @info "Running tests..."
     # Build JS in prod mode.
@@ -40,24 +61,6 @@ if !in("--skip-tests", ARGS)
 
     # Running tests should not make the repo dirty.
     @assert !isdirty(REPO)
-end
-
-if !isempty(ARGS) && !startswith(last(ARGS), "-")
-    version = last(ARGS)
-    @info "Setting WebIO version to $version..."
-    PROJECT["version"] = version
-    open(PROJECT_FILENAME, "w") do io
-        TOML.print(io, PROJECT)
-    end
-end
-
-const VERSION = VersionNumber(PROJECT["version"])
-if "v$(VERSION)" in tag_list(REPO)
-    @error(
-        "WebIO@$(VERSION) has already been tagged. Did you forget "
-        * "to increment the version before running this script?",
-    )
-    exit(1)
 end
 
 @info "Publishing WebIO@$(VERSION); this will upload packages to NPM."
@@ -108,6 +111,12 @@ catch exc
         exception=exc
     )
     rethrow()
+end
+
+@info "Setting WebIO Project.toml version to $VERSION..."
+PROJECT["version"] = VERSION
+open(PROJECT_FILENAME, "w") do io
+    TOML.print(io, PROJECT)
 end
 
 @info "Pushing to GitHub..."
