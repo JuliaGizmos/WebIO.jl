@@ -26,6 +26,9 @@ makedocs(
             "providers/blink.md",
             "providers/mux.md",
         ],
+        "Troubleshooting" => [
+            "troubleshooting/not-detected.md",
+        ],
         "extending.md",
     ],
 )
