@@ -4,7 +4,7 @@
   "repository": "https://github.com/JuliaGizmos/WebIO.jl",
   "author": "Travis DePrato",
   "license": "MIT",
-  "version": "0.8.9",
+  "version": "0.8.10",
   "main": "dist/index.js",
   "browser": "dist/index.js",
   "types": "dist/index.d.ts",

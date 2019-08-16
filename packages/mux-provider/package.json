@@ -6,7 +6,7 @@
   "license": "MIT",
   "dependencies": {
     "@types/debug": "^4.1.2",
-    "@webio/webio": "0.8.9",
+    "@webio/webio": "0.8.10",
     "debug": "^4.1.1"
   },
   "devDependencies": {
@@ -16,7 +16,7 @@
     "build": "webpack-cli",
     "build-prod": "webpack-cli -p"
   },
-  "version": "0.8.9",
+  "version": "0.8.10",
   "files": [
     "dist/*.js"
   ],
