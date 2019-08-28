@@ -41,7 +41,6 @@ function main()
 
     script_id = "webio-setup-$(rand(UInt64))"
     warning_div_id = "webio-warning-$(rand(UInt64))"
-    warning_text = "Loading WebIO Jupyter extension on an ad-hoc basis. Consider enabling the WebIO nbextension for a stabler experience (this should happen automatically when building WebIO)."
     setup_script = js"""
         // Immediately-invoked-function-expression to avoid global variables.
         (function() {
@@ -63,14 +62,12 @@ function main()
                     && Jupyter.notebook.config.data
                     && Jupyter.notebook.config.data.load_extensions
                 );
-                if (extensions && extensions["webio/main"]) {
+                if (extensions && extensions[$(JUPYTER_NBEXTENSION_NAME)]) {
                     // Extension already loaded.
                     console.log("Jupyter WebIO nbextension detected; not loading ad-hoc.");
                     hide();
                     return;
                 }
-                console.warn($warning_text);
-                warning_div.innerHTML = $("<strong>$(warning_text)</strong>");
             } else if (window.location.pathname.includes("/lab")) {
                 // Guessing JupyterLa
                 console.log("Jupyter Lab detected; make sure the @webio/jupyter-lab-provider labextension is installed.");
