@@ -53,6 +53,10 @@ function addconnection!(pool::ConnectionPool, conn::AbstractConnection)
 end
 
 function Sockets.send(pool::ConnectionPool, msg)
+    if length(pool.outbox.data) >= pool.outbox.sz_max
+        # TODO: https://github.com/JuliaGizmos/WebIO.jl/issues/343
+        return
+    end
     put!(pool.outbox, msg)
 end
 
