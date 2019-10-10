@@ -321,6 +321,15 @@ end
 onmount(scope::Scope, f) = onmount(scope, JSString(f))
 onimport(scope::Scope, f) = onimport(scope, JSString(f))
 
+on_open_connection(callback, scope::Scope) =
+    push!(scope.pool.open_connection_callbacks, callback)
+off_open_connection(callback, scope::Scope ) =
+    delete!(scope.pool.open_connection_callbacks, callback)
+on_close_connection(callback, scope::Scope) =
+    push!(scope.pool.close_connection_callbacks, callback)
+off_close_connection(callback, scope::Scope) =
+    delete!(scope.pool.close_connection_callbacks, callback)
+
 Base.@deprecate ondependencies(ctx, jsf) onimport(ctx, jsf)
 
 """

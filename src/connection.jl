@@ -21,6 +21,8 @@ struct ConnectionPool
     outbox::Channel
     connections::Set{AbstractConnection}
     condition::Condition
+    open_connection_callbacks::Vector{Any}
+    close_connection_callbacks::Vector{Any}
 end
 
 function ConnectionPool(
@@ -30,7 +32,7 @@ function ConnectionPool(
     pool = ConnectionPool(
         outbox,
         connections,
-        Condition(),
+        Condition(), [], []
     )
 
     # Catch errors here, otherwise they are lost to the void.
@@ -50,6 +52,16 @@ end
 function addconnection!(pool::ConnectionPool, conn::AbstractConnection)
     push!(pool.connections, conn)
     notify(pool)
+    for callback in pool.open_connection_callbacks
+        callback(conn)
+    end
+end
+
+function removeconnection!(pool::ConnectionPool, conn::AbstractConnection)
+    delete!(pool.connections, conn)
+    for callback in pool.close_connection_callbacks
+        callback(conn)
+    end
 end
 
 function Sockets.send(pool::ConnectionPool, msg)
@@ -115,7 +127,7 @@ function send_message(
             send(connection, msg)
         else
             @info "Connection is not open." connection
-            delete!(pool.connections, connection)
+            removeconnection!(pool, connection)
         end
     catch ex
         @error(
@@ -123,7 +135,7 @@ function send_message(
                 * "frontend:",
             exception=ex,
         )
-        delete!(pool.connections, connection)
+        removeconnection!(pool, connection)
     finally
         return nothing
     end
