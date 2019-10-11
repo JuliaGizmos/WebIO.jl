@@ -105,7 +105,8 @@ function find_jupyter_cmd(; force_conda_jupyter::Bool=false)::Cmd
     # This is a heuristic - it might be different. I'm not sure that there's
     # an easy way to load Conda.jl (I tried adding it to extras but no dice).
     conda_root = joinpath(first(Base.DEPOT_PATH), "conda", "3")
-    jupyter = joinpath(conda_root, "bin", "jupyter")
+    @static Sys.iswindows() ? jupyter = joinpath(conda_root, "Scripts", "jupyter.exe") : 
+        jupyter = joinpath(conda_root, "bin", "jupyter")
     if isfile(jupyter)
         return `$jupyter`
     end
