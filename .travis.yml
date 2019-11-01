@@ -4,26 +4,26 @@ language: julia
 jobs:
   include:
     - os: linux
-      julia: 0.7
+      julia: 1.0
       env: TESTCMD="xvfb-run julia"
     - os: linux
-      julia: 1.1
+      julia: 1.2
       env: TESTCMD="xvfb-run julia"
     - os: linux
       julia: nightly
       env: TESTCMD="xvfb-run julia"
     - os: osx
-      julia: 0.7
+      julia: 1.0
       env: TESTCMD="julia"
     - os: osx
-      julia: 1.1
+      julia: 1.2
       env: TESTCMD="julia"
     - os: osx
       julia: nightly
       env: TESTCMD="julia"
 
     - stage: "Documentation"
-      julia: 1.1
+      julia: 1.2
       os: linux
       script:
         - julia --project=docs/ -e '
@@ -37,6 +37,8 @@ jobs:
 
 script:
   - if [[ -a .git/shallow ]]; then git fetch --unshallow; fi
+  # use the unrelease version of JSExpr to test against
+  - julia -e 'using Pkg; pkg"add JSExpr#master"'
   - $TESTCMD -e 'using Pkg; Pkg.build(); Pkg.test("WebIO"; coverage=true)'
 after_success:
   # push coverage results to Coveralls
