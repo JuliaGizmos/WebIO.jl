@@ -2,6 +2,10 @@
 Manifest.toml
 deps/build.log
 deps/bundles
+coverage/
+*.jl.cov
+*.jl.*.cov
+*.jl.mem
 
 # JavaScript
 dist
