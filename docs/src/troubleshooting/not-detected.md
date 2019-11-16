@@ -46,6 +46,23 @@ Note that JupyterLab has more pitfalls relating to which `jupyter` executable
 is in the path. Make sure that the Jupyter you're using (you can determine this
 by running `which jupyter`) is the Jupyter that you expect.
 
+## Installing Node
+
+### Install NodeJS.jl
+If the above failed to correct the problem. The issue may be with Node. To fix the issue, you can try
+
+```julia
+]add NodeJS
+]build NodeJS
+```
+Typically, the `]build NodeJS` can be omitted. However, you may have previously added NodeJS.jl and it just needs to be rebuilt.
+
+### Install external Nodejs
+If the above still doesn't fix the issue, you can try to install an external version of [Nodejs](https://nodejs.org/en/), and ensure that the `node` executable (node.exe on Windows) in available on the path. 
+
+#### For Windows Users
+If you have trouble finding node.exe, you may wish to install the free tool [Everything](https://www.voidtools.com/) to find where your node.exe is located.
+
 ## Still having problems?
 Open a [GitHub issue](https://github.com/JuliaGizmos/WebIO.jl/issues/new).
 Please make sure to include information about what you've tried and what the
