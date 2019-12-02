@@ -83,14 +83,16 @@ function install_jupyter_serverextension()
     return nothing
 end
 
-function find_condajl_jupyter_cmd()::Cmd
+function find_condajl_jupyter_cmd(;
+    check_nodejs::Bool=false,
+)::Cmd
     conda_root = joinpath(first(Base.DEPOT_PATH), "conda", "3")
     conda_bin_dir = joinpath(
         conda_root,
         @static(Sys.iswindows() ? "Scripts" : "bin"),
     )
 
-    jupyter = joinpath(conda_bin_dir, "jupyter")
+    jupyter = joinpath(conda_bin_dir, exe("jupyter"))
     if !isfile(jupyter)
         error(
             "Could not find the Conda.jl `jupyter` executable " *
@@ -102,7 +104,25 @@ function find_condajl_jupyter_cmd()::Cmd
     # detect nodejs.
     conda_env = copy(ENV)
     conda_env["PATH"] = string(conda_bin_dir, ":", conda_env["PATH"])
-    return Cmd(`$jupyter`, env=conda_env)
+    cmd = Cmd(`$jupyter`, env=conda_env)
+
+    if check_nodejs
+        node_exe = joinpath(conda_bin_dir, exe("node"))
+        if !Sys.isfile(node_exe)
+            install_node = Base.prompt(
+                "NodeJS is not installed in your Conda environment " *
+                "but is neccessary to install the JupyterLab extension. " *
+                "Install it? [Y/n]",
+                default="y"
+            )
+            if isyes(install_node)
+                @eval Main using IJulia
+                @eval Main.IJulia Conda.add("nodejs")
+            end
+        end
+    end
+
+    return cmd
 end
 
 function find_path_jupyter_cmd()::Cmd
@@ -124,7 +144,8 @@ If both of these approaches fail, an error is thrown.
 function find_jupyter_cmd(;
     # DEPRECATED: use `condajl` keyword argument
     force_conda_jupyter::Union{Nothing, Bool}=nothing,
-    condajl::Union{Nothing, Bool}=force_conda_jupyter
+    condajl::Union{Nothing, Bool}=force_conda_jupyter,
+    check_nodejs::Bool=false,
 )::Cmd
     # Try to find the "system" Jupyter (unless we explicitly want to force
     # using IJulia's Jupyter installation).
@@ -142,7 +163,7 @@ function find_jupyter_cmd(;
     end
 
     try
-        return find_condajl_jupyter_cmd()
+        return find_condajl_jupyter_cmd(check_nodejs=check_nodejs)
     catch
         if condajl === nothing
             error("Could not find `jupyter` executable in PATH or Conda.jl.")
@@ -174,7 +195,7 @@ function install_jupyter_labextension(
         dev::Bool=isdev()
 )
     if jupyter === nothing
-        jupyter = find_jupyter_cmd(; condajl=condajl)
+        jupyter = find_jupyter_cmd(; condajl=condajl, check_nodejs=true)
         @info(
             "Using default Jupyter executable at $jupyter; to use a different "
             * "executable, see the documentation by running "
@@ -261,3 +282,10 @@ function jupyter_config_dir()
 end
 jupyter_nbextensions_dir() = joinpath(jupyter_data_dir(), "nbextensions")
 jupyter_nbconfig_dir() = joinpath(jupyter_config_dir(), "nbconfig")
+
+isyes(s) = isempty(s) || lowercase(strip(s)) in ("y", "yes")
+@static if Sys.iswindows()
+    exe(x::String) = endswith(x, "exe") ? x : string(x, ".exe")
+else
+    exe(x::String) = x
+end
