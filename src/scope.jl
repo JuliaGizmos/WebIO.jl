@@ -153,7 +153,6 @@ function Scope(id; kwargs...)
 end
 
 (w::Scope)(arg) = (w.dom = arg; w)
-Base.wait(scope::Scope) = ensure_connection(scope.pool)
 
 function Observables.on(f, w::Scope, key)
     key = string(key)
@@ -369,7 +368,7 @@ function ensure_sync(ctx, key)
     ob = ctx.observs[key][1]
     # have at most one synchronizing handler per observable
     if !any(x->isa(x, SyncCallback) && x.ctx==ctx, listeners(ob))
-        f = SyncCallback(ctx, (msg) -> send_update_observable(ctx, key, msg))
+        f = (msg) -> send_update_observable(ctx, key, msg)
         on(SyncCallback(ctx, f), ob)
     end
 end
