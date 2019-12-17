@@ -92,7 +92,7 @@ function dispatch_command(conn::AbstractConnection, data)
         if cmd == "_setup_scope"
             @warn("Client used deprecated command: _setup_scope.", maxlog=1)
         end
-        push!(scope.pool, conn)
+        addconnection!(scope.pool, conn)
     elseif cmd == "update_observable"
         if !haskey(data, "name")
             @error "update_observable message missing \"name\" key."
