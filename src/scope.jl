@@ -11,7 +11,8 @@ export Scope,
        onimport,
        ondependencies,
        adddeps!,
-       import!
+       import!,
+       addconnection!
 
 import Sockets: send
 import Observables: Observable, AbstractObservable, listeners
@@ -33,7 +34,7 @@ mutable struct Scope
     # where each JS-string is a function that is invoked when the observable
     # changes.
     jshandlers::Any
-    pool::Set{AbstractConnection}
+    pool::ConnectionPool
 
     mount_callbacks::Vector{JSString}
 
@@ -44,7 +45,7 @@ mutable struct Scope
             systemjs_options::Any,
             imports::Vector{Asset},
             jshandlers::Any,
-            pool,
+            pool::ConnectionPool,
             mount_callbacks::Vector{JSString}
         )
         scope = new(
@@ -118,6 +119,7 @@ myscope = Scope(
 """
 function Scope(;
         dom = dom"span"(),
+        outbox::Union{Channel, Nothing} = nothing,
         observs::Dict = ObsDict(),
         private_obs::Set{String} = Set{String}(),
         systemjs_options = nothing,
@@ -135,7 +137,7 @@ function Scope(;
         )
     end
     imports = Asset[Asset(i) for i in imports]
-    pool = Set{AbstractConnection}()
+    pool = outbox !== nothing ? ConnectionPool(outbox) : ConnectionPool()
     return Scope(
         dom, observs, private_obs, systemjs_options,
         imports, jshandlers, pool, mount_callbacks
@@ -274,7 +276,7 @@ function send_command(scope::Scope, command, data::Pair...)
         "scope" => scopeid(scope),
         data...
     )
-    sendall(scope.pool, message)
+    send(scope.pool, message)
     nothing
 end
 
