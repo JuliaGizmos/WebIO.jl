@@ -31,8 +31,9 @@ JSExpr = "97c1335a-c9c5-57fe-bc5d-ec35cebe8660"
 IJulia = "7073ff75-c697-5162-941a-fcdaad2a7d2a"
 Mux = "a975b10e-0019-58db-a62f-e48ff68538c9"
 Blink = "ad839575-38b3-5650-b840-f874b8c74a25"
+NBInclude = "0db19996-df87-5ea3-a455-e3a50d440464"
 Test = "8dfed614-e22c-5e08-85e1-65c5234f0b40"
 NodeJS = "2bd173c7-0d6d-553b-b6af-13a54713934c"
 
 [targets]
-test = ["Blink", "Conda", "DataStructures", "Dates", "IJulia", "JSExpr", "Mux", "NodeJS", "Test"]
+test = ["Blink", "Conda", "DataStructures", "Dates", "IJulia", "JSExpr", "Mux", "NBInclude", "NodeJS", "Test"]

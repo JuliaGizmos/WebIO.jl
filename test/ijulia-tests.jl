@@ -64,14 +64,10 @@ else
     )
 end
 
-# Disabled by Travis (travigd) on 2019.12.18 because it seems to be causing
-# weird issues and doesn't really test anything (except that the code in the
-# notebook runs).
-# --
-# # Test the demo jupyter notebook and make sure all of its cells execute
-# # without error.
-# using NBInclude
-#
-# @testset "Demo notebook" begin
-#     @nbinclude(joinpath(@__DIR__, "assets", "jupyter-test.ipynb"))
-# end
+# Test the demo jupyter notebook and make sure all of its cells execute
+# without error.
+using NBInclude
+
+@testset "Demo notebook" begin
+    @nbinclude(joinpath(@__DIR__, "assets", "jupyter-test.ipynb"))
+end
