@@ -112,8 +112,7 @@ function find_condajl_jupyter_cmd(;
             install_node = Base.prompt(
                 "NodeJS is not installed in your Conda environment " *
                 "but is neccessary to install the JupyterLab extension. " *
-                "Install it? [Y/n]",
-                default="y"
+                "Install it? [Y/n]"
             )
             if isyes(install_node)
                 @eval Main using IJulia
@@ -284,6 +283,7 @@ jupyter_nbextensions_dir() = joinpath(jupyter_data_dir(), "nbextensions")
 jupyter_nbconfig_dir() = joinpath(jupyter_config_dir(), "nbconfig")
 
 isyes(s) = isempty(s) || lowercase(strip(s)) in ("y", "yes")
+
 @static if Sys.iswindows()
     exe(x::String) = endswith(x, "exe") ? x : string(x, ".exe")
 else
