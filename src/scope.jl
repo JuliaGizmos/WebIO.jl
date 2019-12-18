@@ -14,7 +14,7 @@ export Scope,
        import!,
        addconnection!
 
-import Compat.Sockets: send
+import Sockets: send
 import Observables: Observable, AbstractObservable, listeners
 
 # bool marks if it is synced

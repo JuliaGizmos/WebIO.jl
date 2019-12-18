@@ -196,10 +196,13 @@ function Base.show(io::IO, m::MIME"text/html", x::Node)
                 document
                     .querySelector('[data-webio-mountpoint="$(mountpoint_id)"]')
                     .innerHTML = (
-                        '<strong>WebIO not detected. Please read ' +
-                        '<a href="https://juliagizmos.github.io/WebIO.jl/latest/troubleshooting/not-detected/">the troubleshooting guide</a> ' +
-                        'for more information on how to resolve this issue.' +
-                        '</strong>'
+                        '<div style="padding: 1em; background-color: #f8d6da; border: 1px solid #f5c6cb">' +
+                        '<p><strong>WebIO not detected.</strong></p>' +
+                        '<p>Please read ' +
+                        '<a href="https://juliagizmos.github.io/WebIO.jl/latest/troubleshooting/not-detected/" target="_blank">the troubleshooting guide</a> ' +
+                        'for more information on how to resolve this issue.</p>' +
+                        '<p><a href="https://juliagizmos.github.io/WebIO.jl/latest/troubleshooting/not-detected/" target="_blank">https://juliagizmos.github.io/WebIO.jl/latest/troubleshooting/not-detected/</a></p>' +
+                        '</div>'
                     );
             }
             </script>

@@ -4,14 +4,27 @@ You may see this message in your frontend if WebIO is unable to find the active
 WebIO instance in the browser.
 
 ## Troubleshooting Jupyter
-This occurs most often when running in Jupyter when the frontend extensions
-aren't installed correctly. Please check the [IJulia](@ref) documentation for
-information about installing the frontend extensions. If you still have issues,
-(after running the appropriate `WebIO.install_jupyter_XXXextension()` function
-and refreshing the browser), keep reading.
+WebIO requires the installation of a Jupyter extension to function properly.
 
-Before continuing, make sure the correct Jupyter is the first `jupyter` in your
-`PATH`.
+If you're using Jupyter Notebook (classic), run the following.
+```julia
+using WebIO
+WebIO.install_jupyter_nbextension()
+```
+
+If you're using Jupyter Lab, run the following.
+```julia
+using WebIO
+WebIO.install_jupyter_nbextension()
+
+# Or, if you are launching via IJulia.jupyterlab()
+using WebIO
+WebIO.install_jupyter_labextension(condajl=true)
+```
+
+Jupyter Lab poses some additional issues that the classic notebook does not.
+For more information on those difficulties, read the [IJulia](@ref)
+documentation.
 
 ### Jupyter Notebook
 List all extensions by running
@@ -26,8 +39,8 @@ For example,
 jupyter nbextension uninstall --user webio/main
 jupyter nbextension uninstall --user webio-jupyter-notebook
 ```
-(note that this may error if you don't actually have those extensions installed
-and that's okay).
+(note that this may print an error if you don't actually have those extensions
+installed and that's okay).
 
 Re-install the Jupyter notebook extension by running (at the Julia REPL)
 ```julia
@@ -42,9 +55,12 @@ using WebIO
 WebIO.install_jupyter_labextension()
 ```
 
-Note that JupyterLab has more pitfalls relating to which `jupyter` executable
-is in the path. Make sure that the Jupyter you're using (you can determine this
-by running `which jupyter`) is the Jupyter that you expect.
+If you launch Jupyter by running `IJulia.jupyterlab()`, run the following
+instead.
+```julia
+using WebIO
+WebIO.install_jupyter_labextension(condajl=true)
+```
 
 ## Still having problems?
 Open a [GitHub issue](https://github.com/JuliaGizmos/WebIO.jl/issues/new).
