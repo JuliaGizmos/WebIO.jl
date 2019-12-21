@@ -83,46 +83,96 @@ function install_jupyter_serverextension()
     return nothing
 end
 
+function find_condajl_jupyter_cmd(;
+    check_nodejs::Bool=false,
+)::Cmd
+    conda_root = joinpath(first(Base.DEPOT_PATH), "conda", "3")
+    conda_bin_dir = joinpath(
+        conda_root,
+        @static(Sys.iswindows() ? "Scripts" : "bin"),
+    )
+
+    jupyter = joinpath(conda_bin_dir, exe("jupyter"))
+    if !isfile(jupyter)
+        error(
+            "Could not find the Conda.jl `jupyter` executable " *
+            "(is it installed?)."
+        )
+    end
+
+    # We need to add Conda's bin directory to the PATH so that jupyterlab can
+    # detect nodejs.
+    conda_env = copy(ENV)
+    conda_env["PATH"] = string(conda_bin_dir, ":", conda_env["PATH"])
+    cmd = Cmd(`$jupyter`, env=conda_env)
+
+    if check_nodejs
+        node_exe = joinpath(conda_bin_dir, exe("node"))
+        if !Sys.isfile(node_exe)
+            install_node = Base.prompt(
+                "NodeJS is not installed in your Conda environment " *
+                "but is neccessary to install the JupyterLab extension. " *
+                "Install it? [Y/n]"
+            )
+            if isyes(install_node)
+                @eval Main using IJulia
+                @eval Main.IJulia Conda.add("nodejs")
+            end
+        end
+    end
+
+    return cmd
+end
+
+function find_path_jupyter_cmd()::Cmd
+    jupyter = Sys.which("jupyter")
+    if jupyter === nothing
+        error("Could not find `jupyter` executable in PATH.")
+    end
+    return `$jupyter`
+end
+
 """
-    find_jupyter_cmd()
+    find_jupyter_cmd([; conda=false])
 
 Find the most likely candidate for the `jupyter` executable.
 This will locate `jupyter` by searching the `PATH` environment variable and,
 if not found, tries to return Conda.jl's jupyter.
 If both of these approaches fail, an error is thrown.
 """
-function find_jupyter_cmd(; force_conda_jupyter::Bool=false)::Cmd
+function find_jupyter_cmd(;
+    # DEPRECATED: use `condajl` keyword argument
+    force_conda_jupyter::Union{Nothing, Bool}=nothing,
+    condajl::Union{Nothing, Bool}=force_conda_jupyter,
+    check_nodejs::Bool=false,
+)::Cmd
     # Try to find the "system" Jupyter (unless we explicitly want to force
     # using IJulia's Jupyter installation).
-    if !force_conda_jupyter
-        jupyter = Sys.which("jupyter")
-        if jupyter !== nothing
-            return `$jupyter`
+    if condajl === nothing || condajl === false
+        try
+            return find_path_jupyter_cmd()
+        catch
+            # If conda is false, we explicitly don't want to look for jupyter
+            # in Conda.jl's installation, so we fail now.
+            # Otherwise, conda is nothing and we can continue searching.
+            if condajl === false
+                rethrow()
+            end
         end
     end
 
-    # Try to find IJulia/Conda.jl's Jupyter.
-    # This is a heuristic - it might be different. I'm not sure that there's
-    # an easy way to load Conda.jl (I tried adding it to extras but no dice).
-    conda_root = joinpath(first(Base.DEPOT_PATH), "conda", "3")
-    @static if Sys.iswindows()
-        jupyter = joinpath(conda_root, "Scripts", "jupyter.exe")
-    else
-        jupyter = joinpath(conda_root, "bin", "jupyter")
+    try
+        return find_condajl_jupyter_cmd(check_nodejs=check_nodejs)
+    catch
+        if condajl === nothing
+            error("Could not find `jupyter` executable in PATH or Conda.jl.")
+        end
+        rethrow()
     end
-
-    if isfile(jupyter)
-        return `$jupyter`
-    end
-    @error(
-        "Unable to find a jupyter executable after searching PATH and Conda.jl.",
-        PATH=ENV["PATH"], conda_root,
-    )
-    error("Could not find the Jupyter executable.")
 end
 
 """
-    install_jupyter_labextension([jupyter]; force_conda_jupyter=false)
+    install_jupyter_labextension([jupyter]; condajl=false)
 
 Install the Jupyter Lab extension for WebIO using the specified `jupyter`
 executable.
@@ -137,12 +187,14 @@ provides some more information (and caveats) about the relationship between
 Jupyter Lab and WebIO.
 """
 function install_jupyter_labextension(
-        jupyter::Union{Nothing, Cmd}=nothing;
-        force_conda_jupyter::Bool=false,
+        jupyter::Union{Cmd, Nothing}=nothing;
+        # Deprecated: use `condajl` keyword argument.
+        force_conda_jupyter::Union{Bool, Nothing}=nothing,
+        condajl::Union{Bool, Nothing}=force_conda_jupyter,
         dev::Bool=isdev()
 )
     if jupyter === nothing
-        jupyter = find_jupyter_cmd(; force_conda_jupyter=force_conda_jupyter)
+        jupyter = find_jupyter_cmd(; condajl=condajl, check_nodejs=true)
         @info(
             "Using default Jupyter executable at $jupyter; to use a different "
             * "executable, see the documentation by running "
@@ -229,3 +281,11 @@ function jupyter_config_dir()
 end
 jupyter_nbextensions_dir() = joinpath(jupyter_data_dir(), "nbextensions")
 jupyter_nbconfig_dir() = joinpath(jupyter_config_dir(), "nbconfig")
+
+isyes(s) = isempty(s) || lowercase(strip(s)) in ("y", "yes")
+
+@static if Sys.iswindows()
+    exe(x::String) = endswith(x, "exe") ? x : string(x, ".exe")
+else
+    exe(x::String) = x
+end
