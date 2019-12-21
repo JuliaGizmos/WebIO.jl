@@ -1,5 +1,9 @@
 # IJulia
 
+## WebIO Not Detected
+For troubleshooting information, visit the [WebIO Not Detected](@ref) section
+of the documentation.
+
 ## JupyterLab Considerations
 JupyterLab presents a few issues that are different that than those associated
 with the classic notebook.
