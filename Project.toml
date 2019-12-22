@@ -1,7 +1,7 @@
 name = "WebIO"
 uuid = "0f1e0344-ec1d-5b48-a673-e5cf874b6c29"
 license = "MIT"
-version = "0.8.12"
+version = "0.8.13"
 
 [deps]
 Pkg = "44cfe95a-1eb2-52ea-b672-e2afdf69b78f"
@@ -32,8 +32,8 @@ Test = "8dfed614-e22c-5e08-85e1-65c5234f0b40"
 NodeJS = "2bd173c7-0d6d-553b-b6af-13a54713934c"
 
 [compat]
-JSExpr = "0.5"
 julia = "0.7, 1"
+JSExpr = "0.5"
 
 [targets]
 test = ["Blink", "Conda", "DataStructures", "Dates", "IJulia", "JSExpr", "Mux", "NBInclude", "NodeJS", "Test"]
