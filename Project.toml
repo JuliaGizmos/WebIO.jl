@@ -32,6 +32,7 @@ Test = "8dfed614-e22c-5e08-85e1-65c5234f0b40"
 NodeJS = "2bd173c7-0d6d-553b-b6af-13a54713934c"
 
 [compat]
+JSExpr = "0.5"
 julia = "0.7, 1"
 
 [targets]
