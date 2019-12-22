@@ -126,25 +126,34 @@ class WebIO {
 
   private async dispatchRequest(message: WebIORequest) {
     debug(`dispatchRequest: ${message.request}`);
-    switch (message.request) {
-      case WebIORequestType.EVAL: {
-        const scope = this.getScope(message.scope);
-        let result = evalWithWebIOContext(scope, message.expression, {webIO: this, scope});
-        if (result instanceof Promise) {
-          debug(`Eval expression returned a promise, awaiting promise.`);
-          result = await result;
+    function dispatch() {
+      switch (message.request) {
+        case WebIORequestType.EVAL: {
+          const scope = this.getScope(message.scope);
+          return evalWithWebIOContext(scope, message.expression, {webIO: this, scope});
         }
 
-        return await this.send({
-          type: "response",
-          request: message.request,
-          requestId: message.requestId,
-          result,
-        });
+        default: {
+            throw new Error(`Unknown request type: ${message.request}.`);
+        }
       }
     }
 
-    throw new Error(`Unknown request type: ${message.request}.`);
+    let result = dispatch();
+
+    if (message.requestId) {
+      if (result instanceof Promise) {
+        debug(`Eval expression returned a promise, awaiting promise.`);
+        result = await result;
+      }
+
+      return await this.send({
+        type: "response",
+        request: message.request,
+        requestId: message.requestId,
+        result,
+      });
+    }
   }
 
   private dispatchResponse(message: WebIOResponse) {

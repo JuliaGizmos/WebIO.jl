@@ -195,16 +195,10 @@ function setobservable!(ctx, key, obs; sync=nothing)
     obs
 end
 
-# Ask JS to send stuff
+# Notes about a new connection
 function setup_comm(f, ob::AbstractObservable)
     if haskey(observ_id_dict, ob)
         scope, key = observ_id_dict[ob]
-        # if !(key in scope.value.private_obs)
-        #     evaljs(scope.value, js"""
-        #            console.log(this)
-        #            this.observables[$key].sync = true
-        #     """)
-        # end
     end
 end
 
@@ -276,7 +270,8 @@ function send_command(scope::Scope, command, data::Pair...)
         "scope" => scopeid(scope),
         data...
     )
-    send(scope.pool, message)
+    # not synced
+    send_message(scope.pool, message)
     nothing
 end
 
@@ -299,8 +294,8 @@ macro evaljs(ctx, expr)
     :(send_request($(esc(ctx)), "eval", "expression" => $(esc(expr))))
 end
 
-function evaljs(ctx, expr)
-    send_request(ctx, "eval", "expression" => expr)
+function evaljs(ctx, expr; sync=true)
+    send_request(ctx, "eval", "expression" => expr; sync=sync)
 end
 
 function onmount(scope::Scope, f::JSString)

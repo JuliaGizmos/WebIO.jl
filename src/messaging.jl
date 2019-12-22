@@ -23,33 +23,43 @@ Each request has a unique id. This is generated automatically. The client should
     can never be processed (as the event loop is blocked), this creates a
     deadlock which will freeze the kernel indefinitely.
 """
-function send_request(conn, request, data::Pair...)
-    request_id = string(UUIDs.uuid1())
-    if haskey(pending_requests, request_id)
-        error("Cannot register duplicate request id: $(request_id).")
-    end
-    future = Future()
-    pending_requests[request_id] = future
-    message = Dict(
-      "type" => "request",
-      "request" => request,
-      "requestId" => request_id,
-      data...
-    )
-    send(conn, message)
+function send_request(scope, request, data::Pair...; sync=true)
+    msg = Dict(
+               "type" => "request",
+               "request" => request,
+               data...
+              )
+    send_message(scope, msg, sync=true)
+end
 
-    # Run in separate async task to ensure that we delete the pending request
-    # future when we get a response (this avoids orphaning responses that we
-    # don't actually need).
-    return @async begin
-        try
-            return fetch(future)
-        catch exc
-            @error "Error fetching request future." exception=exc
-            rethrow()
-        finally
-            delete!(pending_requests, request_id)
+function send_message(scope, message; sync=false)
+    if sync
+        request_id = string(UUIDs.uuid1())
+        request_id = sr
+        if haskey(pending_requests, request_id)
+            error("Cannot register duplicate request id: $(request_id).")
         end
+        future = Future()
+        pending_requests[request_id] = future
+        # use merge to promote Dict types
+        send(scope, merge(message, Dict("request_id"=>request_id)))
+
+        # Run in separate async task to ensure that we delete the pending request
+        # future when we get a response (this avoids orphaning responses that we
+        # don't actually need).
+        return @async begin
+            try
+                return fetch(future)
+            catch exc
+                @error "Error fetching request future." exception=exc
+                rethrow()
+            finally
+                delete!(pending_requests, request_id)
+            end
+        end
+    else
+        # fire and forget
+        send(scope, message)
     end
 end
 
@@ -68,7 +78,7 @@ function logmsg(msg, level="info", data=nothing)
 end
 
 function log(c::AbstractConnection, msg, level="info", data=nothing)
-    send(c, logmsg(msg, level, data))
+    send_message(c, logmsg(msg, level, data); sync=false)
 end
 
 function dispatch(conn::AbstractConnection, data)

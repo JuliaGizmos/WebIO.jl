@@ -53,19 +53,19 @@ function process_messages(pool::ConnectionPool)
             # (messages are fire and forget - WebIO makes no guarantees that
             # messages are ever actually delivered).
             for connection in pool.connections
-                @async send_message(pool, connection, msg)
+                @async sendtopool(pool, connection, msg)
             end
         end
     end
 end
 
 """
-    send_message(pool, connection, msg)
+    sendtopool(pool, connection, msg)
 
-Send a message to an individual connection within a pool, handling errors and
+Send a message to all connections in a pool, handling errors and
 deleting the connection from the pool if necessary.
 """
-function send_message(
+function sendtopool(
         pool::ConnectionPool,
         connection::AbstractConnection,
         msg,
