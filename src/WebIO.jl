@@ -11,7 +11,6 @@ using UUIDs
 
 using JSExpr
 import JSExpr: tojs, showjs
-export @js, @js_str
 
 include("../deps/bundlepaths.jl")
 
