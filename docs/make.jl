@@ -3,7 +3,7 @@ using WebIO
 
 # We have to ensure that these modules are loaded because some functions are
 # defined behind @require guards.
-using IJulia, Mux, Blink
+using IJulia, Mux
 
 makedocs(
     sitename="WebIO",
@@ -23,7 +23,6 @@ makedocs(
         ],
         "Providers" => [
             "providers/ijulia.md",
-            "providers/blink.md",
             "providers/mux.md",
         ],
         "Troubleshooting" => [
