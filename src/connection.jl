@@ -13,7 +13,6 @@ and sends each message to every connection in the pool. Any closed connections
 are automatically removed from the pool.
 """
 struct ConnectionPool
-    outbox_lock::ReentrantLock
     outbox::Vector
     connections::Set{AbstractConnection}
 end
@@ -22,7 +21,6 @@ function ConnectionPool(outbox::AbstractVector = Any[],
         connections=Set{AbstractConnection}(),
 )
     ConnectionPool(
-        ReentrantLock(),
         outbox,
         connections,
     )
