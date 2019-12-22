@@ -86,6 +86,12 @@ run(`$npm run lerna -- run build-prod`)
 @info "Setting NPM package versions to $VERSION..."
 run(`$npm run lerna -- version --no-git-tag-version --no-push --exact --force-publish="*" $VERSION`)
 
+@info "Setting WebIO Project.toml version to $VERSION..."
+PROJECT["version"] = VERSION
+open(PROJECT_FILENAME, "w") do io
+    TOML.print(io, PROJECT)
+end
+
 commitmsg = "v$VERSION"
 @info "Creating git commit..."
 run(`git add .`)
@@ -111,12 +117,6 @@ catch exc
         exception=exc
     )
     rethrow()
-end
-
-@info "Setting WebIO Project.toml version to $VERSION..."
-PROJECT["version"] = VERSION
-open(PROJECT_FILENAME, "w") do io
-    TOML.print(io, PROJECT)
 end
 
 @info "Pushing to GitHub..."
