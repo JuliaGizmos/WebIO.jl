@@ -9,6 +9,9 @@ import Widgets: node, AbstractWidget
 using Logging
 using UUIDs
 
+using JSExpr
+import JSExpr: tojs, showjs
+
 include("../deps/bundlepaths.jl")
 
 """
@@ -49,6 +52,8 @@ include("rpc.jl")
 # Extra "non-core" functionality
 include("devsetup.jl")
 include("../deps/jupyter.jl")
+
+include("./jsexpr.jl")
 
 
 """
