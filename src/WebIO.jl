@@ -39,6 +39,7 @@ Base.Multimedia.istextmime(::WEBIO_APPLICATION_MIME) = true
 
 include("util.jl")
 include("connection.jl")
+include("messaging.jl")
 include("syntax.jl")
 include("asset.jl")
 include("node.jl")
@@ -46,7 +47,6 @@ include("iframe.jl")
 include("observable.jl")
 include("scope.jl")
 include("render.jl")
-include("messaging.jl")
 include("rpc.jl")
 
 # Extra "non-core" functionality

@@ -353,6 +353,31 @@ function dispatch(ctx, key, data)
     end
 end
 
+function handle_command(
+        ::Val{:setup_scope},
+        conn::AbstractConnection,
+        data::Dict,
+)
+    scope = lookup_scope(data["scope"])
+    addconnection!(scope.pool, conn)
+end
+
+function handle_command(
+        ::Val{:update_observable},
+        conn::AbstractConnection,
+        data::Dict,
+)
+    if !haskey(data, "name")
+        @error "update_observable message missing \"name\" key."
+        return
+    elseif !haskey(data, "value")
+        @error "update_observable message missing \"value\" key."
+        return
+    end
+    scope = lookup_scope(data["scope"])
+    dispatch(scope, data["name"], data["value"])
+end
+
 function onjs(ctx, key, f)
     push!(Base.@get!(ctx.jshandlers, key, []), f)
 end

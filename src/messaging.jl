@@ -71,42 +71,62 @@ function log(c::AbstractConnection, msg, level="info", data=nothing)
     send(c, logmsg(msg, level, data))
 end
 
+# TODO:
+#   rename to handle_message to get away from the overloaded usage of "dispatch"
+#   in the codebase
 function dispatch(conn::AbstractConnection, data)
     message_type = data["type"]
     if message_type == "request"
         return dispatch_request(conn, data)
     elseif message_type == "response"
         return dispatch_response(conn, data)
-    elseif message_type == "command" || haskey(data, "command")
-        return dispatch_command(conn, data)
+    elseif message_type == "command"
+        return handle_command(conn, data)
     end
     @error "Unknown WebIO message type: $(message_type)."
 end
 
-# function dispatch_command(conn::AbstractConnection, data)
-function dispatch_command(conn::AbstractConnection, data)
-    # first, check if the message is one of the administrative ones
-    cmd = data["command"]
-    scope = lookup_scope(data["scope"])
-    if cmd == "setup_scope" || cmd == "_setup_scope"
-        if cmd == "_setup_scope"
-            @warn("Client used deprecated command: _setup_scope.", maxlog=1)
-        end
-        addconnection!(scope.pool, conn)
-    elseif cmd == "update_observable"
-        if !haskey(data, "name")
-            @error "update_observable message missing \"name\" key."
-            return
-        elseif !haskey(data, "value")
-            @error "update_observable message missing \"value\" key."
-            return
-        end
-        dispatch(scope, data["name"], data["value"])
-    else
-        @warn "Implicit observable update command is deprecated."
-        dispatch(scope, cmd, data["data"])
-    end
+"""
+    handle_command(conn, data)
+    handle_command(head::Val{<command name>}, conn, data)
+
+Handle a command message received by WebIO.
+
+This function should not be called by users of WebIO (rather, it's called by
+WebIO's internals that deal with passing messages between Julia and the
+browser).
+
+A handler for a new command can be created by defining a new method using the
+`head::Val{<command type>}` signature above (where `<command type>` should be
+a Symbol literal that corresponds to the type of the command).
+
+# Examples
+```julia
+# Define a handler for a new command named foo.
+# This handler is invoked whenever the frontend sends a "foo" command to Julia.
+function WebIO.handle_command(::Val{:foo}, conn::AbstractConnection, data)
+    @info "Handling the foo command!"
 end
+```
+"""
+function handle_command(conn::AbstractConnection, data::Dict)
+    command_type = get(data, "command", nothing)
+    if command_type === nothing
+        msg = "Invalid WebIO command message (missing command field)!"
+        @error msg conn data
+        error(msg)
+    end
+
+    return handle_command(Val(Symbol(command_type)), conn, data)
+end
+
+# Default handler for when no more specific methods are defined.
+function handle_command(::Val{S}, conn, data) where S
+    msg = "Unhandled WebIO command message ($(S))!"
+    @error msg conn data
+    error(msg)
+end
+
 
 ResponseDict = Dict{String, Any}
 request_handlers = Dict{String, Function}()
