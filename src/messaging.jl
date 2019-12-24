@@ -1,20 +1,47 @@
 using Sockets
 using Distributed: Future
 
+export AbstractConnection
+
+abstract type AbstractConnection end
+
+"""
+    command(ctx, command_type, payload)
+    command(ctx, command_type, "key" => "value", ...)
+
+Send a command message to a frontend(s).
+"""
+function command(ctx, command_type, payload)
+    data = Dict(
+        "type" => "command",
+        "command" => command_type,
+        "payload" => payload,
+    )
+    send(ctx, data)
+    return nothing
+end
+
+function command(ctx, command_type, payload::Pair...)
+    return command(ctx, command_type, Dict(payload...))
+end
+
 """
 A map from request_id's to pending conditions.
 """
-pending_requests = Dict{String, Future}()
+const pending_requests = Dict{String, Future}()
 
 """
-    send_request(scope, request[, "key" => "value", ...])
+    request(ctx, request_type, payload)
+    request(ctx, request_type, "key" => "value", ...)
 
-Send a request message for a scope and wait for the response.
+Send a request message and return a `Task` whose result value is the response
+from the frontend.
 
-Each request has a unique id. This is generated automatically. The client should
-(eventually) return a response message with the same id.
+Each request has a unique id. This is generated automatically.
+The frontend should (eventually) return a response message with the same id.
 
-**IMPORTANT:** Julia code **CANNOT** synchronously `fetch` (or `wait`, etc.) a
+**IMPORTANT:**
+    Julia code **CANNOT** synchronously `fetch` (or `wait`, etc.) a
     request that was sent while using IJulia (e.g. Jupyter Notebook/Lab); if you
     exclusively use another provider, it's (probably) fine. The reason for this
     is that the `fetch` makes the current task block, but IJulia will wait for
@@ -23,28 +50,37 @@ Each request has a unique id. This is generated automatically. The client should
     can never be processed (as the event loop is blocked), this creates a
     deadlock which will freeze the kernel indefinitely.
 """
-function send_request(conn, request, data::Pair...)
-    request_id = string(UUIDs.uuid1())
+function request end
+function request(
+        ctx,
+        request_type,
+        payload,
+        ;
+        request_id::String = string(UUIDs.uuid1()),
+)
     if haskey(pending_requests, request_id)
-        error("Cannot register duplicate request id: $(request_id).")
+        error("Duplicate request id ($(request_id)).")
     end
+
+    data = Dict(
+        "type" => "request",
+        "request" => request_type,
+        "requestId" => request_id,
+        "payload" => payload,
+    )
+
     future = Future()
     pending_requests[request_id] = future
-    message = Dict(
-      "type" => "request",
-      "request" => request,
-      "requestId" => request_id,
-      data...
-    )
-    send(conn, message)
+    send(ctx, message)
 
-    # Run in separate async task to ensure that we delete the pending request
-    # future when we get a response (this avoids orphaning responses that we
-    # don't actually need).
+    # Use an async task so that we can make sure to always delete the future
+    # once we get a response (even if the user doesn't `wait` it).
     return @async begin
         try
             return fetch(future)
         catch exc
+            # Add a logging statement here so that the error doesn't get lost
+            # to the void if no one ever `wait`s the task.
             @error "Error fetching request future." exception=exc
             rethrow()
         finally
@@ -53,22 +89,9 @@ function send_request(conn, request, data::Pair...)
     end
 end
 
-function Sockets.send(c::AbstractConnection, msg)
-    error("No send method for connection of type $(typeof(c))")
-end
-
-function logmsg(msg, level="info", data=nothing)
-    if level == "error" || level == "warn"
-        @warn(msg)
-    else
-        @info(msg)
-    end
-
-    Dict("type"=>"log", "message"=>msg, "level"=>level, data=>data)
-end
-
-function log(c::AbstractConnection, msg, level="info", data=nothing)
-    send(c, logmsg(msg, level, data))
+# Convenience syntax
+function request(ctx, request_type, data::Pair...)
+    return request(ctx, request_type, Dict(data...))
 end
 
 """

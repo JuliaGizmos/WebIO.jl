@@ -270,15 +270,8 @@ end
 Send a command message for a scope. A command is essentially a fire-and-forget
 style message; no response or acknowledgement is expected.
 """
-function send_command(scope::Scope, command, data::Pair...)
-    message = Dict(
-        "type" => "command",
-        "command" => command,
-        "scope" => scopeid(scope),
-        data...
-    )
-    send(scope.pool, message)
-    nothing
+function command(scope::Scope, command, args...)
+    return command(scope.pool, command, args...)
 end
 
 """
@@ -291,17 +284,17 @@ send_update_observable(scope::Scope, name::AbstractString, value) = send_command
     "value" => value,
 )
 
-function send_request(scope::Scope, request, data::Pair...)
-    send_request(scope.pool, request, "scope" => scopeid(scope), data...)
-end
-
-macro evaljs(ctx, expr)
-    @warn("@evaljs is deprecated, use evaljs function instead")
-    :(send_request($(esc(ctx)), "eval", "expression" => $(esc(expr))))
+function request(scope::Scope, args...; kwargs...)
+    # TODO: Figure out how (and if) we want to support this.
+    error("Sending requests to scopes is not supported.")
 end
 
 function evaljs(ctx, expr)
-    send_request(ctx, "eval", "expression" => expr)
+    return request(ctx, "evaljs", expr)
+end
+
+function execjs(ctx, expr)
+    return command(ctx, "execjs", expr)
 end
 
 function onmount(scope::Scope, f::JSString)

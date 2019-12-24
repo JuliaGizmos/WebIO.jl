@@ -38,8 +38,8 @@ const WEBIO_APPLICATION_MIME = MIME"application/vnd.webio.application+html"
 Base.Multimedia.istextmime(::WEBIO_APPLICATION_MIME) = true
 
 include("util.jl")
-include("connection.jl")
 include("messaging.jl")
+include("connectionpool.jl")
 include("syntax.jl")
 include("asset.jl")
 include("node.jl")

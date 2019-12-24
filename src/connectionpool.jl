@@ -1,9 +1,5 @@
 using Sockets
 
-export AbstractConnection
-
-abstract type AbstractConnection end
-
 """
 The maximum number of messages to allow into the outbox.
 """
