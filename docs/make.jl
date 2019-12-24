@@ -28,6 +28,7 @@ makedocs(
         "Troubleshooting" => [
             "troubleshooting/not-detected.md",
         ],
+        "messaging.md",
         "extending.md",
     ],
 )
