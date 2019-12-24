@@ -85,6 +85,7 @@ include("deprecations.jl")
 include("render.jl")
 include("asset.jl")
 include("jsexpr.jl")
+include("rpc.jl")
 
 include("http-tests.jl")
 include("mux-tests.jl")

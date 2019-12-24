@@ -71,26 +71,34 @@ function log(c::AbstractConnection, msg, level="info", data=nothing)
     send(c, logmsg(msg, level, data))
 end
 
-# TODO:
-#   rename to handle_message to get away from the overloaded usage of "dispatch"
-#   in the codebase
+"""
+    dispatch(conn, message)
+
+Dispatch a message to WebIO's message handling machinery.
+
+This is typically used by WebIO providers to forward messages from connections
+to the appropriate place in Julia.
+"""
 function dispatch(conn::AbstractConnection, data)
-    message_type = data["type"]
-    if message_type == "request"
-        return dispatch_request(conn, data)
-    elseif message_type == "response"
-        return dispatch_response(conn, data)
-    elseif message_type == "command"
+    message_type = get(data, "type", nothing)
+    if message_type == "command"
         return handle_command(conn, data)
+    elseif message_type == "request"
+        return handle_request(conn, data)
+    elseif message_type == "response"
+        return _handle_response(conn, data)
     end
-    @error "Unknown WebIO message type: $(message_type)."
+
+    msg = "Invalid WebIO message (unknown type)!"
+    @error msg conn type=message_type message=data
+    error(msg)
 end
 
 """
     handle_command(conn, data)
     handle_command(head::Val{<command name>}, conn, data)
 
-Handle a command message received by WebIO.
+Handle a command message received from a frontend.
 
 This function should not be called by users of WebIO (rather, it's called by
 WebIO's internals that deal with passing messages between Julia and the
@@ -113,7 +121,7 @@ function handle_command(conn::AbstractConnection, data::Dict)
     command_type = get(data, "command", nothing)
     if command_type === nothing
         msg = "Invalid WebIO command message (missing command field)!"
-        @error msg conn data
+        @error msg conn command=data
         error(msg)
     end
 
@@ -123,62 +131,96 @@ end
 # Default handler for when no more specific methods are defined.
 function handle_command(::Val{S}, conn, data) where S
     msg = "Unhandled WebIO command message ($(S))!"
-    @error msg conn data
+    @error msg conn command=data
     error(msg)
 end
 
+"""
+    handle_request(conn, data)
 
-ResponseDict = Dict{String, Any}
-request_handlers = Dict{String, Function}()
-function register_request_handler(request_type::String, handler::Function)
-    if haskey(request_handlers, request_type)
-        error("Duplicate request type: $(request_type).")
-    end
-    request_handlers[request_type] = handler
+Handle a request message received from the frontend.
+
+This function should not be called by users of WebIO (rather, it's called by
+WebIO's internals that deal with passing messages between Julia and the
+browser).
+
+A handler for a new request can be created by defining a new method using the
+`head::Val{<request type>}` signature above (where `<request type>` should be
+a Symbol literal that corresponds to the type of the request).
+
+# Examples
+```julia
+# Define a handler for a new request named foo.
+# This handler is invoked whenever the frontend sends a "foo" request to Julia.
+function WebIO.handle_request(::Val{:foo}, conn::AbstractConnection, data)
+    @info "Handling the foo request!"
+    return "bar"
 end
-
-function dispatch_request(conn::AbstractConnection, data)
-    request_id = get(data, "requestId", nothing)
+"""
+function handle_request(conn::AbstractConnection, data)
     request_type = get(data, "request", nothing)
+    if request_type === nothing
+        msg = "Invalid WebIO request message (missing request field)!"
+        @error msg conn request=data
+        error(msg)
+    end
+    request_id = get(data, "requestId", nothing)
     if request_id === nothing
         @error("Request message (request=$(repr(request_type))) is missing requestId.")
         return
     end
+
     try
-        handler = get(request_handlers, request_type, nothing)
-        if handler === nothing
-            error("Unknown request type (request=$(repr(request_type))).")
-        end
-        # Julia sometimes narrows the type of the returned dict
-        # (for example, the handler might return Dict{String, Int64}).
-        response = convert(ResponseDict, handler(data))
-        response["type"] = "response"
-        response["request"] = request_type
-        response["requestId"] = request_id
-        send(conn, response)
-        return
-    catch (e)
-        send(conn, Dict(
+        payload = handle_request(Val(Symbol(request_type)), conn, data)
+        response = Dict(
             "type" => "response",
-            "request" => get(data, "request", nothing),
+            "request" => request_type,
             "requestId" => request_id,
-            "error" => sprint(showerror, e),
-        ))
-        return
+            "payload" => payload,
+        )
+        send(conn, response)
+        return nothing
+    catch exc
+        # We treat exceptions as "normal" in that we just forward the exception
+        # to the frontend (and the WebIO JavaScript code raises the error then).
+        response = Dict(
+            "type" => "response",
+            "request" => request_type,
+            "requestId" => request_id,
+            "exception" => sprint(showerror, exc),
+        )
+        send(conn, response)
+        return nothing
     end
 end
 
-function dispatch_response(conn::AbstractConnection, data)
+# Default handler for when no more specific methods are defined.
+function handle_request(head::Val{S}, conn::AbstractConnection, data) where S
+    msg = "Unhandled WebIO request message ($(S))!"
+    @error msg conn request=data
+    error(msg)
+end
+
+# This function doesn't use Val-based dispatch because the response body is
+# simply put into a future that was created when the associated request was
+# sent.
+function _handle_response(conn::AbstractConnection, data)
     request_id = get(data, "requestId", nothing)
     if request_id === nothing
-        @error "Response message is missing `requestId` key."
-        return
+        msg = "Invalid WebIO response message (missing response field)!"
+        @error msg conn response=data
+        error(msg)
     end
 
     future = get(pending_requests, request_id, nothing)
     if future === nothing
-        @error "Received response message for unknown requestId: $(request_id)."
+        # This might be because we received a response for a request we never
+        # sent **or** because a response was received for a given response twice
+        # (and the future was deleted after the first time).
+        msg = "Received response message for unknown request."
+        @error msg conn request=data
         return
     end
+
     put!(future, data)
 end
