@@ -90,8 +90,10 @@ end
             "type" => "request",
             "request" => "rpc",
             "requestId" => "foo",
-            "rpcId" => string(hash(split)),
-            "arguments" => ["foo bar"],
+            "payload" => Dict(
+                "rpcId" => string(hash(split)),
+                "arguments" => ["foo bar"],
+            ),
         ))
         response = take!(c)
         @test response["requestId"] == "foo"
@@ -108,8 +110,10 @@ end
             "type" => "request",
             "request" => "rpc",
             "requestId" => "bar",
-            "rpcId" => string(hash(split)),
-            "arguments" => [123],
+            "payload" => Dict(
+                "rpcId" => string(hash(split)),
+                "arguments" => [123],
+            ),
         ))
         response = take!(c)
         @test response["requestId"] == "bar"
@@ -127,8 +131,10 @@ end
             "type" => "request",
             "request" => "rpc",
             "requestId" => "bar",
-            "rpcId" => "1234",
-            "arguments" => [123],
+            "payload" => Dict(
+                "rpcId" => "1234",
+                "arguments" => [123],
+            ),
         ))
         response = take!(c)
         @test response["requestId"] == "bar"

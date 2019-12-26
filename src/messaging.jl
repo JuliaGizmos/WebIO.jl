@@ -148,7 +148,8 @@ function handle_command(conn::AbstractConnection, data::Dict)
         error(msg)
     end
 
-    return handle_command(Val(Symbol(command_type)), conn, data)
+    payload = data["payload"]
+    return handle_command(Val(Symbol(command_type)), conn, payload)
 end
 
 # Default handler for when no more specific methods are defined.
@@ -193,28 +194,32 @@ function handle_request(conn::AbstractConnection, data)
         return
     end
 
-    try
-        payload = handle_request(Val(Symbol(request_type)), conn, data)
-        response = Dict(
+    request_payload = data["payload"]
+    response = try
+        response_payload = handle_request(
+            Val(Symbol(request_type)),
+            conn,
+            request_payload,
+        )
+        Dict(
             "type" => "response",
             "request" => request_type,
             "requestId" => request_id,
-            "payload" => payload,
+            "payload" => response_payload,
         )
-        send(conn, response)
-        return nothing
     catch exc
         # We treat exceptions as "normal" in that we just forward the exception
         # to the frontend (and the WebIO JavaScript code raises the error then).
-        response = Dict(
+         Dict(
             "type" => "response",
             "request" => request_type,
             "requestId" => request_id,
             "exception" => sprint(showerror, exc),
         )
-        send(conn, response)
-        return nothing
     end
+
+    send(conn, response)
+    return nothing
 end
 
 # Default handler for when no more specific methods are defined.
@@ -226,7 +231,8 @@ end
 
 # This function doesn't use Val-based dispatch because the response body is
 # simply put into a future that was created when the associated request was
-# sent.
+# sent (i.e., we don't let users "handle" responses, they just get the response
+# value returned when they await the request task).
 function _handle_response(conn::AbstractConnection, data)
     request_id = get(data, "requestId", nothing)
     if request_id === nothing
@@ -245,5 +251,5 @@ function _handle_response(conn::AbstractConnection, data)
         return
     end
 
-    put!(future, data)
+    put!(future, data["payload"])
 end
