@@ -86,6 +86,7 @@ include("render.jl")
 include("asset.jl")
 include("jsexpr.jl")
 include("rpc.jl")
+include("evaljs.jl")
 
 include("http-tests.jl")
 include("mux-tests.jl")

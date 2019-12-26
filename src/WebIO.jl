@@ -47,7 +47,10 @@ include("iframe.jl")
 include("observable.jl")
 include("scope.jl")
 include("render.jl")
+
+# Functionality built on top of WebIO's core
 include("rpc.jl")
+include("evaljs.jl")
 
 # Extra "non-core" functionality
 include("devsetup.jl")

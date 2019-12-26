@@ -6,7 +6,6 @@ export Scope,
        @private,
        setobservable!,
        on, onjs,
-       evaljs,
        onmount,
        onimport,
        ondependencies,
@@ -287,14 +286,6 @@ send_update_observable(scope::Scope, name::AbstractString, value) = send_command
 function request(scope::Scope, args...; kwargs...)
     # TODO: Figure out how (and if) we want to support this.
     error("Sending requests to scopes is not supported.")
-end
-
-function evaljs(ctx, expr)
-    return request(ctx, "evaljs", expr)
-end
-
-function execjs(ctx, expr)
-    return command(ctx, "execjs", expr)
 end
 
 function onmount(scope::Scope, f::JSString)
