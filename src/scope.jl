@@ -6,13 +6,11 @@ export Scope,
        @private,
        setobservable!,
        on, onjs,
-       evaljs,
        onmount,
        onimport,
        ondependencies,
        adddeps!,
-       import!,
-       addconnection!
+       import!
 
 import Sockets: send
 import Observables: Observable, AbstractObservable, listeners
@@ -119,7 +117,6 @@ myscope = Scope(
 """
 function Scope(;
         dom = dom"span"(),
-        outbox::Union{Channel, Nothing} = nothing,
         observs::Dict = ObsDict(),
         private_obs::Set{String} = Set{String}(),
         systemjs_options = nothing,
@@ -137,7 +134,7 @@ function Scope(;
         )
     end
     imports = Asset[Asset(i) for i in imports]
-    pool = outbox !== nothing ? ConnectionPool(outbox) : ConnectionPool()
+    pool = ConnectionPool()
     return Scope(
         dom, observs, private_obs, systemjs_options,
         imports, jshandlers, pool, mount_callbacks
@@ -270,15 +267,8 @@ end
 Send a command message for a scope. A command is essentially a fire-and-forget
 style message; no response or acknowledgement is expected.
 """
-function send_command(scope::Scope, command, data::Pair...)
-    message = Dict(
-        "type" => "command",
-        "command" => command,
-        "scope" => scopeid(scope),
-        data...
-    )
-    send(scope.pool, message)
-    nothing
+function command(scope::Scope, command, args...)
+    return command(scope.pool, command, args...)
 end
 
 """
@@ -291,17 +281,9 @@ send_update_observable(scope::Scope, name::AbstractString, value) = send_command
     "value" => value,
 )
 
-function send_request(scope::Scope, request, data::Pair...)
-    send_request(scope.pool, request, "scope" => scopeid(scope), data...)
-end
-
-macro evaljs(ctx, expr)
-    @warn("@evaljs is deprecated, use evaljs function instead")
-    :(send_request($(esc(ctx)), "eval", "expression" => $(esc(expr))))
-end
-
-function evaljs(ctx, expr)
-    send_request(ctx, "eval", "expression" => expr)
+function request(scope::Scope, args...; kwargs...)
+    # TODO: Figure out how (and if) we want to support this.
+    error("Sending requests to scopes is not supported.")
 end
 
 function onmount(scope::Scope, f::JSString)
@@ -351,6 +333,31 @@ function dispatch(ctx, key, data)
             @warn("$key does not have a handler for scope id $(scopeid(ctx))")
         end
     end
+end
+
+function handle_command(
+        ::Val{:setup_scope},
+        conn::AbstractConnection,
+        data::Dict,
+)
+    scope = lookup_scope(data["scope"])
+    add_connection!(scope.pool, conn)
+end
+
+function handle_command(
+        ::Val{:update_observable},
+        conn::AbstractConnection,
+        data::Dict,
+)
+    if !haskey(data, "name")
+        @error "update_observable message missing \"name\" key."
+        return
+    elseif !haskey(data, "value")
+        @error "update_observable message missing \"value\" key."
+        return
+    end
+    scope = lookup_scope(data["scope"])
+    dispatch(scope, data["name"], data["value"])
 end
 
 function onjs(ctx, key, f)

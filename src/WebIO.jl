@@ -38,7 +38,8 @@ const WEBIO_APPLICATION_MIME = MIME"application/vnd.webio.application+html"
 Base.Multimedia.istextmime(::WEBIO_APPLICATION_MIME) = true
 
 include("util.jl")
-include("connection.jl")
+include("messaging.jl")
+include("connectionpool.jl")
 include("syntax.jl")
 include("asset.jl")
 include("node.jl")
@@ -46,8 +47,10 @@ include("iframe.jl")
 include("observable.jl")
 include("scope.jl")
 include("render.jl")
-include("messaging.jl")
+
+# Functionality built on top of WebIO's core
 include("rpc.jl")
+include("evaljs.jl")
 
 # Extra "non-core" functionality
 include("devsetup.jl")
