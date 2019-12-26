@@ -120,3 +120,8 @@ function _send_message(
     end
     return false
 end
+
+function request(pool::ConnectionPool, request_type, payload; kwargs...)
+    # TODO: Maybe support an `eachconnection` type thing?
+    error("Sending requests to ConnectionPools is not supported.")
+end
