@@ -1,59 +1,25 @@
 using Sockets
 
 """
-The maximum number of messages to allow into the outbox.
-"""
-const DEFAULT_OUTBOX_LIMIT = 32
+    ConnectionPool([connections::Set{AbstractConnection}])
 
-"""
-    ConnectionPool([outbox[, connections]])
-
-Manages the distribution of messages from the `outbox` channel to a set of
-connections. The ConnectionPool asynchronously takes messages from its outbox
-and sends each message to every connection in the pool. Any closed connections
-are automatically removed from the pool.
+A set of connections that manages messaging between Julia and (potentially)
+multiple frontends.
 """
 struct ConnectionPool
-    outbox::Channel
     connections::Set{AbstractConnection}
-    condition::Condition
-end
+    _new_connnection_condition::Condition
 
-function ConnectionPool(
-        outbox::Channel = Channel{Any}(DEFAULT_OUTBOX_LIMIT),
-        connections=Set{AbstractConnection}(),
-)
-    pool = ConnectionPool(
-        outbox,
-        connections,
-        Condition(),
-    )
-
-    # Catch errors here, otherwise they are lost to the void.
-    @async try
-        process_messages(pool)
-    catch exc
-        @error(
-            "An error ocurred in the while processing messages from a "
-                * "ConnectionPool.",
-            exception=exc,
-        )
+    function ConnectionPool(connections::Set{AbstractConnection})
+        return new(connections, Condition())
     end
-
-    return pool
 end
 
-function addconnection!(pool::ConnectionPool, conn::AbstractConnection)
-    push!(pool.connections, conn)
-    notify(pool)
-end
+ConnectionPool() = ConnectionPool(Set{AbstractConnection}())
 
-function Sockets.send(pool::ConnectionPool, msg)
-    if length(pool.outbox.data) >= pool.outbox.sz_max
-        # TODO: https://github.com/JuliaGizmos/WebIO.jl/issues/343
-        return
-    end
-    put!(pool.outbox, msg)
+function Base.show(io::IO, pool::ConnectionPool)
+    show(io, typeof(pool))
+    print(io, "($(length(pool.connections)) connections)")
 end
 
 """
@@ -64,53 +30,84 @@ current task until that is the case. Also processes incoming connections.
 """
 function ensure_connection(pool::ConnectionPool)
     if isempty(pool.connections)
-        wait(pool.condition)
+        @debug "Waiting for connections..." pool
+        wait(pool._new_connection_condition)
+        @debug "Finished waiting for connections." pool
     end
+    return nothing
+end
+
+function add_connection!(pool::ConnectionPool, conn::AbstractConnection)
+    push!(pool.connections, conn)
+    notify(pool._new_connnection_condition)
+    @debug "Added connection to pool." pool conn
 end
 
 Base.wait(pool::ConnectionPool) = ensure_connection(pool)
-Base.notify(pool::ConnectionPool) = notify(pool.condition)
 
-"""
-    process_messages(pool)
+function Sockets.send(pool::ConnectionPool, msg; ensure=false)
+    if ensure
+        ensure_connection(pool)
+    end
 
-Process messages in a connection pool outbox and send them to all connected
-frontends.
+    did_send = false
+    # Avoid @sync/@async overhead if we only have zero or one connection to send
+    # to.
+    if length(pool.connections) <= 1
+        for connection in pool.connections
+            did_send = _send_message(pool, connection, msg)
+        end
 
-This function should be run as a task (it will block forever otherwise).
-"""
-function process_messages(pool::ConnectionPool)
-    ensure_connection(pool)
-    while true
-        msg = take!(pool.outbox)
-        @sync begin
-            # This may result in sending to no connections, but we're okay with
-            # that because we'll just get the next value of the observable
-            # (messages are fire and forget - WebIO makes no guarantees that
-            # messages are ever actually delivered).
-            for connection in pool.connections
-                @async send_message(pool, connection, msg)
+        # Handle the case where we failed to send because the connection went
+        # away and we are ensuring delivery.
+        if !did_send && ensure
+            @assert length(pool.connections) == 0
+            return send(pool, msg; ensure=true)
+        end
+
+        return nothing
+    end
+
+    @sync begin
+        for connection in pool.connections
+            @async if _send_message(pool, connection, msg)
+                # Not a race condition because we only ever update it to one
+                # value (no stale-read problem).
+                did_send = true
             end
         end
     end
+
+    if !did_send && ensure
+        @debug(
+            "Failed sending to all connections, waiting for new connections.",
+            pool, msg,
+        )
+        @assert length(pool.connections) == 0
+        return send(pool, msg; ensure=true)
+    end
+
+    return nothing
 end
 
 """
-    send_message(pool, connection, msg)
+    _send_message(pool, connection, msg)::Bool
 
 Send a message to an individual connection within a pool, handling errors and
 deleting the connection from the pool if necessary.
+
+Returns `true` if the message was succesfully sent and `false` otherwise.
 """
-function send_message(
+function _send_message(
         pool::ConnectionPool,
         connection::AbstractConnection,
         msg,
-)::Nothing
+)::Bool
     try
         if isopen(connection)
             send(connection, msg)
+            return true
         else
-            @info "Connection is not open." connection
             delete!(pool.connections, connection)
         end
     catch ex
@@ -120,7 +117,6 @@ function send_message(
             exception=ex,
         )
         delete!(pool.connections, connection)
-    finally
-        return nothing
     end
+    return false
 end

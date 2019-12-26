@@ -10,8 +10,7 @@ export Scope,
        onimport,
        ondependencies,
        adddeps!,
-       import!,
-       addconnection!
+       import!
 
 import Sockets: send
 import Observables: Observable, AbstractObservable, listeners
@@ -118,7 +117,6 @@ myscope = Scope(
 """
 function Scope(;
         dom = dom"span"(),
-        outbox::Union{Channel, Nothing} = nothing,
         observs::Dict = ObsDict(),
         private_obs::Set{String} = Set{String}(),
         systemjs_options = nothing,
@@ -136,7 +134,7 @@ function Scope(;
         )
     end
     imports = Asset[Asset(i) for i in imports]
-    pool = outbox !== nothing ? ConnectionPool(outbox) : ConnectionPool()
+    pool = ConnectionPool()
     return Scope(
         dom, observs, private_obs, systemjs_options,
         imports, jshandlers, pool, mount_callbacks
@@ -343,7 +341,7 @@ function handle_command(
         data::Dict,
 )
     scope = lookup_scope(data["scope"])
-    addconnection!(scope.pool, conn)
+    add_connection!(scope.pool, conn)
 end
 
 function handle_command(
