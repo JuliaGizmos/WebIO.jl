@@ -220,7 +220,7 @@ end
 
 
 """
-    install_webio_nbextension([jupyter])
+    install_jupyter_nbextension([jupyter])
 
 Install the Jupyter Notebook extension (nbextension) for WebIO.
 This copies the nbextension code to the appropriate place and writes the
