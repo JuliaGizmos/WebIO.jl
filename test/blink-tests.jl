@@ -139,7 +139,7 @@ function WebIO.render(::ExampleRenderableType)
     node(:div, "hello world")
 end
 
-WebIO.register_renderable(ExampleRenderableType)
+@WebIO.register_renderable ExampleRenderableType
 
 w = open_window()
 @testset "register_renderable" begin
