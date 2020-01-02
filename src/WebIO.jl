@@ -93,9 +93,9 @@ function prefetch_provider_file(basename)
   (file = filepath, code = code)
 end
 
-provider_mux          = prefetch_provider_file("mux.jl")
-provider_blink        = prefetch_provider_file("blink.jl")
-provider_ijulia       = prefetch_provider_file("ijulia.jl")
+provider_mux = prefetch_provider_file("mux.jl")
+provider_blink = prefetch_provider_file("blink.jl")
+provider_ijulia = prefetch_provider_file("ijulia.jl")
 provider_generic_http = prefetch_provider_file("generic_http.jl")
 
 function __init__()
