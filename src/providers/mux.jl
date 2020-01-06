@@ -9,13 +9,7 @@ export webio_serve
 
 Serve a Mux app which might return a WebIO node.
 """
-function webio_serve(app, args...)
-    http = Mux.App(Mux.mux(
-        Mux.defaults,
-        app,
-        Mux.notfound()
-    ))
-
+function webio_serve(app::Mux.App, args...)
     websock = Mux.App(Mux.mux(
         Mux.wdefaults,
         Mux.route("/webio-socket", create_socket),
@@ -23,8 +17,17 @@ function webio_serve(app, args...)
         Mux.notfound(),
     ))
 
-    Mux.serve(http, websock, args...)
+    Mux.serve(app, websock, args...)
 end
+function webio_serve(app, args...)
+    http = Mux.App(Mux.mux(
+        Mux.defaults,
+        app,
+        Mux.notfound()
+    ))
+    webio_serve(http, args...)
+end
+
 
 struct WebSockConnection <: WebIO.AbstractConnection
     sock
