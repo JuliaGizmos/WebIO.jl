@@ -15,7 +15,9 @@ function webio_serve(app, args...)
         app,
         Mux.notfound()
     ))
-
+    webio_serve(http, args...)
+end
+function webio_serve(app::Mux.App, args...)
     websock = Mux.App(Mux.mux(
         Mux.wdefaults,
         Mux.route("/webio-socket", create_socket),
@@ -23,8 +25,9 @@ function webio_serve(app, args...)
         Mux.notfound(),
     ))
 
-    Mux.serve(http, websock, args...)
+    Mux.serve(app, websock, args...)
 end
+
 
 struct WebSockConnection <: WebIO.AbstractConnection
     sock
