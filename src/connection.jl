@@ -114,7 +114,6 @@ function send_message(
         if isopen(connection)
             send(connection, msg)
         else
-            @info "Connection is not open." connection
             delete!(pool.connections, connection)
         end
     catch ex
