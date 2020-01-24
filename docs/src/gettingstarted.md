@@ -4,7 +4,7 @@
 WebIO is installed just like any other Julia package.
 ```julia
 using Pkg
-Pkd.add("WebIO")
+Pkg.add("WebIO")
 using WebIO
 ```
 Make sure to watch for any errors during the build process;
