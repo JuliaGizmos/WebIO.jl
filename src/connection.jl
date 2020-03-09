@@ -117,6 +117,8 @@ function send_message(
             delete!(pool.connections, connection)
         end
     catch ex
+        showerror(stderr, ex, stacktrace(catch_backtrace()))
+        println(stderr)
         @error(
             "An exception occurred while trying to send a WebIO message to a "
                 * "frontend:",
