@@ -117,12 +117,10 @@ function send_message(
             delete!(pool.connections, connection)
         end
     catch ex
-        showerror(stderr, ex, stacktrace(catch_backtrace()))
-        println(stderr)
+        trace = sprint(showerror, ex, stacktrace(catch_backtrace()))
         @error(
             "An exception occurred while trying to send a WebIO message to a "
-                * "frontend:",
-            exception=ex,
+                * "frontend:\n$trace"
         )
         delete!(pool.connections, connection)
     finally
