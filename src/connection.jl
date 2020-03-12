@@ -120,7 +120,7 @@ function send_message(
         @error(
             "An exception occurred while trying to send a WebIO message to a "
                 * "frontend:",
-            exception=ex,
+            exception = (ex, catch_backtrace())
         )
         delete!(pool.connections, connection)
     finally
