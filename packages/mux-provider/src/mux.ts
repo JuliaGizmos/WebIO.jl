@@ -9,8 +9,7 @@ import WebIO from "@webio/webio";
 export const getMuxWSUrl = (): string => {
   const {protocol, host, pathname} = window.location;
   const wsProtocol = protocol == "https:" ? "wss:" : "ws:";
-  const basePath = pathname[pathname.length - 1] == "/" ? pathname : pathname + "/";
-  const wsPath = basePath + "webio-socket";
+  const wsPath = "/webio-socket" + pathname;
 
   return `${wsProtocol}//${host}${wsPath}`;
 };
