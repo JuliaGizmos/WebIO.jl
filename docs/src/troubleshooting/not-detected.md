@@ -15,7 +15,7 @@ WebIO.install_jupyter_nbextension()
 If you're using Jupyter Lab, run the following.
 ```julia
 using WebIO
-WebIO.install_jupyter_nbextension()
+WebIO.install_jupyter_labextension()
 
 # Or, if you are launching via IJulia.jupyterlab()
 using WebIO
