@@ -1,8 +1,11 @@
+[docs-img]: https://img.shields.io/badge/docs-stable-blue.svg
+[docs-url]: http://docs.juliaplots.org/latest/
+
 # WebIO
 
-| Build | Coverage |
-|-------|----------|
-| [![Build Status](https://travis-ci.org/JuliaGizmos/WebIO.jl.svg?branch=master)](https://travis-ci.org/JuliaGizmos/WebIO.jl) | [![codecov](https://codecov.io/gh/JuliaGizmos/WebIO.jl/branch/master/graph/badge.svg)](https://codecov.io/gh/JuliaGizmos/WebIO.jl)
+| Build | Coverage | Docs |
+|-------|----------|------|
+| [![Build Status](https://travis-ci.org/JuliaGizmos/WebIO.jl.svg?branch=master)](https://travis-ci.org/JuliaGizmos/WebIO.jl) | [![codecov](https://codecov.io/gh/JuliaGizmos/WebIO.jl/branch/master/graph/badge.svg)](https://codecov.io/gh/JuliaGizmos/WebIO.jl) | [![][docs-img]][docs-url]
 
 WebIO provides a simple abstraction for displaying and interacting with web content. It works with:
 
