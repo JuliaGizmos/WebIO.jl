@@ -1,5 +1,5 @@
 [docs-img]: https://img.shields.io/badge/docs-stable-blue.svg
-[docs-url]: http://docs.juliaplots.org/latest/
+[docs-url]: https://juliagizmos.github.io/WebIO.jl/stable/
 
 # WebIO
 
