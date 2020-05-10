@@ -1,8 +1,6 @@
 using JSON
 
 export Scope,
-       withscope,
-       Observable,
        @private,
        setobservable!,
        on, onjs,
@@ -10,61 +8,97 @@ export Scope,
        onimport,
        ondependencies,
        adddeps!,
-       import!
+       import!,
+       scopeid
 
 import Sockets: send
 import Observables: Observable, AbstractObservable, listeners
 
-# bool marks if it is synced
-const ObsDict = Dict{String, Tuple{AbstractObservable, Union{Nothing,Bool}}}
+"""
+    StructObservableInfo(observable[; kwargs...])
 
+Info about an `Observable` within a [`Scope`](@ref).
+
+# Keyword Arguments
+* `js_handlers` - An array of handlers that are invoked when the `Observable`
+    is updated on the frontend.
+* `private` - `true` if the `Observable` should not be sent to the frontend
+    (this might be used to hold _computed_ information that does not need to be
+    sent back to the frontend).
+"""
+struct ScopeObservableInfo
+    observable::AbstractObservable
+    js_handlers::Vector{AbstractString}
+    private::Bool
+end
+
+function ScopeObservableInfo(
+        observable::AbstractObservable,
+        ;
+        js_handlers::Vector{AbstractString} = [],
+        private::Bool = false,
+)
+    return ScopeObservableInfo(observable, js_handlers, private)
+end
+
+"""
+    Scope
+
+A _package_ of `Observable`s bundled together with [`Asset`](@ref)s, a DOM
+[`Node`](@ref), and JavaScript handlers.
+
+# Fields
+All fields are considered private to the `Scope` and may be changed without
+warning or deprecation period.
+
+* `dom` - The DOM [`Node`](@ref) that will be rendered when the scope is
+    _mounted_ in the frontend.
+* `imports` - A set of [`Asset`](@ref)s that are imported when the `Scope` is
+    mounted on the frontend. These `Asset`s are available using `onimport!`
+    handlers.
+* `systemjs_options` - Options that are passed to SystemJS to configure import
+    behavior. See the
+    [SystemJS docs](https://github.com/systemjs/systemjs/blob/2d40444a3779d4e7f60fe0abcffed45c6767adaa/docs/config-api.md)
+    for more information.
+* `mount_callbacks` - A set of callbacks to invoke when the `Scope` is mounted
+    for the first time (these are invoked _after_ imports have been loaded).
+* `observables` - A `Dict` that maps observable ids to a `ScopeObservableInfo`
+    object. Unless the `Observable` is marked as private, these `Observable`s
+    are automatically setup to sync between the frontend and Julia.
+* `observable_aliases` - A `Dict` that maps aliases (convenient names) to
+    `Observables` within a given `Scope`. These aliases may be used by either
+    Julia or JavaScript sides of things.
+* `pool` - The [`ConnectionPool`](@ref) object for this `Scope`.
+"""
 mutable struct Scope
     dom::Any
-    observs::ObsDict
-    private_obs::Set{String}
-    systemjs_options::Any
-    # This should be an array of scopes, but there currently exist some circular
-    # relationships between imports and scopes.
     imports::Vector{Asset}
-    # A collection of handler functions associated with various observables in
-    # this scope. Of the form
-    # "observable-name" => ["array", "of", "JS", "strings"]
-    # where each JS-string is a function that is invoked when the observable
-    # changes.
-    jshandlers::Any
-    pool::ConnectionPool
-
+    systemjs_options::Any
     mount_callbacks::Vector{JSString}
 
+    observables::Dict{String, ScopeObservableInfo}
+    observable_aliases::Dict{String, AbstractObservable}
+    pool::ConnectionPool
+
+    # Internal constructor to ensure that we invoke `register_scope!`
     function Scope(
-            dom::Any,
-            observs::ObsDict, # bool marks if it is synced
-            private_obs::Set{String},
-            systemjs_options::Any,
-            imports::Vector{Asset},
-            jshandlers::Any,
-            pool::ConnectionPool,
-            mount_callbacks::Vector{JSString}
-        )
+            dom,
+            imports,
+            systemjs_options,
+            mount_callbacks,
+    )
         scope = new(
-            dom, observs, private_obs,
-            systemjs_options, imports, jshandlers, pool,
-            mount_callbacks
+            dom,
+            imports,
+            systemjs_options,
+            mount_callbacks,
+            Dict{String, ScopeObservableInfo}(),
+            Dict{String, AbstractObservable}(),
+            ConnectionPool(),
         )
         register_scope!(scope)
         return scope
     end
-end
-
-function Base.getproperty(scope::Scope, property::Symbol)
-    if property === :id
-        Base.depwarn(
-            "Accessing `scope.id` is deprecated, use `scopeid(scope)` instead.",
-            :webio_scope_id,
-        )
-        return scopeid(scope)
-    end
-    return getfield(scope, property)
 end
 
 """
@@ -73,26 +107,105 @@ end
 Get a unique identifier for the specified scope.
 This is the identifier that is used to reference scopes when communicating
 between Julia and the Browser.
-
-This defers to `Base.objectid` under the hood, though is cast to a string for
-mostly historical reasons.
 """
-scopeid(scope::Scope) = string(objectid(scope))
+# Note: We use the "s" prefix to avoid some common pitfalls where CSS parsing
+# fails if the first character is a number.
+# https://github.com/FluxML/Trebuchet.jl/commit/56115983a45c1a7232c11a30870c28860d2a7581
+scopeid(scope::Scope) = string("s", objectid(scope))
 
-const global_scope_registry = Dict{String, Scope}()
+connections(scope::Scope) = connections(scope.pool)
+
+"""
+    ScopeRefcount(scope::Scope[, ref_count::Int])
+
+An WebIO-internal data structure used to keep track of scopes.
+
+WebIO's internal machinery implements reference counting of scopes so that we
+can _reap_ [`Scope`s](@ref Scope) that are no longer needed by any frontend.
+
+We don't necessary reap scopes when all connections disconnect because the
+disconnection may be transient. Instead, it is up to the frontend to notify
+Julia when it is done with a scope and will never ask for it again (e.g.
+because a cell is re-run and Scope unmounts).
+"""
+mutable struct ScopeRefcount
+    scope::Scope
+    refcount::Int
+end
+ScopeRefcount(scope::Scope) = ScopeRefcount(scope, 0)
+
+const global_scope_refcounts = Dict{String, ScopeRefcount}()
+const global_scope_weakrefs = Dict{String, WeakRef}()
 
 function register_scope!(scope::Scope)
-    global_scope_registry[scopeid(scope)] = scope
+    id = scopeid(scope)
+    global_scope_refcounts[id] = ScopeRefcount(scope)
+    global_scope_weakrefs[id] = WeakRef(scope)
+    finalizer(finalize_scope!, scope)
 end
 
-function deregister_scope!(scope::Scope)
-    delete!(global_scope_registry, scopeid(scope))
-end
-
-function lookup_scope(uuid::String)
-    get(global_scope_registry, uuid) do
-        error("Could not find scope $(uuid)")
+function incr_scope_refcount!(scopeid::String)
+    ref = get(global_scope_weakrefs, scopeid, nothing)
+    if ref === nothing
+        error("Unable to increment refcount for unknown or reaped Scope: $(scopeid).")
     end
+
+    scope::Union{Scope, Nothing} = ref.value
+    if scope === nothing
+        # Typically this shouldn't happen.
+        delete!(global_scope_weakrefs, scopeid)
+        error("Unable to increment refcount for already-reaped Scope: $(scopeid).")
+    end
+
+    incr_scope_refcount!(scope)
+    scope_refcount = get!(
+        () -> ScopeRefcount(scope),
+        global_scope_refcounts,
+        scopeid,
+    )
+    scope_refcount.refcount += 1
+
+    return scope
+end
+
+function decr_scope_refcount!(scopeid::String)
+    scope_refcount = get(global_scope_refcounts, scopeid, nothing)
+    if scope_refcount === nothing
+        error(
+            "Unable to decrement refcount for unknown " *
+            "(possibly already pre-reaped) Scope: $(scopeid)."
+        )
+    end
+
+    scope_refcount.refcount -= 1
+    if scope_refcount.refcount <= 0
+        delete!(global_scope_refcounts, scopeid)
+    end
+
+    return nothing
+end
+
+function finalize_scope!(scope::Scope)
+    id = scopeid(scope)
+    delete!(global_scope_refcounts, id)
+    delete!(global_scope_weakrefs, id)
+end
+
+"""
+    lookup_scope(scopeid::String)
+
+Lookup a [`Scope`](@ref) given its id.
+
+This function returns the given scope or throws an error if the scope could not
+be found (e.g., if an unknown id was given or the `Scope` itself was fully
+reaped and garbage collected).
+"""
+function lookup_scope(scopeid::String)::Scope
+    scope_weakref = get(global_scope_weakrefs, scopeid, nothing)
+    if scope_weakref === nothing || scope_weakref.value === nothing
+        error("Unable to lookup Scope: $(scopeid).")
+    end
+    return scope_weakref.value
 end
 
 """
@@ -117,143 +230,60 @@ myscope = Scope(
 """
 function Scope(;
         dom = dom"span"(),
-        observs::Dict = ObsDict(),
-        private_obs::Set{String} = Set{String}(),
-        systemjs_options = nothing,
         imports = Asset[],
-        jshandlers::Dict = Dict(),
-        mount_callbacks::Vector{JSString} = JSString[],
-        # Deprecated
-        id=nothing,
-    )
-    if id !== nothing
-        Base.depwarn(
-            "`Scope(; id, kwargs...)` is deprecated, "
-                * "use `Scope(kwargs...)` instead.",
-            :webio_scope_id_keyword_arg,
-        )
-    end
+        systemjs_options = nothing,
+        mount_callbacks = String[]
+)
     imports = Asset[Asset(i) for i in imports]
     pool = ConnectionPool()
     return Scope(
-        dom, observs, private_obs, systemjs_options,
-        imports, jshandlers, pool, mount_callbacks
+        dom,
+        imports,
+        systemjs_options,
+        mount_callbacks,
     )
 end
 
-function Scope(id; kwargs...)
-    Base.depwarn(
-        "Scope(id; kwargs...) is deprecated, use Scope(kwargs...) instead.",
-        :webio_scope_id_positional_arg,
-    )
-    return Scope(; kwargs...)
+function (scope::Scope)(dom)
+    scope.dom = dom
+    return scope
 end
 
-(w::Scope)(arg) = (w.dom = arg; w)
-Base.wait(scope::Scope) = ensure_connection(scope.pool)
+Base.wait(scope::Scope) = Base.wait(scope.pool)
 
-function Observables.on(f, w::Scope, key)
-    key = string(key)
-    listener, _ = Base.@get! w.observs key (Observable{Any}(w, key, nothing), nothing)
-    on(f, listener)
-end
-
-private(scope::Scope, props...) = foreach(p->push!(scope.private_obs, string(p)), props)
-
-macro private(ex)
-    if ex.head == :(=)
-        ref, val = ex.args
-        scope, key = ref.args
-        quote
-            x=$(esc(ex))
-            private($(esc(scope)), $(esc(key)))
-            x
-        end
-    else
-        error("Wrong usage of @private. Use as in `@private scope[\"key\"] = observable`")
-    end
-end
-
-# we need to maintain mapping from an ID to observable
-# in order to allow interpolation of observables.
-const observ_id_dict = WeakKeyDict()
-
-function setobservable!(ctx, key, obs; sync=nothing)
-    key = string(key)
-    if haskey(ctx.observs, key)
-        @warn("An observable named $key already exists in scope $(scopeid(ctx)).
-             Overwriting.")
-    end
-
-    ctx.observs[key] = (obs, sync)
-
-    # the following metadata is stored for use in interpolation
-    # of observables into DOM trees and `@js` expressions
-    observ_id_dict[obs]  = (WeakRef(ctx), key)
-    obs
-end
-
-# Ask JS to send stuff
-function setup_comm(f, ob::AbstractObservable)
-    if haskey(observ_id_dict, ob)
-        scope, key = observ_id_dict[ob]
-        # if !(key in scope.value.private_obs)
-        #     evaljs(scope.value, js"""
-        #            console.log(this)
-        #            this.observables[$key].sync = true
-        #     """)
-        # end
-    end
-end
-
-# TODO: hook `off` up
-
-function Base.getindex(w::Scope, key)
-    key = string(key)
-    if haskey(w.observs, key)
-        w.observs[key][1]
-    else
-        Observable{Any}(w, key, nothing)
-    end
-end
-
-function Base.setindex!(w::Scope, obs, key)
-    setobservable!(w, key, obs)
-end
-
-function Observable{T}(ctx::Scope, key, value; sync=nothing) where {T}
-    setobservable!(ctx, key, Observable{T}(value), sync=sync)
-end
-
-function Observable(ctx::Scope, key, val::T; sync=nothing) where {T}
-    Observable{T}(ctx, key, val; sync=sync)
-end
-
+# TODO: This should go in a different file since it involved both the Scope and
+# Observables abstraction and is more associated with rendering than the core
+# functionality of Scopes.
 function JSON.lower(scope::Scope)
     obs_dict = Dict()
-    for (k, ob_) in scope.observs
-        ob, sync = ob_
-        if k in scope.private_obs
+    for (obs_id, obs_info) in scope.observables
+        # We don't need to serialize information about private observables since
+        # the frontends don't need to know about them.
+        if obs_info.private
             continue
         end
-        if sync === nothing
-            # by default, we sync if there are any listeners
-            # other than the JS back edge
-            sync = any(f-> !isa(f, SyncCallback), listeners(ob))
-        end
-        obs_dict[k] = Dict(
-            "sync" => sync,
-            "value" => ob[],
-            "id" => obsid(ob)
-        )
+        obs_dict[obs_id] = JSON.lower(obs_info)
     end
-    Dict(
+
+    obs_aliases = Dict()
+    for (alias, observable) in scope.observable_aliases
+        obs_aliases[alias] = obsid(observable)
+    end
+
+    return Dict(
         "id" => scopeid(scope),
-        "systemjs_options" => scope.systemjs_options,
         "imports" => lowerassets(scope.imports),
-        "handlers" => scope.jshandlers,
-        "mount_callbacks" => scope.mount_callbacks,
-        "observables" => obs_dict
+        "mountCallbacks" => scope.mount_callbacks,
+        "observables" => obs_dict,
+        "observableAliases" => obs_aliases,
+        "systemjsOptions" => scope.systemjs_options,
+    )
+end
+
+function JSON.lower(obs_info::ScopeObservableInfo)
+    return Dict(
+        "id" => obsid(obs_info.observable),
+        "handlers" => obs_info.js_handlers,
     )
 end
 
@@ -270,16 +300,6 @@ style message; no response or acknowledgement is expected.
 function command(scope::Scope, command, args...)
     return command(scope.pool, command, args...)
 end
-
-"""
-Send a command to update the frontend's value for an observable.
-"""
-send_update_observable(scope::Scope, name::AbstractString, value) = send_command(
-    scope,
-    "update_observable",
-    "name" => name,
-    "value" => value,
-)
 
 function request(scope::Scope, args...; kwargs...)
     # TODO: Figure out how (and if) we want to support this.
@@ -303,38 +323,6 @@ end
 onmount(scope::Scope, f) = onmount(scope, JSString(f))
 onimport(scope::Scope, f) = onimport(scope, JSString(f))
 
-Base.@deprecate ondependencies(ctx, jsf) onimport(ctx, jsf)
-
-"""
-A callable which updates the frontend
-"""
-struct SyncCallback
-    ctx
-    f
-end
-
-(s::SyncCallback)(xs...) = s.f(xs...)
-"""
-Set observable without synchronizing with the counterpart on the browser
-"""
-function set_nosync(ob, val)
-    Observables.setexcludinghandlers(ob, val, x -> !(x isa SyncCallback))
-end
-
-const lifecycle_commands = ["scope_created"]
-
-function dispatch(ctx, key, data)
-    if haskey(ctx.observs, string(key))
-        # this message has come from the browser
-        # so don't update the browser back!
-        set_nosync(ctx.observs[key][1], data)
-    else
-        if !(key in lifecycle_commands)
-            @warn("$key does not have a handler for scope id $(scopeid(ctx))")
-        end
-    end
-end
-
 function handle_command(
         ::Val{:setup_scope},
         conn::AbstractConnection,
@@ -345,52 +333,50 @@ function handle_command(
 end
 
 function handle_command(
+        ::Val{:teardown_scope},
+        conn::AbstractConnection,
+        data::Dict,
+)
+    decr_scope_refcount!(data["scopeId"])
+end
+
+function handle_command(
         ::Val{:update_observable},
         conn::AbstractConnection,
         data::Dict,
 )
-    if !haskey(data, "name")
-        @error "update_observable message missing \"name\" key."
-        return
-    elseif !haskey(data, "value")
-        @error "update_observable message missing \"value\" key."
-        return
-    end
-    scope = lookup_scope(data["scope"])
-    dispatch(scope, data["name"], data["value"])
+    # TODO !!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
+    # TODO !!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
+    # TODO !!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
+    # TODO !!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
+    # TODO !!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
+    error("Not implemented!")
 end
 
-function onjs(ctx, key, f)
-    push!(Base.@get!(ctx.jshandlers, key, []), f)
+function onjs(scope::Scope, key::String, f::AbstractString)
+    handlers = get(scope.observable_js_handlers, key, nothing)
+    if handlers === nothing
+        error("Cannot setup onjs handler for unknown Observable: $key.")
+    end
+    push!(handlers, f)
+    return nothing
+end
+
+function onjs(scope::Scope, obs::AbstractObservable, f::AbstractString)
+    # TODO !!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
+    # TODO !!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
+    # TODO !!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
+    # TODO !!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
+    # TODO !!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
+    error("Not implemented!")
 end
 
 function offjs(ctx, key, f)
-    if f in get(ctx.jshandlers, key, [])
-        keys = ctx.jshandlers[key]
+    if f in get(ctx.js_observable_handlers, key, [])
+        keys = ctx.js_observable_handlers[key]
         deleteat!(keys, findall(in(f), keys))
     end
     nothing
-end
-
-function ensure_sync(ctx, key)
-    ob = ctx.observs[key][1]
-    # have at most one synchronizing handler per observable
-    if !any(x->isa(x, SyncCallback) && x.ctx==ctx, listeners(ob))
-        f = SyncCallback(ctx, (msg) -> send_update_observable(ctx, key, msg))
-        on(SyncCallback(ctx, f), ob)
-    end
-end
-
-function onjs(ob::AbstractObservable, f)
-    if haskey(observ_id_dict, ob)
-        ctx, key = observ_id_dict[ob]
-        ctx = ctx.value
-        # make sure updates are set up to propagate to JS
-        ensure_sync(ctx, key)
-        onjs(ctx, key, f)
-    else
-        error("This observable is not associated with any scope.")
-    end
 end
 
 function Base.show(io::IO, ::WEBIO_NODE_MIME, x::Scope)
@@ -405,10 +391,5 @@ function _show(io::IO, el::Scope, indent_level=0)
     _show(io, el.dom, indent_level)
 end
 
-Base.@deprecate_binding Context Scope
-Base.@deprecate handle! on
-Base.@deprecate handlejs! onjs
-
 # Adding assets to scopes
 import!(scope::Scope, x) = push!(scope.imports, Asset(x))
-Base.@deprecate adddeps!(scope, x) import!(scope, x)

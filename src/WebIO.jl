@@ -38,14 +38,16 @@ const WEBIO_APPLICATION_MIME = MIME"application/vnd.webio.application+html"
 Base.Multimedia.istextmime(::WEBIO_APPLICATION_MIME) = true
 
 include("util.jl")
+
 include("messaging.jl")
 include("connectionpool.jl")
 include("syntax.jl")
 include("asset.jl")
 include("node.jl")
 include("iframe.jl")
-include("observable.jl")
+include("observablenode.jl")
 include("scope.jl")
+include("observables.jl")
 include("render.jl")
 
 # Functionality built on top of WebIO's core
@@ -96,7 +98,6 @@ end
 setup(provider::AbstractString) = setup(Symbol(provider))
 
 function __init__()
-    push!(Observables.addhandler_callbacks, WebIO.setup_comm)
     @require Mux="a975b10e-0019-58db-a62f-e48ff68538c9" begin
         include(joinpath("providers", "mux.jl"))
     end

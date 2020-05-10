@@ -39,30 +39,11 @@ function JSExpr.deparse(::_ObservableJSNode)
 end
 
 function JSExpr.deparse(obs_deref::_ObservableDerefJSNode)
-    obs_info = _obs_info(obs_deref.obs)
-    return js"WebIO.getval($obs_info)"
+    return js"WebIO.getObservableValue($(obsid(obs_deref.obs)))"
 end
 
 # Specialize assignment when LHS is an observable (see documentation for
 # `_ObservableDerefJSNode`).
 function JSExpr.deparse(::Val{:(=)}, obs_deref::_ObservableDerefJSNode, rhs)
-    obs_info = _obs_info(obs_deref.obs)
-    return js"WebIO.setval($obs_info, $(JSExpr.deparse(rhs)))"
-end
-
-function _obs_info(obs::AbstractObservable)
-    if !haskey(WebIO.observ_id_dict, obs)
-        error("No scope associated with observable being interpolated")
-    end
-    scope_weakref, name = WebIO.observ_id_dict[obs]
-    scope = scope_weakref.value
-    if scope === nothing
-        error("The scope of the observable being interpolated no longer exists.")
-    end
-    return Dict(
-        "type" => "observable",
-        "scope" => WebIO.scopeid(scope),
-        "name" => name,
-        "id" => WebIO.obsid(obs),
-    )
+    return js"WebIO.setObservableValue($(obsid(obs_deref.obs)), $(JSExpr.deparse(rhs)))"
 end

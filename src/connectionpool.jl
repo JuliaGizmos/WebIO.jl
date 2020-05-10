@@ -43,7 +43,12 @@ function add_connection!(pool::ConnectionPool, conn::AbstractConnection)
     @debug "Added connection to pool." pool conn
 end
 
+function remove_connection!(pool::ConnectionPool, conn::AbstractConnection)
+    delete!(pool, conn)
+end
+
 Base.wait(pool::ConnectionPool) = ensure_connection(pool)
+connections(pool::ConnectionPool) = pool.connections
 
 function Sockets.send(pool::ConnectionPool, msg; ensure=false)
     if ensure
