@@ -31,7 +31,7 @@ jobs:
 
 script:
   - if [[ -a .git/shallow ]]; then git fetch --unshallow; fi
-  - julia -e 'using Pkg; pkg"add git@github.com:JuliaGizmos/JSExpr.jl.git#master"'
+  - julia -e 'using Pkg; pkg"add https://github.com/JuliaGizmos/JSExpr.jl.git#master"'
   - $TESTCMD -e 'using Pkg; Pkg.build(); Pkg.test("WebIO"; coverage=true)'
 after_success:
   # push coverage results to Coveralls
