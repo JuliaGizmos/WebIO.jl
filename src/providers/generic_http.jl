@@ -94,9 +94,17 @@ function WebIOServer(
     # TODO test if actually still running, otherwise restart even if singleton
     if !singleton || !isassigned(singleton_instance)
         function handler(req)
-            response = default_response(req)
-            response !== missing && return response
-            return serve_assets(req)
+            try
+                response = default_response(req)
+                response !== missing && return response
+                return serve_assets(req)
+            catch exc
+                @error(
+                    "An unhandled exception occurred!",
+                    exception=(exc, catch_backtrace()),
+                )
+                return HTTP.Response(500)
+            end
         end
         function wshandler(req, sock)
             req.target == websocket_route && websocket_handler(sock)
@@ -168,7 +176,7 @@ function Base.display(d::MyWebDisplay, m::MIME"application/webio", app)
 end
 ```
 """
-function Base.show(io::IO, m::WEBIO_APPLICATION_MIME, app::Application)
+function Base.show(io::IO, m::WEBIO_APPLICATION_MIME, app)
     c = global_server_config()
     WebIOServer(routing_callback[], baseurl = c.url, http_port = c.http_port)
     println(io, "<script>window._webIOWebSocketURL = $(repr(c.ws_url));</script>")
@@ -176,3 +184,30 @@ function Base.show(io::IO, m::WEBIO_APPLICATION_MIME, app::Application)
     show(io, "text/html", app)
     return
 end
+
+function serve_generic_http(handler::Function; kwargs...)
+    function wrapped_handler(request::HTTP.Request)::HTTP.Response
+        response = try
+            handler(request)
+        catch exc
+            @error(
+                "Unhandled exception in server_generic_http handler:",
+                exception=exc,
+            )
+            return HTTP.Response(500)
+        end
+
+        if isa(response, HTTP.Response)
+            return response
+        end
+
+        html = sprint(io -> show(io, WebIO.WEBIO_APPLICATION_MIME(), response))
+        return HTTP.Response(html)
+    end
+
+    server = WebIOServer(wrapped_handler; singleton=false, kwargs...)
+    return server
+end
+
+Base.wait(s::WebIOServer) = wait(s.serve_task)
+Base.close(s::WebIOServer) = close(s.server)

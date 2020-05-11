@@ -77,6 +77,7 @@ end
     @test js"x=$y" == js"x={}"
 end
 
+include("generic_http.jl")
 include("communication.jl")
 include("node.jl")
 include("util-tests.jl")
