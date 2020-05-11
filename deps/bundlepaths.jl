@@ -13,7 +13,14 @@ function isci()
     return get(ENV, "TRAVIS", "false") == "true" &&
         split(get(ENV, "TRAVIS_REPO_SLUG", "Foo/Bar.jl"), '/')[2] == "WebIO.jl"
 end
-isdev() = isci() || basename(dirname(dirname(@__DIR__))) == "dev"
+function isdev()
+    if isci()
+        return true
+    end
+    gitdir = joinpath(@__DIR__, "..", ".git")
+    @show gitdir
+    return @show isdir(gitdir)
+end
 
 const PACKAGES_PATH = normpath(joinpath(@__DIR__, "..", "packages"))
 const BUNDLES_PATH = normpath(joinpath(@__DIR__, "bundles"))
