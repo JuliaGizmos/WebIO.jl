@@ -15,7 +15,7 @@ if haskey(ENV, "CI")
     @testset "Jupyter setup" begin
         # We need conda-forge for node.
         Conda.add_channel("conda-forge")
-        Conda.add.(["jupyterlab=1", "nodejs"])
+        Conda.add.(["jupyterlab=1", "nodejs=12"])
 
         # Remove path to make sure that we can find Conda if nothing else exists.
         oldpath = ENV["PATH"]
