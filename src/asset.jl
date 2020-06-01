@@ -222,9 +222,9 @@ there.
 function dep2url(dep::AbstractString)
     # if is an url, we are done :)
     islocal(dep) || return dep
-    query_parts = split(dep, "?") # remove anything after ?
-    file_path = first(query_parts)
-    query_part = length(query_parts) >= 2 ? "?" * query_parts[2] : ""
-    url = path2url(file_path)
-    return string(baseurl[], url, query_part)
+    # split query from url path, including further '?'s
+    url_parts = split(dep, "?")
+    # register the url file without the query part
+    url_parts[1] = path2url(baseurl[] * url_parts[1])
+    return join(url_parts, "?")
 end
