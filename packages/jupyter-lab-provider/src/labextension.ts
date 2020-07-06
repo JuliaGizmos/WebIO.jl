@@ -1,7 +1,7 @@
 import debug from "debug";
-import {Panel} from "@phosphor/widgets";
+import {Panel} from "@lumino/widgets";
 import {JupyterFrontEndPlugin} from "@jupyterlab/application";
-import {DisposableDelegate, IDisposable} from "@phosphor/disposable";
+import {DisposableDelegate, IDisposable} from "@lumino/disposable";
 import {DocumentRegistry} from "@jupyterlab/docregistry";
 import {INotebookModel, NotebookPanel} from "@jupyterlab/notebook";
 import {IRenderMime, IRenderMimeRegistry} from "@jupyterlab/rendermime";
@@ -167,13 +167,15 @@ class WebIONotebookManager {
 
   async getKernel() {
     log(`WebIONotebookManager¬getKernel`);
-    // Make sure the kernel is ready before we try to connect to it.
-    await this.context.session.ready;
-    const {kernel} = this.context.session;
+    await this.context.ready;
+    const session = this.context.sessionContext.session;
+    if (!session) {
+      throw new Error("Kernel is not available!");
+    }
+    const kernel = session.kernel;
     if (!kernel) {
       throw new Error("Session is ready but kernel isn't available!");
     }
-    await kernel.ready;
     log(`WebIONotebookManager¬connect: Notebook kernel is ready; status is ${kernel.status}.`);
     return kernel;
   }
@@ -205,7 +207,7 @@ class WebIONotebookManager {
     log(`WebIONotebookManager¬connect: Last WebIO connection was for kernelId="${lastKernelId}", commId="${lastCommId}".`);
     log(`WebIONotebookManager¬connect: We're ${shouldReuseCommId ? "definitely" : "not"} re-using the old commId.`);
 
-    this.comm = kernel.connectToComm(COMM_TARGET, shouldReuseCommId ? lastCommId : undefined);
+    this.comm = kernel.createComm(COMM_TARGET, shouldReuseCommId ? lastCommId : undefined);
     this.comm.open();
     this._webIO.setSendCallback((msg) => this.comm!.send(msg as any));
     this.comm.onMsg = (msg: any) => {
@@ -217,6 +219,9 @@ class WebIONotebookManager {
   }
 
   private getWebIOMetadata(): WebIONotebookMetadata {
+    if (!this.notebook.model) {
+      throw new Error("Notebook model is not available!");
+    }
     return (this.notebook.model.metadata.get(WEBIO_METADATA_KEY) || {}) as any;
   }
 
@@ -226,6 +231,9 @@ class WebIONotebookManager {
       lastCommId: commId,
     };
     log("Setting WebIO notebook metadata.", metadata);
+    if (!this.notebook.model) {
+      throw new Error("Notebook model is not available!");
+    }
     this.notebook.model.metadata.set(WEBIO_METADATA_KEY, metadata as any);
   }
 }
