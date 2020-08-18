@@ -157,7 +157,7 @@ Base.wait(scope::Scope) = ensure_connection(scope.pool)
 
 function Observables.on(f, w::Scope, key)
     key = string(key)
-    listener, _ = Base.@get! w.observs key (Observable{Any}(w, key, nothing), nothing)
+    listener, _ = get!(()->(Observable{Any}(w, key, nothing), nothing), w.observs, key)
     on(f, listener)
 end
 
@@ -354,7 +354,7 @@ function dispatch(ctx, key, data)
 end
 
 function onjs(ctx, key, f)
-    push!(Base.@get!(ctx.jshandlers, key, []), f)
+    push!(get!(()->[], ctx.jshandlers, key), f)
 end
 
 function offjs(ctx, key, f)
