@@ -235,14 +235,12 @@ class WebIO {
 
   /**
    * Send a message to the WebIO Julia machinery.
-   *
-   * Sets `type: "message"` before passing to the send callback.
    */
   async send(message: WebIOMessage) {
     await this.connected;
     debug(`Sending WebIO message:`, message);
     debug(`sendCallback:`, this.sendCallback);
-    return this.sendCallback!({type: "message", ...message});
+    return this.sendCallback!(message);
   }
 
   async sendRequest<T extends WebIORequestType>(message: WebIORequest<T>): Promise<WebIOResponse<T>> {
@@ -257,7 +255,7 @@ class WebIO {
     }
 
     const future = new Future<WebIOResponse<T>>();
-    this.requestFutures.set(requestId, future);
+    this.requestFutures.set(requestId, future as any);
     await this.send(message);
     return await future;
   }

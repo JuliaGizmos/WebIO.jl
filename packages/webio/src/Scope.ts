@@ -78,7 +78,7 @@ export interface ScopeSchema extends WebIONodeSchema {
       [observableName: string]: string[];
     };
 
-    imports?: undefined;
+    imports?: BlockImport;
 
     mount_callbacks?: string[];
 

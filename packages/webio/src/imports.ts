@@ -250,7 +250,7 @@ export const importBlock = (importData: BlockImport, config?: SystemJSConfig) =>
 
 console.warn("WebIO is registering SystemJS window global.");
 (window as any).SystemJS = SystemJS;
-if (SystemJS._nodeRequire) {
+if (!!SystemJS._nodeRequire) {
   // Fixes https://github.com/systemjs/systemjs/issues/1817
   // SystemJS basically will try to detect if it should use NodeJS's built-in
   // require to load things if it can, but because Webpack (sometimes, depending
