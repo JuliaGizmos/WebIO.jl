@@ -62,6 +62,20 @@ using WebIO
 WebIO.install_jupyter_labextension(condajl=true)
 ```
 
+### Jupyter Hub
+
+The extension needs to be installed as part of the server startup.
+For example if the hub is running in Kubernetes and is using a docker container for the Julia Kernel.
+
+```
+RUN julia -e 'import Pkg; Pkg.update()' && \
+    (test $TEST_ONLY_BUILD || julia -e 'import Pkg; Pkg.add("HDF5")') && \
+    julia -e '\
+        using Pkg; pkg"add IJulia WebIO"; pkg"precompile"; \
+        using WebIO; WebIO.install_jupyter_nbextension(); \
+    '
+```
+
 ## Still having problems?
 Open a [GitHub issue](https://github.com/JuliaGizmos/WebIO.jl/issues/new).
 Please make sure to include information about what you've tried and what the
