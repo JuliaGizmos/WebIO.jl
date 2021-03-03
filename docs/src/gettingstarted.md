@@ -253,11 +253,11 @@ dom"button"(
 
 ### Communicating between Julia and JavaScript
 
-A [`Scope`])(@ref) acts as a medium for bidirectional communication between
+A [`Scope`](@ref) acts as a medium for bidirectional communication between
 Julia and JavaScript.
 The primary method of communication is `Observable`s which are essentially
 wrappers around values that may change over time.
-A [`Scope`] may contain several observables whose values can be updated and read
+A [`Scope`](@ref) may contain several observables whose values can be updated and read
 from either JavaScript or Julia.
 
 We associate an observable with a scope as follows.
@@ -265,7 +265,7 @@ We associate an observable with a scope as follows.
 w = Scope()
 obs = Observable(w, "rand-value", 0.0)
 ```
-The `"rand-value"` arguments is the name of the observable and must be unique
+The `"rand-value"` argument is the name of the observable and must be unique
 for a given scope.
 
 You can get the value of `obs` in Julia with the syntax `obs[]`.
