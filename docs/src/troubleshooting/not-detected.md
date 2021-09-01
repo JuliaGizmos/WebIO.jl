@@ -27,7 +27,7 @@ For more information on those difficulties, read the [IJulia](@ref)
 documentation.
 
 ### Jupyter Notebook
-List all extensions by running
+List all extensions by running (in the Anaconda Prompt)
 ```sh
 jupyter nbextension list
 ```
