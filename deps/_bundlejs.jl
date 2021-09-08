@@ -8,15 +8,6 @@ end
 let
     package_dir = dirname(@__DIR__)
 
-    # NodeJS isn't a hard requirement of WebIO, but is needed to build packages,
-    # so we need to install it in CI.
-    if isci()
-        @info "CI detected, installing NodeJS..."
-
-        using Pkg
-        Pkg.add("NodeJS")
-    end
-
     # Don't build packages outside of a dev environment (or CI).
     if !isdev()
         @warn(
@@ -27,9 +18,8 @@ let
     end
 
     # Build the dang packages!
-    using NodeJS
     package_dir = normpath(joinpath(@__DIR__, "..", "packages"))
-    npm = `$(NodeJS.npm_cmd()) -C $(package_dir)`
+    npm = `npm -C $(package_dir)`
 
     install_cmd = `$npm install --scripts-prepend-node-path=auto --unsafe-perm`
     @info "Installing NPM dependencies..." cmd=install_cmd

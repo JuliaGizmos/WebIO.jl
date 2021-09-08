@@ -56,7 +56,7 @@ class WebIOObservableNode extends WebIONode {
       this.observable = this.scope.getObservable(schema.instanceArgs.name);
       this.mountObservable();
       this.scope.promises.connected.then(() => this.observable!.subscribe(this.onObservableUpdate));
-    } catch (e) {
+    } catch (e: any) {
       this.node = null;
       this.element.innerHTML = `<strong>Caught exception while trying to render ObservableNode: ${e.message}</strong>`;
     }
