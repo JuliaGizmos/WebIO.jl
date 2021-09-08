@@ -120,10 +120,11 @@ class WebIOIFrame extends WebIONode {
    */
   private waitForWebIO(iframeWindow: Window, interval: number = 100) {
     const future = new Future<WebIO>();
-    const wait = () => {
+    const wait = (): void => {
       if (typeof (iframeWindow as any).WebIO === "undefined") {
         debug(`IFrame doesn't have WebIO, waiting ${interval}ms...`);
-        return setTimeout(wait, interval);
+        setTimeout(wait, interval);
+        return;
       }
       future.resolve((iframeWindow as any).WebIO);
     };

@@ -29,18 +29,17 @@ Mux = "a975b10e-0019-58db-a62f-e48ff68538c9"
 Blink = "ad839575-38b3-5650-b840-f874b8c74a25"
 NBInclude = "0db19996-df87-5ea3-a455-e3a50d440464"
 Test = "8dfed614-e22c-5e08-85e1-65c5234f0b40"
-NodeJS = "2bd173c7-0d6d-553b-b6af-13a54713934c"
 
 [compat]
 Widgets = "0.6.2"
 julia = "0.7, 1"
 JSExpr = "0.5"
 JSON = "0.18, 0.19, 0.20, 0.21"
-Observables = "0.2.3, 0.3, 0.4"
+Observables = "0.4"
 FunctionalCollections = "0.5.0"
 AssetRegistry = "0.1.0"
 WebSockets = "1.5.0"
 Requires = "0.4.4, 0.5, 1.0.0"
 
 [targets]
-test = ["Blink", "Conda", "DataStructures", "Dates", "IJulia", "JSExpr", "Mux", "NBInclude", "NodeJS", "Test"]
+test = ["Blink", "Conda", "DataStructures", "Dates", "IJulia", "JSExpr", "Mux", "NBInclude", "Test"]
