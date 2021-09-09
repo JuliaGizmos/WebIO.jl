@@ -40,16 +40,17 @@
     "install:extension": "yarn run build",
     "watch": "run-p watch:src watch:labextension",
     "watch:src": "tsc -w",
-    "watch:labextension": "jupyter labextension watch ."
+    "watch:labextension": "jupyter labextension watch .",
+    "publish-pypi": "yarn build && python3 -m build && python3 -m twine upload dist/*.whl dist/*.gz "
   },
   "dependencies": {
-    "@jupyterlab/application": "^3.1.0",
-    "@jupyterlab/docregistry": "^3.1.10",
-    "@jupyterlab/notebook": "^3.1.10",
-    "@jupyterlab/rendermime": "^3.1.10",
-    "@jupyterlab/services": "^6.1.10",
-    "@lumino/disposable": "^1.7.2",
-    "@lumino/widgets": "^1.26.2",
+    "@jupyterlab/application": "^3",
+    "@jupyterlab/docregistry": "^3",
+    "@jupyterlab/notebook": "^3",
+    "@jupyterlab/rendermime": "^3",
+    "@jupyterlab/services": "^6",
+    "@lumino/disposable": "^1",
+    "@lumino/widgets": "^1",
     "@webio/webio": "portal:../packages/webio",
     "debug": "^4.3.2"
   },
