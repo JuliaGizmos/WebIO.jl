@@ -39,6 +39,11 @@ function main()
         @warn "IJulia doesn't have register_mime; WebIO may not work as expected. Please upgrade to IJulia v1.13.0 or greater."
     end
 
+    # TODO: this actually doesn't really *do* anything (I think...)
+    # Seems it ended up just being left here mostly as an accident of history.
+    # It would probably just be better to display a single bundle containing both
+    # an empty WebIO node AND text/html with information about how to install the
+    # WebIO extension (probably linking to the docs).
     script_id = "webio-setup-$(rand(UInt64))"
     warning_div_id = "webio-warning-$(rand(UInt64))"
     setup_script = js"""
@@ -69,7 +74,7 @@ function main()
                     return;
                 }
             } else if (window.location.pathname.includes("/lab")) {
-                // Guessing JupyterLa
+                // Guessing JupyterLab
                 console.log("Jupyter Lab detected; make sure the @webio/jupyter-lab-provider labextension is installed.");
                 hide();
                 return;

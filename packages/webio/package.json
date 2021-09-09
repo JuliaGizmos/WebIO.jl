@@ -21,11 +21,7 @@
     "build-prod": "npm run build && webpack -p"
   },
   "devDependencies": {
-<<<<<<< HEAD
     "typescript": "^4.4.2",
-=======
-    "typescript": "^4.3.2",
->>>>>>> eac891b (WIP: JupyterLab 3 compatibility)
     "webpack": "^4.35.3"
   },
   "gitHead": "a17bcee97d64897d0e9b429a8551f19eedc47091"
