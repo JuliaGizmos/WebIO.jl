@@ -7,30 +7,22 @@
     "jupyterlab",
     "jupyterlab-extension"
   ],
-  "homepage": "https://github.com/github_username/webio-jupyterlab-provider",
-  "bugs": {
-    "url": "https://github.com/github_username/webio-jupyterlab-provider/issues"
-  },
-  "license": "BSD-3-Clause",
-  "author": {
-    "name": "",
-    "email": ""
-  },
+  "license": "MIT",
   "files": [
     "lib/**/*.{d.ts,eot,gif,html,jpg,js,js.map,json,png,svg,woff2,ttf}"
   ],
-  "main": "dist/main.js",
+  "main": "dist/labextension.js",
   "repository": {
     "type": "git",
     "url": "https://github.com/github_username/webio-jupyterlab-provider.git"
   },
   "scripts": {
-    "pre-build": "tsc -p . && webpack ./lib/index.js",
-    "build": "yarn pre-build && yarn build:lib && yarn build:labextension:dev",
+    "build": "yarn build:lib && yarn build:nbextension && yarn build:labextension:dev",
     "build:prod": "yarn run clean && yarn run build:lib && yarn run build:labextension",
+    "build:nbextension": "webpack -c webpack.nbextension.js",
     "build:labextension": "jupyter labextension build .",
     "build:labextension:dev": "jupyter labextension build --development True .",
-    "build:lib": "tsc",
+    "build:lib": "tsc -p . && webpack -c webpack.labextension.js",
     "clean": "yarn run clean:lib",
     "clean:lib": "rimraf lib dist tsconfig.tsbuildinfo",
     "clean:labextension": "rimraf webio_jupyter_extension/labextension",

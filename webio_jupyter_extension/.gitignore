@@ -7,6 +7,7 @@ node_modules/
 
 # Ignore the built JS extension files
 webio_jupyter_extension/labextension
+webio_jupyter_extension/nbextension
 
 # Ignore Yarn files (note: we're not using zero installs)
 .yarn/*

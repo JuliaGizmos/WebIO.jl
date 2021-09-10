@@ -5,14 +5,16 @@ const externalModules = [
   '@jupyterlab/docregistry',
   '@jupyterlab/notebook',
   '@jupyterlab/rendermime',
-  '@jupyterlab/services'
+  '@jupyterlab/services',
 ];
 const externals = Object.fromEntries(
   externalModules.map(mod => [mod, `commonjs2 ${mod}`])
 );
 
 module.exports = {
+  entry: "./lib/labextension.js",
   output: {
+    filename: "labextension.js",
     library: {
       type: 'umd'
     }
@@ -22,5 +24,5 @@ module.exports = {
       fs: false
     }
   },
-  externals
+  externals,
 };
