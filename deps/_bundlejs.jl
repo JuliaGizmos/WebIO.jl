@@ -8,15 +8,6 @@ end
 let
     package_dir = dirname(@__DIR__)
 
-    # Don't build packages outside of a dev environment (or CI).
-    if !isdev()
-        @warn(
-            "Can't build WebIO JS when not checked out for development. "
-            * "Run `Pkg.dev(\"WebIO\")` if you want to build JS."
-        )
-        return
-    end
-
     # Build the dang packages!
     package_dir = normpath(joinpath(@__DIR__, "..", "packages"))
     npm = `npm -C $(package_dir)`

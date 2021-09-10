@@ -1,19 +1,19 @@
 # IJulia (Jupyter)
 
-## JupyterLab installation
+## Jupyter installation
 
-JupyterLab integration is provided via the `webio_jupyterlab_provider` package
-which is distributed on PyPI (the Python package repository) since JupyterLab
-makes heavy use of the Python ecosystem.
+Jupyter Notebook and JupyterLab integration is provided via the
+`webio_jupyter_extension` package which is distributed on PyPI (the Python
+package repository) since JupyterLab makes heavy use of the Python ecosystem.
 
-From a system terminal (not the Julia command line), run
+From a system terminal (not the Julia command line), run:
 
 ```sh
-python3 -m pip install --upgrade webio_jupyterlab_provider
+python3 -m pip install --upgrade webio_jupyter_extension
 ```
 
-**Note:** Since the WebIO labextension is distributed separately from the WebIO
-Julia package, you may occasionally have to upgrade the WebIO labextension
+**Note:** Since the WebIO Jupyter extension is distributed separately from the
+WebIO Julia package, you may occasionally have to upgrade the WebIO extension
 separately using the same command as above.
 
 ### Install using Conda.jl
@@ -27,47 +27,31 @@ Jupyter installed on your system outside of IJulia).
 # within a Julia REPL
 using Conda
 Conda.pip_interop(true)
-Conda.pip("install", "webio_jupyterlab_provider")
+Conda.pip("install", "webio_jupyter_extension")
 ```
 
 ### Uninstall
 
-From a system terminal (not the Julia command line), run
+From a system terminal (not the Julia command line), run:
 
-```
-python3 -m pip uninstall webio_jupyterlab_provider
-```
-
-### Troubleshooting
-
-#### Uninstall previous versions
-
-If you launch Jupyter by running `IJulia.jupyterlab()`, run the following
-instead.
-
-```julia
-using WebIO
-WebIO.install_jupyter_labextension(condajl=true)
+```sh
+python3 -m pip uninstall webio_jupyter_extension
 ```
 
-### Jupyter Hub
+## Troubleshooting
 
-The Jupyter server extension needs to be installed as part of the build
-process - before the `jupyter–notebook` starts. This means that it's not
-possible to install WebIO while running in JupyterHub since you can't restart
-the notebook process.
+### The `webio_jupyter_extension` is installed but not working
 
-For example, if running JupyterHub using docker containers (e.g., using the
-Kubernetes spawner), add this step to your singleuser image:
+Make sure you've installed the `webio_jupyter_extension` package in the same
+Python or Conda environment that you're using to launch Jupyter.
+
+You can ensure that you're using the same environment by installing the
+extension and launching Jupyter like so:
 
 ```
-RUN julia -e '\
-        using Pkg; pkg"add IJulia WebIO"; pkg"precompile"; \
-        using WebIO; WebIO.install_jupyter_nbextension(); \
-    '
+python3 -m pip install webio_jupyter_extension
+python3 -m jupyterlab
 ```
-
-If using JupyterLab, use `WebIO.install_jupyter_labextension()` instead.
 
 ## Still having problems?
 
