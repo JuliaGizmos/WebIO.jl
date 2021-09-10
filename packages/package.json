@@ -22,7 +22,6 @@
   "dependencies": {
     "@webio/blink-provider": "file:blink-provider",
     "@webio/generic-http-provider": "file:generic-http-provider",
-    "@webio/jupyter-notebook-provider": "file:jupyter-notebook-provider",
     "@webio/mux-provider": "file:mux-provider",
     "@webio/webio": "file:webio"
   }

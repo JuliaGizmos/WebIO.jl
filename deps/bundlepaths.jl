@@ -20,10 +20,6 @@ const GENERIC_HTTP_BUNDLE_URL = bundleurl("generic-http-provider", "generic-http
 const MUX_BUNDLE_PATH = joinpath(BUNDLES_PATH, "mux.bundle.js")
 const MUX_BUNDLE_URL = bundleurl("mux-provider", "mux.bundle.js")
 
-const JUPYTER_NBEXTENSION_NAME = "webio-jupyter-notebook"
-const JUPYTER_NBEXTENSION_PATH = joinpath(BUNDLES_PATH, "$(JUPYTER_NBEXTENSION_NAME).js")
-const JUPYTER_NBEXTENSION_URL = bundleurl("jupyter-notebook-provider", "jupyter-notebook.bundle.js")
-
 # Deprecated! Remove for WebIO version 1.0.0
 const BLINK_BUNDLE_PATH = joinpath(BUNDLES_PATH, "blink.bundle.js")
 const BLINK_BUNDLE_URL = bundleurl("blink-provider", "blink.bundle.js")

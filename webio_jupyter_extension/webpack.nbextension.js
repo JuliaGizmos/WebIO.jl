@@ -15,9 +15,7 @@ module.exports = {
     }
   },
   externals: [
-    {
-      jquery: "jQuery",
-    },
+    "jquery",
     function ({ context, request }, callback) {
       if (/^base\/.+/.test(request) || /^notebook\/.+/.test(request)) {
         return callback(null, "commonjs " + request);

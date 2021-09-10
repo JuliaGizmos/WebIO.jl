@@ -22,6 +22,42 @@ function IJulia.CommManager.register_comm(comm::IJulia.CommManager.Comm{:webio_c
     end
 end
 
+"""
+A "dummy" type that is used to detect whether or not the Jupyter frontend has
+the WebIO integration installed correctly.
+
+This works by definining two Base.show methods:
+* One for `WEBIO_NODE_MIME` that displays an empty div (which is effectively
+  invisible in the browser).
+* One for `text/html` which displays an error message and links to
+  troubleshooting documentation.
+
+This works since a properly configured Jupyter frontend should have a renderer
+installed for `WEBIO_NODE_MIME` that is preferred over `text/html`. If the HTML
+content is actually displayed, it means that the WebIO integration is not
+correctly installed.
+"""
+struct _IJuliaInit end
+
+function Base.show(io::IO, m::WEBIO_NODE_MIME, ::_IJuliaInit)
+    Base.show(io, m, node(:div))
+end
+
+function Base.show(io::IO, m::MIME"text/html", ::_IJuliaInit)
+    Base.print(
+        io,
+        """
+        <div style="padding: 1em; background-color: #f8d6da; border: 1px solid #f5c6cb; font-weight: bold;">
+        <p>The WebIO Jupyter extension was not detected. See the
+        <a href="https://juliagizmos.github.io/WebIO.jl/latest/providers/ijulia/" target="_blank">
+            WebIO Jupyter integration documentation
+        </a>
+        for more information.
+        </div>
+        """,
+    )
+end
+
 function main()
     if !IJulia.inited
         # If IJulia has not been initialized and connected to Jupyter itself,
@@ -39,64 +75,8 @@ function main()
         @warn "IJulia doesn't have register_mime; WebIO may not work as expected. Please upgrade to IJulia v1.13.0 or greater."
     end
 
-    # TODO: this actually doesn't really *do* anything (I think...)
-    # Seems it ended up just being left here mostly as an accident of history.
-    # It would probably just be better to display a single bundle containing both
-    # an empty WebIO node AND text/html with information about how to install the
-    # WebIO extension (probably linking to the docs).
-    script_id = "webio-setup-$(rand(UInt64))"
-    warning_div_id = "webio-warning-$(rand(UInt64))"
-    setup_script = js"""
-        // Immediately-invoked-function-expression to avoid global variables.
-        (function() {
-            var warning_div = document.getElementById($(warning_div_id));
-            var hide = function () {
-                var script = document.getElementById($(script_id));
-                var parent = script && script.parentElement;
-                var grandparent = parent && parent.parentElement;
-                if (grandparent) {
-                    grandparent.style.display = "none";
-                }
-                warning_div.style.display = "none";
-            };
-            if (typeof Jupyter !== "undefined") {
-                console.log("WebIO detected Jupyter notebook environment.");
-                // Jupyter notebook.
-                var extensions = (
-                    Jupyter
-                    && Jupyter.notebook.config.data
-                    && Jupyter.notebook.config.data.load_extensions
-                );
-                if (extensions && extensions[$(JUPYTER_NBEXTENSION_NAME)]) {
-                    // Extension already loaded.
-                    console.log("Jupyter WebIO nbextension detected; not loading ad-hoc.");
-                    hide();
-                    return;
-                }
-            } else if (window.location.pathname.includes("/lab")) {
-                // Guessing JupyterLab
-                console.log("Jupyter Lab detected; make sure the @webio/jupyter-lab-provider labextension is installed.");
-                hide();
-                return;
-            }
-        })();
-        """
-    display(HTML("""
-        <script>
-        $(setup_script)
-        </script>
-        <p
-            id="$(warning_div_id)"
-            class="output_text output_stderr"
-            style="padding: 1em; font-weight: bold;"
-        >
-            Unable to load WebIO. Please make sure WebIO works for your Jupyter client.
-            For troubleshooting, please see <a href="https://juliagizmos.github.io/WebIO.jl/latest/providers/ijulia/">
-            the WebIO/IJulia documentation</a>.
-            <!-- TODO: link to installation docs. -->
-        </p>
-        """
-    ))
+    # See comment on _IJuliaInit for what this does
+    display(_IJuliaInit())
 end
 
 WebIO.setup_provider(::Val{:ijulia}) = main() # calling setup_provider(Val(:ijulia)) will display the setup javascript
