@@ -6,15 +6,6 @@ const WEBIO_VERSION = let
     VersionNumber(project["version"])
 end
 
-# Make sure that we're running tests for this repository, we don't want to do
-# extra steps when testing other packages.  For the time being we run tests only
-# on Travis, so isci() checks Travis-specific environment variables.
-function isci()
-    return get(ENV, "TRAVIS", "false") == "true" &&
-        split(get(ENV, "TRAVIS_REPO_SLUG", "Foo/Bar.jl"), '/')[2] == "WebIO.jl"
-end
-isdev() = isci() || basename(dirname(dirname(@__DIR__))) == "dev"
-
 const PACKAGES_PATH = normpath(joinpath(@__DIR__, "..", "packages"))
 const BUNDLES_PATH = normpath(joinpath(@__DIR__, "bundles"))
 
@@ -29,10 +20,6 @@ const GENERIC_HTTP_BUNDLE_URL = bundleurl("generic-http-provider", "generic-http
 const MUX_BUNDLE_PATH = joinpath(BUNDLES_PATH, "mux.bundle.js")
 const MUX_BUNDLE_URL = bundleurl("mux-provider", "mux.bundle.js")
 
-const JUPYTER_NBEXTENSION_NAME = "webio-jupyter-notebook"
-const JUPYTER_NBEXTENSION_PATH = joinpath(BUNDLES_PATH, "$(JUPYTER_NBEXTENSION_NAME).js")
-const JUPYTER_NBEXTENSION_URL = bundleurl("jupyter-notebook-provider", "jupyter-notebook.bundle.js")
-
 # Deprecated! Remove for WebIO version 1.0.0
 const BLINK_BUNDLE_PATH = joinpath(BUNDLES_PATH, "blink.bundle.js")
 const BLINK_BUNDLE_URL = bundleurl("blink-provider", "blink.bundle.js")
@@ -42,6 +29,16 @@ function download_bundle(name::String, path::String, url::String)
         @info "Downloading WebIO $(name) bundle from unpkg..."
         download(url, path)
     end
+end
+
+
+# TODO: this is all an ugly hack to avoid trying to build JS when other packages (that use WebIO)
+# are just trying to run their own tests. It desperately needs to be restructured.
+function isci()
+    return (
+        get(ENV, "CI", "false") == "true" &&
+        split(get(ENV, "GITHUB_REPOSITORY", "Foo/Bar.jl"), '/')[2] == "WebIO.jl"
+    )
 end
 
 function download_js_bundles()
@@ -56,10 +53,5 @@ function download_js_bundles()
     download_bundle("core", CORE_BUNDLE_PATH, CORE_BUNDLE_URL)
     download_bundle("generic-http", GENERIC_HTTP_BUNDLE_PATH, GENERIC_HTTP_BUNDLE_URL)
     download_bundle("mux", MUX_BUNDLE_PATH, MUX_BUNDLE_URL)
-    download_bundle("jupyter-notebook", JUPYTER_NBEXTENSION_PATH, JUPYTER_NBEXTENSION_URL)
     download_bundle("blink", BLINK_BUNDLE_PATH, BLINK_BUNDLE_URL)
-
-    # NOTE: we don't download JupyterLab files because that should just begin
-    # installed directly from npm (à la the
-    # `jupyter labextension install @webio/jupyter-lab-provider` command).
 end

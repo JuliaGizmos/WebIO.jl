@@ -1,11 +1,12 @@
 import debug from "debug";
-import {Panel} from "@lumino/widgets";
-import {JupyterFrontEndPlugin} from "@jupyterlab/application";
-import {DisposableDelegate, IDisposable} from "@lumino/disposable";
-import {DocumentRegistry} from "@jupyterlab/docregistry";
-import {INotebookModel, NotebookPanel} from "@jupyterlab/notebook";
-import {IRenderMime, IRenderMimeRegistry} from "@jupyterlab/rendermime";
-import {Kernel} from "@jupyterlab/services";
+import { Panel } from "@lumino/widgets";
+import { DisposableDelegate, IDisposable } from "@lumino/disposable";
+
+import type { JupyterFrontEndPlugin } from "@jupyterlab/application";
+import type { DocumentRegistry } from "@jupyterlab/docregistry";
+import type { INotebookModel, NotebookPanel } from "@jupyterlab/notebook";
+import type { IRenderMime } from "@jupyterlab/rendermime";
+import type { Kernel } from "@jupyterlab/services";
 
 import WebIO from "@webio/webio";
 
@@ -14,10 +15,9 @@ const MIME_TYPE = "application/vnd.webio.node+json";
 const COMM_TARGET = "webio_comm";
 const WEBIO_METADATA_KEY = "@webio";
 
-const WEBIO_OLD_KERNEL_MESSAGE = (
-  "This WebIO widget was rendered for a Jupyter kernel that is no longer running. "
-  + "Re-run this cell to regenerate this widget."
-);
+const WEBIO_OLD_KERNEL_MESSAGE =
+  "This WebIO widget was rendered for a Jupyter kernel that is no longer running. " +
+  "Re-run this cell to regenerate this widget.";
 
 /**
  * In order to know when (and how) to resume connections (after a refresh, for
@@ -42,10 +42,6 @@ interface WebIOOutputMetadata {
  */
 const RENDERER_RANK = 0;
 
-log("@webio/jupyter-lab-provider");
-
-log("foo");
-
 /**
  * A Jupyter renderer class that mounts a WebIO node.
  *
@@ -57,17 +53,20 @@ log("foo");
  * class (_i.e._ this class just gets a WebIO instance which may or may not be
  * connected to the Julia kernel yet).
  */
-class WebIORenderer extends Panel implements IRenderMime.IRenderer, IDisposable {
-
-  private lastModel?: IRenderMime.IMimeModel;
-
+class WebIORenderer
+  extends Panel
+  implements IRenderMime.IRenderer, IDisposable
+{
   private get webIO() {
     return this.webIOManager.webIO;
   }
 
-  constructor(private options: IRenderMime.IRendererOptions, private webIOManager: WebIONotebookManager) {
+  constructor(
+    options: IRenderMime.IRendererOptions,
+    private webIOManager: WebIONotebookManager,
+  ) {
     super();
-    log(`WebIORenderer¬constructor`, options, webIOManager);
+    log("WebIORenderer¬constructor", options, webIOManager);
   }
 
   async renderModel(model: IRenderMime.IMimeModel): Promise<void> {
@@ -77,15 +76,15 @@ class WebIORenderer extends Panel implements IRenderMime.IRenderer, IDisposable 
     //   return this.setModelMetadata(model);
     // }
     log("WebIORenderer¬renderModel");
-    const {kernelId} = this.getModelMetadata(model);
+    const { kernelId } = this.getModelMetadata(model);
     if (!kernelId) {
       return this.setModelMetadata(model);
     }
     const currentKernelId = (await this.webIOManager.getKernel()).id;
     if (kernelId !== currentKernelId) {
       log(
-        `WebIORenderer¬renderModel: output was generated for kernelId "${kernelId}", `
-        + `but we're currently running using kernel "${currentKernelId}".`
+        `WebIORenderer¬renderModel: output was generated for kernelId "${kernelId}", ` +
+          `but we're currently running using kernel "${currentKernelId}".`,
       );
       const div = document.createElement("div");
       const p = document.createElement("p");
@@ -97,8 +96,7 @@ class WebIORenderer extends Panel implements IRenderMime.IRenderer, IDisposable 
       return;
     }
     (window as any).lastWebIORenderer = this;
-    this.lastModel = model;
-    log(`WebIORenderer¬renderModel`, model.data[MIME_TYPE]);
+    log("WebIORenderer¬renderModel", model.data[MIME_TYPE]);
     const data = model.data[MIME_TYPE];
     if (!data) {
       console.error("WebIORenderer created for unsupported model:", model);
@@ -120,7 +118,7 @@ class WebIORenderer extends Panel implements IRenderMime.IRenderer, IDisposable 
           kernelId: (await this.webIOManager.getKernel()).id,
         } as WebIOOutputMetadata,
       } as any,
-    })
+    });
   }
 }
 
@@ -138,7 +136,6 @@ class WebIORenderer extends Panel implements IRenderMime.IRenderer, IDisposable 
  * WebIO is initialized on the kernel later, the comm will never connect.
  */
 class WebIONotebookManager {
-
   private readonly _webIO = new WebIO();
   private comm?: Kernel.IComm;
 
@@ -159,15 +156,15 @@ class WebIONotebookManager {
 
   constructor(
     private notebook: NotebookPanel,
-    private context: DocumentRegistry.IContext<INotebookModel>
+    private context: DocumentRegistry.IContext<INotebookModel>,
   ) {
     (window as any).webIONotebookManager = this;
-    log(`WebIONotebookManager¬constructor`);
+    log("WebIONotebookManager¬constructor");
   }
 
   async getKernel() {
-    log(`WebIONotebookManager¬getKernel`);
-    await this.context.ready;
+    log("WebIONotebookManager¬getKernel");
+    await this.context.sessionContext.ready;
     const session = this.context.sessionContext.session;
     if (!session) {
       throw new Error("Kernel is not available!");
@@ -176,7 +173,9 @@ class WebIONotebookManager {
     if (!kernel) {
       throw new Error("Session is ready but kernel isn't available!");
     }
-    log(`WebIONotebookManager¬connect: Notebook kernel is ready; status is ${kernel.status}.`);
+    log(
+      `WebIONotebookManager¬connect: Notebook kernel is ready; status is ${kernel.status}.`,
+    );
     return kernel;
   }
 
@@ -197,19 +196,27 @@ class WebIONotebookManager {
       return;
     }
 
-    const {lastKernelId, lastCommId} = this.getWebIOMetadata();
-    const shouldReuseCommId = (
+    const { lastKernelId, lastCommId } = this.getWebIOMetadata();
+    const shouldReuseCommId =
       // To re-use the comm id, we need to be using the same kernel.
-      lastKernelId === kernel.id
+      lastKernelId === kernel.id &&
       // We need to know what the last comm id *was*
-      && !!lastCommId
+      !!lastCommId;
+    log(
+      `WebIONotebookManager¬connect: Last WebIO connection was for kernelId="${lastKernelId}", commId="${lastCommId}".`,
     );
-    log(`WebIONotebookManager¬connect: Last WebIO connection was for kernelId="${lastKernelId}", commId="${lastCommId}".`);
-    log(`WebIONotebookManager¬connect: We're ${shouldReuseCommId ? "definitely" : "not"} re-using the old commId.`);
+    log(
+      `WebIONotebookManager¬connect: We're ${
+        shouldReuseCommId ? "definitely" : "not"
+      } re-using the old commId.`,
+    );
 
-    this.comm = kernel.createComm(COMM_TARGET, shouldReuseCommId ? lastCommId : undefined);
+    this.comm = kernel.createComm(
+      COMM_TARGET,
+      shouldReuseCommId ? lastCommId : undefined,
+    );
     this.comm.open();
-    this._webIO.setSendCallback((msg) => this.comm!.send(msg as any));
+    this._webIO.setSendCallback((msg: any) => this.comm!.send(msg));
     this.comm.onMsg = (msg: any) => {
       log("Received WebIO comm message:", msg);
       this._webIO.dispatch(msg.content.data);
@@ -247,13 +254,18 @@ class WebIONotebookManager {
  * {@link WebIO} instance (specific to the new notebook) and hooks up the
  * {@link WebIORenderer} using this notebook-specific instance of {@link WebIO}.
  */
-class WebIONotebookExtension implements DocumentRegistry.IWidgetExtension<NotebookPanel, INotebookModel> {
-  createNew(notebook: NotebookPanel, context: DocumentRegistry.IContext<INotebookModel>): IDisposable {
-    log(`WebIONotebookExtension¬createNew`, notebook, context);
+class WebIONotebookExtension
+  implements DocumentRegistry.IWidgetExtension<NotebookPanel, INotebookModel>
+{
+  createNew(
+    notebook: NotebookPanel,
+    context: DocumentRegistry.IContext<INotebookModel>,
+  ): IDisposable {
+    log("WebIONotebookExtension¬createNew", notebook, context);
     const webIONotebookManager = new WebIONotebookManager(notebook, context);
 
     log(`Registering rendermime factory for MIME: ${MIME_TYPE}.`);
-    const {rendermime} = notebook.content;
+    const { rendermime } = notebook.content;
     rendermime.addFactory(
       {
         safe: true,
@@ -274,10 +286,10 @@ class WebIONotebookExtension implements DocumentRegistry.IWidgetExtension<Notebo
   }
 }
 
-const extension: JupyterFrontEndPlugin<void>= {
+const extension: JupyterFrontEndPlugin<void> = {
   id: "@webio/jupyter-lab-provider:plugin",
   activate: (app) => {
-    log(`Activating WebIO JupyterLab plugin.`);
+    log("Activating WebIO JupyterLab plugin.");
     app.docRegistry.addWidgetExtension(
       "Notebook",
       new WebIONotebookExtension(),

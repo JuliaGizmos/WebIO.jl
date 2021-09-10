@@ -1,0 +1,7 @@
+{
+  "ServerApp": {
+    "jpserver_extensions": {
+      "webio_jupyter_extension.serverextension": true
+    }
+  }
+}

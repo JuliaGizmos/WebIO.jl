@@ -15,6 +15,7 @@ node_modules
 lerna-debug.log
 package-lock.json
 *.tgz
+.yarn
 
 # Miscellaneous
 .*~

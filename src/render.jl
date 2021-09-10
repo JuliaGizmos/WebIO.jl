@@ -184,19 +184,16 @@ function Base.show(io::IO, m::MIME"text/html", x::Node)
             data-webio-mountpoint="$(mountpoint_id)"
         >
             <script>
-            if (window.require && require.defined && require.defined("nbextensions/$(JUPYTER_NBEXTENSION_NAME)")) {
-                console.log("Jupyter WebIO extension detected, not mounting.");
-            } else if (window.WebIO) {
-                WebIO.mount(
-                    document.querySelector('[data-webio-mountpoint="$(mountpoint_id)"]'),
-                    $(escape_json(x)),
-                    window,
-                );
-            } else {
+            (function(){
+            // Some integrations (namely, IJulia/Jupyter) use an alternate render pathway than
+            // just putting the html on the page. If WebIO isn't defined, then it's pretty likely
+            // that we're in one of those situations and the integration just isn't installed
+            // correctly.
+            if (typeof window.WebIO === "undefined") {
                 document
                     .querySelector('[data-webio-mountpoint="$(mountpoint_id)"]')
                     .innerHTML = (
-                        '<div style="padding: 1em; background-color: #f8d6da; border: 1px solid #f5c6cb">' +
+                        '<div style="padding: 1em; background-color: #f8d6da; border: 1px solid #f5c6cb; font-weight: bold;">' +
                         '<p><strong>WebIO not detected.</strong></p>' +
                         '<p>Please read ' +
                         '<a href="https://juliagizmos.github.io/WebIO.jl/latest/troubleshooting/not-detected/" target="_blank">the troubleshooting guide</a> ' +
@@ -204,7 +201,14 @@ function Base.show(io::IO, m::MIME"text/html", x::Node)
                         '<p><a href="https://juliagizmos.github.io/WebIO.jl/latest/troubleshooting/not-detected/" target="_blank">https://juliagizmos.github.io/WebIO.jl/latest/troubleshooting/not-detected/</a></p>' +
                         '</div>'
                     );
+                return;
             }
+            WebIO.mount(
+                document.querySelector('[data-webio-mountpoint="$(mountpoint_id)"]'),
+                $(escape_json(x)),
+                window,
+            );
+            })()
             </script>
         </div>
         """

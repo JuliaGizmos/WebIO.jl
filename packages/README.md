@@ -22,13 +22,5 @@ the root directory of that provider. To build the code for all providers,
 run `npm run build` from this directory (which will recursively call
 `npm run build` within all the provider directories).
 
-### Developing in Jupyter
-It might be easier to symlink `~/.local/share/jupyter/nbextensions/webio` to
-`./jupyter-notebook-provider/dist`. WebIO copies the contents of `dist` on
-build, which is not super convenient for iterative development.
-
-For all other providers, the bundles are taken from the current contents of the
-provider packages.
-
 ## Publishing
 **todo: how to publish to npm**

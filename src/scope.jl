@@ -335,13 +335,24 @@ end
 """
 Set observable without synchronizing with the counterpart on the browser
 """
-function set_nosync(ob, val)
-    for f in listeners(ob)
-        if !(f isa SyncCallback)
-            Base.invokelatest(f, val)
-        end
+function set_nosync end
+
+if isdefined(Observables, :setexcludinghandlers)
+    # Observables <=0.3
+    function set_nosync(ob, val)
+        Observables.setexcludinghandlers(ob, val, x -> !(x isa SyncCallback))
+        return
     end
-    return
+else
+    # Observables >=0.4
+    function set_nosync(ob, val)
+        for f in listeners(ob)
+            if !(f isa SyncCallback)
+                Base.invokelatest(f, val)
+            end
+        end
+        return
+    end
 end
 
 const lifecycle_commands = ["scope_created"]

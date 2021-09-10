@@ -42,6 +42,7 @@ class JuliaPackageAssetServer(IPythonHandler, StaticFileHandler):
         else:
             raise HTTPError(404)
 
+
 def load_jupyter_server_extension(nb_server_app):
     """
     Extension to serve files from Pkg/assets/

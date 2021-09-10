@@ -8,15 +8,6 @@ end
 let
     package_dir = dirname(@__DIR__)
 
-    # Don't build packages outside of a dev environment (or CI).
-    if !isdev()
-        @warn(
-            "Can't build WebIO JS when not checked out for development. "
-            * "Run `Pkg.dev(\"WebIO\")` if you want to build JS."
-        )
-        return
-    end
-
     # Build the dang packages!
     package_dir = normpath(joinpath(@__DIR__, "..", "packages"))
     npm = `npm -C $(package_dir)`
@@ -51,10 +42,6 @@ let
     generic_http_bundle_out = joinpath(package_dir, "generic-http-provider", "dist", "generic-http.bundle.js")
     @info "Copying $(generic_http_bundle_out) to $(GENERIC_HTTP_BUNDLE_PATH)..."
     cp(generic_http_bundle_out, GENERIC_HTTP_BUNDLE_PATH; force=true)
-
-    nbextension_bundle_out = joinpath(package_dir, "jupyter-notebook-provider", "dist", "jupyter-notebook.bundle.js")
-    @info "Copying $(nbextension_bundle_out) to $(JUPYTER_NBEXTENSION_PATH)..."
-    cp(nbextension_bundle_out, JUPYTER_NBEXTENSION_PATH; force=true)
 
     mux_bundle_out = joinpath(package_dir, "mux-provider", "dist", "mux.bundle.js")
     @info "Copying $(mux_bundle_out) to $(MUX_BUNDLE_PATH)..."

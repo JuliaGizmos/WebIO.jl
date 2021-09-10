@@ -1,71 +1,60 @@
-# IJulia
+# IJulia (Jupyter)
 
-## WebIO Not Detected
-For troubleshooting information, visit the [WebIO Not Detected](@ref) section
-of the documentation.
+## Jupyter installation
 
-## JupyterLab Considerations
-JupyterLab presents a few issues that are different that than those associated
-with the classic notebook.
-JupyterLab extensions are bundled together with the core application code (so
-that all of the JavaScript associated with JupyterLab is served as a single
-file).
+Jupyter Notebook and JupyterLab integration is provided via the
+`webio_jupyter_extension` package which is distributed on PyPI (the Python
+package repository) since JupyterLab makes heavy use of the Python ecosystem.
 
-This can sometimes present issues if there are multiple versions of JupyterLab
-installed on a system (e.g. for multiple virtual environments or if installed
-using Conda and Pip) because these bundles are separate for each JupyterLab
-installation.
+From a system terminal (not the Julia command line), run:
 
-!!! note
-    For example, if you installed JupyterLab via
-    `pip install --user jupyterlab` and `pip install jupyterlab` in a virtualenv
-    at `~/venv`, then there will be two bundles (at
-    `~/.local/share/jupyter/lab/` and `~/env/share/jupyter/lab/` respectively,
-    on Linux).
-
-This presents issues when the JupyterLab that is launched is not the
-JupyterLab that WebIO was installed for (for example, the labextension was
-installed for the Conda version of JupyterLab but you're launching the version
-that is installed in a Python virtual environment).
-
-### Fixing Things Up
-If you suspect that WebIO isn't installed for a specific version of JupyterLab,
-you can check with the `jupyter labextension list` command.
-First, make sure that you're using the version of JupyterLab that you mean to
-be using (this usually entails activating the correct Conda environment or
-Python virtual environment).
-```
-$ which jupyter
-/home/user/.local/bin/jupyter
-```
-Then, make sure that the WebIO extension is installed.
-The output should look something like this (though the specific versions and
-paths will likely be different).
-```
-$ jupyter labextension list
-JupyterLab v0.35.5
-Known labextensions:
-   app dir: /home/user/.julia/conda/3/share/jupyter/lab
-        @webio/jupyter-lab-provider v0.8.3  enabled  OK*
-
-   local extensions:
-        @webio/jupyter-lab-provider: /home/user/.julia/dev/WebIO/packages/jupyter-lab-provider
-
-   linked packages:
-        @webio/webio: /home/user/.julia/dev/WebIO/packages/webio
+```sh
+python3 -m pip install --upgrade webio_jupyter_extension
 ```
 
-If the WebIO extension isn't present, then simply fire up Julia and install it.
-This can either be done by running `Pkg.build("WebIO")` or by running
+**Note:** Since the WebIO Jupyter extension is distributed separately from the
+WebIO Julia package, you may occasionally have to upgrade the WebIO extension
+separately using the same command as above.
+
+### Install using Conda.jl
+
+If using Conda.jl, the extension must be installed within the appropriate Conda
+environment. This might be required if you launch Jupyter via the
+`IJulia.notebook()` or `IJulia.jupyterlab()` commands (only if you don't have
+Jupyter installed on your system outside of IJulia).
+
 ```julia
-using WebIO, IJulia
-WebIO.install_jupyter_labextension()
+# within a Julia REPL
+using Conda
+Conda.pip_interop(true)
+Conda.pip("install", "webio_jupyter_extension")
 ```
 
-## API Reference
-```@docs
-WebIO.find_jupyter_cmd
-WebIO.install_jupyter_labextension
-WebIO.install_jupyter_nbextension
-WebIO.install_jupyter_serverextension
+### Uninstall
+
+From a system terminal (not the Julia command line), run:
+
+```sh
+python3 -m pip uninstall webio_jupyter_extension
 ```
+
+## Troubleshooting
+
+### The `webio_jupyter_extension` is installed but not working
+
+Make sure you've installed the `webio_jupyter_extension` package in the same
+Python or Conda environment that you're using to launch Jupyter.
+
+You can ensure that you're using the same environment by installing the
+extension and launching Jupyter like so:
+
+```
+python3 -m pip install webio_jupyter_extension
+python3 -m jupyterlab
+```
+
+## Still having problems?
+
+Open a [GitHub issue](https://github.com/JuliaGizmos/WebIO.jl/issues/new).
+Please make sure to include information about what you've tried and what the
+results of those steps were.

@@ -2,8 +2,6 @@
   "packages": [
     "blink-provider",
     "generic-http-provider",
-    "jupyter-lab-provider",
-    "jupyter-notebook-provider",
     "mux-provider",
     "webio"
   ],

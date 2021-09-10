@@ -1,0 +1,4 @@
+node_modules
+**/node_modules
+**/lib
+webio_jupyter_extension

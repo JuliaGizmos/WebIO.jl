@@ -1,0 +1,7 @@
+{
+  "NotebookApp": {
+    "nbserver_extensions": {
+      "webio_jupyter_extension.serverextension": true
+    }
+  }
+}
