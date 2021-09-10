@@ -8,10 +8,10 @@ include install.json
 include ts*.json
 include yarn.lock
 
-graft webio_jupyterlab_provider/labextension
+graft webio_jupyter_extension/labextension
 
 # Javascript files
-graft src
+graft webio-jupyter-labextension
 graft style
 prune **/node_modules
 prune lib

@@ -1,4 +1,4 @@
-# webio_jupyterlab_provider
+# webio_jupyter_extension
 
 ## Requirements
 
@@ -9,7 +9,7 @@
 To install the extension, execute:
 
 ```bash
-pip install webio_jupyterlab_provider
+pip install webio_jupyter_extension
 ```
 
 ## Uninstall
@@ -17,7 +17,7 @@ pip install webio_jupyterlab_provider
 To remove the extension, execute:
 
 ```bash
-pip uninstall webio_jupyterlab_provider
+pip uninstall webio_jupyter_extension
 ```
 
 
@@ -41,7 +41,7 @@ The `jlpm` command is JupyterLab's pinned version of
 
 ```bash
 # Clone the repo to your local environment
-# Change directory to the webio_jupyterlab_provider directory
+# Change directory to the webio_jupyter_extension directory
 # Install package in development mode
 pip install -e .
 # Link your development version of the extension with JupyterLab
@@ -70,7 +70,7 @@ jupyter lab build --minimize=False
 ### Development uninstall
 
 ```bash
-pip uninstall webio_jupyterlab_provider
+pip uninstall webio_jupyter_extension
 ```
 
 In development mode, you will also need to remove the symlink created by `jupyter labextension develop`

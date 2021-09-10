@@ -1,7 +1,7 @@
 {
     "private": true,
     "workspaces": [
-        "./webio_jupyterlab_provider",
+        "./webio_jupyter_extension",
         "./packages/*"
     ]
 }

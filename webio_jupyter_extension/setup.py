@@ -1,5 +1,5 @@
 """
-webio_jupyterlab_provider setup
+webio_jupyter_extension setup
 """
 import json
 import sys
@@ -10,7 +10,7 @@ import setuptools
 HERE = Path(__file__).parent.resolve()
 
 # The name of the project
-name = "webio_jupyterlab_provider"
+name = "webio_jupyter_extension"
 
 lab_path = (HERE / name.replace("-", "_") / "labextension")
 
@@ -20,17 +20,23 @@ ensured_targets = [
     str(lab_path / "static/style.js")
 ]
 
-labext_name = "webio-jupyterlab-provider"
+# Get the package info from package.json
+pkg_json = json.loads((HERE / "package.json").read_bytes())
+labext_name = pkg_json["name"]
 
 data_files_spec = [
-    ("share/jupyter/labextensions/%s" % labext_name, str(lab_path.relative_to(HERE)), "**"),
-    ("share/jupyter/labextensions/%s" % labext_name, str("."), "install.json"),
+    # labextension files
+    (f"share/jupyter/labextensions/{labext_name}", str("."), "install.json"),
+    (f"share/jupyter/labextensions/{labext_name}", str(lab_path.relative_to(HERE)), "**"),
+
+    # serverextension files
+    ("etc/jupyter/jupyter_server_config.d", "jupyter-config/server-config", f"{name}.json"),
+    # For backward compatibility with notebook server
+    ("etc/jupyter/jupyter_notebook_config.d", "jupyter-config/nb-config", f"{name}.json"),
 ]
 
 long_description = (HERE / "README.md").read_text()
 
-# Get the package info from package.json
-pkg_json = json.loads((HERE / "package.json").read_bytes())
 
 setup_args = dict(
     name=name,

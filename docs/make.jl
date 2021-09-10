@@ -21,13 +21,10 @@ makedocs(
             "api/jsstring.md",
             "api/observable.md",
         ],
-        "Providers" => [
+        "Frontends" => [
             "providers/ijulia.md",
             "providers/blink.md",
             "providers/mux.md",
-        ],
-        "Troubleshooting" => [
-            "troubleshooting/not-detected.md",
         ],
         "extending.md",
     ],

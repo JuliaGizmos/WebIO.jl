@@ -33,7 +33,7 @@
     "build:lib": "tsc",
     "clean": "yarn run clean:lib",
     "clean:lib": "rimraf lib dist tsconfig.tsbuildinfo",
-    "clean:labextension": "rimraf webio_jupyterlab_provider/labextension",
+    "clean:labextension": "rimraf webio_jupyter_extension/labextension",
     "clean:all": "yarn run clean:lib && yarn run clean:labextension",
     "eslint": "eslint . --ext .ts,.tsx --fix",
     "eslint:check": "eslint . --ext .ts,.tsx",
@@ -72,7 +72,7 @@
   },
   "jupyterlab": {
     "extension": true,
-    "outputDir": "webio_jupyterlab_provider/labextension"
+    "outputDir": "webio_jupyter_extension/labextension"
   },
   "jupyter-releaser": {
     "hooks": {

@@ -1,5 +1,0 @@
-{
-  "packageManager": "python",
-  "packageName": "webio_jupyterlab_provider",
-  "uninstallInstructions": "Use your Python package manager (pip, conda, etc.) to uninstall the package webio_jupyterlab_provider"
-}

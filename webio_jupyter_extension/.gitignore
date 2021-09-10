@@ -6,7 +6,7 @@ node_modules/
 *.tsbuildinfo
 
 # Ignore the built JS extension files
-webio_jupyterlab_provider/labextension
+webio_jupyter_extension/labextension
 
 # Ignore Yarn files (note: we're not using zero installs)
 .yarn/*
