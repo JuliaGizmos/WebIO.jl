@@ -1,10 +1,10 @@
 using Pkg.TOML
 
-const WEBIO_VERSION = let
-    project_file = normpath(joinpath(@__DIR__, "..", "Project.toml"))
-    project = TOML.parsefile(project_file)
-    VersionNumber(project["version"])
-end
+# Fix the NPM version for now
+# Now that we're not distributing Jupyter stuff via NPM, I'd rather just check
+# in compiled assets (maybe using Artifacts if that's relatively easy, otherwise
+# just as files in git).
+const WEBIO_VERSION = "0.8.15"
 
 const PACKAGES_PATH = normpath(joinpath(@__DIR__, "..", "packages"))
 const BUNDLES_PATH = normpath(joinpath(@__DIR__, "bundles"))

@@ -1,8 +1,6 @@
 using JSON
 
 include("./bundlepaths.jl")
-include("./jupyter.jl")
-
 download_js_bundles()
 
 const CONFIG_BEGIN_MARKER = "###JULIA-WEBIO-CONFIG-BEGIN"
