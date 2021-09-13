@@ -333,7 +333,10 @@ end
 
 (s::SyncCallback)(xs...) = s.f(xs...)
 """
-Set observable without synchronizing with the counterpart on the browser
+Set observable without synchronizing with the counterpart on the browser.
+
+This is mostly used to update observables in response to updates sent from th
+browser (so that we aren't sending the same update *back* to the browser).
 """
 function set_nosync end
 
@@ -346,6 +349,7 @@ if isdefined(Observables, :setexcludinghandlers)
 else
     # Observables >=0.4
     function set_nosync(ob, val)
+        Observables.setexcludinghandlers!(ob, val)
         for f in listeners(ob)
             if !(f isa SyncCallback)
                 Base.invokelatest(f, val)
