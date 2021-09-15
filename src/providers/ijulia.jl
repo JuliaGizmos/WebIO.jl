@@ -48,11 +48,13 @@ function Base.show(io::IO, m::MIME"text/html", ::_IJuliaInit)
         io,
         """
         <div style="padding: 1em; background-color: #f8d6da; border: 1px solid #f5c6cb; font-weight: bold;">
-        <p>The WebIO Jupyter extension was not detected. See the
+        <p>Couldn't render WebIO node. You might need to trust this notebook or re-run this cell.<p>
+        <p style="margin-top: 1rem;">Otherwise, you might need to install the WebIO Jupyter extension. See the
         <a href="https://juliagizmos.github.io/WebIO.jl/latest/providers/ijulia/" target="_blank">
             WebIO Jupyter integration documentation
         </a>
         for more information.
+        </p>
         </div>
         """,
     )
