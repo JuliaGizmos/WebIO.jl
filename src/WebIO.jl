@@ -9,6 +9,8 @@ import Widgets: node, AbstractWidget
 using Logging
 using UUIDs
 using Base64
+using Mux
+using WebSockets
 
 include("../deps/bundlepaths.jl")
 
@@ -94,35 +96,16 @@ function prefetch_provider_file(basename)
   (file = filepath, code = code)
 end
 
-provider_mux = prefetch_provider_file("mux.jl")
-provider_blink = prefetch_provider_file("blink.jl")
+include("providers/mux.jl")
+include("providers/generic_http.jl")
+
 provider_ijulia = prefetch_provider_file("ijulia.jl")
-provider_generic_http = prefetch_provider_file("generic_http.jl")
 
 function __init__()
     push!(Observables.addhandler_callbacks, WebIO.setup_comm)
-    @require Mux="a975b10e-0019-58db-a62f-e48ff68538c9" begin
-        include_string(@__MODULE__, provider_mux.code, provider_mux.file)
-    end
-    @require Blink="ad839575-38b3-5650-b840-f874b8c74a25" begin
-        # The latest version of Blink defines their own WebIO integration
-        # (after https://github.com/JunoLab/Blink.jl/pull/201).
-        if isdefined(Blink.AtomShell, :initwebio!)
-            return
-        end
-        Base.depwarn(
-            "Please upgrade Blink for a smoother integration with WebIO.",
-            :webio_blink_upgrade,
-        )
-        include_string(@__MODULE__, provider_blink.code, provider_blink.file)
-    end
     @require IJulia="7073ff75-c697-5162-941a-fcdaad2a7d2a" begin
         include_string(@__MODULE__, provider_ijulia.code, provider_ijulia.file)
     end
-    @require WebSockets="104b5d7c-a370-577a-8038-80a2059c5097" begin
-        include_string(@__MODULE__, provider_generic_http.code, provider_generic_http.file)
-    end
-
 end
 
 end # module
