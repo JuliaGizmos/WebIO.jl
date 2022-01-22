@@ -8,6 +8,7 @@ import Widgets
 import Widgets: node, AbstractWidget
 using Logging
 using UUIDs
+using Base64
 
 include("../deps/bundlepaths.jl")
 

@@ -1,6 +1,6 @@
-using AssetRegistry
-using Sockets
-using WebIO
+using .AssetRegistry
+using .Sockets
+using .WebIO
 
 struct IJuliaConnection <: AbstractConnection
     comm::IJulia.CommManager.Comm

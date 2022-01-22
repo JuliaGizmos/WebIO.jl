@@ -2,10 +2,10 @@
 # WebIO+Blink integration is now implemented in Blink.jl.
 # https://github.com/JunoLab/Blink.jl/pull/201
 
-using AssetRegistry
-using Base64: stringmime
+using .AssetRegistry
+using .Base64: stringmime
 
-using Sockets
+using .Sockets
 
 struct BlinkConnection <: WebIO.AbstractConnection
     page::Blink.Page
