@@ -103,6 +103,15 @@ provider_ijulia = prefetch_provider_file("ijulia.jl")
 
 function __init__()
     push!(Observables.addhandler_callbacks, WebIO.setup_comm)
+
+    if !isfile(GENERIC_HTTP_BUNDLE_PATH)
+        error(
+            "Unable to find WebIO JavaScript bundle for generic HTTP provider; "
+            * "try rebuilding WebIO (via `Pkg.build(\"WebIO\")`)."
+        )
+    end
+    bundle_key[] = AssetRegistry.register(GENERIC_HTTP_BUNDLE_PATH)
+
     @require IJulia="7073ff75-c697-5162-941a-fcdaad2a7d2a" begin
         include_string(@__MODULE__, provider_ijulia.code, provider_ijulia.file)
     end
