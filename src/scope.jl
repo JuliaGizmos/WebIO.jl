@@ -18,7 +18,7 @@ import Sockets: send
 import Observables: Observable, AbstractObservable, listeners
 
 # bool marks if it is synced
-const ObsDict = Dict{String, Tuple{AbstractObservable, Union{Nothing,Bool}}}
+const ObsDict = Dict{String, Tuple{Observable, Union{Nothing,Bool}}}
 
 mutable struct Scope
     dom::Any
@@ -33,7 +33,7 @@ mutable struct Scope
     # "observable-name" => ["array", "of", "JS", "strings"]
     # where each JS-string is a function that is invoked when the observable
     # changes.
-    jshandlers::Any
+    jshandlers::Dict{String,Any}
     pool::ConnectionPool
 
     mount_callbacks::Vector{JSString}
@@ -44,7 +44,7 @@ mutable struct Scope
             private_obs::Set{String},
             systemjs_options::Any,
             imports::Vector{Asset},
-            jshandlers::Any,
+            jshandlers::Dict{String,Any},
             pool::ConnectionPool,
             mount_callbacks::Vector{JSString}
         )
@@ -124,7 +124,7 @@ function Scope(;
         private_obs::Set{String} = Set{String}(),
         systemjs_options = nothing,
         imports = Asset[],
-        jshandlers::Dict = Dict(),
+        jshandlers::Dict = Dict{String,Any}(),
         mount_callbacks::Vector{JSString} = JSString[],
         # Deprecated
         id=nothing,
@@ -233,7 +233,7 @@ function Observable(ctx::Scope, key, val::T; sync=nothing) where {T}
 end
 
 function JSON.lower(scope::Scope)
-    obs_dict = Dict()
+    obs_dict = Dict{String,Dict{String,Any}}()
     for (k, ob_) in scope.observs
         ob, sync = ob_
         if k in scope.private_obs
@@ -244,13 +244,13 @@ function JSON.lower(scope::Scope)
             # other than the JS back edge
             sync = any(f-> !isa(f, SyncCallback), listeners(ob))
         end
-        obs_dict[k] = Dict(
+        obs_dict[k] = Dict{String,Any}(
             "sync" => sync,
             "value" => ob[],
             "id" => obsid(ob)
         )
     end
-    Dict(
+    Dict{String,Any}(
         "id" => scopeid(scope),
         "systemjs_options" => scope.systemjs_options,
         "imports" => lowerassets(scope.imports),
@@ -310,12 +310,12 @@ function onmount(scope::Scope, f::JSString)
 end
 
 function onimport(scope::Scope, f::JSString)
-    onmount(scope, js"""
+    onmount(scope, JSString("""
         function () {
-            var handler = ($(f));
-            ($(Async(scope.imports))).then((imports) => handler.apply(this, imports));
+            var handler = ($f);
+            ($(tojs(Async(scope.imports)))).then((imports) => handler.apply(this, imports));
         }
-        """)
+        """))
 end
 
 onmount(scope::Scope, f) = onmount(scope, JSString(f))
@@ -326,9 +326,9 @@ Base.@deprecate ondependencies(ctx, jsf) onimport(ctx, jsf)
 """
 A callable which updates the frontend
 """
-struct SyncCallback
-    ctx
-    f
+struct SyncCallback{C,F}
+    ctx::C
+    f::F
 end
 
 (s::SyncCallback)(xs...) = s.f(xs...)

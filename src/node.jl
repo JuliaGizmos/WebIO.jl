@@ -43,7 +43,7 @@ struct Node{T}
 end
 
 function Node(instanceof, children...; props...)
-    return Node(instanceof, collect(Any, children), Dict(props...))
+    return Node(instanceof, collect(Any, children), Dict{Symbol,Any}(props...))
 end
 
 # Can/should this be deprecated?

@@ -23,12 +23,12 @@ specified if nonstandard extensions are in use.
 """
 struct Asset
     filetype::String
-    name::Union{Nothing, String}
+    name::String
     url::String
 end
 
 Asset(name, url) = Asset(getextension(url), name, url)
-Asset(url) = Asset(nothing, url)
+Asset(url) = Asset("", url)
 Asset(x::Pair) = Asset(string(x[1]), x[2])
 Asset(x::Asset) = x
 function Asset(spec::Dict)
@@ -42,23 +42,21 @@ function Asset(spec::Dict)
         error("Invalid Asset dict specification: missing key \"url\".")
     end
     filetype = get(spec, "type", getextension(url))
-    name = get(spec, "name", nothing)
+    name = get(spec, "name", "")
 
     return Asset(filetype, name, url)
 end
 
 function JSON.lower(asset::Asset)
-    Dict(
-         "type" => asset.filetype,
-         "url"  => dep2url(asset.url),
-         "name" => asset.name,
-    )
+    (type=asset.filetype, url=dep2url(asset.url), name=asset.name,)
 end
 
 
 function tojs(asset::Asset)
-    return js"WebIO.importResource($(JSON.lower(asset)))"
+    la = JSON.lower(asset)
+    return _assettojs(la)
 end
+_assettojs(la) = js"WebIO.importResource($la)"
 
 """
     Sync(assets...)
@@ -79,12 +77,12 @@ julia> WebIO.Sync(Asset("foo.js"), "bar" => "bar.js")
 Sync(Asset[Asset("js", nothing, "foo.js"), Asset("js", "bar", "bar.js")])
 ```
 """
-struct Sync
-    # This is untyped because we can't define a union type that includes all of
-    # Asset, Sync, and Async that is then used within Sync and Async.
-    imports::Array{Any}
-
-    Sync(imports::Array) = new([ensure_asset(asset) for asset in imports])
+struct Sync{A<:Array}
+    imports::A
+    Sync(imports::A) where A<:Array = begin
+        assets = [ensure_asset(asset) for asset in imports]
+        new{typeof(assets)}(assets)
+    end
 end
 Sync(assets...) = Sync([assets...])
 
@@ -99,32 +97,31 @@ constructor for an [`Asset`](@ref), or a [`Sync`](@ref) or [`Async`](@ref).
 
 If the imports need to be imported sequentially, use [`Sync`](@ref) instead.
 """
-struct Async
-    # See comment about (lack of) typing in Sync above.
-    imports::Array{Any}
+struct Async{A<:Array}
+    imports::A
 
-    Async(imports::Array) = new([ensure_asset(asset) for asset in imports])
+    function Async(imports::A) where A<:Array 
+        assets = [ensure_asset(asset) for asset in imports]
+        new{typeof(assets)}(assets)
+    end
 end
 Async(assets...) = Async([assets...])
 
 # This allows js"await $(Async([....]))" on a tree of assets!
 function tojs(asset::Union{Async,Sync})
-    return js"WebIO.importBlock($(lowerassets(asset)))"
+    lowered = lowerassets(asset)
+    return _synctojs(lowered)
 end
+# Function barrier
+_synctojs(la) = js"WebIO.importBlock($la)"
 
 # The output of lowerassets is initially sent with the Scope
 # this should trigger loading of the assets before onmount callbacks
 lowerassets(x) = JSON.lower(Asset(x))
 lowerassets(x::Asset) = JSON.lower(x)
-lowerassets(x::Async) = Dict(
-    "type" => "async_block",
-    "data" => map(lowerassets, x.imports),
-)
+lowerassets(x::Async) = (type="async_block", data=map(lowerassets, x.imports))
 lowerassets(x::AbstractArray) = lowerassets(Async(x))
-lowerassets(x::Sync) = Dict(
-    "type"=>"sync_block",
-    "data" => map(lowerassets, x.imports),
-)
+lowerassets(x::Sync) = (type="sync_block", data=map(lowerassets, x.imports))
 
 """
     ensure_asset(asset)

@@ -1,13 +1,11 @@
 export iframe
 
 mutable struct IFrame
-    innerHTML::AbstractString
-    bundleURL::AbstractString
+    innerHTML::String
+    bundleURL::String
 end
 
-iframe_bundle_key() = AssetRegistry.register(normpath(joinpath(
-    GENERIC_HTTP_BUNDLE_PATH
-)))
+iframe_bundle_key() = AssetRegistry.register(normpath(joinpath(GENERIC_HTTP_BUNDLE_PATH)))
 
 """
     iframe(content)
@@ -30,7 +28,7 @@ function iframe(content)
     dom = node(
         :div,
         node(ifr),
-        style=Dict(
+        style=Dict{Symbol,String}(
             :display => "inherit",
             :margin => "inherit",
         ),
