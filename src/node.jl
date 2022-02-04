@@ -15,7 +15,10 @@ with some child nodes and additional properties.
 The most common type of `Node` is a DOM node. These can be constructed just by
 specifying a symbol as the `instanceof` (they are promoted to an instance of
 `WebIO.DOM` under the hood).
+
 ```jldoctest
+julia> using WebIO
+
 julia> Node(:div, Node(:p, "I am a paragraph!", class="important"))
 (div
   (p { class="important" }
@@ -60,6 +63,8 @@ type.
 
 # Examples
 ```jldoctest
+julia> using WebIO
+
 julia> repr(WebIO.promote_instanceof(:div))
 "WebIO.DOM(:html, :div)"
 ```
