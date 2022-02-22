@@ -53,7 +53,7 @@ function download_js_bundles()
     mkpath(BUNDLES_PATH)
     bundle_artifact_path = artifact"web"
     for asset in readdir(bundle_artifact_path)
-        @info("Copying", bundle_artifact_path, asset, BUNDLES_PATH)
+        @debug("Copying", bundle_artifact_path, asset, BUNDLES_PATH)
         cp(joinpath(bundle_artifact_path, asset), joinpath(BUNDLES_PATH, asset))
     end
     # These commands are probably still useful if you want to create the artifact.
