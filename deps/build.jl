@@ -15,7 +15,7 @@ macro meh(expr)
         end
     end
 end
- 
+
 try
     @info "Attempting to uninstall old Jupyter integrations (it's probably okay if error messages appear below this point)"
     jupyter_config_dir = get(ENV, "JUPYTER_CONFIG_DIR", joinpath(homedir(), ".jupyter"))
