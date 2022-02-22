@@ -54,7 +54,7 @@ function download_js_bundles()
     bundle_artifact_path = artifact"web"
     for asset in readdir(bundle_artifact_path)
         @debug("Copying", bundle_artifact_path, asset, BUNDLES_PATH)
-        cp(joinpath(bundle_artifact_path, asset), joinpath(BUNDLES_PATH, asset))
+        cp(joinpath(bundle_artifact_path, asset), joinpath(BUNDLES_PATH, asset); force = true)
     end
     # These commands are probably still useful if you want to create the artifact.
     # download_bundle("core", CORE_BUNDLE_PATH, CORE_BUNDLE_URL)
