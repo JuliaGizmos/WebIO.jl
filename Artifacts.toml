@@ -3,4 +3,4 @@ git-tree-sha1 = "050430be38d442e70243cb830455185b9fd0f5bd"
 
     [[web.download]]
     sha256 = "00debe8457bc840c81e204c482bada9098446aa12f5009c82b5c3b8b0281cebd"
-    url = "https://github.com/pankgeorg/WebIO.jl/files/8111257/bundle.tar.gz"
+    url = "https://github.com/JuliaGizmos/WebIO.jl/releases/download/v0.8.17-bundle/bundle.tar.gz"
