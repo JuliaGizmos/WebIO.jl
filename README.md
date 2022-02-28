@@ -23,3 +23,6 @@ This is a non-comprehensive list of projects using WebIO.
 + [MeshCat.jl](https://github.com/rdeits/MeshCat.jl) - WebGL-based 3D visualizer in Julia
 + [PlotlyJS.jl](https://github.com/sglyon/PlotlyJS.jl) - Julia library for plotting with plotly.js
 + [Julia Tetris](http://juliatetris.com)
+
+Web Artifacts
+[bundle.tar.gz](https://github.com/pankgeorg/WebIO.jl/files/8111257/bundle.tar.gz)

@@ -1,4 +1,5 @@
 using Pkg.TOML
+using Pkg.Artifacts
 
 # Fix the NPM version for now
 # Now that we're not distributing Jupyter stuff via NPM, I'd rather just check
@@ -50,8 +51,14 @@ function download_js_bundles()
     end
 
     mkpath(BUNDLES_PATH)
-    download_bundle("core", CORE_BUNDLE_PATH, CORE_BUNDLE_URL)
-    download_bundle("generic-http", GENERIC_HTTP_BUNDLE_PATH, GENERIC_HTTP_BUNDLE_URL)
-    download_bundle("mux", MUX_BUNDLE_PATH, MUX_BUNDLE_URL)
-    download_bundle("blink", BLINK_BUNDLE_PATH, BLINK_BUNDLE_URL)
+    bundle_artifact_path = artifact"web"
+    for asset in readdir(bundle_artifact_path)
+        @debug("Copying", bundle_artifact_path, asset, BUNDLES_PATH)
+        cp(joinpath(bundle_artifact_path, asset), joinpath(BUNDLES_PATH, asset); force = true)
+    end
+    # These commands are probably still useful if you want to create the artifact.
+    # download_bundle("core", CORE_BUNDLE_PATH, CORE_BUNDLE_URL)
+    # download_bundle("generic-http", GENERIC_HTTP_BUNDLE_PATH, GENERIC_HTTP_BUNDLE_URL)
+    # download_bundle("mux", MUX_BUNDLE_PATH, MUX_BUNDLE_URL)
+    # download_bundle("blink", BLINK_BUNDLE_PATH, BLINK_BUNDLE_URL)
 end
