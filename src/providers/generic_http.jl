@@ -12,13 +12,8 @@ end
 Sockets.send(p::WSConnection, data) = writeguarded(p.sock, JSON.json(data))
 Base.isopen(p::WSConnection) = isopen(p.sock)
 
-if !isfile(GENERIC_HTTP_BUNDLE_PATH)
-    error(
-        "Unable to find WebIO JavaScript bundle for generic HTTP provider; "
-        * "try rebuilding WebIO (via `Pkg.build(\"WebIO\")`)."
-    )
-end
-const bundle_key = AssetRegistry.register(GENERIC_HTTP_BUNDLE_PATH)
+# Ref constant because we need to retreive it in __init__
+const bundle_key = Ref{String}("")
 
 include(joinpath(@__DIR__, "..", "..", "deps", "mimetypes.jl"))
 
@@ -111,7 +106,7 @@ function WebIOServer(
             else # relative url
                 string("http://", baseurl, ":", http_port, WebIO.baseurl[])
             end
-            string(base, bundle_key)
+            string(base, bundle_key[])
         end
         wait_time = 5; start = time() # wait for max 5 s
         while time() - start < wait_time
@@ -144,7 +139,7 @@ function global_server_config()
         ws_default = string("ws://", url, ":", http_port, "/webio_websocket/")
         ws_url = get(ENV, "WEBIO_WEBSOCKT_URL", ws_default)
         # make it possible, to e.g. host the bundle online
-        bundle_url = get(ENV, "WEBIO_BUNDLE_URL", string(WebIO.baseurl[], bundle_key))
+        bundle_url = get(ENV, "WEBIO_BUNDLE_URL", string(WebIO.baseurl[], bundle_key[]))
         webio_server_config[] = (
             url = url, bundle_url = bundle_url,
             http_port = http_port, ws_url = ws_url
