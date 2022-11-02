@@ -1,5 +1,5 @@
 using WebIO
-using WebSockets
+using HTTP
 using Test
 
 @testset "HTTP provider" begin

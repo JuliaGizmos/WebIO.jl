@@ -119,7 +119,7 @@ function __init__()
     @require IJulia="7073ff75-c697-5162-941a-fcdaad2a7d2a" begin
         include_string(@__MODULE__, provider_ijulia.code, provider_ijulia.file)
     end
-    @require WebSockets="104b5d7c-a370-577a-8038-80a2059c5097" begin
+    @require HTTP="cd3eb016-35fb-5094-929b-558a96fad6f3" begin
         include_string(@__MODULE__, provider_generic_http.code, provider_generic_http.file)
     end
 
