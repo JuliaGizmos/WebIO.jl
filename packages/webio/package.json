@@ -18,11 +18,11 @@
   },
   "scripts": {
     "build": "tsc -p . && webpack",
-    "build-prod": "npm run build && webpack -p"
+    "build-prod": "npm run build && webpack"
   },
   "devDependencies": {
     "typescript": "^4.4.2",
-    "webpack": "^4.35.3"
+    "webpack": "^5.74.0"
   },
   "gitHead": "a17bcee97d64897d0e9b429a8551f19eedc47091"
 }

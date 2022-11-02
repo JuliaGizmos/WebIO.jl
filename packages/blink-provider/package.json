@@ -9,7 +9,7 @@
   },
   "scripts": {
     "build": "webpack-cli",
-    "build-prod": "webpack-cli -p"
+    "build-prod": "webpack-cli"
   },
   "version": "0.8.15",
   "main": "dist/blink.js",
