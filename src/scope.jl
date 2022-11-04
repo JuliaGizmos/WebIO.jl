@@ -242,7 +242,7 @@ function JSON.lower(scope::Scope)
         if sync === nothing
             # by default, we sync if there are any listeners
             # other than the JS back edge
-            sync = any(f-> !isa(f, SyncCallback), listeners(ob))
+            sync = any(((_, f),) -> !isa(f, SyncCallback), listeners(ob))
         end
         obs_dict[k] = Dict(
             "sync" => sync,
@@ -374,11 +374,11 @@ function offjs(ctx, key, f)
     end
     nothing
 end
-
+                            
 function ensure_sync(ctx, key)
     ob = ctx.observs[key][1]
     # have at most one synchronizing handler per observable
-    if !any(x->isa(x, SyncCallback) && x.ctx==ctx, listeners(ob))
+    if !any(((_, x),) ->isa(x, SyncCallback) && x.ctx==ctx, listeners(ob))
         f = SyncCallback(ctx, (msg) -> send_update_observable(ctx, key, msg))
         on(SyncCallback(ctx, f), ob)
     end
