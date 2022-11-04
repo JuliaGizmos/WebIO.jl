@@ -374,7 +374,7 @@ function offjs(ctx, key, f)
     end
     nothing
 end
-                            
+
 function ensure_sync(ctx, key)
     ob = ctx.observs[key][1]
     # have at most one synchronizing handler per observable
