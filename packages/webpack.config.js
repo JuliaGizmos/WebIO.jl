@@ -1,6 +1,6 @@
 const path = require('path');
 const webpack = require("webpack");
-const UglifyJSPlugin = require("uglifyjs-webpack-plugin");
+const TerserPlugin = require("terser-webpack-plugin");
 
 module.exports = {
 
@@ -8,7 +8,8 @@ module.exports = {
   devtool: "cheap-module-source-map",
 
   optimization: {
-    minimizer: [new UglifyJSPlugin()],
+    minimize: true,
+    minimizer: [new TerserPlugin()],
   },
 
   // entry: {
@@ -34,9 +35,7 @@ module.exports = {
   // is NodeJS. Nevertheless, Webpack gets confused because it doesn't know
   // anything about the (node-builtin) module fs, so we tell it to just ignore
   // all references to it.
-  node: {
-    "fs": "empty",
-  },
+  resolve: { fallback: { fs: false } },
 
   module: {
     rules: [

@@ -10,11 +10,11 @@
   },
   "scripts": {
     "build": "webpack-cli",
-    "build-prod": "webpack-cli -p"
+    "build-prod": "webpack-cli"
   },
   "version": "0.8.15",
   "devDependencies": {
-    "webpack-cli": "^3.3.5"
+    "webpack-cli": "^4.10.0"
   },
   "files": [
     "dist/*"
