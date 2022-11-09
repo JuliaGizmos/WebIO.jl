@@ -242,7 +242,7 @@ function JSON.lower(scope::Scope)
         if sync === nothing
             # by default, we sync if there are any listeners
             # other than the JS back edge
-            sync = any(f-> !isa(f, SyncCallback), listeners(ob))
+            sync = any(((_, f),) -> !isa(f, SyncCallback), listeners(ob))
         end
         obs_dict[k] = Dict(
             "sync" => sync,
@@ -332,31 +332,21 @@ struct SyncCallback
 end
 
 (s::SyncCallback)(xs...) = s.f(xs...)
+
 """
 Set observable without synchronizing with the counterpart on the browser.
 
 This is mostly used to update observables in response to updates sent from th
 browser (so that we aren't sending the same update *back* to the browser).
 """
-function set_nosync end
-
-if isdefined(Observables, :setexcludinghandlers)
-    # Observables <=0.3
-    function set_nosync(ob, val)
-        Observables.setexcludinghandlers(ob, val, x -> !(x isa SyncCallback))
-        return
-    end
-else
-    # Observables >=0.4
-    function set_nosync(ob, val)
-        Observables.setexcludinghandlers!(ob, val)
-        for f in listeners(ob)
-            if !(f isa SyncCallback)
-                Base.invokelatest(f, val)
-            end
+function set_nosync(ob, val)
+    Observables.setexcludinghandlers!(ob, val)
+    for (_, f) in listeners(ob)
+        if !(f isa SyncCallback)
+            Base.invokelatest(f, val)
         end
-        return
     end
+    return
 end
 
 const lifecycle_commands = ["scope_created"]
@@ -388,7 +378,7 @@ end
 function ensure_sync(ctx, key)
     ob = ctx.observs[key][1]
     # have at most one synchronizing handler per observable
-    if !any(x->isa(x, SyncCallback) && x.ctx==ctx, listeners(ob))
+    if !any(((_, x),) ->isa(x, SyncCallback) && x.ctx==ctx, listeners(ob))
         f = SyncCallback(ctx, (msg) -> send_update_observable(ctx, key, msg))
         on(SyncCallback(ctx, f), ob)
     end
