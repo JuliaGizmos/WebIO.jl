@@ -1,16 +1,16 @@
 using .Sockets
 import .AssetRegistry, .JSON
 using .WebIO
-using .WebSockets: is_upgrade, upgrade, writeguarded
-using .WebSockets: HTTP
+import .HTTP
+import .HTTP.WebSockets
 
 
-struct WSConnection{T} <: WebIO.AbstractConnection
-    sock::T
+struct WSConnection <: WebIO.AbstractConnection
+    stream::HTTP.WebSocket
 end
 
-Sockets.send(p::WSConnection, data) = writeguarded(p.sock, JSON.json(data))
-Base.isopen(p::WSConnection) = isopen(p.sock)
+Sockets.send(p::WSConnection, data) = HTTP.send(p.stream, JSON.json(data))
+Base.isopen(p::WSConnection) = !HTTP.WebSockets.isclosed(p.stream)
 
 if !isfile(GENERIC_HTTP_BUNDLE_PATH)
     error(
@@ -25,7 +25,7 @@ include(joinpath(@__DIR__, "..", "..", "deps", "mimetypes.jl"))
 """
 Serve an asset from the asset registry.
 """
-function serve_assets(req)
+function serve_assets(req::HTTP.Request)
     if haskey(AssetRegistry.registry, req.target)
         filepath = AssetRegistry.registry[req.target]
         if isfile(filepath)
@@ -42,22 +42,23 @@ function serve_assets(req)
     return HTTP.Response(404)
 end
 
-function websocket_handler(ws)
+function websocket_handler(ws::HTTP.WebSocket)
     conn = WSConnection(ws)
-    while isopen(ws)
-        data, success = WebSockets.readguarded(ws)
-        !success && break
+    for data in ws
         msg = JSON.parse(String(data))
         WebIO.dispatch(conn, msg)
     end
 end
 
-struct WebIOServer{S}
-    server::S
-    serve_task::Task
+struct WebIOServer
+    server::HTTP.Server
 end
 
-kill!(server::WebIOServer) = put!(server.server.in, HTTP.Servers.KILL)
+
+function kill!(s::WebIOServer)
+    close(s.server)
+    wait(s.server)
+end
 
 const singleton_instance = Ref{WebIOServer}()
 
@@ -93,17 +94,40 @@ function WebIOServer(
     )
     # TODO test if actually still running, otherwise restart even if singleton
     if !singleton || !isassigned(singleton_instance)
-        function handler(req)
+        
+        function handler(req::HTTP.Request)
             response = default_response(req)
             response !== missing && return response
             return serve_assets(req)
         end
-        function wshandler(req, sock)
-            req.target == websocket_route && websocket_handler(sock)
+        
+        function wshandler(req::HTTP.Request)
+            if req.target == websocket_route
+                HTTP.WebSockets.upgrade(http) do clientstream
+                    if !HTTP.WebSockets.isclosed(clientstream)
+                        websocket_handler(clientstream)
+                    end
+                end
+            end
         end
-        server = WebSockets.ServerWS(handler, wshandler; server_kw_args...)
-        server_task = @async WebSockets.serve(server, baseurl, http_port, verbose)
-        singleton_instance[] = WebIOServer(server, server_task)
+        
+        server = HTTP.listen!(baseurl, http_port; stream = true, server_kw_args...) do http::HTTP.Stream
+            if HTTP.WebSockets.isupgrade(http.message)
+                wshandler(request)
+            else
+                request::HTTP.Request = http.message
+                request.body = read(http)
+                
+                response = handler(request)
+                response.request = request
+                
+                HTTP.startwrite(http)
+                write(http, response.body)
+                HTTP.closewrite(http)
+            end
+        end
+        
+        singleton_instance[] = WebIOServer(server)
         bundle_url = get(ENV, "WEBIO_BUNDLE_URL") do
             webio_base = WebIO.baseurl[]
             base = if startswith(webio_base, "http") # absolute url
@@ -117,7 +141,7 @@ function WebIOServer(
         while time() - start < wait_time
             # Block as long as our server doesn't actually serve the bundle
             try
-                resp = WebSockets.HTTP.get(bundle_url)
+                resp = HTTP.get(bundle_url)
                 resp.status == 200 && break
                 sleep(0.1)
             catch e
