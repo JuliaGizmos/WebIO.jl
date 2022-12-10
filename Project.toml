@@ -1,7 +1,7 @@
 name = "WebIO"
 uuid = "0f1e0344-ec1d-5b48-a673-e5cf874b6c29"
 license = "MIT"
-version = "0.8.19"
+version = "0.8.20"
 
 [deps]
 AssetRegistry = "bf4720bc-e11a-5d0c-854e-bdca1663c893"
@@ -26,7 +26,7 @@ JSExpr = "0.5"
 JSON = "0.18, 0.19, 0.20, 0.21"
 Observables = "0.5"
 Requires = "0.4.4, 0.5, 1.0.0"
-WebSockets = "1.5.0"
+WebSockets = "1.5.0, 1.6.0"
 Widgets = "0.6.2"
 julia = "1.6"
 
