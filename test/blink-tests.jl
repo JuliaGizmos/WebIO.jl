@@ -3,10 +3,6 @@ using Blink
 using Observables
 using Test
 
-notinstalled = !AtomShell.isinstalled()
-
-notinstalled && AtomShell.install()
-
 """
 Execute function f() with a timeout of `timeout` seconds. Returns the
 result of f() or `nothing` in the case of a timeout.
@@ -146,5 +142,3 @@ w = open_window()
     body!(w, ExampleRenderableType())
     @test example_renderable_was_rendered
 end
-
-notinstalled && AtomShell.uninstall()
