@@ -20,7 +20,7 @@ are automatically removed from the pool.
 struct ConnectionPool
     outbox::Channel
     connections::Set{AbstractConnection}
-    condition::Condition
+    condition::Threads.Condition
 end
 
 function ConnectionPool(
@@ -30,7 +30,7 @@ function ConnectionPool(
     pool = ConnectionPool(
         outbox,
         connections,
-        Condition(),
+        Threads.Condition(),
     )
 
     # Catch errors here, otherwise they are lost to the void.
@@ -68,12 +68,24 @@ current task until that is the case. Also processes incoming connections.
 """
 function ensure_connection(pool::ConnectionPool)
     if isempty(pool.connections)
-        wait(pool.condition)
+        lock(pool.condition)
+        try
+            wait(pool.condition)
+        finally
+            unlock(pool.condition)
+        end
     end
 end
 
 Base.wait(pool::ConnectionPool) = ensure_connection(pool)
-Base.notify(pool::ConnectionPool) = notify(pool.condition)
+function Base.notify(pool::ConnectionPool)
+    lock(pool.condition)
+    try
+        notify(pool.condition)
+    finally
+        unlock(pool.condition)
+    end
+end
 
 """
     process_messages(pool)
