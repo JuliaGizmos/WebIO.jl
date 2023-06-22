@@ -1,21 +1,22 @@
-from notebook.utils import url_path_join
-from notebook.base.handlers import IPythonHandler
+from jupyter_server.utils import url_path_join
+from jupyter_server.base.handlers import JupyterHandler
 from tornado.web import StaticFileHandler, HTTPError
-from tornado import gen
+from tornado import gen, web
 
 import os
 import json
 
-class JuliaPackageAssetServer(IPythonHandler, StaticFileHandler):
+class JuliaPackageAssetServer(JupyterHandler, StaticFileHandler):
     def initialize(self, *args):
         self.root = ""
-        IPythonHandler.initialize(self, *args)
+        JupyterHandler.initialize(self, *args)
         StaticFileHandler.initialize(self, "", *args)
 
     def set_extra_headers(self, path):
         # Disable cache
         self.set_header('Cache-Control', 'no-store, no-cache, must-revalidate, max-age=0')
 
+    @web.authenticated
     @gen.coroutine
     def get(self, pkg, fpath):
         homedir = os.path.expanduser("~")
@@ -52,3 +53,5 @@ def load_jupyter_server_extension(nb_server_app):
     route_pattern = url_path_join(web_app.settings['base_url'], '/(assetserver)/(.*)$')
     web_app.add_handlers(
             host_pattern, [(route_pattern, JuliaPackageAssetServer)])
+
+_load_jupyter_server_extension = load_jupyter_server_extension
