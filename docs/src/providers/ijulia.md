@@ -43,7 +43,7 @@ python3 -m pip uninstall webio_jupyter_extension
 ### The `webio_jupyter_extension` is installed but not working
 
 First, check if the WebIO extension is properly installed:
-```
+```sh
 # For classic notebook
 jupyter nbextension list
 # Should include in output:
@@ -57,6 +57,17 @@ jupyter labextension list
 ```
 
 If the installation is **NOT** installed, continue reading for troubleshooting steps.
+
+#### 0: Make sure the webio-jupyter-extension is enabled
+
+```sh
+# For classic notenbook, from shell run
+jupyter nbextension enable --user webio-jupyter-notebook
+
+# Output should be 
+Enabling notebook extension webio-jupyter-notebook...
+      - Validating: OK
+```
 
 #### 1: Make sure to use same Python/Conda environment for both Jupyter and WebIO
 
