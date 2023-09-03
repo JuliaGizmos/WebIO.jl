@@ -7,7 +7,7 @@ function cssparse(s)
     # e.g. s = "img#theid.class1.class2[src=image.jpg, alt=great pic]"
     # parse props first
     p = match(r"\[[^\]]+\]", s)
-    props = Dict()
+    props = Dict{Symbol,Any}()
     if p != nothing
         m = strip(p.match, ['[',']'])
         props[:attributes] = Dict(map(x->Pair(split(x,r"\s*=\s*", limit=2)...), split(m, r",\s*")))
@@ -207,7 +207,7 @@ const myStr = "foo"; const myObject = {"spam":"eggs","foo":"bar"};
 """
 macro js_str(s)
     writes = map(Interpolator(s)) do x
-        if isa(x, AbstractString)
+        if x isa AbstractString
             # If x is a string, it was specified in the js"..." literal so let it
             # through as-is.
             :(write(io, $(x)))

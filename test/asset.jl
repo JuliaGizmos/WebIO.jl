@@ -46,16 +46,16 @@ using Test
 
     @testset "Sync constructor" begin
         single = Sync("foo.js")
-        @test typeof(single) === Sync
+        @test typeof(single) === Sync{Vector{Asset}}
         @test single.imports[1] == Asset("foo.js")
 
         double = Sync("foo" => "foo.js", Asset("bar.css"))
-        @test typeof(double) === Sync
+        @test typeof(double) === Sync{Vector{Asset}}
         @test double.imports[1] == Asset("foo" => "foo.js")
         @test double.imports[2] == Asset("bar.css")
 
         nested = Sync(Sync("stepone.js", "steptwo.js"), "bar.css")
-        @test typeof(nested) === Sync
+        @test typeof(nested) === Sync{Vector{Any}}
         @test nested.imports[1].imports[1] == Asset("stepone.js")
         @test nested.imports[1].imports[2] == Asset("steptwo.js")
         @test nested.imports[2] == Asset("bar.css")
@@ -63,16 +63,16 @@ using Test
 
     @testset "Async constructor" begin
         single = Async("foo.js")
-        @test typeof(single) === Async
+        @test typeof(single) === Async{Vector{Asset}}
         @test single.imports[1] == Asset("foo.js")
 
         double = Async("foo" => "foo.js", Asset("bar.css"))
-        @test typeof(double) === Async
+        @test typeof(double) === Async{Vector{Asset}}
         @test double.imports[1] == Asset("foo" => "foo.js")
         @test double.imports[2] == Asset("bar.css")
 
         nested = Async(Sync("stepone.js", "steptwo.js"), "bar.css")
-        @test typeof(nested) === Async
+        @test typeof(nested) === Async{Vector{Any}}
         @test nested.imports[1].imports[1] == Asset("stepone.js")
         @test nested.imports[1].imports[2] == Asset("steptwo.js")
         @test nested.imports[2] == Asset("bar.css")
