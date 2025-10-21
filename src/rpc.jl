@@ -5,7 +5,7 @@ registered_rpcs = Dict{UInt, Function}()
 function tojs(f::Function)
     h = hash(f)
     registered_rpcs[h] = f
-    return js"WebIO.getRPC($(string(h)))"
+    return JSString("WebIO.getRPC($(string(h)))")
 end
 
 """

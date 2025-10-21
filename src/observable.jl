@@ -1,6 +1,6 @@
 using JSON
 
 struct ObservableNode
-    id::AbstractString
-    name::AbstractString
+    id::String
+    name::String
 end
