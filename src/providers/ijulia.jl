@@ -75,6 +75,16 @@ function main()
         @warn "IJulia doesn't have register_mime; WebIO may not work as expected. Please upgrade to IJulia v1.13.0 or greater."
     end
 
+    # Delete any old comms before displaying the first WEBIO_NODE_MIME content (which prompts a new connection)
+    # Reason: If a freshly opened notebook has previously rendered WEBIO_NODE_MIME, an old comm is
+    # (incorrectly) registered from/by jupyter before WebIO has been init'ed
+    for (k,v) in IJulia.CommManager.comms
+        if IJulia.CommManager.comm_target(v) == :webio_comm
+            IJulia.CommManager.close_comm(v)
+            delete!(IJulia.CommManager.comms, k)
+        end
+    end
+
     # See comment on _IJuliaInit for what this does
     display(_IJuliaInit())
 end

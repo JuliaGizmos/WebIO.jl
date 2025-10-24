@@ -54,6 +54,12 @@ jupyter nbextension list
 jupyter labextension list
 # Should include in output:
 #     webio-jupyterlab-provider vX.Y.Z enabled OK (python, webio_jupyter_extension)
+
+jupyter server extension list
+# Should include in output:
+#     webio_jupyter_extension.serverextension enabled
+#     - Validating webio_jupyter_extension.serverextension...
+#     webio_jupyter_extension.serverextension  OK
 ```
 
 If the installation is **NOT** installed, continue reading for troubleshooting steps.

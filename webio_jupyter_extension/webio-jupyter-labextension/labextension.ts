@@ -1,12 +1,14 @@
 import debug from "debug";
 import { Panel } from "@lumino/widgets";
-import { DisposableDelegate, IDisposable } from "@lumino/disposable";
+import { DisposableDelegate } from "@lumino/disposable";
+import type { IDisposable } from "@lumino/disposable";
 
 import type { JupyterFrontEndPlugin } from "@jupyterlab/application";
 import type { DocumentRegistry } from "@jupyterlab/docregistry";
 import type { INotebookModel, NotebookPanel } from "@jupyterlab/notebook";
 import type { IRenderMime } from "@jupyterlab/rendermime";
 import type { Kernel } from "@jupyterlab/services";
+import type { IKernelConnection } from "@jupyterlab/services/lib/kernel/kernel";
 
 import WebIO from "@webio/webio";
 
@@ -221,6 +223,26 @@ class WebIONotebookManager {
       log("Received WebIO comm message:", msg);
       this._webIO.dispatch(msg.content.data);
     };
+    kernel.statusChanged.connect(
+      (kernel: IKernelConnection, stat: Kernel.Status) => {
+        if (
+          stat === "restarting" ||
+          stat === "autorestarting" ||
+          stat === "dead"
+        ) {
+          // Stop attempting to handle callbacks if previous kernel is gone
+          this._webIO.setSendCallback((msg: any) => {});
+
+          // Close comm to force a re-connect to the new/restarted kernel
+          this.comm!.close();
+        }
+      },
+      this,
+    );
+    this.comm.onClose = (msg: any) => {
+      // Undefine comm so that the next connect call creates a new comm
+      this.comm = undefined;
+    };
 
     this.setWebIOMetadata(kernel.id, this.comm.commId);
   }
@@ -229,7 +251,7 @@ class WebIONotebookManager {
     if (!this.notebook.model) {
       throw new Error("Notebook model is not available!");
     }
-    return (this.notebook.model.metadata.get(WEBIO_METADATA_KEY) || {}) as any;
+    return (this.notebook.model.getMetadata(WEBIO_METADATA_KEY) || {}) as any;
   }
 
   private setWebIOMetadata(kernelId: string, commId: string) {
@@ -241,7 +263,7 @@ class WebIONotebookManager {
     if (!this.notebook.model) {
       throw new Error("Notebook model is not available!");
     }
-    this.notebook.model.metadata.set(WEBIO_METADATA_KEY, metadata as any);
+    this.notebook.model.setMetadata(WEBIO_METADATA_KEY, metadata as any);
   }
 }
 

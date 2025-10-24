@@ -1,6 +1,6 @@
 {
   "name": "webio-jupyterlab-provider",
-  "version": "0.1.0",
+  "version": "0.2.0",
   "description": "A JupyterLab extension.",
   "keywords": [
     "jupyter",
@@ -14,11 +14,12 @@
   "main": "dist/labextension.js",
   "repository": {
     "type": "git",
-    "url": "https://github.com/github_username/webio-jupyterlab-provider.git"
+    "url": "https://github.com/JuliaGizmos/WebIO.jl.git",
+    "directory": "webio_jupyter_extension"
   },
   "scripts": {
-    "build": "yarn build:lib && yarn build:nbextension && yarn build:labextension:dev",
-    "build:prod": "yarn run clean && yarn run build:lib && yarn run build:labextension",
+    "build": "NODE_ENV=development npm-run-all build:lib:dev build:nbextension build:labextension:dev",
+    "build:prod": "NODE_ENV=production npm-run-all clean:all build:lib build:nbextension build:labextension",
     "build:nbextension": "webpack -c webpack.nbextension.js",
     "build:labextension": "jupyter labextension build .",
     "build:labextension:dev": "jupyter labextension build --development True .",
@@ -26,7 +27,8 @@
     "clean": "yarn run clean:lib",
     "clean:lib": "rimraf lib dist tsconfig.tsbuildinfo",
     "clean:labextension": "rimraf webio_jupyter_extension/labextension",
-    "clean:all": "yarn run clean:lib && yarn run clean:labextension",
+    "clean:nbextension": "rimraf webio_jupyter_extension/nbextension",
+    "clean:all": "npm-run-all clean:lib clean:labextension clean:nbextension",
     "eslint": "eslint . --ext .ts,.tsx --fix",
     "eslint:check": "eslint . --ext .ts,.tsx",
     "install:extension": "yarn run build",
@@ -36,29 +38,29 @@
     "publish-pypi": "yarn build && python3 -m build && python3 -m twine upload dist/*.whl dist/*.gz "
   },
   "dependencies": {
-    "@jupyterlab/application": "^3",
-    "@jupyterlab/docregistry": "^3",
-    "@jupyterlab/notebook": "^3",
-    "@jupyterlab/rendermime": "^3",
-    "@jupyterlab/services": "^6",
-    "@lumino/disposable": "^1",
-    "@lumino/widgets": "^1",
+    "@jupyterlab/application": "^4.0.6",
+    "@jupyterlab/docregistry": "^4.0.6",
+    "@jupyterlab/notebook": "^4.0.6",
+    "@jupyterlab/rendermime": "^4.0.6",
+    "@jupyterlab/services": "^7.0.6",
+    "@lumino/disposable": "^2.0.0",
+    "@lumino/widgets": "^2.0.1",
     "@webio/webio": "portal:../packages/webio",
     "debug": "^4.3.2"
   },
   "devDependencies": {
-    "@jupyterlab/builder": "^3.1.0",
+    "@jupyterlab/builder": "^4.0.0",
     "@types/debug": "^4.1.7",
-    "@types/react": "^17.0.20",
-    "@typescript-eslint/eslint-plugin": "^4.8.1",
-    "@typescript-eslint/parser": "^4.8.1",
-    "eslint": "^7.14.0",
-    "eslint-config-prettier": "^6.15.0",
-    "eslint-plugin-prettier": "^3.1.4",
+    "@types/react": "^18.0.26",
+    "@typescript-eslint/eslint-plugin": "^6.1.0",
+    "@typescript-eslint/parser": "^6.1.0",
+    "eslint": "^8.36.0",
+    "eslint-config-prettier": "^8.8.0",
+    "eslint-plugin-prettier": "^5.0.0",
     "npm-run-all": "^4.1.5",
-    "prettier": "^2.1.1",
-    "rimraf": "^3.0.2",
-    "typescript": "~4.1.3",
+    "prettier": "^3.0.0",
+    "rimraf": "^5.0.1",
+    "typescript": "~5.0.2",
     "webpack": "^5.52.0",
     "webpack-cli": "^4.8.0"
   },
@@ -69,7 +71,7 @@
   "jupyter-releaser": {
     "hooks": {
       "before-build-npm": [
-        "python -m pip install jupyterlab~=3.1",
+        "python -m pip install jupyterlab~=4.0",
         "yarn"
       ]
     }

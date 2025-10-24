@@ -17,7 +17,7 @@ Your bug description here.
 <!--
 Please include the output of `Pkg.status("WebIO")` and `versioninfo()`, as well as what provider (i.e. IJulia/Jupyter, Blink, Mux, etc.) you are using.
 If you are using Jupyter Notebook, please include the output of `jupyter nbextension list`.
-If you are using Jupyter Lab, please include hte output of `jupyter labextension list`.
+If you are using Jupyter Lab, please include hte output of `jupyter labextension list` and `jupyter server extension list`.
 If relevant, please include any errors (from the Julia console, from the Jupyter process, or from your browser console) that you see.
 -->
 Your context here.

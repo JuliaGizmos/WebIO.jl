@@ -1,22 +1,18 @@
 *.bundle.*
 lib/
 node_modules/
+*.log
+.eslintcache
+.stylelintcache
 *.egg-info/
-.ipynb_checkpoints
+.ipynb_checkpoints/
+.virtual_documents/
 *.tsbuildinfo
-
-# Ignore the built JS extension files
 webio_jupyter_extension/labextension
 webio_jupyter_extension/nbextension
-
-# Ignore Yarn files (note: we're not using zero installs)
-.yarn/*
-!.yarn/patches
-!.yarn/releases
-!.yarn/plugins
-!.yarn/sdks
-!.yarn/versions
-.pnp.*
+# Version file is handled by hatchling
+webio_jupyter_extension/_version.py
+_temp_extension
 
 # Created by https://www.gitignore.io/api/python
 # Edit at https://www.gitignore.io/?templates=python
@@ -68,6 +64,7 @@ htmlcov/
 .coverage.*
 .cache
 nosetests.xml
+coverage/
 coverage.xml
 *.cover
 .hypothesis/
@@ -88,6 +85,7 @@ target/
 
 # pyenv
 .python-version
+.venv/
 
 # celery beat schedule file
 celerybeat-schedule
@@ -122,3 +120,6 @@ dmypy.json
 
 # OSX files
 .DS_Store
+
+# Yarn cache
+.yarn/

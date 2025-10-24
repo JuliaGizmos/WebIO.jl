@@ -12,7 +12,7 @@ dist
 yarn.lock
 node_modules
 *.js.map
-lerna-debug.log
+*.log
 package-lock.json
 *.tgz
 .yarn

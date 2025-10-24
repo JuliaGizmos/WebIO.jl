@@ -2,7 +2,7 @@
 
 ## Requirements
 
-* JupyterLab >= 3.0
+* JupyterLab >= 4.0
 
 ## Install
 
@@ -41,6 +41,11 @@ Note: You will need NodeJS to build the extension package.
 
 ```bash
 # Clone the repo to your local environment
+# In the packages directory
+# First build the @webio/webio package (needed by the webio-jupyterlab-provider part of the jupyter extension)
+npm install
+npm run build-prod
+
 # Change directory to the webio_jupyter_extension directory
 # Install package in development mode
 pip install -e .
@@ -60,6 +65,10 @@ By default, the `yarn build` command generates the source maps for this extensio
 ```bash
 jupyter lab build --minimize=False
 ```
+
+### Debugging
+
+Debug logging in the browser dev tools can be enabled by setting `localStorage.debug` to `"WebIO:*"` or `"WebIO:<component>"` where `<component>` is the part of WebIO you wish to get debug logging from.
 
 ### Development uninstall
 

@@ -19,8 +19,12 @@
     "strictNullChecks": true,
     "target": "es2017",
     "types": [],
-    "importsNotUsedAsValues": "error",
-    "skipLibCheck": true
+    "verbatimModuleSyntax": true,
+    "skipLibCheck": true,
+    "paths": {
+      "@jupyterlab/*": ["../jupyterlab/packages/*"],
+      "*": ["./node_modules/*"]
+    }
   },
   "include": ["webio-jupyter-labextension/*"]
 }
