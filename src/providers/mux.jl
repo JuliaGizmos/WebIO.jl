@@ -29,17 +29,21 @@ function webio_serve(app::Mux.App, args...)
 end
 
 
-struct WebSockConnection <: WebIO.AbstractConnection
-    sock
+struct WebSockConnection{T} <: WebIO.AbstractConnection
+    sock::T
 end
 
-function create_socket(req)
+function create_socket(req::Dict)
     sock = req[:socket]
+    # Dispatch on the type of socket if needed
+    _create_socket(sock)
+end
+
+function _create_socket(sock::Mux.HTTP.WebSockets.WebSocket)
     conn = WebSockConnection(sock)
 
-    t = @async while isopen(sock)
-        data = read(sock)
-
+    # Iteration ends when the socket is closed
+    t = @async for data in sock
         msg = JSON.parse(String(data))
         WebIO.dispatch(conn, msg)
     end
@@ -48,10 +52,11 @@ function create_socket(req)
 end
 
 function Sockets.send(p::WebSockConnection, data)
-    write(p.sock, sprint(io->JSON.print(io,data)))
+    Mux.HTTP.WebSockets.send(p.sock, sprint(io->JSON.print(io,data)))
 end
 
-Base.isopen(p::WebSockConnection) = isopen(p.sock)
+# May not be strictly true
+Base.isopen(p::WebSockConnection) = !Mux.HTTP.WebSockets.isclosed(p.sock)
 
 Mux.Response(o::AbstractWidget) = Mux.Response(Widgets.render(o))
 function Mux.Response(content::Union{Node, Scope})
