@@ -6,6 +6,7 @@ coverage/
 *.jl.cov
 *.jl.*.cov
 *.jl.mem
+docs/src/assets/trivial_import.js
 
 # JavaScript
 dist

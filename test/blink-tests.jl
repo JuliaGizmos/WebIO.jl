@@ -90,15 +90,11 @@ w = open_window()
             end
 
             @testset "global URL, no http:" begin
-                # TODO: change this to a permanent URL because this CSAIL account
-                # will eventually expire.
-                @test scope_import(w, "//people.csail.mit.edu/rdeits/webio_tests/trivial_import.js", use_iframe) == "ok"
+                @test scope_import(w, "//juliagizmos.github.io/WebIO.jl/dev/assets/trivial_import.js", use_iframe) == "ok"
             end
 
             @testset "global URL, with http:" begin
-                # TODO: change this to a permanent URL because this CSAIL account
-                # will eventually expire.
-                @test scope_import(w, "http://people.csail.mit.edu/rdeits/webio_tests/trivial_import.js", use_iframe) == "ok"
+                @test scope_import(w, "http://juliagizmos.github.io/WebIO.jl/dev/assets/trivial_import.js", use_iframe) == "ok"
             end
         end
     end

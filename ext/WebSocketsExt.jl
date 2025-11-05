@@ -1,9 +1,12 @@
-using .Sockets
-import .AssetRegistry, .JSON
-using .WebIO
-using .WebSockets: is_upgrade, upgrade, writeguarded
-using .WebSockets: HTTP
+module WebSocketsExt
 
+using WebIO, JSON, AssetRegistry
+using Sockets
+
+using WebIO: WEBIO_APPLICATION_MIME, GENERIC_HTTP_BUNDLE_PATH, bundle_key, 
+    global_server_config, WebIOServer, singleton_instance, routing_callback,
+    webio_server_config
+using WebSockets: WebSockets, HTTP, is_upgrade, upgrade, writeguarded
 
 struct WSConnection{T} <: WebIO.AbstractConnection
     sock::T
@@ -12,15 +15,7 @@ end
 Sockets.send(p::WSConnection, data) = writeguarded(p.sock, JSON.json(data))
 Base.isopen(p::WSConnection) = isopen(p.sock)
 
-if !isfile(GENERIC_HTTP_BUNDLE_PATH)
-    error(
-        "Unable to find WebIO JavaScript bundle for generic HTTP provider; "
-        * "try rebuilding WebIO (via `Pkg.build(\"WebIO\")`)."
-    )
-end
-const bundle_key = AssetRegistry.register(GENERIC_HTTP_BUNDLE_PATH)
-
-include(joinpath(@__DIR__, "..", "..", "deps", "mimetypes.jl"))
+include(joinpath(@__DIR__, "..", "deps", "mimetypes.jl"))
 
 """
 Serve an asset from the asset registry.
@@ -52,16 +47,7 @@ function websocket_handler(ws)
     end
 end
 
-struct WebIOServer{S}
-    server::S
-    serve_task::Task
-end
-
 kill!(server::WebIOServer) = put!(server.server.in, HTTP.Servers.KILL)
-
-const singleton_instance = Ref{WebIOServer}()
-
-const routing_callback = Ref{Any}((req)-> missing)
 
 """
 Run the WebIO server.
@@ -84,7 +70,7 @@ end
 server = WebIO.WebIOServer(serve_app, verbose = true)
 ```
 """
-function WebIOServer(
+function WebIO.WebIOServer(
         default_response::Function = (req)-> missing;
         baseurl::String = "127.0.0.1", http_port::Int = 8081,
         verbose = false, singleton = true,
@@ -111,7 +97,7 @@ function WebIOServer(
             else # relative url
                 string("http://", baseurl, ":", http_port, WebIO.baseurl[])
             end
-            string(base, bundle_key)
+            string(base, bundle_key[])
         end
         wait_time = 5; start = time() # wait for max 5 s
         while time() - start < wait_time
@@ -127,24 +113,22 @@ function WebIOServer(
     return singleton_instance[]
 end
 
-const webio_server_config = Ref{typeof((url = "", bundle_url = "", http_port = 0, ws_url = ""))}()
-
 """
 Fetches the global configuration for our http + websocket server from environment
 variables. It will memoise the result, so after a first call, any update to
 the environment will get ignored.
 """
-function global_server_config()
+function WebIO.global_server_config()
     if !isassigned(webio_server_config)
 
-        setbaseurl!(get(ENV, "JULIA_WEBIO_BASEURL", ""))
+        WebIO.setbaseurl!(get(ENV, "JULIA_WEBIO_BASEURL", ""))
 
         url = get(ENV, "WEBIO_SERVER_HOST_URL", "127.0.0.1")
         http_port = parse(Int, get(ENV, "WEBIO_HTTP_PORT", "8081"))
         ws_default = string("ws://", url, ":", http_port, "/webio_websocket/")
         ws_url = get(ENV, "WEBIO_WEBSOCKT_URL", ws_default)
         # make it possible, to e.g. host the bundle online
-        bundle_url = get(ENV, "WEBIO_BUNDLE_URL", string(WebIO.baseurl[], bundle_key))
+        bundle_url = get(ENV, "WEBIO_BUNDLE_URL", string(WebIO.baseurl[], bundle_key[]))
         webio_server_config[] = (
             url = url, bundle_url = bundle_url,
             http_port = http_port, ws_url = ws_url
@@ -175,4 +159,16 @@ function Base.show(io::IO, m::WEBIO_APPLICATION_MIME, app::Application)
     println(io, "<script src=$(repr(c.bundle_url))></script>")
     show(io, "text/html", app)
     return
+end
+
+function __init__()
+    if !isfile(GENERIC_HTTP_BUNDLE_PATH)
+        error(
+            "Unable to find WebIO JavaScript bundle for generic HTTP provider; "
+            * "try rebuilding WebIO (via `Pkg.build(\"WebIO\")`)."
+            )
+    end
+    bundle_key[] = AssetRegistry.register(GENERIC_HTTP_BUNDLE_PATH)
+end
+
 end

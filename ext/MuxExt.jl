@@ -1,23 +1,26 @@
-using .JSON
-using .AssetRegistry
-using .Sockets
-using .Base64: stringmime
-export webio_serve
+module MuxExt
+
+using WebIO
+using WebIO: MUX_BUNDLE_PATH
+
+using Mux, JSON, AssetRegistry
+using Sockets
+using Base64: stringmime
 
 """
     webio_serve(app, port=8000)
 
 Serve a Mux app which might return a WebIO node.
 """
-function webio_serve(app, args...)
+function WebIO.webio_serve(app, args...)
     http = Mux.App(Mux.mux(
         Mux.defaults,
         app,
         Mux.notfound()
     ))
-    webio_serve(http, args...)
+    WebIO.webio_serve(http, args...)
 end
-function webio_serve(app::Mux.App, args...)
+function WebIO.webio_serve(app::Mux.App, args...)
     websock = Mux.App(Mux.mux(
         Mux.wdefaults,
         Mux.route("/webio-socket", create_socket),
@@ -53,7 +56,9 @@ end
 
 Base.isopen(p::WebSockConnection) = isopen(p.sock)
 
-Mux.Response(o::AbstractWidget) = Mux.Response(Widgets.render(o))
+# TYPE-PIRACY
+# Mux.Response(o::AbstractWidget) = Mux.Response(Widgets.render(o))
+
 function Mux.Response(content::Union{Node, Scope})
     script_url = try
         AssetRegistry.register(MUX_BUNDLE_PATH)
@@ -86,4 +91,9 @@ function WebIO.register_renderable(::Type{T}, ::Val{:mux}) where {T}
 end
 
 WebIO.setup_provider(::Val{:mux}) = nothing # Mux setup has no side-effects
-WebIO.setup(:mux)
+
+function __init__()
+    WebIO.setup(:mux)
+end
+
+end

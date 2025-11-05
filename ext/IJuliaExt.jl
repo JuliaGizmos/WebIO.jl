@@ -1,6 +1,8 @@
-using .AssetRegistry
-using .Sockets
-using .WebIO
+module IJuliaExt
+
+using WebIO
+using WebIO: WEBIO_NODE_MIME
+using IJulia, Sockets
 
 struct IJuliaConnection <: AbstractConnection
     comm::IJulia.CommManager.Comm
@@ -68,16 +70,18 @@ function main()
         return
     end
 
-    # https://github.com/JuliaLang/IJulia.jl/pull/755
-    if isdefined(IJulia, :register_jsonmime)
-        IJulia.register_jsonmime(WEBIO_NODE_MIME())
-    else
-        @warn "IJulia doesn't have register_mime; WebIO may not work as expected. Please upgrade to IJulia v1.13.0 or greater."
-    end
+    IJulia.register_jsonmime(WEBIO_NODE_MIME())
 
     # See comment on _IJuliaInit for what this does
     display(_IJuliaInit())
+
+    return nothing
 end
 
 WebIO.setup_provider(::Val{:ijulia}) = main() # calling setup_provider(Val(:ijulia)) will display the setup javascript
-WebIO.setup(:ijulia)
+
+function __init__()
+    WebIO.setup(:ijulia)
+end
+
+end

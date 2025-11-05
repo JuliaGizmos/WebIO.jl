@@ -3,3 +3,10 @@ Blink = "ad839575-38b3-5650-b840-f874b8c74a25"
 Documenter = "e30172f5-a6a5-5a46-863b-614d45cd2de4"
 IJulia = "7073ff75-c697-5162-941a-fcdaad2a7d2a"
 Mux = "a975b10e-0019-58db-a62f-e48ff68538c9"
+WebIO = "0f1e0344-ec1d-5b48-a673-e5cf874b6c29"
+
+[compat]
+Blink = "0.12"
+Documenter = "1.8"
+IJulia = "1.13"
+Mux = "1"
