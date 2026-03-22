@@ -15,8 +15,11 @@ jobs:
       - uses: julia-actions/setup-julia@latest
         with:
           version: '1.6'
+      - uses: actions/setup-node@v2
+        with:
+          node-version: '18'
       - name: Install dependencies
-        run: julia --project=docs/ -e 'using Pkg; Pkg.develop(PackageSpec(path=pwd())); Pkg.instantiate()'
+        run: julia --project=docs/ -e 'using Pkg; Pkg.develop(PackageSpec(path=pwd())); Pkg.instantiate(); Pkg.build("WebIO")'
       - name: Build and deploy
         env:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }} # If authenticating with GitHub Actions token

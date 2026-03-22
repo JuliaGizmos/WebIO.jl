@@ -5,10 +5,13 @@ using WebIO
 # defined behind @require guards.
 using IJulia, Mux, Blink
 
+DocMeta.setdocmeta!(WebIO, :DocTestSetup, :(using WebIO); recursive=true)
+
 makedocs(
     sitename="WebIO",
     format=Documenter.HTML(),
     modules=[WebIO],
+    warnonly = [:missing_docs, :cross_references, :docs_block],
     pages=[
         "index.md",
         "gettingstarted.md",

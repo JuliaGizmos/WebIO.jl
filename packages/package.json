@@ -1,17 +1,21 @@
 {
   "name": "root",
   "private": true,
+  "workspaces": [
+    "webio",
+    "blink-provider",
+    "generic-http-provider",
+    "mux-provider"
+  ],
   "scripts": {
-    "build": "lerna run build",
-    "build-prod": "lerna run build-prod",
-    "lerna": "lerna"
+    "build": "npm run build --workspaces --if-present",
+    "build-prod": "npm run build-prod --workspaces --if-present"
   },
   "devDependencies": {
     "@babel/core": "^7.4.0",
     "@babel/polyfill": "^7.4.0",
     "@babel/preset-env": "^7.4.2",
     "babel-loader": "^8.0.5",
-    "lerna": "^3.16.2",
     "ts-loader": "^9.4.1",
     "typescript": "^4.0.3",
     "terser-webpack-plugin": "^5.3.6",
@@ -19,10 +23,8 @@
     "webpack-cli": "^4.10.0",
     "webpack-merge": "^4.2.1"
   },
-  "dependencies": {
-    "@webio/blink-provider": "file:blink-provider",
-    "@webio/generic-http-provider": "file:generic-http-provider",
-    "@webio/mux-provider": "file:mux-provider",
-    "@webio/webio": "file:webio"
+  "overrides": {
+    "@types/minimatch": "5.1.2",
+    "@types/node": "16.18.68"
   }
 }

@@ -3,5 +3,4 @@
 ## Public API
 ```@docs
 Node
-node
 ```
