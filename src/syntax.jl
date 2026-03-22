@@ -190,8 +190,15 @@ tojs(x) = x
 
 Print Javascript code to `io` that constructs the equivalent of `x`.
 """
-showjs(io, x::Any) = JSON.show_json(io, JSEvalSerialization(), x)
-showjs(io, x::AbstractString) = write(io, JSON.json(x))
+function showjs end
+@static if !isdefined(JSON, :Object)
+    showjs(io, x::Any) = JSON.show_json(io, JSEvalSerialization(), x)
+    showjs(io, x::AbstractString) = write(io, JSON.json(x))
+else
+    function showjs(io, x::Any; pretty = verbose_json[] && !isa(x, AbstractString), kwargs...)
+        JSON.json(io, x; pretty, kwargs...)
+    end
+end
 
 """
     @js_str(s)
@@ -224,25 +231,46 @@ end
 Base.string(s::JSString) = s.s
 Base.:(==)(x::JSString, y::JSString) = x.s==y.s
 
-JSON.lower(x::JSString) = JSON.lower(x.s)
+JSON.lower(x::JSString) = JSONText(x.s)
 
-const JSONContext = JSON.Writer.StructuralContext
-const JSONSerialization = JSON.Serializations.CommonSerialization
+@static if !isdefined(JSON, :Object)
+    const JSONContext = JSON.Writer.StructuralContext
+    const JSONSerialization = JSON.Serializations.CommonSerialization
 
-struct JSEvalSerialization <: JSONSerialization end
+    struct JSEvalSerialization <: JSONSerialization end
+else
+    struct JSEvalSerialization <: JSON.JSONStyle end
+end
 
-const verbose_json = Ref(false)
+const verbose_json = Ref(false) 
 
 # adapted (very slightly) from JSON.jl test/serializer.jl
-function JSON.show_json(io::JSONContext, ::JSEvalSerialization, x::JSString)
-    if verbose_json[]
-        first = true
-        for line in split(x.s, '\n')
-            !first && JSON.indent(io)
-            first = false
-            Base.print(io, line)
+@static if !isdefined(JSON, :Object)
+    function JSON.show_json(io::JSONContext, ::JSEvalSerialization, x::JSString)
+        if verbose_json[]
+            first = true
+            for line in split(x.s, '\n')
+                !first && JSON.indent(io)
+                first = false
+                Base.print(io, line)
+            end
+        else
+            Base.print(io, x.s)
         end
-    else
-        Base.print(io, x.s)
+    end
+else
+    function JSON.lower(::JSEvalSerialization, x::JSString)
+        io = IOBuffer()
+        if verbose_json[]
+            first = true
+            for line in split(x.s, '\n')
+                !first && JSON.indent(io)
+                first = false
+                Base.print(io, line)
+            end
+        else
+            Base.print(io, x.s)
+        end
+        String(take!(io))
     end
 end

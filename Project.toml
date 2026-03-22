@@ -6,6 +6,7 @@ version = "0.8.21"
 [deps]
 AssetRegistry = "bf4720bc-e11a-5d0c-854e-bdca1663c893"
 Base64 = "2a0f44e3-6c83-55bd-87e4-b1978d98bd5f"
+Conda = "8f4d0f93-b110-5947-807f-2305c1781a2d"
 Distributed = "8ba89e20-285c-5b6f-9357-94700520ee1b"
 FunctionalCollections = "de31a74c-ac4f-5751-b3fd-e18cd04993ca"
 JSON = "682c06a0-de6a-54ab-a142-c8b1cf79cde6"
@@ -19,11 +20,17 @@ UUIDs = "cf7118a7-6976-5b1a-9a39-7adc72f591a4"
 WebSockets = "104b5d7c-a370-577a-8038-80a2059c5097"
 Widgets = "cc8bc4a8-27d6-5769-a93b-9d913e69aa62"
 
+[weakdeps]
+JSExpr = "97c1335a-c9c5-57fe-bc5d-ec35cebe8660"
+
+[extensions]
+WebIOJSExprExt = "JSExpr"
+
 [compat]
-AssetRegistry = "0.1.0"
+AssetRegistry = "0.1.0 - 0.2"
 FunctionalCollections = "0.5.0"
-JSExpr = "0.5"
-JSON = "0.18, 0.19, 0.20, 0.21"
+JSExpr = "0.5 - 1"
+JSON = "0.18 - 1"
 Observables = "0.5"
 Requires = "0.4.4, 0.5, 1.0.0"
 WebSockets = "1.5.0, 1.6.0"

@@ -123,6 +123,12 @@ function __init__()
         include_string(@__MODULE__, provider_generic_http.code, provider_generic_http.file)
     end
 
+    @static if !isdefined(Base, :get_extension)
+        @require JSExpr="97c1335a-c9c5-57fe-bc5d-ec35cebe8660" begin
+            JSString(js::JSExpr.JSString) = JSString(js.s)
+        end
+    end
+
 end
 
 end # module

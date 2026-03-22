@@ -83,22 +83,33 @@ w = open_window()
         return with_timeout(() -> take!(output), 5)
     end
 
-    @testset "scope imports" begin
-        for use_iframe in (false, true)
+        @testset "scope imports" begin
+            run_external_url_tests = parse(Bool, get(ENV, "WEBIO_TEST_EXTERNAL_URLS", "false"))
+            for use_iframe in (false, true)
             @testset "local package, AssetRegistry" begin
                 @test scope_import(w, joinpath(@__DIR__, "assets", "trivial_import.js"), use_iframe) == "ok"
             end
 
             @testset "global URL, no http:" begin
-                # TODO: change this to a permanent URL because this CSAIL account
-                # will eventually expire.
-                @test scope_import(w, "//people.csail.mit.edu/rdeits/webio_tests/trivial_import.js", use_iframe) == "ok"
+                if !run_external_url_tests
+                    @test_skip true
+                else
+                    # TODO: change this to a permanent URL because this CSAIL account
+                    # will eventually expire.
+                    @info "Performing external URL test (set WEBIO_TEST_EXTERNAL_URLS=true to enable)."
+                    @test scope_import(w, "//people.csail.mit.edu/rdeits/webio_tests/trivial_import.js", use_iframe) == "ok"
+                end
             end
-
+            
             @testset "global URL, with http:" begin
-                # TODO: change this to a permanent URL because this CSAIL account
-                # will eventually expire.
-                @test scope_import(w, "http://people.csail.mit.edu/rdeits/webio_tests/trivial_import.js", use_iframe) == "ok"
+                if !run_external_url_tests
+                    @test_skip true
+                else
+                    # TODO: change this to a permanent URL because this CSAIL account
+                    # will eventually expire.
+                    @info "Performing external URL test (set WEBIO_TEST_EXTERNAL_URLS=true to enable)."
+                    @test scope_import(w, "http://people.csail.mit.edu/rdeits/webio_tests/trivial_import.js", use_iframe) == "ok"
+                end
             end
         end
     end
