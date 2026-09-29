@@ -324,7 +324,7 @@ function register_renderable(::Type{T}) where T
 end
 
 function Base.show(io::IO, m::WEBIO_NODE_MIME, node::Node)
-    write(io, JSON.json(node))
+    write(io, jsonstring(node))
 end
 
 function Base.show(io::IO, m::MIME"text/html", x::Observable)

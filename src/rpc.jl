@@ -15,7 +15,12 @@ WebIO-internal method to handle a request to invoke an RPC from the browser.
 Looks up the requested RPC from the `registered_rpcs` dict and invokes the function using
 the provided arguments and returns the result.
 """
-function handle_rpc_request(request::Dict)
+# `request` is annotated `AbstractDict` rather than `Dict` because it comes
+# straight off the wire: JSON.jl v1 materializes objects as `JSON.Object`, which
+# is an `AbstractDict` but not a `Dict`. A `Dict` annotation here fails to match,
+# and `dispatch_request` turns the resulting MethodError into an error response,
+# so the RPC silently never runs.
+function handle_rpc_request(request::AbstractDict)
     rpc_id = get(request, "rpcId", nothing)
     rpc_hash = try parse(UInt, rpc_id) catch nothing end
     rpc = get(registered_rpcs, rpc_hash, nothing)

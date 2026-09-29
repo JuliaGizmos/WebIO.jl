@@ -48,7 +48,7 @@ function create_socket(req)
 end
 
 function Sockets.send(p::WebSockConnection, data)
-    write(p.sock, sprint(io->JSON.print(io,data)))
+    write(p.sock, WebIO.jsonstring(data))
 end
 
 Base.isopen(p::WebSockConnection) = isopen(p.sock)

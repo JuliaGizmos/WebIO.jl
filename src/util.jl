@@ -56,4 +56,4 @@ function escape_json(s::String)
     return replace(s, "/" => "\\/")
 end
 
-escape_json(x::Any) = escape_json(JSON.json(x))
+escape_json(x::Any) = escape_json(jsonstring(x))

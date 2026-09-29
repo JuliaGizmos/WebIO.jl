@@ -190,7 +190,13 @@ tojs(x) = x
 
 Print Javascript code to `io` that constructs the equivalent of `x`.
 """
-showjs(io, x::Any) = JSON.show_json(io, JSEvalSerialization(), x)
+@static if isdefined(JSON, :JSONStyle) # JSON.jl >= 1
+    # `sort_keys=false` keeps object keys in `Dict` iteration order, which is
+    # what JSON.jl < 1 does; JSON.jl v1 sorts `Dict` keys by default.
+    showjs(io, x::Any) = JSON.json(io, x; style=JSEvalSerialization(), sort_keys=false)
+else
+    showjs(io, x::Any) = JSON.show_json(io, JSEvalSerialization(), x)
+end
 showjs(io, x::AbstractString) = write(io, JSON.json(x))
 
 """
@@ -226,23 +232,47 @@ Base.:(==)(x::JSString, y::JSString) = x.s==y.s
 
 JSON.lower(x::JSString) = JSON.lower(x.s)
 
-const JSONContext = JSON.Writer.StructuralContext
-const JSONSerialization = JSON.Serializations.CommonSerialization
-
-struct JSEvalSerialization <: JSONSerialization end
-
+# Only honoured on JSON.jl < 1; see below.
 const verbose_json = Ref(false)
 
-# adapted (very slightly) from JSON.jl test/serializer.jl
-function JSON.show_json(io::JSONContext, ::JSEvalSerialization, x::JSString)
-    if verbose_json[]
-        first = true
-        for line in split(x.s, '\n')
-            !first && JSON.indent(io)
-            first = false
-            Base.print(io, line)
+# `JSEvalSerialization` is the serialization under which a `JSString` is spliced
+# in as raw JavaScript rather than quoted as a JSON string. It is what `showjs`,
+# and hence interpolation into a `js"..."` literal, uses. The default
+# serialization still quotes `JSString`s (see `JSON.lower` above), which is what
+# keeps node props such as event handlers valid JSON.
+#
+# JSON.jl v1 replaced the `show_json`/serialization-context API with `JSON.json`
+# and `JSONStyle`, so the two versions need different spellings of the same
+# thing. `JSONContext` and `JSONSerialization` are aliases for JSON.jl < 1
+# internals that have no v1 equivalent, so they are defined only on that branch.
+@static if isdefined(JSON, :JSONStyle) # JSON.jl >= 1
+    struct JSEvalSerialization <: JSON.JSONStyle end
+
+    # A `JSONText` is written to the output verbatim. Note that this means
+    # `verbose_json[]` has no effect here: there is no v1 equivalent of
+    # re-indenting a raw fragment across lines.
+    JSON.lower(::JSEvalSerialization, x::JSString) = JSON.JSONText(x.s)
+
+    # Non-finite floats are written as `null` as JSON.jl < 1 does, where
+    # JSON.jl v1 would throw instead.
+    JSON.lower(::JSEvalSerialization, x::AbstractFloat) = isfinite(x) ? x : nothing
+else
+    const JSONContext = JSON.Writer.StructuralContext
+    const JSONSerialization = JSON.Serializations.CommonSerialization
+
+    struct JSEvalSerialization <: JSONSerialization end
+
+    # adapted (very slightly) from JSON.jl test/serializer.jl
+    function JSON.show_json(io::JSONContext, ::JSEvalSerialization, x::JSString)
+        if verbose_json[]
+            first = true
+            for line in split(x.s, '\n')
+                !first && JSON.indent(io)
+                first = false
+                Base.print(io, line)
+            end
+        else
+            Base.print(io, x.s)
         end
-    else
-        Base.print(io, x.s)
     end
 end

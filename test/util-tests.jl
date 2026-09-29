@@ -18,3 +18,18 @@ using WebIO: kebab2camel, camel2kebab
         @test camelstrs[i] == kebabstrs[i] || camelstrs[i] == kebab_also_trues[i]
     end
 end
+
+@testset "Non-finite floats serialize as null" begin
+    # JSON.jl v1 refuses to write NaN/Inf; WebIO writes them as `null`, as
+    # JSON.jl < 1 does.
+    data = [1.5, NaN, Inf, -Inf]
+    @test WebIO.jsonstring(data) == "[1.5,null,null,null]"
+    @test WebIO.escape_json(Dict("x" => data)) == "{\"x\":[1.5,null,null,null]}"
+
+    n = node(:div, style=Dict(:width => NaN))
+    @test occursin("\"width\":null", sprint(show, WebIO.WEBIO_NODE_MIME(), n))
+
+    s = Scope()
+    s["obs"] = Observable(NaN)
+    @test occursin("null", sprint(show, WebIO.WEBIO_NODE_MIME(), s))
+end

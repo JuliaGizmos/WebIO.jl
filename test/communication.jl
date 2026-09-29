@@ -120,3 +120,31 @@ import WebIO: dispatch
 #     end
 #
 # end
+
+@testset "dispatching parsed messages" begin
+    # Messages reach `dispatch` as whatever the JSON parser produced. On
+    # JSON.jl v1 that is a `JSON.Object`, which is an `AbstractDict` but not a
+    # `Dict`, so a handler annotated `::Dict` fails to match and
+    # `dispatch_request` reports the MethodError back to the browser instead of
+    # running the RPC. Parse the message here rather than building a `Dict`, so
+    # the argument type is the one that actually comes off the wire.
+    conn = TestConn(Channel{Any}(1))
+    WebIO.tojs(split)  # register `split` as an RPC
+
+    request = WebIO.JSON.parse("""
+        {
+            "type": "request",
+            "request": "rpc",
+            "requestId": "parsed",
+            "rpcId": "$(hash(split))",
+            "arguments": ["foo bar"]
+        }
+    """)
+    dispatch(conn, request)
+
+    response = take!(conn.channel)
+    @test response["requestId"] == "parsed"
+    @test !haskey(response, "error")      # the handler itself failed to run
+    @test !haskey(response, "exception")  # the RPC ran but threw
+    @test response["result"] == ["foo", "bar"]
+end

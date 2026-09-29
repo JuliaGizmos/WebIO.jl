@@ -9,7 +9,7 @@ struct WSConnection{T} <: WebIO.AbstractConnection
     sock::T
 end
 
-Sockets.send(p::WSConnection, data) = writeguarded(p.sock, JSON.json(data))
+Sockets.send(p::WSConnection, data) = writeguarded(p.sock, WebIO.jsonstring(data))
 Base.isopen(p::WSConnection) = isopen(p.sock)
 
 if !isfile(GENERIC_HTTP_BUNDLE_PATH)
